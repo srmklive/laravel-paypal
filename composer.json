@@ -1,0 +1,22 @@
+{
+  "name": "srmklive/paypal",
+  "type": "library",
+  "description": "Laravel plugin For Processing Payments Through Paypal Express Checkout. Can Be Used Independently With Other Applications.",
+  "keywords": ["http", "rest", "web service", "paypal", "laravel paypal"],
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Raza Mehdi",
+      "email": "srmk@outlook.com"
+    }
+  ],
+  "autoload":{
+    "psr-4": {
+      "Srmklive\\PayPal\\": "src/"
+    }
+  },
+  "require": {
+    "guzzlehttp/guzzle": "~5.0|~6.0"
+  }
+}
