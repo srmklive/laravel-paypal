@@ -21,7 +21,7 @@ Laravel plugin For Processing Payments Through Paypal.
 * Use following command to install:
 
 ```
-composer require --dev srmklive/paypal
+composer require srmklive/paypal
 ```
 
 * Add the service provider to your $providers array in config/app.php file like: 

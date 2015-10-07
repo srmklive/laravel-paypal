@@ -29,9 +29,7 @@ class PayPalServiceProvider extends ServiceProvider
         ]);
 
         // Publish Lang Files
-        $this->publishes([
-            __DIR__. '/../lang/en/cart.php' => realpath(config_path() . '/../resources/lang/en/cart.php'),
-        ]);
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'paypal');
     }
 
     /**

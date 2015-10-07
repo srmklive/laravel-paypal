@@ -4,7 +4,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
-use Lang;
 
 class ExpressCheckout
 {
@@ -224,7 +223,7 @@ class ExpressCheckout
                 } else {
                     return [
                         'type'      => 'error',
-                        'message'   => Lang::get('cart.error.paypal_connection_error')
+                        'message'   => trans('paypal::error.paypal_connection_error')
                     ];
                 }
             }
