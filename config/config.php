@@ -4,7 +4,7 @@
  * Created by Raza Mehdi <srmk@outlook.com>
  */
 
-return array(
+return [
     'mode' => 'sandbox', // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
     'sandbox' => [
         'username' => '',
@@ -21,4 +21,5 @@ return array(
 
     'payment_action' => 'Sale', // Can Only Be 'Sale', 'Authorization', 'Order'
     'currency' => 'USD',
-);
+    'notify_url' => url('paypal/notify'), // Change this accordingly for your application.
+];

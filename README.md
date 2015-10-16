@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Handling PayPal IPN](#paypalipn)
 - [Support](#support)
 
 <a name="introduction"></a>
@@ -10,7 +11,7 @@
 
 **This is an experimental release.!**
 
-Laravel plugin For Processing Payments Through Paypal.
+Laravel plugin For Processing Payments Through Paypal. Using this plugin you can process or refund payments and handle IPN (Instant Payment Notification) from PayPal in your Laravel application.
 
 **Currently only PayPal Express Checkout Is Supported.**
 
@@ -91,12 +92,50 @@ $response = PayPal::getExpressCheckoutDetails($token);
 
 * DoExpressCheckoutPayment 
 ```
-$response = PayPal::doExpressCheckoutPayment($token,$PayerID);
+$response = PayPal::doExpressCheckoutPayment($data, $token, $PayerID);
 
 // Note that 'token', 'PayerID' are values returned by PayPal when it redirects to success page after successful verification of user's PayPal info.
+```
+
+* RefundTransaction
+```
+$response = PayPal::refundTransaction($transactionid);
+```
+
+<a name="paypalipn"></a>
+## Handling PayPal IPN
+
+Included in this package is controller **PayPalIPNController**. This demo controller includes code on handling Instant Payment Notifications from PayPal, and saves the IPN response in session as **paypal_ipn_response**. 
+You can use this in your application like this:
+
+* Open **App\Http\Middleware\VerifyCsrfToken.php** and add your IPN route to **$excluded** routes variable.
+```
+'notify'
+```
+
+* You can also extend it using your own controller like this: 
+
+```
+class IPNController extends PayPalIPNController
+{
+    public function postNotify(Request $request)
+    {
+        parent::postNotify($request);
+              
+        $response = Session::get('paypal_ipn_response');
+        
+        // Do your processing on IPN response                               
+    }
+}
 ```
 
 <a name="support"></a>
 ## Support
 
-This plugin only supports Laravel 5 & Laravel 5.1
+This plugin only supports Laravel 5 & Laravel 5.1.
+* In case of any issues, kindly create one on the [Issues](https://github.com/srmklive/laravel-paypal/issues) section.
+* If you would like to contribute:
+  * Fork this repository.
+  * Implement your features.
+  * Generate pull request.
+ 
