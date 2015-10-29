@@ -13,6 +13,11 @@ class PayPalIPNController extends Controller {
 
     use PayPalRequestTrait;
 
+    /**
+     * Retrieve IPN Response From PayPal
+     *
+     * @param Request $request
+     */
     public function postNotify(Request $request)
     {
         $post = [];

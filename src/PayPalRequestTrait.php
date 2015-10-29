@@ -59,7 +59,10 @@ trait PayPalRequestTrait
     }
 
     /**
-     * Verify IPNDetails
+     * Verify PayPal IPN Response
+     *
+     * @param $post
+     * @return array
      */
     private static function verifyIPN($post)
     {
@@ -70,6 +73,9 @@ trait PayPalRequestTrait
 
     /**
      * Refund PayPal Transaction
+     *
+     * @param $transaction
+     * @return array
      */
     private static function refundTransaction($transaction)
     {
@@ -78,6 +84,20 @@ trait PayPalRequestTrait
         ];
 
         $response = self::doPayPalRequest('RefundTransaction',$post);
+
+        return $response;
+    }
+
+
+    /**
+     * Search Transactions On PayPal
+     *
+     * @param array $post
+     * @return array
+     */
+    private static function searchTransactions($post)
+    {
+        $response = self::doPayPalRequest('TransactionSearch', $post);
 
         return $response;
     }
@@ -154,6 +174,9 @@ trait PayPalRequestTrait
 
     /**
      * Parse PayPal NVP Response
+     *
+     * @param $string
+     * @return array
      */
     private static function retrieveData($string)
     {
