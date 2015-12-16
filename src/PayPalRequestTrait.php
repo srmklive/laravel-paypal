@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\ServerException;
 
 trait PayPalRequestTrait
 {
-
+    
     /**
      * @var Client
      */
@@ -17,7 +17,6 @@ trait PayPalRequestTrait
      * @var Array
      */
     private static $config;
-
 
     /**
      * Function To Set PayPal API Configuration
@@ -64,7 +63,7 @@ trait PayPalRequestTrait
      * @param $post
      * @return array
      */
-    private static function verifyIPN($post)
+    public static function verifyIPN($post)
     {
         $response = self::doPayPalRequest('verifyipn',$post);
 
@@ -77,7 +76,7 @@ trait PayPalRequestTrait
      * @param $transaction
      * @return array
      */
-    private static function refundTransaction($transaction)
+    public static function refundTransaction($transaction)
     {
         $post = [
             'TRANSACTIONID' =>  $transaction
@@ -88,14 +87,13 @@ trait PayPalRequestTrait
         return $response;
     }
 
-
     /**
      * Search Transactions On PayPal
      *
      * @param array $post
      * @return array
      */
-    private static function searchTransactions($post)
+    public static function searchTransactions($post)
     {
         $response = self::doPayPalRequest('TransactionSearch', $post);
 
