@@ -54,6 +54,11 @@ trait PayPalRequestTrait
             self::$config['gateway_url'] = 'https://www.paypal.com';
         }
 
+	// Adding params outside sandbox / live array
+	self::$config['payment_action'] = $paypal['payment_action'];
+	self::$config['currency'] = $paypal['currency'];
+	self::$config['notify_url'] = $paypal['notify_url'];
+
         unset($paypal);
     }
 
