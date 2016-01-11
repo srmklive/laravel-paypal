@@ -1,11 +1,11 @@
-<?php namespace Srmklive\PayPal;
+<?php namespace Srmklive\PayPal\Traits;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
-trait PayPalRequestTrait
+trait PayPalRequest
 {
     
     /**
