@@ -26,26 +26,27 @@ composer require srmklive/paypal
 * Add the service provider to your $providers array in config/app.php file like: 
 
 ```
-'Srmklive\PayPal\PayPalServiceProvider' // Laravel 5
+'Srmklive\PayPal\Providers\PayPalServiceProvider' // Laravel 5
 ```
 ```
-Srmklive\PayPal\PayPalServiceProvider::class // Laravel 5.1
+Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 ```
 
 * Add the alias to your $aliases array in config/app.php file like: 
 
 ```
-'PayPal' => 'Srmklive\PayPal\Facades\PayPal' // Laravel 5
+'PayPal' => 'Srmklive\PayPal\Providers\Facades\PayPal' // Laravel 5
 ```
 ```
-'PayPal' => Srmklive\PayPal\Facades\PayPal::class // Laravel 5.1
+'PayPal' => Srmklive\PayPal\Providers\Facades\PayPal::class // Laravel 5.1 or greater
 ```
 
 * Run the following command to publish configuration:
+
 ```
 php artisan vendor:publish
 ```
-<a name="support"></a>
+
 ## Usage
 
 ```
@@ -74,63 +75,90 @@ foreach($data['items'] as $item) {
 $data['total'] = $total;
 ```
 
+
 * SetExpressCheckout
-```
-$response = PayPal::setExpressCheckout($data);
-```
-Now redirect to paypal using this:
-```
-return redirect($response['paypal_link']);
-```
+
+    ```
+    $response = PayPal::setExpressCheckout($data);
+    return redirect($response['paypal_link']); // This will redirect user to PayPal
+    ```
 
 * GetExpressCheckoutDetails
-```
-$response = PayPal::getExpressCheckoutDetails($token);
-```
+
+    ```
+    $response = PayPal::getExpressCheckoutDetails($token);
+    ```
 
 * DoExpressCheckoutPayment 
-```
-$response = PayPal::doExpressCheckoutPayment($data, $token, $PayerID);
 
-// Note that 'token', 'PayerID' are values returned by PayPal when it redirects to success page after successful verification of user's PayPal info.
-```
+    ```
+    // Note that 'token', 'PayerID' are values returned by PayPal when it redirects to success page after successful verification of user's PayPal info.
+    $response = PayPal::doExpressCheckoutPayment($data, $token, $PayerID);
+    ```
 
 * RefundTransaction
-```
-$response = PayPal::refundTransaction($transactionid);
-```
+
+    ```
+    $response = PayPal::refundTransaction($transactionid);
+    ```
 
 <a name="paypalipn"></a>
 ## Handling PayPal IPN
+You can also handle Instant Payment Notifications from PayPal.
+Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To handle IPN you should do the following:
 
-Included in this package is controller **PayPalIPNController**. This demo controller includes code on handling Instant Payment Notifications from PayPal, and saves the IPN response in session as **paypal_ipn_response**. 
-You can use this in your application like this:
+* First add the **ipn/notify** tp your routes file:
 
+    ```
+    Route::post('ipn/notify','PayPalController@postNotify'); // Change it accordingly in your application
+    ```
+          
 * Open **App\Http\Middleware\VerifyCsrfToken.php** and add your IPN route to **$excluded** routes variable.
-```
-'notify'
-```
 
-* You can also extend it using your own controller like this: 
+    ```
+    'ipn/notify'
+    ```
 
-```
-class IPNController extends PayPalIPNController
-{
+* Then in the controller where you are handling IPN, do the following:
+
+    ```
+    // Put this above controller definition
+    use Srmklive\PayPal\Traits\IPNResponse As PayPalIPN;
+    
+    // Then add the following before function declaration
+    use PayPalIPN;
+    ```
+    
+* The above step saves the PayPal IPN response as **ipn** in session. Following is the code you can change to your own requirements for handling IPN:    
+    
+    ```
+    /**
+     * Retrieve IPN Response From PayPal
+     *
+     * @param \Illuminate\Http\Request $request
+     */
     public function postNotify(Request $request)
     {
-        parent::postNotify($request);
-              
-        $response = Session::get('paypal_ipn_response');
-        
-        // Do your processing on IPN response                               
-    }
-}
-```
+        $post = [];
+        $request_params = $request->all();
 
+        foreach ($request_params as $key=>$value)
+            $post[$key] = $value;
+
+        $post['cmd'] = '_notify-validate';
+
+        $response = self::verifyIPN($post);
+
+        session([
+            'ipn' => $response
+        ]);
+    }        
+    ```
+            
 <a name="support"></a>
 ## Support
 
-This plugin only supports Laravel 5 & Laravel 5.1.
+This plugin only supports Laravel 5 or greater.
 * In case of any issues, kindly create one on the [Issues](https://github.com/srmklive/laravel-paypal/issues) section.
 * If you would like to contribute:
   * Fork this repository.

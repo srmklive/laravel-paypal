@@ -17,6 +17,6 @@ class PayPal extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Srmklive\PayPal\ExpressCheckout';
+        return 'Srmklive\PayPal\PayPalFacadeAccessor';
     }
 }

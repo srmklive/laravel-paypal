@@ -1,9 +1,11 @@
-<?php namespace Srmklive\PayPal;
+<?php namespace Srmklive\PayPal\Services;
+
+use Srmklive\PayPal\Traits\PayPalRequest As PayPalAPIRequest;
 
 class ExpressCheckout
 {
     // Integrate PayPal Request trait
-    use PayPalRequestTrait;
+    use PayPalAPIRequest;
 
     /**
      * PayPal Processor Constructor
