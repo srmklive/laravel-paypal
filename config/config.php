@@ -21,5 +21,5 @@ return [
 
     'payment_action' => 'Sale', // Can Only Be 'Sale', 'Authorization', 'Order'
     'currency' => 'USD',
-    'notify_url' => url('paypal/notify'), // Change this accordingly for your application.
+    'notify_url' => '', // Change this accordingly for your application.
 ];
