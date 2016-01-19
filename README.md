@@ -79,27 +79,27 @@ $data['total'] = $total;
 * SetExpressCheckout
 
     ```
-    $response = PayPal::setExpressCheckout($data);
+    $response = PayPal::getProvider()->setExpressCheckout($data);
     return redirect($response['paypal_link']); // This will redirect user to PayPal
     ```
 
 * GetExpressCheckoutDetails
 
     ```
-    $response = PayPal::getExpressCheckoutDetails($token);
+    $response = PayPal::getProvider()->getExpressCheckoutDetails($token);
     ```
 
 * DoExpressCheckoutPayment 
 
     ```
     // Note that 'token', 'PayerID' are values returned by PayPal when it redirects to success page after successful verification of user's PayPal info.
-    $response = PayPal::doExpressCheckoutPayment($data, $token, $PayerID);
+    $response = PayPal::getProvider()->doExpressCheckoutPayment($data, $token, $PayerID);
     ```
 
 * RefundTransaction
 
     ```
-    $response = PayPal::refundTransaction($transactionid);
+    $response = PayPal::getProvider()->refundTransaction($transactionid);
     ```
 
 <a name="paypalipn"></a>
@@ -147,7 +147,7 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
 
         $post['cmd'] = '_notify-validate';
 
-        $response = self::verifyIPN($post);
+        $response = $this->verifyIPN($post);
 
         session([
             'ipn' => $response

@@ -21,7 +21,7 @@ trait IPNResponse
 
         $post['cmd'] = '_notify-validate';
 
-        $response = self::verifyIPN($post);
+        $response = $this->verifyIPN($post);
 
         session([
             'ipn' => $response

@@ -4,7 +4,7 @@ use Srmklive\PayPal\Services\ExpressCheckout;
 
 class PayPalFacadeAccessor
 {
-    public function getProvider()
+    public static function getProvider()
     {
         return new ExpressCheckout;
     }

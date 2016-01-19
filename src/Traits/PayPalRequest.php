@@ -11,21 +11,20 @@ trait PayPalRequest
     /**
      * @var Client
      */
-    private static $client;
+    private $client;
 
     /**
      * @var Array
      */
-    private static $config;
+    private $config;
 
     /**
      * Function To Set PayPal API Configuration
      */
-    private static function setConfig()
+    private function setConfig()
     {
-        
         // Setting Http Client
-        self::$client = new Client();
+        $this->client = new Client();
 
         $paypal = config('paypal');
 
@@ -38,26 +37,26 @@ trait PayPalRequest
 
         // Getting PayPal API Credentials
         foreach ($paypal[$mode] as $key=>$value) {
-            self::$config[$key] = $value;
+            $this->config[$key] = $value;
         }
 
         // Setting API Endpoints
         if ($paypal['mode'] == 'sandbox') {
-            self::$config['api_url'] = !empty(self::$config['secret']) ?
+            $this->config['api_url'] = !empty($this->config['secret']) ?
                 'https://api-3t.sandbox.paypal.com/nvp' : 'https://api.sandbox.paypal.com/nvp';
 
-            self::$config['gateway_url'] = 'https://www.sandbox.paypal.com';
+            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com';
         } else {
-            self::$config['api_url'] = !empty(self::$config['secret']) ?
+            $this->config['api_url'] = !empty($this->config['secret']) ?
                 'https://api-3t.paypal.com/nvp' : 'https://api.paypal.com/nvp';
 
-            self::$config['gateway_url'] = 'https://www.paypal.com';
+            $this->config['gateway_url'] = 'https://www.paypal.com';
         }
 
         // Adding params outside sandbox / live array
-        self::$config['payment_action'] = $paypal['payment_action'];
-        self::$config['currency'] = $paypal['currency'];
-        self::$config['notify_url'] = $paypal['notify_url'];
+        $this->config['payment_action'] = $paypal['payment_action'];
+        $this->config['currency'] = $paypal['currency'];
+        $this->config['notify_url'] = $paypal['notify_url'];
 
         unset($paypal);
     }
@@ -68,9 +67,9 @@ trait PayPalRequest
      * @param $post
      * @return array
      */
-    public static function verifyIPN($post)
+    public function verifyIPN($post)
     {
-        $response = self::doPayPalRequest('verifyipn',$post);
+        $response = $this->doPayPalRequest('verifyipn', $post);
 
         return $response;
     }
@@ -81,13 +80,13 @@ trait PayPalRequest
      * @param $transaction
      * @return array
      */
-    public static function refundTransaction($transaction)
+    public function refundTransaction($transaction)
     {
         $post = [
             'TRANSACTIONID' =>  $transaction
         ];
 
-        $response = self::doPayPalRequest('RefundTransaction',$post);
+        $response = $this->doPayPalRequest('RefundTransaction',$post);
 
         return $response;
     }
@@ -98,9 +97,9 @@ trait PayPalRequest
      * @param array $post
      * @return array
      */
-    public static function searchTransactions($post)
+    public function searchTransactions($post)
     {
-        $response = self::doPayPalRequest('TransactionSearch', $post);
+        $response = $this->doPayPalRequest('TransactionSearch', $post);
 
         return $response;
     }
@@ -112,16 +111,16 @@ trait PayPalRequest
      * @param $params
      * @return array
      */
-    private static function doPayPalRequest($method, $params)
+    private function doPayPalRequest($method, $params)
     {
-        if (empty(self::$config))
+        if (empty($this->config))
             self::setConfig();
 
         // Setting API Credentials, Version & Method
         $post = [
-            'USER'      => self::$config['username'],
-            'PWD'       => self::$config['password'],
-            'SIGNATURE' => self::$config['secret'],
+            'USER'      => $this->config['username'],
+            'PWD'       => $this->config['password'],
+            'SIGNATURE' => $this->config['secret'],
             'VERSION'   => 123,
             'METHOD'    => $method,
         ];
@@ -130,9 +129,9 @@ trait PayPalRequest
         if ($method == 'verifyipn') {
             unset($post['method']);
 
-            $post_url = self::$config['gateway_url'].'/cgi-bin/webscr';
+            $post_url = $this->config['gateway_url'].'/cgi-bin/webscr';
         } else {
-            $post_url = self::$config['api_url'];
+            $post_url = $this->config['api_url'];
         }
 
         foreach ($params as $key=>$value) {
@@ -140,16 +139,16 @@ trait PayPalRequest
         }
 
         try {
-            $request = self::$client->post($post_url, [
+            $request = $this->client->post($post_url, [
                 'form_params' => $post
             ]);
 
             $response = $request->getBody(true);
-            $response = self::retrieveData($response);
+            $response = $this->retrieveData($response);
 
             if ($method == 'SetExpressCheckout') {
                 if (!empty($response['TOKEN'])) {
-                    $response['paypal_link'] = self::$config['gateway_url'] .
+                    $response['paypal_link'] = $this->config['gateway_url'] .
                         '/webscr?cmd=_express-checkout&token=' . $response['TOKEN'];
                 } else {
                     return [
@@ -181,7 +180,7 @@ trait PayPalRequest
      * @param $string
      * @return array
      */
-    private static function retrieveData($string)
+    private function retrieveData($string)
     {
         $response = array();
         parse_str($string, $response);

@@ -22,7 +22,7 @@ class ExpressCheckout
      * @param $data
      * @return array
      */
-    public static function setExpressCheckout($data)
+    public function setExpressCheckout($data)
     {
         $num = 0;
         $post = [];
@@ -43,8 +43,8 @@ class ExpressCheckout
         $tmp = [
             'PAYMENTREQUEST_0_ITEMAMT'          =>  $data['total'],
             'PAYMENTREQUEST_0_AMT'              =>  $data['total'],
-            'PAYMENTREQUEST_0_PAYMENTACTION'    =>  !empty(self::$config['payment_action']) ? self::$config['payment_action'] : 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  !empty(self::$config['currency']) ? self::$config['currency'] : 'USD',
+            'PAYMENTREQUEST_0_PAYMENTACTION'    =>  !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
+            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  !empty($this->config['currency']) ? $this->config['currency'] : 'USD',
             'PAYMENTREQUEST_0_DESC'             =>  $data['invoice_description'],
             'PAYMENTREQUEST_0_INVNUM'           =>  $data['invoice_id'],
             'NOSHIPPING'                        =>  1,
@@ -56,7 +56,7 @@ class ExpressCheckout
             $post[$k] = $v;
         }
 
-        $response = self::doPayPalRequest('SetExpressCheckout', $post);
+        $response = $this->doPayPalRequest('SetExpressCheckout', $post);
 
         return $response;
     }
@@ -67,13 +67,13 @@ class ExpressCheckout
      * @param $token
      * @return array
      */
-    public static function getExpressCheckoutDetails($token)
+    public function getExpressCheckoutDetails($token)
     {
         $post = [
             'TOKEN' => $token
         ];
 
-        $response = self::doPayPalRequest('GetExpressCheckoutDetails', $post);
+        $response = $this->doPayPalRequest('GetExpressCheckoutDetails', $post);
 
         return $response;
     }
@@ -86,7 +86,7 @@ class ExpressCheckout
      * @param $payerid
      * @return array
      */
-    public static function doExpressCheckoutPayment($data, $token, $payerid)
+    public function doExpressCheckoutPayment($data, $token, $payerid)
     {
         $num = 0;
         $post = [];
@@ -109,8 +109,8 @@ class ExpressCheckout
             'PAYERID'                           =>  $payerid,
             'PAYMENTREQUEST_0_ITEMAMT'          =>  $data['total'],
             'PAYMENTREQUEST_0_AMT'              =>  $data['total'],
-            'PAYMENTREQUEST_0_PAYMENTACTION'    =>  !empty(self::$config['payment_action']) ? self::$config['payment_action'] : 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  !empty(self::$config['currency']) ? self::$config['currency'] : 'USD',
+            'PAYMENTREQUEST_0_PAYMENTACTION'    =>  !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
+            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  !empty($this->config['currency']) ? $this->config['currency'] : 'USD',
             'PAYMENTREQUEST_0_DESC'             =>  $data['invoice_description'],
             'PAYMENTREQUEST_0_INVNUM'           =>  $data['invoice_id'],
             'PAYMENTREQUEST_0_NOTIFYURL'        =>  config('paypal.notify_url')
@@ -120,7 +120,7 @@ class ExpressCheckout
             $post[$k] = $v;
         }
 
-        $response = self::doPayPalRequest('DoExpressCheckoutPayment', $post);
+        $response = $this->doPayPalRequest('DoExpressCheckoutPayment', $post);
 
         return $response;
     }
