@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Laravel-paypal by srmklive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Laravel-paypal</h1>
+      <h2 class="project-tagline">Laravel plugin For Processing Payments Through Paypal</h2>
+      <a href="https://github.com/srmklive/laravel-paypal" class="btn">View on GitHub</a>
+      <a href="https://github.com/srmklive/laravel-paypal/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/srmklive/laravel-paypal/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="laravel-paypal" class="anchor" href="#laravel-paypal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Laravel PayPal</h1>
+
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#paypalipn">Handling PayPal IPN</a></li>
+<li><a href="#support">Support</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>Laravel plugin For Processing Payments Through Paypal. Using this plugin you can process or refund payments and handle IPN (Instant Payment Notification) from PayPal in your Laravel application.</p>
+
+<p><strong>Currently only PayPal Express Checkout Is Supported.</strong></p>
+
+<p><a name="installation"></a></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<ul>
+<li>Use following command to install:</li>
+</ul>
+
+<pre><code>composer require srmklive/paypal
+</code></pre>
+
+<ul>
+<li>Add the service provider to your $providers array in config/app.php file like: </li>
+</ul>
+
+<pre><code>'Srmklive\PayPal\Providers\PayPalServiceProvider' // Laravel 5
+</code></pre>
+
+<pre><code>Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
+</code></pre>
+
+<ul>
+<li>Add the alias to your $aliases array in config/app.php file like: </li>
+</ul>
+
+<pre><code>'PayPal' =&gt; 'Srmklive\PayPal\Providers\Facades\PayPal' // Laravel 5
+</code></pre>
+
+<pre><code>'PayPal' =&gt; Srmklive\PayPal\Providers\Facades\PayPal::class // Laravel 5.1 or greater
+</code></pre>
+
+<ul>
+<li>Run the following command to publish configuration:</li>
+</ul>
+
+<pre><code>php artisan vendor:publish
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<pre><code>$data = [];
+$data['items'] = [
+    [
+        'name' =&gt; 'Product 1',
+        'price' =&gt; 9.99
+    ],
+    [
+        'name' =&gt; 'Product 2',
+        'price' =&gt; 4.99
+    ]
+];
+
+$data['invoice_id'] = 1;
+$data['invoice_description'] = "Order #$data[invoice_id] Invoice";
+$data['return_url'] = url('/payment/success');
+$data['cancel_url'] = url('/cart');
+
+$total = 0;
+foreach($data['items'] as $item) {
+    $total += $item['price'];
+}
+
+$data['total'] = $total;
+</code></pre>
+
+<ul>
+<li>
+<p>SetExpressCheckout</p>
+
+<pre><code>$response = PayPal::getProvider()-&gt;setExpressCheckout($data);
+return redirect($response['paypal_link']); // This will redirect user to PayPal
+</code></pre>
+</li>
+<li>
+<p>GetExpressCheckoutDetails</p>
+
+<pre><code>$response = PayPal::getProvider()-&gt;getExpressCheckoutDetails($token);
+</code></pre>
+</li>
+<li>
+<p>DoExpressCheckoutPayment </p>
+
+<pre><code>// Note that 'token', 'PayerID' are values returned by PayPal when it redirects to success page after successful verification of user's PayPal info.
+$response = PayPal::getProvider()-&gt;doExpressCheckoutPayment($data, $token, $PayerID);
+</code></pre>
+</li>
+<li>
+<p>RefundTransaction</p>
+
+<pre><code>$response = PayPal::getProvider()-&gt;refundTransaction($transactionid);
+</code></pre>
+</li>
+</ul>
+
+<p><a name="paypalipn"></a></p>
+
+<h2>
+<a id="handling-paypal-ipn" class="anchor" href="#handling-paypal-ipn" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Handling PayPal IPN</h2>
+
+<p>You can also handle Instant Payment Notifications from PayPal.
+Suppose you have set IPN URL to <strong><a href="http://example.com/ipn/notify/">http://example.com/ipn/notify/</a></strong> in PayPal. To handle IPN you should do the following:</p>
+
+<ul>
+<li>
+<p>First add the <strong>ipn/notify</strong> tp your routes file:</p>
+
+<pre><code>Route::post('ipn/notify','PayPalController@postNotify'); // Change it accordingly in your application
+</code></pre>
+</li>
+<li>
+<p>Open <strong>App\Http\Middleware\VerifyCsrfToken.php</strong> and add your IPN route to <strong>$excluded</strong> routes variable.</p>
+
+<pre><code>'ipn/notify'
+</code></pre>
+</li>
+<li>
+<p>Then in the controller where you are handling IPN, do the following:</p>
+
+<pre><code>// Put this above controller definition
+use Srmklive\PayPal\Traits\IPNResponse As PayPalIPN;
+
+// Then add the following before function declaration
+use PayPalIPN;
+</code></pre>
+</li>
+<li>
+<p>The above step saves the PayPal IPN response as <strong>ipn</strong> in session. Following is the code you can change to your own requirements for handling IPN:    </p>
+
+<pre><code>/**
+ * Retrieve IPN Response From PayPal
+ *
+ * @param \Illuminate\Http\Request $request
+ */
+public function postNotify(Request $request)
+{
+    $post = [];
+    $request_params = $request-&gt;all();
+
+    foreach ($request_params as $key=&gt;$value)
+        $post[$key] = $value;
+
+    $post['cmd'] = '_notify-validate';
+
+    $response = $this-&gt;verifyIPN($post);
+
+    session([
+        'ipn' =&gt; $response
+    ]);
+}        
+</code></pre>
+</li>
+</ul>
+
+<p><a name="support"></a></p>
+
+<h2>
+<a id="support" class="anchor" href="#support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support</h2>
+
+<p>This plugin only supports Laravel 5 or greater.</p>
+
+<ul>
+<li>In case of any issues, kindly create one on the <a href="https://github.com/srmklive/laravel-paypal/issues">Issues</a> section.</li>
+<li>If you would like to contribute:
+
+<ul>
+<li>Fork this repository.</li>
+<li>Implement your features.</li>
+<li>Generate pull request.</li>
+</ul>
+</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/srmklive/laravel-paypal">Laravel-paypal</a> is maintained by <a href="https://github.com/srmklive">srmklive</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-35820672-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
