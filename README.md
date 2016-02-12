@@ -35,10 +35,10 @@ Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 * Add the alias to your $aliases array in config/app.php file like: 
 
 ```
-'PayPal' => 'Srmklive\PayPal\Providers\Facades\PayPal' // Laravel 5
+'PayPal' => 'Srmklive\PayPal\Facades\PayPal' // Laravel 5
 ```
 ```
-'PayPal' => Srmklive\PayPal\Providers\Facades\PayPal::class // Laravel 5.1 or greater
+'PayPal' => Srmklive\PayPal\Facades\PayPal::class // Laravel 5.1 or greater
 ```
 
 * Run the following command to publish configuration:
