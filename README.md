@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Configuration](#configuration)
 - [Usage](#usage)
 - [Handling PayPal IPN](#paypalipn)
 - [Support](#support)
@@ -45,6 +46,32 @@ Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 
 ```
 php artisan vendor:publish
+```
+
+
+## Configuration
+
+* After installation, you will need to add your paypal settings. Following is the code you will find in **config/paypal.php**, which you should update accordingly.
+
+```
+return [
+    'mode' => 'sandbox', // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
+    'sandbox' => [
+        'username' => '',
+        'password' => '',
+        'secret' => '',
+        'certificate' => '',
+    ],
+    'live' => [
+        'username' => '',
+        'password' => '',
+        'secret' => '',
+        'certificate' => '',
+    ],
+    'payment_action' => 'Sale', // Can Only Be 'Sale', 'Authorization', 'Order'
+    'currency' => 'USD',
+    'notify_url' => '', // Change this accordingly for your application.
+];
 ```
 
 ## Usage
