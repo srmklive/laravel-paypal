@@ -18,5 +18,8 @@
   },
   "require": {
     "guzzlehttp/guzzle": "~5.0|~6.0"
+  },
+  "config": {
+      "preferred-install": "dist"
   }
 }
