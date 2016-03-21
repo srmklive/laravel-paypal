@@ -17,12 +17,13 @@ class ExpressCheckout
     }
 
     /**
-     * Function To SetExpressCheckout PayPal API Operation
+     * Function to perform SetExpressCheckout PayPal API operation
      *
      * @param $data
+     * @param bool $subscription
      * @return array
      */
-    public function setExpressCheckout($data)
+    public function setExpressCheckout($data, $subscription = false)
     {
         $num = 0;
         $post = [];
@@ -52,6 +53,12 @@ class ExpressCheckout
             'CANCELURL'                         =>  $data['cancel_url'],
         ];
 
+        if ($subscription) {
+            $post['L_BILLINGTYPE0'] = 'RecurringPayments';
+            $post['L_BILLINGAGREEMENTDESCRIPTION0'] = !empty($data['subscription_desc']) ?
+                $data['subscription_desc'] : $data['invoice_description'];
+        }
+
         foreach ($tmp as $k=>$v) {
             $post[$k] = $v;
         }
@@ -62,7 +69,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function To Perform GetExpressCheckoutDetails PayPal API Operation
+     * Function to perform GetExpressCheckoutDetails PayPal API operation
      *
      * @param $token
      * @return array
@@ -79,7 +86,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function To Perform DoExpressCheckoutPayment PayPal API Operation
+     * Function to perform DoExpressCheckoutPayment PayPal API operation
      *
      * @param $data
      * @param $token
@@ -121,6 +128,23 @@ class ExpressCheckout
         }
 
         $response = $this->doPayPalRequest('DoExpressCheckoutPayment', $post);
+
+        return $response;
+    }
+
+    /**
+     * Function to perform CreateBillingAgreement PayPal API operation
+     *
+     * @param $token
+     * @return array
+     */
+    public function createBillingAgreement($token)
+    {
+        $post = [
+            'TOKEN' => $token
+        ];
+
+        $response = $this->doPayPalRequest('CreateBillingAgreement', $post);
 
         return $response;
     }
