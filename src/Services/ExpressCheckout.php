@@ -149,4 +149,119 @@ class ExpressCheckout
         return $response;
     }
 
+    /**
+     * Function to perform CreateRecurringPaymentsProfile PayPal API operation
+     *
+     * @param $data
+     * @param $token
+     * @return array
+     */
+    public function createRecurringPaymentsProfile($data, $token)
+    {
+        $post = [
+            'token' =>  $token
+        ];
+
+        foreach ($data as $key => $value) {
+            $post[$key] = $value;
+        }
+
+        $response = $this->doPayPalRequest('CreateRecurringPaymentsProfile', $post);
+
+        return $response;
+    }
+
+    /**
+     * Function to perform GetRecurringPaymentsProfileDetails PayPal API operation
+     *
+     * @param $id
+     * @return array
+     */
+    public function getRecurringPaymentsProfileDetails($id)
+    {
+        $post = [
+            'PROFILEID' => $id
+        ];
+
+        $response = $this->doPayPalRequest('GetRecurringPaymentsProfileDetails', $post);
+
+        return $response;
+    }
+
+    /**
+     * Function to perform UpdateRecurringPaymentsProfile PayPal API operation
+     *
+     * @param $data
+     * @param $id
+     * @return array
+     */
+    public function updateRecurringPaymentsProfile($data, $id)
+    {
+        $post = [
+            'PROFILEID' =>  $id
+        ];
+
+        foreach ($data as $key => $value) {
+            $post[$key] = $value;
+        }
+
+        $response = $this->doPayPalRequest('UpdateRecurringPaymentsProfile', $post);
+
+        return $response;
+    }
+
+    /**
+     * Function to cancel RecurringPaymentsProfile on PayPal
+     *
+     * @param $id
+     * @return array
+     */
+    public function cancelRecurringPaymentsProfile($id)
+    {
+        $post = [
+            'PROFILEID' =>  $id,
+            'ACTION'    =>  'Cancel'
+        ];
+
+        $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
+
+        return $response;
+    }
+
+    /**
+     * Function to suspend an active RecurringPaymentsProfile on PayPal
+     *
+     * @param $id
+     * @return array
+     */
+    public function suspendRecurringPaymentsProfile($id)
+    {
+        $post = [
+            'PROFILEID' =>  $id,
+            'ACTION'    =>  'Suspend'
+        ];
+
+        $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
+
+        return $response;
+    }
+
+    /**
+     * Function to reactivate a suspended RecurringPaymentsProfile on PayPal
+     *
+     * @param $id
+     * @return array
+     */
+    public function reactivateRecurringPaymentsProfile($id)
+    {
+        $post = [
+            'PROFILEID' =>  $id,
+            'ACTION'    =>  'Reactivate'
+        ];
+
+        $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
+
+        return $response;
+    }
+
 }
