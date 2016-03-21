@@ -107,7 +107,12 @@ $data['total'] = $total;
 
     ```
     $response = PayPal::getProvider()->setExpressCheckout($data);
-    return redirect($response['paypal_link']); // This will redirect user to PayPal
+    
+    // Use the following line when creating recurring payment profiles (subscriptions)
+    $response = PayPal::getProvider()->setExpressCheckout($data, true);
+    
+     // This will redirect user to PayPal
+    return redirect($response['paypal_link']);
     ```
 
 * GetExpressCheckoutDetails
@@ -128,6 +133,46 @@ $data['total'] = $total;
     ```
     $response = PayPal::getProvider()->refundTransaction($transactionid);
     ```
+    
+* CreateBillingAgreement
+
+    ```
+    // The $token is the value returned from SetExpressCheckout API call
+    $response = PayPal::getProvider()->createBillingAgreement($token);
+    ```    
+
+* CreateRecurringPaymentsProfile
+
+    ```
+    // The $token is the value returned from SetExpressCheckout API call
+    $response = PayPal::getProvider()->createRecurringPaymentsProfile($data, $token);
+    ```    
+
+
+* GetRecurringPaymentsProfileDetails
+
+    ```
+    $response = PayPal::getProvider()->getRecurringPaymentsProfileDetails($profileid);
+    ```    
+
+* UpdateRecurringPaymentsProfile
+
+    ```
+    $response = PayPal::getProvider()->updateRecurringPaymentsProfile($data, $profileid);
+    ```    
+
+* ManageRecurringPaymentsProfileStatus
+
+    ```
+    // Cancel recurring payment profile
+    $response = PayPal::getProvider()->cancelRecurringPaymentsProfile($profileid);
+    
+    // Suspend recurring payment profile
+    $response = PayPal::getProvider()->suspendRecurringPaymentsProfile($profileid);
+    
+    // Reactivate recurring payment profile
+    $response = PayPal::getProvider()->reactivateRecurringPaymentsProfile($profileid);    
+    ```    
 
 <a name="paypalipn"></a>
 ## Handling PayPal IPN
