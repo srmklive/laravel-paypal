@@ -145,6 +145,21 @@ $data['total'] = $total;
 
     ```
     // The $token is the value returned from SetExpressCheckout API call
+    $startdate = Carbon::now()->toAtomString();
+    $profile_desc = !empty($data['subscription_desc']) ?
+                $data['subscription_desc'] : $data['invoice_description'];
+    $data = [
+        'PROFILESTARTDATE' => $startdate,
+        'DESC' => $profile_desc,
+        'BILLINGPERIOD' => 'Month', // Can be 'Day', 'Week', 'SemiMonth', 'Month', 'Year'
+        'BILLINGFREQUENCY' => 12, // set 12 for monthly, 52 for yearly
+        'AMT' => 10, // Billing amount for each billing cycle
+        'CURRENCYCODE' => 'USD', // Currency code 
+        'TRIALBILLINGPERIOD' => 'Day',  // (Optional) Can be 'Day', 'Week', 'SemiMonth', 'Month', 'Year'
+        'TRIALBILLINGFREQUENCY' => 10, // (Optional) set 12 for monthly, 52 for yearly 
+        'TRIALTOTALBILLINGCYCLES' => 1, // (Optional) Change it accordingly
+        'TRIALAMT' => 0, // (Optional) Change it accordingly
+    ];
     $response = PayPal::getProvider()->createRecurringPaymentsProfile($data, $token);
     ```    
 
