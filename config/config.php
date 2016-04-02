@@ -11,12 +11,14 @@ return [
         'password' => '',
         'secret' => '',
         'certificate' => '',
+        'app_id' => 'APP-80W284485P519543T',    // Used for testing Adaptive Payments API in sandbox mode
     ],
     'live' => [
         'username' => '',
         'password' => '',
         'secret' => '',
         'certificate' => '',
+        'app_id' => '',         // Used for Adaptive Payments API 
     ],
 
     'payment_action' => 'Sale', // Can Only Be 'Sale', 'Authorization', 'Order'
