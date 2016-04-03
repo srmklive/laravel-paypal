@@ -205,8 +205,6 @@ class AdaptivePayments
         if (empty($this->config))
             self::setConfig();
 
-
-
         $post_url = $this->config['api_url'] . '/' . $method;
 
         foreach ($params as $key=>$value) {
