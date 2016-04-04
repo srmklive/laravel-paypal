@@ -33,7 +33,7 @@ class AdaptivePayments
         $mode = $paypal['mode'];
 
         // Getting PayPal API Credentials
-        foreach ($paypal[$mode] as $key=>$value) {
+        foreach ($paypal[$mode] as $key => $value) {
             $this->config[$key] = $value;
         }
 
@@ -113,7 +113,7 @@ class AdaptivePayments
 
         $post['requestEnvelope'] = $this->setEnvelope();
 
-        $response = $this->doPayPalRequest('PAY', $post);
+        $response = $this->doPayPalRequest('Pay', $post);
 
         return $response;
     }
@@ -207,7 +207,7 @@ class AdaptivePayments
 
         $post_url = $this->config['api_url'] . '/' . $method;
 
-        foreach ($params as $key=>$value) {
+        foreach ($params as $key => $value) {
             $post[$key] = $value;
         }
 
