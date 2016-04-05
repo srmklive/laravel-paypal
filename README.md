@@ -12,7 +12,7 @@
 
 Laravel plugin For Processing Payments Through Paypal. Using this plugin you can process or refund payments and handle IPN (Instant Payment Notification) from PayPal in your Laravel application.
 
-**Currently only PayPal Express Checkout Is Supported.**
+**Currently only PayPal Express Checkout & Adaptive Payments API Is Supported.**
 
 
 <a name="installation"></a>
