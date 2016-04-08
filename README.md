@@ -76,6 +76,13 @@ return [
 
 ## Usage
 
+* Set Providers
+
+```
+PayPal::setProvider('express_checkout');    // To use PayPal Express Checkout API (Used by default)
+PayPal::setProvider('adaptive_payments');   // To use PayPal Adaptive Payments API
+```
+
 ```
 $data = [];
 $data['items'] = [
