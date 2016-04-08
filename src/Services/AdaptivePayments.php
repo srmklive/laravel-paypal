@@ -21,7 +21,7 @@ class AdaptivePayments
     private function setConfig()
     {
         // Setting Http Client
-        $this->client = new Client();
+        $this->client = $this->setClient();
 
         $paypal = config('paypal');
 

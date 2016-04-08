@@ -24,7 +24,7 @@ trait PayPalRequest
     private function setConfig()
     {
         // Setting Http Client
-        $this->client = new Client();
+        $this->client = $this->setClient();
 
         $paypal = config('paypal');
 
@@ -59,6 +59,16 @@ trait PayPalRequest
         $this->config['notify_url'] = $paypal['notify_url'];
 
         unset($paypal);
+    }
+
+    /**
+     * Function to Guzzle Client class object
+     *
+     * @return Client
+     */
+    protected function setClient()
+    {
+        return new Client;
     }
 
     /**
