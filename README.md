@@ -4,6 +4,17 @@
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
+  - [Express Checkout] (usage-express-checkout)
+    - [SetExpressCheckout] (usage-ec-setexpresscheckout)
+    - [GetExpressCheckoutDetails] (usage-ec-getexpresscheckoutdetails)
+    - [DoExpressCheckoutPayment] (usage-ec-doexpresscheckoutpayment)
+    - [RefundTransaction] (usage-ec-refundtransaction)
+    - [CreateBillingAgreement] (usage-ec-createbillingagreement)
+    - [CreateRecurringPaymentsProfile] (usage-ec-createrecurringprofile)
+    - [GetRecurringPaymentsProfileDetails] (usage-ec-getrecurringprofiledetails)
+    - [UpdateRecurringPaymentsProfile] (usage-ec-updaterecurringprofile)
+    - [ManageRecurringPaymentsProfileStatus] (usage-ec-managerecurringprofile)
+  - [Adaptive Payments] (usage-adaptive-payments)
 - [Handling PayPal IPN](#paypalipn)
 - [Support](#support)
 
@@ -82,6 +93,8 @@ return [
 PayPal::setProvider('express_checkout');    // To use PayPal Express Checkout API (Used by default)
 PayPal::setProvider('adaptive_payments');   // To use PayPal Adaptive Payments API
 ```
+<a name="usage-express-checkout"></a>
+#### Express Checkout
 
 ```
 $data = [];
@@ -109,8 +122,8 @@ foreach($data['items'] as $item) {
 $data['total'] = $total;
 ```
 
-
-* SetExpressCheckout
+<a name="usage-ec-setexpresscheckout"></a>
+* **SetExpressCheckout**
 
     ```
     $response = PayPal::getProvider()->setExpressCheckout($data);
@@ -122,33 +135,38 @@ $data['total'] = $total;
     return redirect($response['paypal_link']);
     ```
 
-* GetExpressCheckoutDetails
+<a name="usage-ec-getexpresscheckoutdetails"></a>
+* **GetExpressCheckoutDetails**
 
     ```
     $response = PayPal::getProvider()->getExpressCheckoutDetails($token);
     ```
-
-* DoExpressCheckoutPayment 
+    
+<a name="usage-ec-doexpresscheckoutpayment"></a>
+* **DoExpressCheckoutPayment** 
 
     ```
     // Note that 'token', 'PayerID' are values returned by PayPal when it redirects to success page after successful verification of user's PayPal info.
     $response = PayPal::getProvider()->doExpressCheckoutPayment($data, $token, $PayerID);
     ```
 
-* RefundTransaction
+<a name="usage-ec-refundtransaction"></a>
+* **RefundTransaction**
 
     ```
     $response = PayPal::getProvider()->refundTransaction($transactionid);
     ```
-    
-* CreateBillingAgreement
+
+<a name="usage-ec-createbillingagreement"></a>    
+* **CreateBillingAgreement**
 
     ```
     // The $token is the value returned from SetExpressCheckout API call
     $response = PayPal::getProvider()->createBillingAgreement($token);
     ```    
 
-* CreateRecurringPaymentsProfile
+<a name="usage-ec-createrecurringprofile"></a>
+* **CreateRecurringPaymentsProfile**
 
     ```
     // The $token is the value returned from SetExpressCheckout API call
@@ -170,20 +188,22 @@ $data['total'] = $total;
     $response = PayPal::getProvider()->createRecurringPaymentsProfile($data, $token);
     ```    
 
-
-* GetRecurringPaymentsProfileDetails
+<a name="usage-ec-getrecurringprofiledetails"></a>
+* **GetRecurringPaymentsProfileDetails**
 
     ```
     $response = PayPal::getProvider()->getRecurringPaymentsProfileDetails($profileid);
     ```    
 
-* UpdateRecurringPaymentsProfile
+<a name="usage-ec-updaterecurringprofile"></a>
+* **UpdateRecurringPaymentsProfile**
 
     ```
     $response = PayPal::getProvider()->updateRecurringPaymentsProfile($data, $profileid);
     ```    
 
-* ManageRecurringPaymentsProfileStatus
+<a name="usage-ec-managerecurringprofile"></a>
+* **ManageRecurringPaymentsProfileStatus**
 
     ```
     // Cancel recurring payment profile
