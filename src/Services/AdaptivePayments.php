@@ -221,11 +221,14 @@ class AdaptivePayments
             $response = $this->retrieveData($response);
 
             return $response;
+            
         } catch (ClientException $e) {
             $message = $e->getRequest() . " " . $e->getResponse();
         } catch (ServerException $e) {
             $message = $e->getRequest(). " " . $e->getResponse();
         } catch (BadResponseException $e) {
+            $message = $e->getRequest(). " " . $e->getResponse();
+        } catch (\Exception $e) {
             $message = $e->getRequest(). " " . $e->getResponse();
         }
 
