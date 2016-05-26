@@ -3,7 +3,7 @@
   "type": "library",
   "description": "Laravel plugin For Processing Payments Through Paypal Express Checkout. Can Be Used Independently With Other Applications.",
   "keywords": ["http", "rest", "web service", "paypal", "laravel paypal"],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
     {
