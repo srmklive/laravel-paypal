@@ -104,6 +104,9 @@ class AdaptivePayments
             ]
         ];
 
+        if (!empty($data['feesPayer']))
+            $post['feesPayer'] = $data['payer'];
+
         if (!empty($data['return_url']) && !empty($data['cancel_url'])) {
             $post['returnUrl'] = $data['return_url'];
             $post['cancelUrl'] = $data['cancel_url'];
