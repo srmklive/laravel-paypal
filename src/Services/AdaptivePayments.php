@@ -104,6 +104,9 @@ class AdaptivePayments
             ]
         ];
 
+        if (!empty($data['feesPayer']))
+            $post['feesPayer'] = $data['payer'];
+
         if (!empty($data['return_url']) && !empty($data['cancel_url'])) {
             $post['returnUrl'] = $data['return_url'];
             $post['cancelUrl'] = $data['cancel_url'];
@@ -221,11 +224,14 @@ class AdaptivePayments
             $response = $this->retrieveData($response);
 
             return $response;
+            
         } catch (ClientException $e) {
             $message = $e->getRequest() . " " . $e->getResponse();
         } catch (ServerException $e) {
             $message = $e->getRequest(). " " . $e->getResponse();
         } catch (BadResponseException $e) {
+            $message = $e->getRequest(). " " . $e->getResponse();
+        } catch (\Exception $e) {
             $message = $e->getRequest(). " " . $e->getResponse();
         }
 
