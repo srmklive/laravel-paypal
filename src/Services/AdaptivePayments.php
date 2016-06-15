@@ -61,12 +61,12 @@ class AdaptivePayments
     private function setHeaders()
     {
         $headers = [
-            'X-PAYPAL-SECURITY-USERID: ' . $this->config['username'],
-            'X-PAYPAL-SECURITY-PASSWORD: ' . $this->config['password'],
-            'X-PAYPAL-SECURITY-SIGNATURE: ' . $this->config['secret'],
-            'X-PAYPAL-REQUEST-DATA-FORMAT: NV',
-            'X-PAYPAL-RESPONSE-DATA-FORMAT: NV',
-            'X-PAYPAL-APPLICATION-ID: ' . $this->config['app_id'],
+            'X-PAYPAL-SECURITY-USERID' => $this->config['username'],
+            'X-PAYPAL-SECURITY-PASSWORD' => $this->config['password'],
+            'X-PAYPAL-SECURITY-SIGNATURE' => $this->config['secret'],
+            'X-PAYPAL-REQUEST-DATA-FORMAT' => 'NV',
+            'X-PAYPAL-RESPONSE-DATA-FORMAT' => 'NV',
+            'X-PAYPAL-APPLICATION-ID' => $this->config['app_id'],
         ];
 
         return $headers;
