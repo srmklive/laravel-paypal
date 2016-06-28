@@ -156,18 +156,6 @@ trait PayPalRequest
             $response = $request->getBody(true);
             $response = $this->retrieveData($response);
 
-            if ($method == 'SetExpressCheckout') {
-                if (!empty($response['TOKEN'])) {
-                    $response['paypal_link'] = $this->config['gateway_url'] .
-                        '/webscr?cmd=_express-checkout&token=' . $response['TOKEN'];
-                } else {
-                    return [
-                        'type'      => 'error',
-                        'message'   => trans('paypal::error.paypal_connection_error')
-                    ];
-                }
-            }
-
             return $response;
 
         } catch (ClientException $e) {
