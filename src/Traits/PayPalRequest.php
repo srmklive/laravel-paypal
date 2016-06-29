@@ -165,7 +165,7 @@ trait PayPalRequest
         } catch (BadResponseException $e) {
             throw new \Exception($e->getRequest() . " " . $e->getResponse());
         } catch (\Exception $e) {
-            $message = $e->getRequest(). " " . $e->getResponse();
+            $message = $e->getMessage();
         }
 
         return [
