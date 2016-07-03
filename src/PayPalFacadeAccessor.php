@@ -19,10 +19,7 @@ class PayPalFacadeAccessor
      */
     public static function getProvider()
     {
-        if (empty(self::$provider))
-            return new ExpressCheckout;
-        else
-            return self::$provider;
+        return self::$provider;
     }
 
     /**
@@ -33,13 +30,7 @@ class PayPalFacadeAccessor
      */
     public static function setProvider($option = '')
     {
-        if (!in_array($option, ['express_checkout', 'adaptive_payments']))
-            $option = 'express_checkout';
-
-        if ($option == 'express_checkout')
-            self::$provider = new ExpressCheckout;
-        elseif ($option == 'adaptive_payments')
-            self::$provider = new AdaptivePayments;
+        self::$provider = new ExpressCheckout;
 
         return self::getProvider();
     }
