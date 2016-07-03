@@ -17,7 +17,8 @@
     }
   },
   "require": {
-    "guzzlehttp/guzzle": "~5.0|~6.0"
+    "guzzlehttp/guzzle": "~5.0|~6.0",
+    "paypal/adaptivepayments-sdk-php": "~3.0"
   },
   "config": {
       "preferred-install": "dist"
