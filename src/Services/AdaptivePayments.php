@@ -1,10 +1,5 @@
 <?php namespace Srmklive\PayPal\Services;
 
-use PayPal\Service\AdaptivePaymentsService;
-use PayPal\Types\AP\PayRequest;
-use PayPal\Types\AP\Receiver;
-use PayPal\Types\AP\ReceiverList;
-use PayPal\Types\Common\RequestEnvelope;
 use Srmklive\PayPal\Traits\PayPalRequest As PayPalAPIRequest;
 
 class AdaptivePayments
@@ -25,6 +20,8 @@ class AdaptivePayments
      */
     private function setConfig()
     {
+        // Setting Http Client
+        $this->client = $this->setClient();
 
         $paypal = config('paypal');
 
@@ -52,31 +49,42 @@ class AdaptivePayments
         // Adding params outside sandbox / live array
         $this->config['currency'] = $paypal['currency'];
 
-        // Set mode
-        $this->config['mode'] = $mode;
-
-        // Setting Http Client
-        $this->client = $this->setClient();
-
         unset($paypal);
     }
 
+
     /**
-     * Function to Guzzle Client class object
+     * Set Adaptive Payments API request headers
      *
-     * @return Client
+     * @return array
      */
-    protected function setClient()
+    private function setHeaders()
     {
-        $config = [
-            "acct1.UserName" => $this->config['username'],
-            "acct1.Password" => $this->config['password'],
-            "acct1.Signature" => $this->config['secret'],
-            "acct1.AppId" => $this->config['app_id'],
-            "mode" => $this->config['mode']
+        $headers = [
+            'X-PAYPAL-SECURITY-USERID' => $this->config['username'],
+            'X-PAYPAL-SECURITY-PASSWORD' => $this->config['password'],
+            'X-PAYPAL-SECURITY-SIGNATURE' => $this->config['secret'],
+            'X-PAYPAL-REQUEST-DATA-FORMAT' => 'JSON',
+            'X-PAYPAL-RESPONSE-DATA-FORMAT' => 'JSON',
+            'X-PAYPAL-APPLICATION-ID' => $this->config['app_id'],
         ];
 
-        return new AdaptivePaymentsService($config);
+        return $headers;
+    }
+
+    /**
+     * Set Adaptive Payments API request envelope
+     *
+     * @return array
+     */
+    private function setEnvelope()
+    {
+        $envelope = [
+            'errorLanguage' => 'en_US',
+            'detailLevel' => 'ReturnAll',
+        ];
+
+        return $envelope;
     }
 
     /**
@@ -88,28 +96,27 @@ class AdaptivePayments
      */
     public function createPayRequest($data)
     {
-        $tmp = [];
-        foreach ($data['receivers'] as $i => $receiver) {
-            $tmp[$i] = new Receiver;
-            $tmp[$i]->email = $receiver['email'];
-            $tmp[$i]->amount = $receiver['amount'];
+        $post = [
+            'actionType' => 'PAY',
+            'currencyCode' => $this->config['currency'],
+            'receiverList' => [
+                'receiver' => $data['receivers']
+            ]
+        ];
+
+        if (!empty($data['feesPayer']))
+            $post['feesPayer'] = $data['payer'];
+
+        if (!empty($data['return_url']) && !empty($data['cancel_url'])) {
+            $post['returnUrl'] = $data['return_url'];
+            $post['cancelUrl'] = $data['cancel_url'];
+        } else {
+            throw new \Exception('Return & Cancel URL should be specified');
         }
 
-        $receivers = $tmp;
-        unset($tmp);
+        $post['requestEnvelope'] = $this->setEnvelope();
 
-        $receiverList = new ReceiverList($receivers);
-
-        $payRequest = new PayRequest(
-            new RequestEnvelope("en_US"),
-            'PAY',
-            $data['cancel_url'],
-            $this->config['currency'],
-            $receiverList,
-            $data['return_url']
-        );
-
-        $response = $this->doPayPalRequest('Pay', $payRequest);
+        $response = $this->doPayPalRequest('Pay', $post);
 
         return $response;
     }
@@ -194,7 +201,7 @@ class AdaptivePayments
      *
      * @param $method
      * @param $params
-     * @return array|\Psr\Http\Message\StreamInterface
+     * @return array|mixed|\Psr\Http\Message\StreamInterface
      * @throws \Exception
      */
     private function doPayPalRequest($method, $params)
@@ -202,12 +209,29 @@ class AdaptivePayments
         if (empty($this->config))
             self::setConfig();
 
+        $post_url = $this->config['api_url'] . '/' . $method;
+
+        foreach ($params as $key => $value) {
+            $post[$key] = $value;
+        }
+
         try {
-            /* wrap API method calls on the service object with a try catch */
-            $response = $this->client->$method($params);
-            $response = $this->retrieveData($response);
+            $request = $this->client->post($post_url, [
+                'json' => $post,
+                'headers' => $this->setHeaders(),
+            ]);
+
+            $response = $request->getBody(true);
+            $response = \GuzzleHttp\json_decode($response, true);
 
             return $response;
+
+        } catch (ClientException $e) {
+            throw new \Exception($e->getRequest() . " " . $e->getResponse());
+        } catch (ServerException $e) {
+            throw new \Exception($e->getRequest() . " " . $e->getResponse());
+        } catch (BadResponseException $e) {
+            throw new \Exception($e->getRequest() . " " . $e->getResponse());
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
@@ -216,26 +240,5 @@ class AdaptivePayments
             'type'      => 'error',
             'message'   => $message
         ];
-
-    }
-
-    /**
-     * Parse response from PayPal
-     *
-     * @param $data
-     * @return array
-     */
-    private function retrieveData($data)
-    {
-        if (is_array($data) || is_object($data))
-        {
-            $result = array();
-            foreach ($data as $key => $value)
-            {
-                $result[$key] = $this->retrieveData($value);
-            }
-            return $result;
-        }
-        return $data;
     }
 }
