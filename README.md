@@ -14,6 +14,8 @@
     - [GetRecurringPaymentsProfileDetails] (#usage-ec-getrecurringprofiledetails)
     - [UpdateRecurringPaymentsProfile] (#usage-ec-updaterecurringprofile)
     - [ManageRecurringPaymentsProfileStatus] (#usage-ec-managerecurringprofile)
+  - [Adaptive Payments] (#usage-adaptive-payments)
+    - [Pay] (#usage-adaptive-pay)
 - [Handling PayPal IPN](#paypalipn)
 - [Support](#support)
 
@@ -210,6 +212,53 @@ $data['total'] = $total;
     $response = PayPal::getProvider()->reactivateRecurringPaymentsProfile($profileid);    
     ```    
 
+<a name="usage-adaptive-payments"></a>
+#### Adaptive Payments
+
+To use adaptive payments, you must set the provider to use Adaptive Payments:
+
+```
+PayPal::setProvider('adaptive_payments');
+```
+
+<a name="usage-adaptive-pay"></a>
+* **Pay**
+
+```
+
+// Change the values accordingly for your application
+$data = [
+    'receivers'  => [
+        [
+            'email' => 'johndoe@example.com',
+            'amount' => 10,
+            'primary' => true,
+        ],
+        [
+            'email' => 'janedoe@example.com',
+            'amount' => 5,
+            'primary' => false
+        ]
+    ],
+    'payer' => 'EACHRECEIVER', // (Optional) Describes who pays PayPal fees. Allowed values are: 'SENDER', 'PRIMARYRECEIVER', 'EACHRECEIVER' (Default), 'SECONDARYONLY'
+    'return_url' => url('payment/success'), 
+    'cancel_url' => url('payment/cancel'),
+];
+
+$response = PayPal::getProvider()->createPayRequest($data);
+
+// The above API call will return the following values if successful:
+// 'responseEnvelope.ack', 'payKey', 'paymentExecStatus'
+
+```
+
+Next, you need to redirect the user to PayPal to authorize the payment
+
+```
+$redirect_url = PayPal::getProvider()->getRedirectUrl('approved', $response['payKey']);
+
+return redirect($redirect_url);
+```
 
 <a name="paypalipn"></a>
 ## Handling PayPal IPN
