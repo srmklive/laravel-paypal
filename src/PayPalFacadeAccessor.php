@@ -19,7 +19,10 @@ class PayPalFacadeAccessor
      */
     public static function getProvider()
     {
-        return self::$provider;
+        if (empty(self::$provider))
+            return new ExpressCheckout;
+        else
+            return self::$provider;
     }
 
     /**
