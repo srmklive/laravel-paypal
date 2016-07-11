@@ -88,6 +88,20 @@ return [
 
 ## Usage
 
+Following are some ways through which you can access the paypal provider:
+
+```
+// Import the class namespaces first, before using it directly
+use Srmklive\PayPal\Services\ExpressCheckout;
+use Srmklive\PayPal\Services\AdaptivePayments;
+
+$provider = new ExpressCheckout;      // To use express checkout.
+$provider = new AdaptivePayments;     // To use adaptive payments.
+
+// Through facade. No need to import namespaces
+$provider = PayPal::setProvider('express_checkout');      // To use express checkout(used by default).
+$provider = PayPal::setProvider('adaptive_payments');     // To use adaptive payments. 
+```
 
 <a name="usage-express-checkout"></a>
 #### Express Checkout
@@ -122,10 +136,10 @@ $data['total'] = $total;
 * **SetExpressCheckout**
 
     ```
-    $response = PayPal::getProvider()->setExpressCheckout($data);
+    $response = $provider->setExpressCheckout($data);
     
     // Use the following line when creating recurring payment profiles (subscriptions)
-    $response = PayPal::getProvider()->setExpressCheckout($data, true);
+    $response = $provider->setExpressCheckout($data, true);
     
      // This will redirect user to PayPal
     return redirect($response['paypal_link']);
@@ -135,7 +149,7 @@ $data['total'] = $total;
 * **GetExpressCheckoutDetails**
 
     ```
-    $response = PayPal::getProvider()->getExpressCheckoutDetails($token);
+    $response = $provider->getExpressCheckoutDetails($token);
     ```
     
 <a name="usage-ec-doexpresscheckoutpayment"></a>
@@ -143,14 +157,14 @@ $data['total'] = $total;
 
     ```
     // Note that 'token', 'PayerID' are values returned by PayPal when it redirects to success page after successful verification of user's PayPal info.
-    $response = PayPal::getProvider()->doExpressCheckoutPayment($data, $token, $PayerID);
+    $response = $provider->doExpressCheckoutPayment($data, $token, $PayerID);
     ```
 
 <a name="usage-ec-refundtransaction"></a>
 * **RefundTransaction**
 
     ```
-    $response = PayPal::getProvider()->refundTransaction($transactionid);
+    $response = $provider->refundTransaction($transactionid);
     ```
 
 <a name="usage-ec-createbillingagreement"></a>    
@@ -158,7 +172,7 @@ $data['total'] = $total;
 
     ```
     // The $token is the value returned from SetExpressCheckout API call
-    $response = PayPal::getProvider()->createBillingAgreement($token);
+    $response = $provider->createBillingAgreement($token);
     ```    
 
 <a name="usage-ec-createrecurringprofile"></a>
@@ -181,21 +195,21 @@ $data['total'] = $total;
         'TRIALTOTALBILLINGCYCLES' => 1, // (Optional) Change it accordingly
         'TRIALAMT' => 0, // (Optional) Change it accordingly
     ];
-    $response = PayPal::getProvider()->createRecurringPaymentsProfile($data, $token);
+    $response = $provider->createRecurringPaymentsProfile($data, $token);
     ```    
 
 <a name="usage-ec-getrecurringprofiledetails"></a>
 * **GetRecurringPaymentsProfileDetails**
 
     ```
-    $response = PayPal::getProvider()->getRecurringPaymentsProfileDetails($profileid);
+    $response = $provider->getRecurringPaymentsProfileDetails($profileid);
     ```    
 
 <a name="usage-ec-updaterecurringprofile"></a>
 * **UpdateRecurringPaymentsProfile**
 
     ```
-    $response = PayPal::getProvider()->updateRecurringPaymentsProfile($data, $profileid);
+    $response = $provider->updateRecurringPaymentsProfile($data, $profileid);
     ```    
 
 <a name="usage-ec-managerecurringprofile"></a>
@@ -203,13 +217,13 @@ $data['total'] = $total;
 
     ```
     // Cancel recurring payment profile
-    $response = PayPal::getProvider()->cancelRecurringPaymentsProfile($profileid);
+    $response = $provider->cancelRecurringPaymentsProfile($profileid);
     
     // Suspend recurring payment profile
-    $response = PayPal::getProvider()->suspendRecurringPaymentsProfile($profileid);
+    $response = $provider->suspendRecurringPaymentsProfile($profileid);
     
     // Reactivate recurring payment profile
-    $response = PayPal::getProvider()->reactivateRecurringPaymentsProfile($profileid);    
+    $response = $provider->reactivateRecurringPaymentsProfile($profileid);    
     ```    
 
 <a name="usage-adaptive-payments"></a>
@@ -245,7 +259,7 @@ $data = [
     'cancel_url' => url('payment/cancel'),
 ];
 
-$response = PayPal::getProvider()->createPayRequest($data);
+$response = $provider->createPayRequest($data);
 
 // The above API call will return the following values if successful:
 // 'responseEnvelope.ack', 'payKey', 'paymentExecStatus'
@@ -255,7 +269,7 @@ $response = PayPal::getProvider()->createPayRequest($data);
 Next, you need to redirect the user to PayPal to authorize the payment
 
 ```
-$redirect_url = PayPal::getProvider()->getRedirectUrl('approved', $response['payKey']);
+$redirect_url = $provider->getRedirectUrl('approved', $response['payKey']);
 
 return redirect($redirect_url);
 ```
