@@ -33,7 +33,11 @@ class PayPalFacadeAccessor
      */
     public static function setProvider($option = '')
     {
-        self::$provider = new ExpressCheckout;
+        // Set default provider.
+        if (empty($option) || ($option != 'adaptive_payments') || ($option == 'express_checkout'))
+            self::$provider = new ExpressCheckout;
+        else
+            self::$provider = new AdaptivePayments;
 
         return self::getProvider();
     }
