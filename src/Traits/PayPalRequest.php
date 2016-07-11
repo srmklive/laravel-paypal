@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\ServerException;
 
 trait PayPalRequest
 {
-    
+
     /**
      * @var Client
      */
@@ -68,7 +68,11 @@ trait PayPalRequest
      */
     protected function setClient()
     {
-        return new Client;
+        return new Client([
+            'curl' => [
+                CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2
+            ]
+        ]);
     }
 
     /**
