@@ -100,7 +100,11 @@ $provider = new AdaptivePayments;     // To use adaptive payments.
 
 // Through facade. No need to import namespaces
 $provider = PayPal::setProvider('express_checkout');      // To use express checkout(used by default).
-$provider = PayPal::setProvider('adaptive_payments');     // To use adaptive payments. 
+$provider = PayPal::setProvider('adaptive_payments');     // To use adaptive payments.
+ 
+// Through global helper functions
+$provider = express_checkout();      // To use express checkout.
+$provider = adaptive_payments();     // To use adaptive payments. 
 ```
 
 <a name="usage-express-checkout"></a>

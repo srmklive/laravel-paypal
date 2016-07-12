@@ -6,6 +6,7 @@
  */
 
 use Illuminate\Support\ServiceProvider;
+use Srmklive\PayPal\Services\AdaptivePayments;
 use Srmklive\PayPal\Services\ExpressCheckout;
 
 class PayPalServiceProvider extends ServiceProvider
@@ -52,8 +53,12 @@ class PayPalServiceProvider extends ServiceProvider
      */
     private function registerPayPal()
     {
-        $this->app->singleton('paypal', function () {
+        $this->app->singleton('express_checkout', function () {
             return new ExpressCheckout;
+        });
+
+        $this->app->singleton('adaptive_payments', function () {
+            return new AdaptivePayments;
         });
     }
 
