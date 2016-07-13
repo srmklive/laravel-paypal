@@ -76,6 +76,19 @@ trait PayPalRequest
     }
 
     /**
+     * Function to set currency
+     */
+    private function setCurrency($currency)
+    {
+        $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD'];
+
+        if (!in_array($currency, $allowedCurrencies)) {
+            throw new \Exception('Currency is not supported by PayPal.');
+        }
+        $this->config['currency'] = $currency;
+    }
+
+    /**
      * Verify PayPal IPN Response
      *
      * @param $post
