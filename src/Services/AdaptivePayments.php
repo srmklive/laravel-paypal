@@ -88,6 +88,19 @@ class AdaptivePayments
     }
 
     /**
+     * Function to set request currency
+     */
+    public function setCurrency($currency)
+    {
+        $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD'];
+
+        if (!in_array($currency, $allowedCurrencies)) {
+            throw new \Exception('Currency is not supported by PayPal.');
+        }
+        $this->config['currency'] = $currency;
+    }
+
+    /**
      * Function to perform Adaptive Payments API's PAY operation
      *
      * @param $data
@@ -96,6 +109,9 @@ class AdaptivePayments
      */
     public function createPayRequest($data)
     {
+        if (!empty($data['currency']))
+            $this->setCurrency($data['currency']);
+
         $post = [
             'actionType' => 'PAY',
             'currencyCode' => $this->config['currency'],
