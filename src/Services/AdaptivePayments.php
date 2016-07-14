@@ -96,6 +96,9 @@ class AdaptivePayments
      */
     public function createPayRequest($data)
     {
+        if (!empty($data['currency']))
+            $this->setCurrency($data['currency']);
+
         $post = [
             'actionType' => 'PAY',
             'currencyCode' => $this->config['currency'],
