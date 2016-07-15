@@ -4,6 +4,7 @@
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
+  - [Set Currency] (#usage-currency)  
   - [Express Checkout] (#usage-express-checkout)
     - [SetExpressCheckout] (#usage-ec-setexpresscheckout)
     - [GetExpressCheckoutDetails] (#usage-ec-getexpresscheckoutdetails)
@@ -60,7 +61,7 @@ Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 php artisan vendor:publish
 ```
 
-
+<a name="configuration"></a>
 ## Configuration
 
 * After installation, you will need to add your paypal settings. Following is the code you will find in **config/paypal.php**, which you should update accordingly.
@@ -86,6 +87,7 @@ return [
 ];
 ```
 
+<a name="usage"></a>
 ## Usage
 
 Following are some ways through which you can access the paypal provider:
@@ -106,6 +108,17 @@ $provider = PayPal::setProvider('adaptive_payments');     // To use adaptive pay
 $provider = express_checkout();      // To use express checkout.
 $provider = adaptive_payments();     // To use adaptive payments. 
 ```
+
+
+<a name="usage-currency"></a>
+## Set Currency
+
+By default the currency used is `USD`. If you wish to change it, you may call `setCurrency` method to set a different currency before calling any respective API methods:
+
+```
+$provider->setCurrency('EUR')->setExpressCheckout($data);
+```
+
 
 <a name="usage-express-checkout"></a>
 #### Express Checkout
