@@ -19,6 +19,11 @@ trait PayPalRequest
     private $config;
 
     /**
+     * @var $string
+     */
+    private $currency;
+
+    /**
      * Function To Set PayPal API Configuration
      */
     private function setConfig()
@@ -55,8 +60,10 @@ trait PayPalRequest
 
         // Adding params outside sandbox / live array
         $this->config['payment_action'] = $paypal['payment_action'];
-        $this->config['currency'] = $paypal['currency'];
         $this->config['notify_url'] = $paypal['notify_url'];
+
+        // Set default currency.
+        $this->setCurrency($paypal['currency']);
 
         unset($paypal);
     }
@@ -76,16 +83,22 @@ trait PayPalRequest
     }
 
     /**
-     * Function to set currency
+     * Function to set currency.
+     *
+     * @param string $currency
+     * @return string
+     * @throws \Exception
      */
-    private function setCurrency($currency)
+    public function setCurrency($currency = 'USD')
     {
         $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD'];
 
-        if (!in_array($currency, $allowedCurrencies)) {
+        // Check if provided currency is valid.
+        if (! in_array($currency, $allowedCurrencies)) {
             throw new \Exception('Currency is not supported by PayPal.');
         }
-        $this->config['currency'] = $currency;
+
+        $this->currency = $currency;
     }
 
     /**

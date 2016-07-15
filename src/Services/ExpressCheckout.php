@@ -45,7 +45,7 @@ class ExpressCheckout
             'PAYMENTREQUEST_0_ITEMAMT'          =>  $data['total'],
             'PAYMENTREQUEST_0_AMT'              =>  $data['total'],
             'PAYMENTREQUEST_0_PAYMENTACTION'    =>  !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  !empty($this->config['currency']) ? $this->config['currency'] : 'USD',
+            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  $this->currency,
             'PAYMENTREQUEST_0_DESC'             =>  $data['invoice_description'],
             'PAYMENTREQUEST_0_INVNUM'           =>  $data['invoice_id'],
             'NOSHIPPING'                        =>  1,
@@ -122,7 +122,7 @@ class ExpressCheckout
             'PAYMENTREQUEST_0_ITEMAMT'          =>  $data['total'],
             'PAYMENTREQUEST_0_AMT'              =>  $data['total'],
             'PAYMENTREQUEST_0_PAYMENTACTION'    =>  !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  !empty($this->config['currency']) ? $this->config['currency'] : 'USD',
+            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  $this->currency,
             'PAYMENTREQUEST_0_DESC'             =>  $data['invoice_description'],
             'PAYMENTREQUEST_0_INVNUM'           =>  $data['invoice_id'],
             'PAYMENTREQUEST_0_NOTIFYURL'        =>  config('paypal.notify_url')

@@ -46,8 +46,8 @@ class AdaptivePayments
             $this->config['gateway_url'] = 'https://www.paypal.com/cgi-bin/webscr';
         }
 
-        // Adding params outside sandbox / live array
-        $this->config['currency'] = $paypal['currency'];
+        // Set default currency.
+        $this->setCurrency($paypal['currency']);
 
         unset($paypal);
     }
@@ -96,21 +96,19 @@ class AdaptivePayments
      */
     public function createPayRequest($data)
     {
-        if (!empty($data['currency']))
-            $this->setCurrency($data['currency']);
-
         $post = [
             'actionType' => 'PAY',
-            'currencyCode' => $this->config['currency'],
+            'currencyCode' => $this->currency,
             'receiverList' => [
                 'receiver' => $data['receivers']
             ]
         ];
 
-        if (!empty($data['feesPayer']))
+        if (! empty($data['feesPayer'])) {
             $post['feesPayer'] = $data['payer'];
+        }
 
-        if (!empty($data['return_url']) && !empty($data['cancel_url'])) {
+        if (! empty($data['return_url']) && ! empty($data['cancel_url'])) {
             $post['returnUrl'] = $data['return_url'];
             $post['cancelUrl'] = $data['cancel_url'];
         } else {
