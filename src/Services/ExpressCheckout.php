@@ -31,7 +31,8 @@ class ExpressCheckout
         foreach ($data['items'] as $item) {
             $tmp = [
                 'L_PAYMENTREQUEST_0_NAME'.$num  =>  $item['name'],
-                'L_PAYMENTREQUEST_0_AMT'.$num   =>  $item['price']
+                'L_PAYMENTREQUEST_0_AMT'.$num   =>  $item['price'],
+                'L_PAYMENTREQUEST_0_QTY'.$num   =>  $item['qty'],
             ];
 
             foreach ($tmp as $k=>$v) {
