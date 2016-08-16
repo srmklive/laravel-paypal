@@ -72,22 +72,22 @@ php artisan vendor:publish
 
 ```
 return [
-    'mode' => 'sandbox', // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
+    'mode' => 'sandbox',        // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
     'sandbox' => [
-        'username' => '',
-        'password' => '',
-        'secret' => '',
-        'certificate' => '',
+        'username' => '',       // Api Username
+        'password' => '',       // Api Password
+        'secret' => '',         // This refers to api signature
+        'certificate' => '',    // Link to paypals cert file, storage_path('cert_key_pem.txt')
     ],
     'live' => [
-        'username' => '',
-        'password' => '',
-        'secret' => '',
-        'certificate' => '',
+        'username' => '',       // Api Username
+        'password' => '',       // Api Password
+        'secret' => '',         // This refers to api signature
+        'certificate' => '',    // Link to paypals cert file, storage_path('cert_key_pem.txt')
     ],
     'payment_action' => 'Sale', // Can Only Be 'Sale', 'Authorization', 'Order'
     'currency' => 'USD',
-    'notify_url' => '', // Change this accordingly for your application.
+    'notify_url' => '',         // Change this accordingly for your application.
 ];
 ```
 
@@ -132,11 +132,13 @@ $data = [];
 $data['items'] = [
     [
         'name' => 'Product 1',
-        'price' => 9.99
+        'price' => 9.99,
+        'qty' => 1
     ],
     [
         'name' => 'Product 2',
-        'price' => 4.99
+        'price' => 4.99,
+        'qty' => 2
     ]
 ];
 
