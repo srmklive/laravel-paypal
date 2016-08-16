@@ -17,10 +17,10 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform SetExpressCheckout PayPal API operation
+     * Function to perform SetExpressCheckout PayPal API operation.
      *
-     * @param $data
-     * @param bool $subscription
+     * @param  array  $data
+     * @param  bool  $subscription
      * @return array
      */
     public function setExpressCheckout($data, $subscription = false)
@@ -75,9 +75,9 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform GetExpressCheckoutDetails PayPal API operation
+     * Function to perform GetExpressCheckoutDetails PayPal API operation.
      *
-     * @param $token
+     * @param  string  $token
      * @return array
      */
     public function getExpressCheckoutDetails($token)
@@ -92,11 +92,11 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform DoExpressCheckoutPayment PayPal API operation
+     * Function to perform DoExpressCheckoutPayment PayPal API operation.
      *
-     * @param $data
-     * @param $token
-     * @param $payerid
+     * @param  array  $data
+     * @param  string  $token
+     * @param  string  $payerid
      * @return array
      */
     public function doExpressCheckoutPayment($data, $token, $payerid)
@@ -139,9 +139,9 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform CreateBillingAgreement PayPal API operation
+     * Function to perform CreateBillingAgreement PayPal API operation.
      *
-     * @param $token
+     * @param  string  $token
      * @return array
      */
     public function createBillingAgreement($token)
@@ -156,10 +156,10 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform CreateRecurringPaymentsProfile PayPal API operation
+     * Function to perform CreateRecurringPaymentsProfile PayPal API operation.
      *
-     * @param $data
-     * @param $token
+     * @param  array  $data
+     * @param  string  $token
      * @return array
      */
     public function createRecurringPaymentsProfile($data, $token)
@@ -178,9 +178,9 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform GetRecurringPaymentsProfileDetails PayPal API operation
+     * Function to perform GetRecurringPaymentsProfileDetails PayPal API operation.
      *
-     * @param $id
+     * @param  string  $id
      * @return array
      */
     public function getRecurringPaymentsProfileDetails($id)
@@ -195,10 +195,10 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform UpdateRecurringPaymentsProfile PayPal API operation
+     * Function to perform UpdateRecurringPaymentsProfile PayPal API operation.
      *
-     * @param $data
-     * @param $id
+     * @param  array  $data
+     * @param  string  $id
      * @return array
      */
     public function updateRecurringPaymentsProfile($data, $id)
@@ -217,9 +217,9 @@ class ExpressCheckout
     }
 
     /**
-     * Function to cancel RecurringPaymentsProfile on PayPal
+     * Function to cancel RecurringPaymentsProfile on PayPal.
      *
-     * @param $id
+     * @param  string  $id
      * @return array
      */
     public function cancelRecurringPaymentsProfile($id)
@@ -235,9 +235,9 @@ class ExpressCheckout
     }
 
     /**
-     * Function to suspend an active RecurringPaymentsProfile on PayPal
+     * Function to suspend an active RecurringPaymentsProfile on PayPal.
      *
-     * @param $id
+     * @param  string  $id
      * @return array
      */
     public function suspendRecurringPaymentsProfile($id)
@@ -253,9 +253,9 @@ class ExpressCheckout
     }
 
     /**
-     * Function to reactivate a suspended RecurringPaymentsProfile on PayPal
+     * Function to reactivate a suspended RecurringPaymentsProfile on PayPal.
      *
-     * @param $id
+     * @param  string  $id
      * @return array
      */
     public function reactivateRecurringPaymentsProfile($id)

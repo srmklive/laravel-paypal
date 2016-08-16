@@ -16,44 +16,6 @@ class AdaptivePayments
     }
 
     /**
-     * Function To Set PayPal API Configuration
-     */
-    private function setConfig()
-    {
-        // Setting Http Client
-        $this->client = $this->setClient();
-
-        $paypal = config('paypal');
-
-        // Setting Default PayPal Mode If not set
-        if (empty($paypal['mode']) || !in_array($paypal['mode'], ['sandbox', 'live'])) {
-            $paypal['mode'] = 'live';
-        }
-
-        $mode = $paypal['mode'];
-
-        // Getting PayPal API Credentials
-        foreach ($paypal[$mode] as $key => $value) {
-            $this->config[$key] = $value;
-        }
-
-        // Setting API Endpoints
-        if ($paypal['mode'] == 'sandbox') {
-            $this->config['api_url'] = 'https://svcs.sandbox.paypal.com/AdaptivePayments';
-            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-        } else {
-            $this->config['api_url'] = 'https://svcs.paypal.com/AdaptivePayments';
-            $this->config['gateway_url'] = 'https://www.paypal.com/cgi-bin/webscr';
-        }
-
-        // Set default currency.
-        $this->setCurrency($paypal['currency']);
-
-        unset($paypal);
-    }
-
-
-    /**
      * Set Adaptive Payments API request headers
      *
      * @return array
@@ -90,7 +52,7 @@ class AdaptivePayments
     /**
      * Function to perform Adaptive Payments API's PAY operation
      *
-     * @param $data
+     * @param  array  $data
      * @return array
      * @throws \Exception
      */
@@ -123,10 +85,10 @@ class AdaptivePayments
     }
 
     /**
-     * Function to perform Adaptive Payments API's SetPaymentOptions operation
+     * Function to perform Adaptive Payments API's SetPaymentOptions operation.
      *
-     * @param $payKey
-     * @param $receivers
+     * @param  string  $payKey
+     * @param  array  $receivers
      * @return array
      */
     public function setPaymentOptions($payKey, $receivers)
@@ -161,9 +123,9 @@ class AdaptivePayments
     }
 
     /**
-     * Function to perform Adaptive Payments API's GetPaymentOptions operation
+     * Function to perform Adaptive Payments API's GetPaymentOptions operation.
      *
-     * @param $payKey
+     * @param  string  $payKey
      * @return array
      */
     public function getPaymentOptions($payKey)
@@ -179,10 +141,10 @@ class AdaptivePayments
     }
 
     /**
-     * Get PayPal redirect url for processing payment
+     * Get PayPal redirect url for processing payment.
      *
-     * @param $option
-     * @param $payKey
+     * @param  string  $option
+     * @param  string  $payKey
      * @return string
      */
     public function getRedirectUrl($option, $payKey)
@@ -200,8 +162,8 @@ class AdaptivePayments
     /**
      * Function To Perform PayPal API Request
      *
-     * @param $method
-     * @param $params
+     * @param  string  $method
+     * @param  array  $params
      * @return array|mixed|\Psr\Http\Message\StreamInterface
      * @throws \Exception
      */

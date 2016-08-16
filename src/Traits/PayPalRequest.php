@@ -25,47 +25,18 @@ trait PayPalRequest
 
     /**
      * Function To Set PayPal API Configuration
+     *
+     * @return void
      */
     private function setConfig()
     {
         // Setting Http Client
         $this->client = $this->setClient();
 
-        $paypal = config('paypal');
-
-        // Setting Default PayPal Mode If not set
-        if (empty($paypal['mode']) || !in_array($paypal['mode'], ['sandbox', 'live'])) {
-            $paypal['mode'] = 'live';
-        }
-
-        $mode = $paypal['mode'];
-
-        // Getting PayPal API Credentials
-        foreach ($paypal[$mode] as $key=>$value) {
-            $this->config[$key] = $value;
-        }
-
-        // Setting API Endpoints
-        if ($paypal['mode'] == 'sandbox') {
-            $this->config['api_url'] = !empty($this->config['secret']) ?
-                'https://api-3t.sandbox.paypal.com/nvp' : 'https://api.sandbox.paypal.com/nvp';
-
-            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com';
-        } else {
-            $this->config['api_url'] = !empty($this->config['secret']) ?
-                'https://api-3t.paypal.com/nvp' : 'https://api.paypal.com/nvp';
-
-            $this->config['gateway_url'] = 'https://www.paypal.com';
-        }
-
-        // Adding params outside sandbox / live array
-        $this->config['payment_action'] = $paypal['payment_action'];
-        $this->config['notify_url'] = $paypal['notify_url'];
-
-        // Set default currency.
-        $this->setCurrency($paypal['currency']);
-
-        unset($paypal);
+        // Set Api Credentials
+        $this->setApiCredentials(
+            config('paypal')
+        );
     }
 
     /**
@@ -83,9 +54,94 @@ trait PayPalRequest
     }
 
     /**
+     * Set PayPal API Credentials.
+     *
+     * @param  array  $credentials
+     * @param  string  $mode
+     * @return void
+     */
+    public function setApiCredentials($credentials, $mode = '')
+    {
+        // Setting Default PayPal Mode If not set
+        if (empty($credentials['mode']) ||
+            (! in_array($credentials['mode'], ['sandbox', 'live']))
+        ) {
+            $credentials['mode'] = 'live';
+        }
+
+        // Setting default mode.
+        if (empty($mode)) {
+            $mode = $credentials['mode'];
+        }
+
+        // Get mode specific parameters.
+        if (! empty($credentials[$mode])) {
+            $credentials = $credentials[$mode];
+        }
+
+        // Setting PayPal API Credentials
+        foreach ($credentials as $key=>$value) {
+            $this->config[$key] = $value;
+        }
+
+        if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments::class) {
+            $this->setAdaptivePaymentsOptions($mode);
+        } else {
+            $this->setExpressCheckoutOptions($credentials, $mode);
+        }
+
+        // Set default currency.
+        $this->setCurrency($credentials['currency']);
+    }
+
+    /**
+     * Set ExpressCheckout API endpoints & options.
+     *
+     * @param  string  $credentials
+     * @param  string  $mode
+     * @return void
+     */
+    private function setExpressCheckoutOptions($credentials, $mode)
+    {
+        // Setting API Endpoints
+        if ($mode == 'sandbox') {
+            $this->config['api_url'] = !empty($this->config['secret']) ?
+                'https://api-3t.sandbox.paypal.com/nvp' : 'https://api.sandbox.paypal.com/nvp';
+
+            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com';
+        } else {
+            $this->config['api_url'] = !empty($this->config['secret']) ?
+                'https://api-3t.paypal.com/nvp' : 'https://api.paypal.com/nvp';
+
+            $this->config['gateway_url'] = 'https://www.paypal.com';
+        }
+
+        // Adding params outside sandbox / live array
+        $this->config['payment_action'] = $credentials['payment_action'];
+        $this->config['notify_url'] = $credentials['notify_url'];
+    }
+
+    /**
+     * Set AdaptivePayments API endpoints & options.
+     *
+     * @param  string  $mode
+     * @return void
+     */
+    private function setAdaptivePaymentsOptions($mode)
+    {
+        if ($mode == 'sandbox') {
+            $this->config['api_url'] = 'https://svcs.sandbox.paypal.com/AdaptivePayments';
+            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+        } else {
+            $this->config['api_url'] = 'https://svcs.paypal.com/AdaptivePayments';
+            $this->config['gateway_url'] = 'https://www.paypal.com/cgi-bin/webscr';
+        }
+    }
+
+    /**
      * Function to set currency.
      *
-     * @param string $currency
+     * @param  string  $currency
      * @return string
      * @throws \Exception
      */
@@ -102,9 +158,9 @@ trait PayPalRequest
     }
 
     /**
-     * Verify PayPal IPN Response
+     * Retrieve PayPal IPN Response.
      *
-     * @param $post
+     * @param  array  $post
      * @return array
      */
     public function verifyIPN($post)
@@ -117,7 +173,7 @@ trait PayPalRequest
     /**
      * Refund PayPal Transaction
      *
-     * @param $transaction
+     * @param  string  $transaction
      * @return array
      */
     public function refundTransaction($transaction)
@@ -132,9 +188,9 @@ trait PayPalRequest
     }
 
     /**
-     * Search Transactions On PayPal
+     * Search Transactions On PayPal.
      *
-     * @param array $post
+     * @param  array  $post
      * @return array
      */
     public function searchTransactions($post)
@@ -145,11 +201,12 @@ trait PayPalRequest
     }
 
     /**
-     * Function To Perform PayPal API Request
+     * Function To Perform PayPal API Request.
      *
-     * @param $method
-     * @param $params
-     * @return array
+     * @param  string  $method
+     * @param  array  $params
+     * @return array|\Psr\Http\Message\StreamInterface
+     * @throws \Exception
      */
     private function doPayPalRequest($method, $params)
     {
@@ -205,9 +262,9 @@ trait PayPalRequest
     }
 
     /**
-     * Parse PayPal NVP Response
+     * Parse PayPal NVP Response.
      *
-     * @param $string
+     * @param  string  $string
      * @return array
      */
     private function retrieveData($string)
