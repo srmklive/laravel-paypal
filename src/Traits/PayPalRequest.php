@@ -74,17 +74,12 @@ trait PayPalRequest
             $mode = $credentials['mode'];
         }
 
-        // Get mode specific parameters.
-        if (! empty($credentials[$mode])) {
-            $credentials = $credentials[$mode];
-        }
-
         // Setting PayPal API Credentials
-        foreach ($credentials as $key=>$value) {
+        foreach ($credentials[$mode] as $key=>$value) {
             $this->config[$key] = $value;
         }
 
-        if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments::class) {
+        if ($this instanceof AdaptivePayments) {
             $this->setAdaptivePaymentsOptions($mode);
         } else {
             $this->setExpressCheckoutOptions($credentials, $mode);
