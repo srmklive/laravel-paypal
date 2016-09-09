@@ -34,9 +34,11 @@ trait PayPalRequest
         $this->client = $this->setClient();
 
         // Set Api Credentials
-        $this->setApiCredentials(
-            config('paypal')
-        );
+        if (function_exists('config')) {
+            $this->setApiCredentials(
+                config('paypal')
+            );            
+        }
     }
 
     /**
