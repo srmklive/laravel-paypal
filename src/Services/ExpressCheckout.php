@@ -138,6 +138,27 @@ class ExpressCheckout
 
         return $response;
     }
+    
+    /**
+     * Function to perform DoCapture PayPal API operation.
+     *
+     * @param  string $authorization_id Transaction ID
+     * @param  float  $amount           Amount to capture
+     * @param  string $complete         Indicates whether or not this is the last capture.
+     * @param  array  $data             Optional request fields
+     * @return array
+     */
+    public function doCapture($authorization_id, $amount, $complete = 'Complete', $data = [])
+    {
+        $response = $this->doPayPalRequest('DoCapture', array_merge($data, [
+            'AUTHORIZATIONID' => $authorization_id,
+            'AMT'             => $amount,
+            'COMPLETETYPE'    => $complete,
+            'CURRENCYCODE'    => $this->currency,
+        ]));
+
+        return $response;
+    }
 
     /**
      * Function to perform CreateBillingAgreement PayPal API operation.
