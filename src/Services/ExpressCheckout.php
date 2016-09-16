@@ -160,6 +160,41 @@ class ExpressCheckout
         return $response;
     }
 
+
+    /**
+     * Function to perform DoAuthorization PayPal API operation.
+     *
+     * @param  string $authorization_id Transaction ID
+     * @param  float  $amount           Amount to capture
+     * @param  array  $data             Optional request fields
+     * @return array
+     */
+    public function doAuthorization($authorization_id, $amount, $data = [])
+    {
+        $response = $this->doPayPalRequest('DoAuthorization', array_merge($data, [
+            'AUTHORIZATIONID' => $authorization_id,
+            'AMT'             => $amount
+        ]));
+
+        return $response;
+    }
+
+    /**
+     * Function to perform DoVoid PayPal API operation.
+     *
+     * @param  string $authorization_id Transaction ID
+     * @param  array  $data             Optional request fields
+     * @return array
+     */
+    public function doVoid($authorization_id, $data = [])
+    {
+        $response = $this->doPayPalRequest('DoVoid', array_merge($data, [
+            'AUTHORIZATIONID' => $authorization_id
+        ]));
+
+        return $response;
+    }
+
     /**
      * Function to perform CreateBillingAgreement PayPal API operation.
      *
