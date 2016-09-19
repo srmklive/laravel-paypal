@@ -169,8 +169,15 @@ class AdaptivePayments
      */
     private function doPayPalRequest($method, $params)
     {
-        if (empty($this->config))
+        // Check configuration settings. Reset them if empty.
+        if (empty($this->config)) {
             self::setConfig();
+        }
+
+        // Throw exception if configuration is still not set.
+        if (empty($this->config)) {
+            throw new \Exception("PayPal api settings not found.");
+        }
 
         $post_url = $this->config['api_url'] . '/' . $method;
 

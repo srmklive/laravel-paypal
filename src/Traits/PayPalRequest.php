@@ -77,7 +77,7 @@ trait PayPalRequest
         }
 
         // Setting PayPal API Credentials
-        foreach ($credentials[$mode] as $key=>$value) {
+        foreach ($credentials[$mode] as $key => $value) {
             $this->config[$key] = $value;
         }
 
@@ -94,7 +94,7 @@ trait PayPalRequest
     /**
      * Set ExpressCheckout API endpoints & options.
      *
-     * @param  string  $credentials
+     * @param  array  $credentials
      * @param  string  $mode
      * @return void
      */
@@ -179,7 +179,7 @@ trait PayPalRequest
             'TRANSACTIONID' =>  $transaction
         ];
 
-        $response = $this->doPayPalRequest('RefundTransaction',$post);
+        $response = $this->doPayPalRequest('RefundTransaction', $post);
 
         return $response;
     }
@@ -207,8 +207,15 @@ trait PayPalRequest
      */
     private function doPayPalRequest($method, $params)
     {
-        if (empty($this->config))
+        // Check configuration settings. Reset them if empty.
+        if (empty($this->config)) {
             self::setConfig();
+        }
+
+        // Throw exception if configuration is still not set.
+        if (empty($this->config)) {
+            throw new \Exception("PayPal api settings not found.");
+        }
 
         // Setting API Credentials, Version & Method
         $post = [
