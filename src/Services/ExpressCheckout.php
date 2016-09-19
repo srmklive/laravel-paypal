@@ -1,6 +1,8 @@
-<?php namespace Srmklive\PayPal\Services;
+<?php
 
-use Srmklive\PayPal\Traits\PayPalRequest As PayPalAPIRequest;
+namespace Srmklive\PayPal\Services;
+
+use Srmklive\PayPal\Traits\PayPalRequest as PayPalAPIRequest;
 
 class ExpressCheckout
 {
@@ -8,19 +10,20 @@ class ExpressCheckout
     use PayPalAPIRequest;
 
     /**
-     * PayPal Processor Constructor
+     * PayPal Processor Constructor.
      */
     public function __construct()
     {
         // Setting PayPal API Credentials
-        $this->setConfig();        
+        $this->setConfig();
     }
 
     /**
      * Function to perform SetExpressCheckout PayPal API operation.
      *
-     * @param  array  $data
-     * @param  bool  $subscription
+     * @param array $data
+     * @param bool  $subscription
+     *
      * @return array
      */
     public function setExpressCheckout($data, $subscription = false)
@@ -30,12 +33,12 @@ class ExpressCheckout
 
         foreach ($data['items'] as $item) {
             $tmp = [
-                'L_PAYMENTREQUEST_0_NAME'.$num  =>  $item['name'],
-                'L_PAYMENTREQUEST_0_AMT'.$num   =>  $item['price'],
-                'L_PAYMENTREQUEST_0_QTY'.$num   =>  $item['qty'],
+                'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
+                'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
+                'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
             ];
 
-            foreach ($tmp as $k=>$v) {
+            foreach ($tmp as $k => $v) {
                 $post[$k] = $v;
             }
 
@@ -43,15 +46,15 @@ class ExpressCheckout
         }
 
         $tmp = [
-            'PAYMENTREQUEST_0_ITEMAMT'          =>  $data['total'],
-            'PAYMENTREQUEST_0_AMT'              =>  $data['total'],
-            'PAYMENTREQUEST_0_PAYMENTACTION'    =>  !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  $this->currency,
-            'PAYMENTREQUEST_0_DESC'             =>  $data['invoice_description'],
-            'PAYMENTREQUEST_0_INVNUM'           =>  $data['invoice_id'],
-            'NOSHIPPING'                        =>  1,
-            'RETURNURL'                         =>  $data['return_url'],
-            'CANCELURL'                         =>  $data['cancel_url'],
+            'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
+            'PAYMENTREQUEST_0_AMT'              => $data['total'],
+            'PAYMENTREQUEST_0_PAYMENTACTION'    => !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
+            'PAYMENTREQUEST_0_CURRENCYCODE'     => $this->currency,
+            'PAYMENTREQUEST_0_DESC'             => $data['invoice_description'],
+            'PAYMENTREQUEST_0_INVNUM'           => $data['invoice_id'],
+            'NOSHIPPING'                        => 1,
+            'RETURNURL'                         => $data['return_url'],
+            'CANCELURL'                         => $data['cancel_url'],
         ];
 
         if ($subscription) {
@@ -60,15 +63,15 @@ class ExpressCheckout
                 $data['subscription_desc'] : $data['invoice_description'];
         }
 
-        foreach ($tmp as $k=>$v) {
+        foreach ($tmp as $k => $v) {
             $post[$k] = $v;
         }
 
         $response = $this->doPayPalRequest('SetExpressCheckout', $post);
 
         if (!empty($response['TOKEN'])) {
-            $response['paypal_link'] = $this->config['gateway_url'] .
-                '/webscr?cmd=_express-checkout&token=' . $response['TOKEN'];
+            $response['paypal_link'] = $this->config['gateway_url'].
+                '/webscr?cmd=_express-checkout&token='.$response['TOKEN'];
         }
 
         return $response;
@@ -77,13 +80,14 @@ class ExpressCheckout
     /**
      * Function to perform GetExpressCheckoutDetails PayPal API operation.
      *
-     * @param  string  $token
+     * @param string $token
+     *
      * @return array
      */
     public function getExpressCheckoutDetails($token)
     {
         $post = [
-            'TOKEN' => $token
+            'TOKEN' => $token,
         ];
 
         $response = $this->doPayPalRequest('GetExpressCheckoutDetails', $post);
@@ -94,9 +98,10 @@ class ExpressCheckout
     /**
      * Function to perform DoExpressCheckoutPayment PayPal API operation.
      *
-     * @param  array  $data
-     * @param  string  $token
-     * @param  string  $payerid
+     * @param array  $data
+     * @param string $token
+     * @param string $payerid
+     *
      * @return array
      */
     public function doExpressCheckoutPayment($data, $token, $payerid)
@@ -106,12 +111,12 @@ class ExpressCheckout
 
         foreach ($data['items'] as $item) {
             $tmp = [
-                'L_PAYMENTREQUEST_0_NAME'.$num  =>  $item['name'],
-                'L_PAYMENTREQUEST_0_AMT'.$num   =>  $item['price'],
-                'L_PAYMENTREQUEST_0_QTY'.$num   =>  $item['qty'],
+                'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
+                'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
+                'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
             ];
 
-            foreach ($tmp as $k=>$v) {
+            foreach ($tmp as $k => $v) {
                 $post[$k] = $v;
             }
 
@@ -119,18 +124,18 @@ class ExpressCheckout
         }
 
         $tmp = [
-            'TOKEN'                             =>  $token,
-            'PAYERID'                           =>  $payerid,
-            'PAYMENTREQUEST_0_ITEMAMT'          =>  $data['total'],
-            'PAYMENTREQUEST_0_AMT'              =>  $data['total'],
-            'PAYMENTREQUEST_0_PAYMENTACTION'    =>  !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE'     =>  $this->currency,
-            'PAYMENTREQUEST_0_DESC'             =>  $data['invoice_description'],
-            'PAYMENTREQUEST_0_INVNUM'           =>  $data['invoice_id'],
-            'PAYMENTREQUEST_0_NOTIFYURL'        =>  config('paypal.notify_url')
+            'TOKEN'                             => $token,
+            'PAYERID'                           => $payerid,
+            'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
+            'PAYMENTREQUEST_0_AMT'              => $data['total'],
+            'PAYMENTREQUEST_0_PAYMENTACTION'    => !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
+            'PAYMENTREQUEST_0_CURRENCYCODE'     => $this->currency,
+            'PAYMENTREQUEST_0_DESC'             => $data['invoice_description'],
+            'PAYMENTREQUEST_0_INVNUM'           => $data['invoice_id'],
+            'PAYMENTREQUEST_0_NOTIFYURL'        => config('paypal.notify_url'),
         ];
 
-        foreach ($tmp as $k=>$v) {
+        foreach ($tmp as $k => $v) {
             $post[$k] = $v;
         }
 
@@ -138,14 +143,15 @@ class ExpressCheckout
 
         return $response;
     }
-    
+
     /**
      * Function to perform DoCapture PayPal API operation.
      *
-     * @param  string $authorization_id Transaction ID
-     * @param  float  $amount           Amount to capture
-     * @param  string $complete         Indicates whether or not this is the last capture.
-     * @param  array  $data             Optional request fields
+     * @param string $authorization_id Transaction ID
+     * @param float  $amount           Amount to capture
+     * @param string $complete         Indicates whether or not this is the last capture.
+     * @param array  $data             Optional request fields
+     *
      * @return array
      */
     public function doCapture($authorization_id, $amount, $complete = 'Complete', $data = [])
@@ -160,20 +166,20 @@ class ExpressCheckout
         return $response;
     }
 
-
     /**
      * Function to perform DoAuthorization PayPal API operation.
      *
-     * @param  string $authorization_id Transaction ID
-     * @param  float  $amount           Amount to capture
-     * @param  array  $data             Optional request fields
+     * @param string $authorization_id Transaction ID
+     * @param float  $amount           Amount to capture
+     * @param array  $data             Optional request fields
+     *
      * @return array
      */
     public function doAuthorization($authorization_id, $amount, $data = [])
     {
         $response = $this->doPayPalRequest('DoAuthorization', array_merge($data, [
             'AUTHORIZATIONID' => $authorization_id,
-            'AMT'             => $amount
+            'AMT'             => $amount,
         ]));
 
         return $response;
@@ -182,14 +188,15 @@ class ExpressCheckout
     /**
      * Function to perform DoVoid PayPal API operation.
      *
-     * @param  string $authorization_id Transaction ID
-     * @param  array  $data             Optional request fields
+     * @param string $authorization_id Transaction ID
+     * @param array  $data             Optional request fields
+     *
      * @return array
      */
     public function doVoid($authorization_id, $data = [])
     {
         $response = $this->doPayPalRequest('DoVoid', array_merge($data, [
-            'AUTHORIZATIONID' => $authorization_id
+            'AUTHORIZATIONID' => $authorization_id,
         ]));
 
         return $response;
@@ -198,13 +205,14 @@ class ExpressCheckout
     /**
      * Function to perform CreateBillingAgreement PayPal API operation.
      *
-     * @param  string  $token
+     * @param string $token
+     *
      * @return array
      */
     public function createBillingAgreement($token)
     {
         $post = [
-            'TOKEN' => $token
+            'TOKEN' => $token,
         ];
 
         $response = $this->doPayPalRequest('CreateBillingAgreement', $post);
@@ -215,14 +223,15 @@ class ExpressCheckout
     /**
      * Function to perform CreateRecurringPaymentsProfile PayPal API operation.
      *
-     * @param  array  $data
-     * @param  string  $token
+     * @param array  $data
+     * @param string $token
+     *
      * @return array
      */
     public function createRecurringPaymentsProfile($data, $token)
     {
         $post = [
-            'token' =>  $token
+            'token' => $token,
         ];
 
         foreach ($data as $key => $value) {
@@ -237,13 +246,14 @@ class ExpressCheckout
     /**
      * Function to perform GetRecurringPaymentsProfileDetails PayPal API operation.
      *
-     * @param  string  $id
+     * @param string $id
+     *
      * @return array
      */
     public function getRecurringPaymentsProfileDetails($id)
     {
         $post = [
-            'PROFILEID' => $id
+            'PROFILEID' => $id,
         ];
 
         $response = $this->doPayPalRequest('GetRecurringPaymentsProfileDetails', $post);
@@ -254,14 +264,15 @@ class ExpressCheckout
     /**
      * Function to perform UpdateRecurringPaymentsProfile PayPal API operation.
      *
-     * @param  array  $data
-     * @param  string  $id
+     * @param array  $data
+     * @param string $id
+     *
      * @return array
      */
     public function updateRecurringPaymentsProfile($data, $id)
     {
         $post = [
-            'PROFILEID' =>  $id
+            'PROFILEID' => $id,
         ];
 
         foreach ($data as $key => $value) {
@@ -276,14 +287,15 @@ class ExpressCheckout
     /**
      * Function to cancel RecurringPaymentsProfile on PayPal.
      *
-     * @param  string  $id
+     * @param string $id
+     *
      * @return array
      */
     public function cancelRecurringPaymentsProfile($id)
     {
         $post = [
-            'PROFILEID' =>  $id,
-            'ACTION'    =>  'Cancel'
+            'PROFILEID' => $id,
+            'ACTION'    => 'Cancel',
         ];
 
         $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
@@ -294,14 +306,15 @@ class ExpressCheckout
     /**
      * Function to suspend an active RecurringPaymentsProfile on PayPal.
      *
-     * @param  string  $id
+     * @param string $id
+     *
      * @return array
      */
     public function suspendRecurringPaymentsProfile($id)
     {
         $post = [
-            'PROFILEID' =>  $id,
-            'ACTION'    =>  'Suspend'
+            'PROFILEID' => $id,
+            'ACTION'    => 'Suspend',
         ];
 
         $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
@@ -312,19 +325,19 @@ class ExpressCheckout
     /**
      * Function to reactivate a suspended RecurringPaymentsProfile on PayPal.
      *
-     * @param  string  $id
+     * @param string $id
+     *
      * @return array
      */
     public function reactivateRecurringPaymentsProfile($id)
     {
         $post = [
-            'PROFILEID' =>  $id,
-            'ACTION'    =>  'Reactivate'
+            'PROFILEID' => $id,
+            'ACTION'    => 'Reactivate',
         ];
 
         $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
 
         return $response;
     }
-
 }

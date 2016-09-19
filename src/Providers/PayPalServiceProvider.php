@@ -1,6 +1,8 @@
-<?php namespace Srmklive\PayPal\Providers;
+<?php
 
-/**
+namespace Srmklive\PayPal\Providers;
+
+/*
  * Class PayPalServiceProvider
  * @package Srmklive\PayPal
  */
@@ -27,7 +29,7 @@ class PayPalServiceProvider extends ServiceProvider
     {
         // Publish config files
         $this->publishes([
-            __DIR__. '/../../config/config.php' => config_path('paypal.php'),
+            __DIR__.'/../../config/config.php' => config_path('paypal.php'),
         ]);
 
         // Publish Lang Files
@@ -54,11 +56,11 @@ class PayPalServiceProvider extends ServiceProvider
     private function registerPayPal()
     {
         $this->app->singleton('express_checkout', function () {
-            return new ExpressCheckout;
+            return new ExpressCheckout();
         });
 
         $this->app->singleton('adaptive_payments', function () {
-            return new AdaptivePayments;
+            return new AdaptivePayments();
         });
     }
 
@@ -70,7 +72,7 @@ class PayPalServiceProvider extends ServiceProvider
     private function mergeConfig()
     {
         $this->mergeConfigFrom(
-            __DIR__. '/../../config/config.php', 'paypal'
+            __DIR__.'/../../config/config.php', 'paypal'
         );
     }
 }
