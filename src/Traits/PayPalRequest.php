@@ -1,4 +1,6 @@
-<?php namespace Srmklive\PayPal\Traits;
+<?php
+
+namespace Srmklive\PayPal\Traits;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
@@ -7,24 +9,23 @@ use GuzzleHttp\Exception\ServerException;
 
 trait PayPalRequest
 {
-
     /**
      * @var Client
      */
     private $client;
 
     /**
-     * @var Array
+     * @var array
      */
     private $config;
 
     /**
-     * @var $string
+     * @var
      */
     private $currency;
 
     /**
-     * Function To Set PayPal API Configuration
+     * Function To Set PayPal API Configuration.
      *
      * @return void
      */
@@ -37,12 +38,12 @@ trait PayPalRequest
         if (function_exists('config')) {
             $this->setApiCredentials(
                 config('paypal')
-            );            
+            );
         }
     }
 
     /**
-     * Function to Guzzle Client class object
+     * Function to Guzzle Client class object.
      *
      * @return Client
      */
@@ -50,23 +51,24 @@ trait PayPalRequest
     {
         return new Client([
             'curl' => [
-                CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2
-            ]
+                CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2,
+            ],
         ]);
     }
 
     /**
      * Set PayPal API Credentials.
      *
-     * @param  array  $credentials
-     * @param  string  $mode
+     * @param array  $credentials
+     * @param string $mode
+     *
      * @return void
      */
     public function setApiCredentials($credentials, $mode = '')
     {
         // Setting Default PayPal Mode If not set
         if (empty($credentials['mode']) ||
-            (! in_array($credentials['mode'], ['sandbox', 'live']))
+            (!in_array($credentials['mode'], ['sandbox', 'live']))
         ) {
             $credentials['mode'] = 'live';
         }
@@ -94,8 +96,9 @@ trait PayPalRequest
     /**
      * Set ExpressCheckout API endpoints & options.
      *
-     * @param  array  $credentials
-     * @param  string  $mode
+     * @param array  $credentials
+     * @param string $mode
+     *
      * @return void
      */
     private function setExpressCheckoutOptions($credentials, $mode)
@@ -121,7 +124,8 @@ trait PayPalRequest
     /**
      * Set AdaptivePayments API endpoints & options.
      *
-     * @param  string  $mode
+     * @param string $mode
+     *
      * @return void
      */
     private function setAdaptivePaymentsOptions($mode)
@@ -138,16 +142,18 @@ trait PayPalRequest
     /**
      * Function to set currency.
      *
-     * @param  string  $currency
-     * @return string
+     * @param string $currency
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function setCurrency($currency = 'USD')
     {
         $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD'];
 
         // Check if provided currency is valid.
-        if (! in_array($currency, $allowedCurrencies)) {
+        if (!in_array($currency, $allowedCurrencies)) {
             throw new \Exception('Currency is not supported by PayPal.');
         }
 
@@ -157,7 +163,8 @@ trait PayPalRequest
     /**
      * Retrieve PayPal IPN Response.
      *
-     * @param  array  $post
+     * @param array $post
+     *
      * @return array
      */
     public function verifyIPN($post)
@@ -168,15 +175,16 @@ trait PayPalRequest
     }
 
     /**
-     * Refund PayPal Transaction
+     * Refund PayPal Transaction.
      *
-     * @param  string  $transaction
+     * @param string $transaction
+     *
      * @return array
      */
     public function refundTransaction($transaction)
     {
         $post = [
-            'TRANSACTIONID' =>  $transaction
+            'TRANSACTIONID' => $transaction,
         ];
 
         $response = $this->doPayPalRequest('RefundTransaction', $post);
@@ -187,7 +195,8 @@ trait PayPalRequest
     /**
      * Search Transactions On PayPal.
      *
-     * @param  array  $post
+     * @param array $post
+     *
      * @return array
      */
     public function searchTransactions($post)
@@ -200,10 +209,12 @@ trait PayPalRequest
     /**
      * Function To Perform PayPal API Request.
      *
-     * @param  string  $method
-     * @param  array  $params
-     * @return array|\Psr\Http\Message\StreamInterface
+     * @param string $method
+     * @param array  $params
+     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     private function doPayPalRequest($method, $params)
     {
@@ -214,7 +225,7 @@ trait PayPalRequest
 
         // Throw exception if configuration is still not set.
         if (empty($this->config)) {
-            throw new \Exception("PayPal api settings not found.");
+            throw new \Exception('PayPal api settings not found.');
         }
 
         // Setting API Credentials, Version & Method
@@ -235,47 +246,47 @@ trait PayPalRequest
             $post_url = $this->config['api_url'];
         }
 
-        foreach ($params as $key=>$value) {
+        foreach ($params as $key => $value) {
             $post[$key] = $value;
         }
 
         try {
             $request = $this->client->post($post_url, [
-                'form_params' => $post
+                'form_params' => $post,
             ]);
 
             $response = $request->getBody(true);
             $response = $this->retrieveData($response);
 
             return $response;
-
         } catch (ClientException $e) {
-            throw new \Exception($e->getRequest() . " " . $e->getResponse());
+            throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (ServerException $e) {
-            throw new \Exception($e->getRequest() . " " . $e->getResponse());
+            throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (BadResponseException $e) {
-            throw new \Exception($e->getRequest() . " " . $e->getResponse());
+            throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
 
         return [
             'type'      => 'error',
-            'message'   => $message
+            'message'   => $message,
         ];
     }
 
     /**
      * Parse PayPal NVP Response.
      *
-     * @param  string  $string
+     * @param string $string
+     *
      * @return array
      */
     private function retrieveData($string)
     {
-        $response = array();
+        $response = [];
         parse_str($string, $response);
+
         return $response;
     }
-
 }

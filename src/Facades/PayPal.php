@@ -1,6 +1,8 @@
-<?php namespace Srmklive\PayPal\Facades;
+<?php
 
-/**
+namespace Srmklive\PayPal\Facades;
+
+/*
  * Class Facade
  * @package Srmklive\PayPal\Facades
  * @see Srmklive\PayPal\ExpressCheckout
