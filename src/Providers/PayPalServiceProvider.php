@@ -72,7 +72,8 @@ class PayPalServiceProvider extends ServiceProvider
     private function mergeConfig()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/config.php', 'paypal'
+            __DIR__.'/../../config/config.php',
+            'paypal'
         );
     }
 }

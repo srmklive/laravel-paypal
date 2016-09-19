@@ -1,7 +1,6 @@
 <?php
 
 if (!function_exists('express_checkout')) {
-
     /**
      * Global helper function for Express Checkout class.
      *
@@ -14,7 +13,6 @@ if (!function_exists('express_checkout')) {
 }
 
 if (!function_exists('adaptive_payments')) {
-
     /**
      * Global helper function for Adaptive Payments class.
      *
