@@ -83,7 +83,7 @@ trait PayPalRequest
             $this->config[$key] = $value;
         }
 
-        if ($this instanceof AdaptivePayments) {
+        if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments) {
             $this->setAdaptivePaymentsOptions($mode);
         } else {
             $this->setExpressCheckoutOptions($credentials, $mode);
