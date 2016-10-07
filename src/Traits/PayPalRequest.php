@@ -119,6 +119,7 @@ trait PayPalRequest
         // Adding params outside sandbox / live array
         $this->config['payment_action'] = $credentials['payment_action'];
         $this->config['notify_url'] = $credentials['notify_url'];
+        $this->config['locale'] = $credentials['locale'];
     }
 
     /**
