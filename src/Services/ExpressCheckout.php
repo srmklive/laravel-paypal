@@ -63,6 +63,10 @@ class ExpressCheckout
                 $data['subscription_desc'] : $data['invoice_description'];
         }
 
+        if (!empty($this->config['locale'])) {
+            $post['LOCALECODE'] = $this->config['locale'];
+        }
+
         foreach ($tmp as $k => $v) {
             $post[$k] = $v;
         }
