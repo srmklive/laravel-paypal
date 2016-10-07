@@ -66,7 +66,7 @@ class ExpressCheckout
         if (!empty($this->config['locale'])) {
             $post['LOCALECODE'] = $this->config['locale'];
         }
-        
+
         foreach ($tmp as $k => $v) {
             $post[$k] = $v;
         }
