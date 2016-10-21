@@ -47,7 +47,7 @@ composer require srmklive/paypal
 ```php
 'Srmklive\PayPal\Providers\PayPalServiceProvider' // Laravel 5
 ```
-```
+```php
 Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 ```
 
