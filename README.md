@@ -44,7 +44,7 @@ composer require srmklive/paypal
 
 * Add the service provider to your $providers array in config/app.php file like: 
 
-```
+```php
 'Srmklive\PayPal\Providers\PayPalServiceProvider' // Laravel 5
 ```
 ```
@@ -53,10 +53,10 @@ Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 
 * Add the alias to your $aliases array in config/app.php file like: 
 
-```
+```php
 'PayPal' => 'Srmklive\PayPal\Facades\PayPal' // Laravel 5
 ```
-```
+```php
 'PayPal' => Srmklive\PayPal\Facades\PayPal::class // Laravel 5.1 or greater
 ```
 
@@ -71,7 +71,7 @@ php artisan vendor:publish
 
 * After installation, you will need to add your paypal settings. Following is the code you will find in **config/paypal.php**, which you should update accordingly.
 
-```
+```php
 return [
     'mode' => 'sandbox',        // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
     'sandbox' => [
@@ -97,7 +97,7 @@ return [
 
 Following are some ways through which you can access the paypal provider:
 
-```
+```php
 // Import the class namespaces first, before using it directly
 use Srmklive\PayPal\Services\ExpressCheckout;
 use Srmklive\PayPal\Services\AdaptivePayments;
@@ -120,7 +120,7 @@ $provider = adaptive_payments();     // To use adaptive payments.
 
 By default the currency used is `USD`. If you wish to change it, you may call `setCurrency` method to set a different currency before calling any respective API methods:
 
-```
+```php
 $provider->setCurrency('EUR')->setExpressCheckout($data);
 ```
 
@@ -128,7 +128,7 @@ $provider->setCurrency('EUR')->setExpressCheckout($data);
 <a name="usage-express-checkout"></a>
 #### Express Checkout
 
-```
+```php
 $data = [];
 $data['items'] = [
     [
@@ -159,7 +159,7 @@ $data['total'] = $total;
 <a name="usage-ec-setexpresscheckout"></a>
 * **SetExpressCheckout**
 
-    ```
+    ```php
     $response = $provider->setExpressCheckout($data);
     
     // Use the following line when creating recurring payment profiles (subscriptions)
@@ -172,14 +172,14 @@ $data['total'] = $total;
 <a name="usage-ec-getexpresscheckoutdetails"></a>
 * **GetExpressCheckoutDetails**
 
-    ```
+    ```php
     $response = $provider->getExpressCheckoutDetails($token);
     ```
     
 <a name="usage-ec-doexpresscheckoutpayment"></a>
 * **DoExpressCheckoutPayment** 
 
-    ```
+    ```php
     // Note that 'token', 'PayerID' are values returned by PayPal when it redirects to success page after successful verification of user's PayPal info.
     $response = $provider->doExpressCheckoutPayment($data, $token, $PayerID);
     ```
@@ -187,14 +187,14 @@ $data['total'] = $total;
 <a name="usage-ec-refundtransaction"></a>
 * **RefundTransaction**
 
-    ```
+    ```php
     $response = $provider->refundTransaction($transactionid);
     ```
 
 <a name="usage-ec-createbillingagreement"></a>    
 * **CreateBillingAgreement**
 
-    ```
+    ```php
     // The $token is the value returned from SetExpressCheckout API call
     $response = $provider->createBillingAgreement($token);
     ```    
@@ -202,7 +202,7 @@ $data['total'] = $total;
 <a name="usage-ec-createrecurringprofile"></a>
 * **CreateRecurringPaymentsProfile**
 
-    ```
+    ```php
     // The $token is the value returned from SetExpressCheckout API call
     $startdate = Carbon::now()->toAtomString();
     $profile_desc = !empty($data['subscription_desc']) ?
@@ -225,21 +225,21 @@ $data['total'] = $total;
 <a name="usage-ec-getrecurringprofiledetails"></a>
 * **GetRecurringPaymentsProfileDetails**
 
-    ```
+    ```php
     $response = $provider->getRecurringPaymentsProfileDetails($profileid);
     ```    
 
 <a name="usage-ec-updaterecurringprofile"></a>
 * **UpdateRecurringPaymentsProfile**
 
-    ```
+    ```php
     $response = $provider->updateRecurringPaymentsProfile($data, $profileid);
     ```    
 
 <a name="usage-ec-managerecurringprofile"></a>
 * **ManageRecurringPaymentsProfileStatus**
 
-    ```
+    ```php
     // Cancel recurring payment profile
     $response = $provider->cancelRecurringPaymentsProfile($profileid);
     
@@ -255,14 +255,14 @@ $data['total'] = $total;
 
 To use adaptive payments, you must set the provider to use Adaptive Payments:
 
-```
+```php
 PayPal::setProvider('adaptive_payments');
 ```
 
 <a name="usage-adaptive-pay"></a>
 * **Pay**
 
-```
+```php
 
 // Change the values accordingly for your application
 $data = [
@@ -292,7 +292,7 @@ $response = $provider->createPayRequest($data);
 
 Next, you need to redirect the user to PayPal to authorize the payment
 
-```
+```php
 $redirect_url = $provider->getRedirectUrl('approved', $response['payKey']);
 
 return redirect($redirect_url);
@@ -305,13 +305,13 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
 
 * First add the **ipn/notify** tp your routes file:
 
-    ```
+    ```php
     Route::post('ipn/notify','PayPalController@postNotify'); // Change it accordingly in your application
     ```
           
 * Open **App\Http\Middleware\VerifyCsrfToken.php** and add your IPN route to **$excluded** routes variable.
 
-    ```
+    ```php
     'ipn/notify'
     ```
 
@@ -327,7 +327,7 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
     
 * The above step saves the PayPal IPN response as **ipn** in session. Following is the code you can change to your own requirements for handling IPN:    
     
-    ```
+    ```php
     /**
      * Retrieve IPN Response From PayPal
      *
