@@ -196,7 +196,7 @@ class AdaptivePayments
         }
 
         // Merge $options array if set.
-        if(!empty($this->options)) {
+        if (!empty($this->options)) {
             $post = array_merge($post, $this->options);
         }
 
