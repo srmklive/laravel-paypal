@@ -20,9 +20,14 @@ trait PayPalRequest
     private $config;
 
     /**
-     * @var
+     * @var string
      */
     private $currency;
+
+    /**
+     * @var array
+     */
+    private $options;
 
     /**
      * Function To Set PayPal API Configuration.
@@ -91,6 +96,16 @@ trait PayPalRequest
 
         // Set default currency.
         $this->setCurrency($credentials['currency']);
+    }
+
+    /**
+     * Set other/override PayPal API parameters.
+     *
+     * @param array $options
+     */
+    public function addOptions(array $options)
+    {
+        $this->options = $options;
     }
 
     /**
@@ -249,6 +264,11 @@ trait PayPalRequest
 
         foreach ($params as $key => $value) {
             $post[$key] = $value;
+        }
+
+        // Merge $options array if set.
+        if(!empty($this->options)) {
+            $post = array_merge($post, $this->options);
         }
 
         try {

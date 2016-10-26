@@ -195,6 +195,11 @@ class AdaptivePayments
             $post[$key] = $value;
         }
 
+        // Merge $options array if set.
+        if(!empty($this->options)) {
+            $post = array_merge($post, $this->options);
+        }
+
         try {
             $request = $this->client->post($post_url, [
                 'json'    => $post,
