@@ -9,7 +9,8 @@
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-  - [Set Currency] (#usage-currency)  
+  - [Set Currency] (#usage-currency)
+  - [Additional PayPal API Parameters] (#usage-paypal-params)
   - [Express Checkout] (#usage-express-checkout)
     - [SetExpressCheckout] (#usage-ec-setexpresscheckout)
     - [GetExpressCheckoutDetails] (#usage-ec-getexpresscheckoutdetails)
@@ -124,6 +125,21 @@ By default the currency used is `USD`. If you wish to change it, you may call `s
 $provider->setCurrency('EUR')->setExpressCheckout($data);
 ```
 
+
+<a name="usage-paypal-params"></a>
+## Additional PayPal API Parameters
+
+By default the API operations implementation utilize only a specific set of parameters. However, if you wish specify any other additional parameters you may call the `addOptions` method before calling any respective API methods:
+
+```php
+$options = [
+    'BRANDNAME' => 'MyBrand',
+    'LOGOIMG' => 'https://example.com/mylogo.png',
+    'CHANNELTYPE' => 'Merchant'
+];
+
+$provider->addOptions($options)->setExpressCheckout($data);
+```
 
 <a name="usage-express-checkout"></a>
 #### Express Checkout
