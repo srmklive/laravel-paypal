@@ -115,8 +115,8 @@ class AdaptivePayments
             foreach ($receiver['invoice_data'] as $invoice) {
                 $tmp['invoiceData']['item'][] = $invoice;
             }
-            
-            if(isset($receiver['description'])){
+
+            if (isset($receiver['description'])) {
                 $tmp['description'] = $receiver['description'];
             }
 
