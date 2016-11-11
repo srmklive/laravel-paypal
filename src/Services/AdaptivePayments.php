@@ -116,6 +116,10 @@ class AdaptivePayments
                 $tmp['invoiceData']['item'][] = $invoice;
             }
 
+            if (isset($receiver['description'])) {
+                $tmp['description'] = $receiver['description'];
+            }
+
             $receiverOptions[] = $tmp;
             unset($tmp);
         }
