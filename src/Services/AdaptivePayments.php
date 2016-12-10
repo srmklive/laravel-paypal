@@ -27,7 +27,7 @@ class AdaptivePayments
         $headers = [
             'X-PAYPAL-SECURITY-USERID'      => $this->config['username'],
             'X-PAYPAL-SECURITY-PASSWORD'    => $this->config['password'],
-            'X-PAYPAL-SECURITY-SIGNATURE'   => $this->config['secret'],
+            'X-PAYPAL-SECURITY-SIGNATURE'   => $this->config['signature'],
             'X-PAYPAL-REQUEST-DATA-FORMAT'  => 'JSON',
             'X-PAYPAL-RESPONSE-DATA-FORMAT' => 'JSON',
             'X-PAYPAL-APPLICATION-ID'       => $this->config['app_id'],

@@ -88,6 +88,13 @@ trait PayPalRequest
             $this->config[$key] = $value;
         }
 
+        // Setup PayPal API Signature value to use.
+        if (!empty($this->config['secret'])) {
+            $this->config['signature'] = $this->config['secret'];
+        } else {
+            $this->config['signature'] = file_get_contents($this->config['certificate']);
+        }
+
         if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments) {
             $this->setAdaptivePaymentsOptions($mode);
         } else {
@@ -248,7 +255,7 @@ trait PayPalRequest
         $post = [
             'USER'      => $this->config['username'],
             'PWD'       => $this->config['password'],
-            'SIGNATURE' => $this->config['secret'],
+            'SIGNATURE' => $this->config['signature'],
             'VERSION'   => 123,
             'METHOD'    => $method,
         ];
