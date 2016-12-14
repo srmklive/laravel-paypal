@@ -16,7 +16,6 @@ trait IPNResponse
     public function postNotify(Request $request)
     {
         $post = $request->merge(['cmd' => '_notify-validate']);
-     
         $response = $this->verifyIPN($post);
 
         session([
