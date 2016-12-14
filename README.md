@@ -351,13 +351,8 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
      */
     public function postNotify(Request $request)
     {
-        $post = [];
-        $request_params = $request->all();
-
-        foreach ($request_params as $key=>$value)
-            $post[$key] = $value;
-
-        $post['cmd'] = '_notify-validate';
+        $request->merge(['cmd' => '_notify-validate']);
+        $post = $request->all();
 
         $response = $this->verifyIPN($post);
 
