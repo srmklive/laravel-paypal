@@ -166,7 +166,7 @@ $data['cancel_url'] = url('/cart');
 
 $total = 0;
 foreach($data['items'] as $item) {
-    $total += $item['price'];
+    $total += $item['price']*$item['qty'];
 }
 
 $data['total'] = $total;
