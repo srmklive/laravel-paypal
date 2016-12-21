@@ -129,7 +129,7 @@ $provider->setCurrency('EUR')->setExpressCheckout($data);
 <a name="usage-paypal-params"></a>
 ## Additional PayPal API Parameters
 
-By default the API operations implementation utilize only a specific set of parameters. However, if you wish specify any other additional parameters you may call the `addOptions` method before calling any respective API methods:
+By default the current implementation of specific PayPal API calls utilizes only a specific set of parameters. However, if you wish specify any other additional parameters you may call the `addOptions` method before calling any respective API methods:
 
 ```php
 $options = [
