@@ -151,6 +151,25 @@ class AdaptivePayments
     }
 
     /**
+     * Function to perform Adaptive Payments API's PaymentDetails operation.
+     *
+     * @param string $payKey
+     *
+     * @return array
+     */
+    public function getPaymentDetails($payKey)
+    {
+        $post = [
+            'requestEnvelope' => $this->setEnvelope(),
+            'payKey'          => $payKey,
+        ];
+
+        $response = $this->doPayPalRequest('PaymentDetails', $post);
+
+        return $response;
+    }
+
+    /**
      * Get PayPal redirect url for processing payment.
      *
      * @param string $option
