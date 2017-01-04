@@ -306,14 +306,19 @@ trait PayPalRequest
     /**
      * Parse PayPal NVP Response.
      *
-     * @param string $string
+     * @param string|\GuzzleHttp\Psr7\Request $request
      *
      * @return array
      */
-    private function retrieveData($string)
+    private function retrieveData($request)
     {
         $response = [];
-        parse_str($string, $response);
+
+        if ($request instanceof \GuzzleHttp\Psr7\Request) {
+            $request = \GuzzleHttp\Psr7\Str($request);
+        }
+
+        parse_str($request, $response);
 
         return $response;
     }
