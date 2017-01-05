@@ -12,6 +12,7 @@ trait IPNResponse
      * Retrieve IPN Response From PayPal.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     protected function parsePayPalIPN(Request $request)
