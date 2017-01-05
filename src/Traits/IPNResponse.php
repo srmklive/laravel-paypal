@@ -12,15 +12,13 @@ trait IPNResponse
      * Retrieve IPN Response From PayPal.
      *
      * @param \Illuminate\Http\Request $request
+     * @return array
      */
-    public function postNotify(Request $request)
+    protected function parsePayPalIPN(Request $request)
     {
         $request->merge(['cmd' => '_notify-validate']);
         $post = $request->all();
-        $response = $this->verifyIPN($post);
 
-        session([
-            'ipn' => $response,
-        ]);
+        return $this->verifyIPN($post);
     }
 }
