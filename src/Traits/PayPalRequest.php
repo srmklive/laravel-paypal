@@ -284,9 +284,8 @@ trait PayPalRequest
             ]);
 
             $response = $request->getBody(true);
-            $response = $this->retrieveData($response);
 
-            return $response;
+            return ($method == 'verifyipn') ? $response : $this->retrieveData($response);
         } catch (ClientException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (ServerException $e) {
@@ -306,18 +305,13 @@ trait PayPalRequest
     /**
      * Parse PayPal NVP Response.
      *
-     * @param string|\GuzzleHttp\Psr7\Request $request
+     * @param string $request
+     * @param array  $response
      *
      * @return array
      */
-    private function retrieveData($request)
+    private function retrieveData($request, array $response = null)
     {
-        $response = [];
-
-        if ($request instanceof \GuzzleHttp\Psr7\Request) {
-            $request = \GuzzleHttp\Psr7\Str($request);
-        }
-
         parse_str($request, $response);
 
         return $response;

@@ -331,7 +331,7 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
     'ipn/notify'
     ```
 
-* Then in the controller where you are handling IPN, do the following:
+* Then in the controller where you are handling IPN, write the following:
 
     ```
     // Put this above controller definition
@@ -341,7 +341,7 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
     use PayPalIPN;
     ```
     
-* The above step saves the PayPal IPN response as **ipn** in session. Following is the code you can change to your own requirements for handling IPN:    
+* Write the following code in the function where you will parse IPN response:    
     
     ```php
     /**
@@ -353,7 +353,9 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
     {
         $response = $this->parsePayPalIPN($request);
         
-        // Parse IPN response accordingly to your requirements.                      
+        if ($response === 'VERIFIED') {                      
+            // Your code goes here ...
+        }                            
     }        
     ```
             

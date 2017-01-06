@@ -230,9 +230,8 @@ class AdaptivePayments
             ]);
 
             $response = $request->getBody(true);
-            $response = \GuzzleHttp\json_decode($response, true);
 
-            return $response;
+            return \GuzzleHttp\json_decode($response, true);
         } catch (ClientException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (ServerException $e) {
