@@ -64,7 +64,7 @@ Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 * Run the following command to publish configuration:
 
 ```
-php artisan vendor:publish
+php artisan vendor:publish --provider "Srmklive\PayPal\Providers\PayPalServiceProvider"
 ```
 
 <a name="configuration"></a>
