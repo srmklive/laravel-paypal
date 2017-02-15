@@ -43,7 +43,7 @@ Laravel plugin For Processing Payments Through Paypal. Using this plugin you can
 composer require srmklive/paypal:~1.0
 ```
 
-* Add the service provider to your $providers array in config/app.php file like: 
+* Add the service provider to your `$providers` array in `config/app.php` file like: 
 
 ```php
 'Srmklive\PayPal\Providers\PayPalServiceProvider' // Laravel 5
@@ -52,7 +52,7 @@ composer require srmklive/paypal:~1.0
 Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 ```
 
-* Add the alias to your $aliases array in config/app.php file like: 
+* Add the alias to your `$aliases` array in `config/app.php` file like: 
 
 ```php
 'PayPal' => 'Srmklive\PayPal\Facades\PayPal' // Laravel 5
@@ -319,13 +319,13 @@ return redirect($redirect_url);
 You can also handle Instant Payment Notifications from PayPal.
 Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To handle IPN you should do the following:
 
-* First add the **ipn/notify** tp your routes file:
+* First add the `ipn/notify` tp your routes file:
 
     ```php
     Route::post('ipn/notify','PayPalController@postNotify'); // Change it accordingly in your application
     ```
           
-* Open **App\Http\Middleware\VerifyCsrfToken.php** and add your IPN route to **$excluded** routes variable.
+* Open `App\Http\Middleware\VerifyCsrfToken.php` and add your IPN route to `$excluded` routes variable.
 
     ```php
     'ipn/notify'
