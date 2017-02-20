@@ -39,7 +39,7 @@ Laravel plugin For Processing Payments Through Paypal. Using this plugin you can
 
 * Use following command to install:
 
-```
+```bash
 composer require srmklive/paypal:~1.0
 ```
 
@@ -63,7 +63,7 @@ Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
 
 * Run the following command to publish configuration:
 
-```
+```bash
 php artisan vendor:publish --provider "Srmklive\PayPal\Providers\PayPalServiceProvider"
 ```
 
