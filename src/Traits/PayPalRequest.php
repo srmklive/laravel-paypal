@@ -113,7 +113,7 @@ trait PayPalRequest
     public function addOptions(array $options)
     {
         $this->options = $options;
-        
+
         return $this;
     }
 
