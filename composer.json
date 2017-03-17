@@ -19,8 +19,14 @@
       "src/functions.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Srmklive\\PayPal\\Tests\\": "tests/"
+    }
+  },
   "require": {
-    "guzzlehttp/guzzle": "~5.0|~6.0"
+    "guzzlehttp/guzzle": "~5.0|~6.0",
+    "phpunit/phpunit": "~5.0"
   },
   "config": {
       "preferred-install": "dist"
