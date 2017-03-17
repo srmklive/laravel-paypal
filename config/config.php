@@ -21,7 +21,7 @@ return [
         'app_id'      => '',         // Used for Adaptive Payments API
     ],
 
-    'payment_action' => 'Sale', // Can Only Be 'Sale', 'Authorization', 'Order'
+    'payment_action' => 'Sale', // Can only be 'Sale', 'Authorization' or 'Order'
     'currency'       => 'USD',
     'notify_url'     => '', // Change this accordingly for your application.
     'locale'         => '', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)

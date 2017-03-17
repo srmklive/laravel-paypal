@@ -109,6 +109,7 @@ trait PayPalRequest
      * Set other/override PayPal API parameters.
      *
      * @param array $options
+     * @return $this
      */
     public function addOptions(array $options)
     {
