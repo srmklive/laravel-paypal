@@ -28,13 +28,13 @@ class ExpressCheckout
      */
     public function setExpressCheckout($data, $subscription = false)
     {
-        $this->post = collect($data['items'])->map(function($item, $num) {
+        $this->post = collect($data['items'])->map(function ($item, $num) {
             return [
                 'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
                 'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
                 'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
             ];
-        })->flatMap(function($value) {
+        })->flatMap(function ($value) {
             return $value;
         })->merge([
             'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
@@ -94,13 +94,13 @@ class ExpressCheckout
      */
     public function doExpressCheckoutPayment($data, $token, $payerid)
     {
-        $this->post = collect($data['items'])->map(function($item, $num) {
+        $this->post = collect($data['items'])->map(function ($item, $num) {
             return [
                 'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
                 'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
                 'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
             ];
-        })->flatMap(function($value) {
+        })->flatMap(function ($value) {
             return $value;
         })->merge([
             'TOKEN'                             => $token,

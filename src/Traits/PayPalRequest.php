@@ -288,7 +288,7 @@ trait PayPalRequest
 
         // Checking Whether The Request Is PayPal IPN Response
         if ($method == 'verifyipn') {
-            $this->post = $this->post->filter(function($value, $key) {
+            $this->post = $this->post->filter(function ($value, $key) {
                 if ($key !== 'METHOD') {
                     return $value;
                 }

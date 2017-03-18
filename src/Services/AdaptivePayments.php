@@ -135,7 +135,7 @@ class AdaptivePayments
      * Function to perform Adaptive Payments API's GetPaymentOptions operation.
      *
      * @param string $payKey
-     * @param bool $details
+     * @param bool   $details
      *
      * @return array
      */
