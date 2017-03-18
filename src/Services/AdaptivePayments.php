@@ -135,19 +135,18 @@ class AdaptivePayments
      * Function to perform Adaptive Payments API's GetPaymentOptions operation.
      *
      * @param string $payKey
+     * @param bool $details
      *
      * @return array
      */
-    public function getPaymentOptions($payKey)
+    public function getPaymentOptions($payKey, $details = false)
     {
-        $post = [
+        $operation = ($details) ? 'PaymentDetails' : 'GetPaymentOptions';
+
+        return $this->doPayPalRequest($operation, [
             'requestEnvelope' => $this->setEnvelope(),
             'payKey'          => $payKey,
-        ];
-
-        $response = $this->doPayPalRequest('GetPaymentOptions', $post);
-
-        return $response;
+        ]);
     }
 
     /**
@@ -159,14 +158,7 @@ class AdaptivePayments
      */
     public function getPaymentDetails($payKey)
     {
-        $post = [
-            'requestEnvelope' => $this->setEnvelope(),
-            'payKey'          => $payKey,
-        ];
-
-        $response = $this->doPayPalRequest('PaymentDetails', $post);
-
-        return $response;
+        return $this->getPaymentOptions($payKey, 'PaymentDetails');
     }
 
     /**
@@ -232,11 +224,11 @@ class AdaptivePayments
             $response = $request->getBody(true);
 
             return \GuzzleHttp\json_decode($response, true);
-        } catch (ClientException $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (ServerException $e) {
+        } catch (\GuzzleHttp\Exception\ServerException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (BadResponseException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (\Exception $e) {
             $message = $e->getMessage();
