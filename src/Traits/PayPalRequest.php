@@ -2,17 +2,23 @@
 
 namespace Srmklive\PayPal\Traits;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\BadResponseException as HttpBadResponseException;
+use GuzzleHttp\Exception\ClientException as HttpClientException;
+use GuzzleHttp\Exception\ServerException as HttpServerException;
+use Illuminate\Support\Collection;
 
 trait PayPalRequest
 {
     /**
-     * @var Client
+     * @var HttpClient
      */
     private $client;
+
+    /**
+     * @var \Illuminate\Support\Collection
+     */
+    protected $post;
 
     /**
      * @var array
@@ -30,6 +36,21 @@ trait PayPalRequest
     private $options;
 
     /**
+     * @var string
+     */
+    private $paymentAction;
+
+    /**
+     * @var string
+     */
+    private $locale;
+
+    /**
+     * @var string
+     */
+    private $notifyUrl;
+
+    /**
      * Function To Set PayPal API Configuration.
      *
      * @return void
@@ -45,16 +66,18 @@ trait PayPalRequest
                 config('paypal')
             );
         }
+
+        $this->setRequestData();
     }
 
     /**
-     * Function to Guzzle Client class object.
+     * Function to initialize Http Client.
      *
-     * @return Client
+     * @return HttpClient
      */
     protected function setClient()
     {
-        return new Client([
+        return new HttpClient([
             'curl' => [
                 CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2,
             ],
@@ -103,6 +126,35 @@ trait PayPalRequest
 
         // Set default currency.
         $this->setCurrency($credentials['currency']);
+
+        // Set default payment action.
+        $this->paymentAction = !empty($this->config['payment_action']) ?
+            $this->config['payment_action'] : 'Sale';
+
+        // Set default locale.
+        $this->locale = !empty($this->config['locale']) ?
+            $this->config['locale'] : 'en_US';
+
+        // Set PayPal IPN Notification URL
+        $this->notifyUrl = $credentials['notify_url'];
+    }
+
+    /**
+     * Setup request data to be sent to PayPal.
+     *
+     * @param array $data
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function setRequestData(array $data = [])
+    {
+        if (($this->post instanceof Collection) && ($this->post->isNotEmpty())) {
+            unset($this->post);
+        }
+
+        $this->post = new Collection($data);
+
+        return $this->post;
     }
 
     /**
@@ -120,60 +172,13 @@ trait PayPalRequest
     }
 
     /**
-     * Set ExpressCheckout API endpoints & options.
-     *
-     * @param array  $credentials
-     * @param string $mode
-     *
-     * @return void
-     */
-    private function setExpressCheckoutOptions($credentials, $mode)
-    {
-        // Setting API Endpoints
-        if ($mode == 'sandbox') {
-            $this->config['api_url'] = !empty($this->config['secret']) ?
-                'https://api-3t.sandbox.paypal.com/nvp' : 'https://api.sandbox.paypal.com/nvp';
-
-            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com';
-        } else {
-            $this->config['api_url'] = !empty($this->config['secret']) ?
-                'https://api-3t.paypal.com/nvp' : 'https://api.paypal.com/nvp';
-
-            $this->config['gateway_url'] = 'https://www.paypal.com';
-        }
-
-        // Adding params outside sandbox / live array
-        $this->config['payment_action'] = $credentials['payment_action'];
-        $this->config['notify_url'] = $credentials['notify_url'];
-        $this->config['locale'] = $credentials['locale'];
-    }
-
-    /**
-     * Set AdaptivePayments API endpoints & options.
-     *
-     * @param string $mode
-     *
-     * @return void
-     */
-    private function setAdaptivePaymentsOptions($mode)
-    {
-        if ($mode == 'sandbox') {
-            $this->config['api_url'] = 'https://svcs.sandbox.paypal.com/AdaptivePayments';
-            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-        } else {
-            $this->config['api_url'] = 'https://svcs.paypal.com/AdaptivePayments';
-            $this->config['gateway_url'] = 'https://www.paypal.com/cgi-bin/webscr';
-        }
-    }
-
-    /**
      * Function to set currency.
      *
      * @param string $currency
      *
      * @throws \Exception
      *
-     * @return string
+     * @return $this
      */
     public function setCurrency($currency = 'USD')
     {
@@ -185,6 +190,8 @@ trait PayPalRequest
         }
 
         $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -196,9 +203,9 @@ trait PayPalRequest
      */
     public function verifyIPN($post)
     {
-        $response = $this->doPayPalRequest('verifyipn', $post);
+        $this->setRequestData($post);
 
-        return $response;
+        return $this->doPayPalRequest('verifyipn');
     }
 
     /**
@@ -210,13 +217,11 @@ trait PayPalRequest
      */
     public function refundTransaction($transaction)
     {
-        $post = [
+        $this->setRequestData([
             'TRANSACTIONID' => $transaction,
-        ];
+        ]);
 
-        $response = $this->doPayPalRequest('RefundTransaction', $post);
-
-        return $response;
+        return $this->doPayPalRequest('RefundTransaction');
     }
 
     /**
@@ -228,22 +233,21 @@ trait PayPalRequest
      */
     public function searchTransactions($post)
     {
-        $response = $this->doPayPalRequest('TransactionSearch', $post);
+        $this->setRequestData($post);
 
-        return $response;
+        return $this->doPayPalRequest('TransactionSearch');
     }
 
     /**
      * Function To Perform PayPal API Request.
      *
      * @param string $method
-     * @param array  $params
      *
      * @throws \Exception
      *
      * @return array|\Psr\Http\Message\StreamInterface
      */
-    private function doPayPalRequest($method, $params)
+    private function doPayPalRequest($method)
     {
         // Check configuration settings. Reset them if empty.
         if (empty($this->config)) {
@@ -256,45 +260,45 @@ trait PayPalRequest
         }
 
         // Setting API Credentials, Version & Method
-        $post = [
+        $this->post->merge([
             'USER'      => $this->config['username'],
             'PWD'       => $this->config['password'],
             'SIGNATURE' => $this->config['signature'],
             'VERSION'   => 123,
             'METHOD'    => $method,
-        ];
+        ]);
 
         // Checking Whether The Request Is PayPal IPN Response
         if ($method == 'verifyipn') {
-            unset($post['method']);
+            $this->post = $this->post->filter(function ($value, $key) {
+                if ($key !== 'METHOD') {
+                    return $value;
+                }
+            });
 
             $post_url = $this->config['gateway_url'].'/cgi-bin/webscr';
         } else {
             $post_url = $this->config['api_url'];
         }
 
-        foreach ($params as $key => $value) {
-            $post[$key] = $value;
-        }
-
         // Merge $options array if set.
         if (!empty($this->options)) {
-            $post = array_merge($post, $this->options);
+            $this->post->merge($this->options);
         }
 
         try {
             $request = $this->client->post($post_url, [
-                'form_params' => $post,
+                'form_params' => $this->post->toArray(),
             ]);
 
             $response = $request->getBody(true);
 
             return ($method == 'verifyipn') ? $response : $this->retrieveData($response);
-        } catch (ClientException $e) {
+        } catch (HttpClientException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (ServerException $e) {
+        } catch (HttpServerException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (BadResponseException $e) {
+        } catch (HttpBadResponseException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (\Exception $e) {
             $message = $e->getMessage();

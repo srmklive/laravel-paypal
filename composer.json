@@ -3,7 +3,6 @@
   "type": "library",
   "description": "Laravel plugin For Processing Payments Through Paypal Express Checkout. Can Be Used Independently With Other Applications.",
   "keywords": ["http", "rest", "web service", "paypal", "laravel paypal"],
-  "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
     {
@@ -19,23 +18,13 @@
       "src/functions.php"
     ]
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Srmklive\\PayPal\\Tests\\": "tests/"
-    }
-  },
   "require": {
     "guzzlehttp/guzzle": "~5.0|~6.0",
-    "laravel/framework": "~5.4"
-  },
-  "require-dev": {
-    "mockery/mockery": "~0.9",
-    "phpunit/phpunit": "~5.0",
-    "fzaninotto/faker": "~1.4",
-    "symfony/css-selector": "~3.2",
-    "symfony/dom-crawler": "~3.2"
+    "illuminate/support": "self.version"
   },
   "config": {
-      "preferred-install": "dist"
-  }
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

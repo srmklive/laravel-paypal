@@ -18,6 +18,24 @@ class AdaptivePayments
     }
 
     /**
+     * Set AdaptivePayments API endpoints & options.
+     *
+     * @param string $mode
+     *
+     * @return void
+     */
+    public function setAdaptivePaymentsOptions($mode)
+    {
+        if ($mode == 'sandbox') {
+            $this->config['api_url'] = 'https://svcs.sandbox.paypal.com/AdaptivePayments';
+            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+        } else {
+            $this->config['api_url'] = 'https://svcs.paypal.com/AdaptivePayments';
+            $this->config['gateway_url'] = 'https://www.paypal.com/cgi-bin/webscr';
+        }
+    }
+
+    /**
      * Set Adaptive Payments API request headers.
      *
      * @return array
@@ -135,19 +153,18 @@ class AdaptivePayments
      * Function to perform Adaptive Payments API's GetPaymentOptions operation.
      *
      * @param string $payKey
+     * @param bool   $details
      *
      * @return array
      */
-    public function getPaymentOptions($payKey)
+    public function getPaymentOptions($payKey, $details = false)
     {
-        $post = [
+        $operation = ($details) ? 'PaymentDetails' : 'GetPaymentOptions';
+
+        return $this->doPayPalRequest($operation, [
             'requestEnvelope' => $this->setEnvelope(),
             'payKey'          => $payKey,
-        ];
-
-        $response = $this->doPayPalRequest('GetPaymentOptions', $post);
-
-        return $response;
+        ]);
     }
 
     /**
@@ -159,14 +176,7 @@ class AdaptivePayments
      */
     public function getPaymentDetails($payKey)
     {
-        $post = [
-            'requestEnvelope' => $this->setEnvelope(),
-            'payKey'          => $payKey,
-        ];
-
-        $response = $this->doPayPalRequest('PaymentDetails', $post);
-
-        return $response;
+        return $this->getPaymentOptions($payKey, true);
     }
 
     /**
@@ -214,6 +224,7 @@ class AdaptivePayments
 
         $post_url = $this->config['api_url'].'/'.$method;
 
+        $post = [];
         foreach ($params as $key => $value) {
             $post[$key] = $value;
         }
@@ -229,14 +240,14 @@ class AdaptivePayments
                 'headers' => $this->setHeaders(),
             ]);
 
-            $response = $request->getBody(true);
+            $response = $request->getBody();
 
             return \GuzzleHttp\json_decode($response, true);
-        } catch (ClientException $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (ServerException $e) {
+        } catch (\GuzzleHttp\Exception\ServerException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (BadResponseException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (\Exception $e) {
             $message = $e->getMessage();

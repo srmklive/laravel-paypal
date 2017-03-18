@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Services;
 
+use Illuminate\Support\Collection;
 use Srmklive\PayPal\Traits\PayPalRequest as PayPalAPIRequest;
 
 class ExpressCheckout
@@ -19,6 +20,35 @@ class ExpressCheckout
     }
 
     /**
+     * Set ExpressCheckout API endpoints & options.
+     *
+     * @param array  $credentials
+     * @param string $mode
+     *
+     * @return void
+     */
+    public function setExpressCheckoutOptions($credentials, $mode)
+    {
+        // Setting API Endpoints
+        if ($mode == 'sandbox') {
+            $this->config['api_url'] = !empty($this->config['secret']) ?
+                'https://api-3t.sandbox.paypal.com/nvp' : 'https://api.sandbox.paypal.com/nvp';
+
+            $this->config['gateway_url'] = 'https://www.sandbox.paypal.com';
+        } else {
+            $this->config['api_url'] = !empty($this->config['secret']) ?
+                'https://api-3t.paypal.com/nvp' : 'https://api.paypal.com/nvp';
+
+            $this->config['gateway_url'] = 'https://www.paypal.com';
+        }
+
+        // Adding params outside sandbox / live array
+        $this->config['payment_action'] = $credentials['payment_action'];
+        $this->config['notify_url'] = $credentials['notify_url'];
+        $this->config['locale'] = $credentials['locale'];
+    }
+
+    /**
      * Function to perform SetExpressCheckout PayPal API operation.
      *
      * @param array $data
@@ -28,50 +58,36 @@ class ExpressCheckout
      */
     public function setExpressCheckout($data, $subscription = false)
     {
-        $num = 0;
-        $post = [];
-
-        foreach ($data['items'] as $item) {
-            $tmp = [
+        $this->post = $this->setRequestData($data['items'])->map(function ($item, $num) {
+            return [
                 'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
                 'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
                 'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
             ];
-
-            foreach ($tmp as $k => $v) {
-                $post[$k] = $v;
-            }
-
-            $num++;
-        }
-
-        $tmp = [
+        })->flatMap(function ($value) {
+            return $value;
+        })->merge([
             'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
             'PAYMENTREQUEST_0_AMT'              => $data['total'],
-            'PAYMENTREQUEST_0_PAYMENTACTION'    => !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
+            'PAYMENTREQUEST_0_PAYMENTACTION'    => $this->paymentAction,
             'PAYMENTREQUEST_0_CURRENCYCODE'     => $this->currency,
             'PAYMENTREQUEST_0_DESC'             => $data['invoice_description'],
             'PAYMENTREQUEST_0_INVNUM'           => $data['invoice_id'],
             'NOSHIPPING'                        => 1,
             'RETURNURL'                         => $data['return_url'],
             'CANCELURL'                         => $data['cancel_url'],
-        ];
+            'LOCALE'                            => $this->locale,
+        ]);
 
         if ($subscription) {
-            $post['L_BILLINGTYPE0'] = 'RecurringPayments';
-            $post['L_BILLINGAGREEMENTDESCRIPTION0'] = !empty($data['subscription_desc']) ?
-                $data['subscription_desc'] : $data['invoice_description'];
+            $this->post->merge([
+                'L_BILLINGTYPE0'                    => 'RecurringPayment',
+                'L_BILLINGAGREEMENTDESCRIPTION0'    => !empty($data['subscription_desc']) ?
+                    $data['subscription_desc'] : $data['invoice_description'],
+            ]);
         }
 
-        if (!empty($this->config['locale'])) {
-            $post['LOCALECODE'] = $this->config['locale'];
-        }
-
-        foreach ($tmp as $k => $v) {
-            $post[$k] = $v;
-        }
-
-        $response = $this->doPayPalRequest('SetExpressCheckout', $post);
+        $response = $this->doPayPalRequest('SetExpressCheckout');
 
         if (!empty($response['TOKEN'])) {
             $response['paypal_link'] = $this->config['gateway_url'].
@@ -90,13 +106,11 @@ class ExpressCheckout
      */
     public function getExpressCheckoutDetails($token)
     {
-        $post = [
+        $this->setRequestData([
             'TOKEN' => $token,
-        ];
+        ]);
 
-        $response = $this->doPayPalRequest('GetExpressCheckoutDetails', $post);
-
-        return $response;
+        return $this->doPayPalRequest('GetExpressCheckoutDetails');
     }
 
     /**
@@ -110,24 +124,15 @@ class ExpressCheckout
      */
     public function doExpressCheckoutPayment($data, $token, $payerid)
     {
-        $num = 0;
-        $post = [];
-
-        foreach ($data['items'] as $item) {
-            $tmp = [
+        $this->post = $this->setRequestData($data['items'])->map(function ($item, $num) {
+            return [
                 'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
                 'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
                 'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
             ];
-
-            foreach ($tmp as $k => $v) {
-                $post[$k] = $v;
-            }
-
-            $num++;
-        }
-
-        $tmp = [
+        })->flatMap(function ($value) {
+            return $value;
+        })->merge([
             'TOKEN'                             => $token,
             'PAYERID'                           => $payerid,
             'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
@@ -136,16 +141,10 @@ class ExpressCheckout
             'PAYMENTREQUEST_0_CURRENCYCODE'     => $this->currency,
             'PAYMENTREQUEST_0_DESC'             => $data['invoice_description'],
             'PAYMENTREQUEST_0_INVNUM'           => $data['invoice_id'],
-            'PAYMENTREQUEST_0_NOTIFYURL'        => config('paypal.notify_url'),
-        ];
+            'PAYMENTREQUEST_0_NOTIFYURL'        => $this->notifyUrl,
+        ]);
 
-        foreach ($tmp as $k => $v) {
-            $post[$k] = $v;
-        }
-
-        $response = $this->doPayPalRequest('DoExpressCheckoutPayment', $post);
-
-        return $response;
+        return $this->doPayPalRequest('DoExpressCheckoutPayment');
     }
 
     /**
@@ -160,14 +159,14 @@ class ExpressCheckout
      */
     public function doCapture($authorization_id, $amount, $complete = 'Complete', $data = [])
     {
-        $response = $this->doPayPalRequest('DoCapture', array_merge($data, [
+        $this->post = (new Collection($data))->merge([
             'AUTHORIZATIONID' => $authorization_id,
             'AMT'             => $amount,
             'COMPLETETYPE'    => $complete,
             'CURRENCYCODE'    => $this->currency,
-        ]));
+        ]);
 
-        return $response;
+        return $this->doPayPalRequest('DoCapture');
     }
 
     /**
@@ -181,12 +180,12 @@ class ExpressCheckout
      */
     public function doAuthorization($authorization_id, $amount, $data = [])
     {
-        $response = $this->doPayPalRequest('DoAuthorization', array_merge($data, [
+        $this->post = (new Collection($data))->merge([
             'AUTHORIZATIONID' => $authorization_id,
             'AMT'             => $amount,
-        ]));
+        ]);
 
-        return $response;
+        return $this->doPayPalRequest('DoAuthorization');
     }
 
     /**
@@ -199,11 +198,11 @@ class ExpressCheckout
      */
     public function doVoid($authorization_id, $data = [])
     {
-        $response = $this->doPayPalRequest('DoVoid', array_merge($data, [
+        $this->post = (new Collection($data))->merge([
             'AUTHORIZATIONID' => $authorization_id,
-        ]));
+        ]);
 
-        return $response;
+        return $this->doPayPalRequest('DoVoid');
     }
 
     /**
@@ -215,13 +214,11 @@ class ExpressCheckout
      */
     public function createBillingAgreement($token)
     {
-        $post = [
+        $this->setRequestData([
             'TOKEN' => $token,
-        ];
+        ]);
 
-        $response = $this->doPayPalRequest('CreateBillingAgreement', $post);
-
-        return $response;
+        return $this->doPayPalRequest('CreateBillingAgreement');
     }
 
     /**
@@ -234,17 +231,11 @@ class ExpressCheckout
      */
     public function createRecurringPaymentsProfile($data, $token)
     {
-        $post = [
+        $this->post = (new Collection([
             'token' => $token,
-        ];
+        ]))->merge($data);
 
-        foreach ($data as $key => $value) {
-            $post[$key] = $value;
-        }
-
-        $response = $this->doPayPalRequest('CreateRecurringPaymentsProfile', $post);
-
-        return $response;
+        return $this->doPayPalRequest('CreateRecurringPaymentsProfile');
     }
 
     /**
@@ -256,13 +247,11 @@ class ExpressCheckout
      */
     public function getRecurringPaymentsProfileDetails($id)
     {
-        $post = [
+        $this->setRequestData([
             'PROFILEID' => $id,
-        ];
+        ]);
 
-        $response = $this->doPayPalRequest('GetRecurringPaymentsProfileDetails', $post);
-
-        return $response;
+        return $this->doPayPalRequest('GetRecurringPaymentsProfileDetails');
     }
 
     /**
@@ -275,17 +264,11 @@ class ExpressCheckout
      */
     public function updateRecurringPaymentsProfile($data, $id)
     {
-        $post = [
+        $this->post = (new Collection([
             'PROFILEID' => $id,
-        ];
+        ]))->merge($data);
 
-        foreach ($data as $key => $value) {
-            $post[$key] = $value;
-        }
-
-        $response = $this->doPayPalRequest('UpdateRecurringPaymentsProfile', $post);
-
-        return $response;
+        return $this->doPayPalRequest('UpdateRecurringPaymentsProfile');
     }
 
     /**
@@ -297,14 +280,12 @@ class ExpressCheckout
      */
     public function cancelRecurringPaymentsProfile($id)
     {
-        $post = [
+        $this->setRequestData([
             'PROFILEID' => $id,
             'ACTION'    => 'Cancel',
-        ];
+        ]);
 
-        $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
-
-        return $response;
+        return $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus');
     }
 
     /**
@@ -316,14 +297,12 @@ class ExpressCheckout
      */
     public function suspendRecurringPaymentsProfile($id)
     {
-        $post = [
+        $this->setRequestData([
             'PROFILEID' => $id,
             'ACTION'    => 'Suspend',
-        ];
+        ]);
 
-        $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
-
-        return $response;
+        return $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus');
     }
 
     /**
@@ -335,13 +314,11 @@ class ExpressCheckout
      */
     public function reactivateRecurringPaymentsProfile($id)
     {
-        $post = [
+        $this->setRequestData([
             'PROFILEID' => $id,
             'ACTION'    => 'Reactivate',
-        ];
+        ]);
 
-        $response = $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus', $post);
-
-        return $response;
+        return $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus');
     }
 }
