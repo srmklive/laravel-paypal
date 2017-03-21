@@ -90,6 +90,8 @@ trait PayPalRequest
      * @param array  $credentials
      * @param string $mode
      *
+     * @throws \Exception
+     *
      * @return void
      */
     public function setApiCredentials($credentials, $mode = '')
@@ -120,8 +122,10 @@ trait PayPalRequest
 
         if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments) {
             $this->setAdaptivePaymentsOptions($mode);
-        } else {
+        } elseif ($this instanceof \Srmklive\PayPal\Services\ExpressCheckout) {
             $this->setExpressCheckoutOptions($credentials, $mode);
+        } else {
+            throw new \Exception('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
         }
 
         // Set default currency.
