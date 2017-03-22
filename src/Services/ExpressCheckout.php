@@ -49,6 +49,26 @@ class ExpressCheckout
     }
 
     /**
+     * Set cart item details for PayPal.
+     *
+     * @param array $items
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function setCartItems($items)
+    {
+        return (new Collection($items))->map(function ($item, $num) {
+            return [
+                'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
+                'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
+                'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
+            ];
+        })->flatMap(function ($value) {
+            return $value;
+        });
+    }
+
+    /**
      * Function to perform SetExpressCheckout PayPal API operation.
      *
      * @param array $data
@@ -58,15 +78,7 @@ class ExpressCheckout
      */
     public function setExpressCheckout($data, $subscription = false)
     {
-        $this->post = $this->setRequestData($data['items'])->map(function ($item, $num) {
-            return [
-                'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
-                'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
-                'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
-            ];
-        })->flatMap(function ($value) {
-            return $value;
-        })->merge([
+        $this->post = $this->setCartItems($data['items'])->merge([
             'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
             'PAYMENTREQUEST_0_AMT'              => $data['total'],
             'PAYMENTREQUEST_0_PAYMENTACTION'    => $this->paymentAction,
@@ -124,15 +136,7 @@ class ExpressCheckout
      */
     public function doExpressCheckoutPayment($data, $token, $payerid)
     {
-        $this->post = $this->setRequestData($data['items'])->map(function ($item, $num) {
-            return [
-                'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
-                'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
-                'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
-            ];
-        })->flatMap(function ($value) {
-            return $value;
-        })->merge([
+        $this->post = $this->setCartItems($data['items'])->merge([
             'TOKEN'                             => $token,
             'PAYERID'                           => $payerid,
             'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
@@ -159,12 +163,14 @@ class ExpressCheckout
      */
     public function doCapture($authorization_id, $amount, $complete = 'Complete', $data = [])
     {
-        $this->post = (new Collection($data))->merge([
-            'AUTHORIZATIONID' => $authorization_id,
-            'AMT'             => $amount,
-            'COMPLETETYPE'    => $complete,
-            'CURRENCYCODE'    => $this->currency,
-        ]);
+        $this->setRequestData(
+            array_merge($data, [
+                'AUTHORIZATIONID' => $authorization_id,
+                'AMT'             => $amount,
+                'COMPLETETYPE'    => $complete,
+                'CURRENCYCODE'    => $this->currency,
+            ])
+        );
 
         return $this->doPayPalRequest('DoCapture');
     }
@@ -180,10 +186,12 @@ class ExpressCheckout
      */
     public function doAuthorization($authorization_id, $amount, $data = [])
     {
-        $this->post = (new Collection($data))->merge([
-            'AUTHORIZATIONID' => $authorization_id,
-            'AMT'             => $amount,
-        ]);
+        $this->setRequestData(
+            array_merge($data, [
+                'AUTHORIZATIONID' => $authorization_id,
+                'AMT'             => $amount,
+            ])
+        );
 
         return $this->doPayPalRequest('DoAuthorization');
     }
@@ -198,9 +206,11 @@ class ExpressCheckout
      */
     public function doVoid($authorization_id, $data = [])
     {
-        $this->post = (new Collection($data))->merge([
-            'AUTHORIZATIONID' => $authorization_id,
-        ]);
+        $this->setRequestData(
+            array_merge($data, [
+                'AUTHORIZATIONID' => $authorization_id,
+            ])
+        );
 
         return $this->doPayPalRequest('DoVoid');
     }
@@ -231,9 +241,9 @@ class ExpressCheckout
      */
     public function createRecurringPaymentsProfile($data, $token)
     {
-        $this->post = (new Collection([
-            'token' => $token,
-        ]))->merge($data);
+        $this->setRequestData(
+            array_merge(['TOKEN' => $token], $data)
+        );
 
         return $this->doPayPalRequest('CreateRecurringPaymentsProfile');
     }
