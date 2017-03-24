@@ -94,6 +94,9 @@ trait PayPalRequest
             $this->setApiCredentials($config);
         }
 
+        // Set options to be empty.
+        $this->options = [];
+
         $this->setRequestData();
     }
 
@@ -280,16 +283,6 @@ trait PayPalRequest
      */
     private function doPayPalRequest($method)
     {
-        // Check configuration settings. Reset them if empty.
-        if (empty($this->config)) {
-            self::setConfig();
-        }
-
-        // Throw exception if configuration is still not set.
-        if (empty($this->config)) {
-            throw new \Exception('PayPal api settings not found.');
-        }
-
         // Setting API Credentials, Version & Method
         $this->post->merge([
             'USER'      => $this->config['username'],
@@ -299,23 +292,20 @@ trait PayPalRequest
             'METHOD'    => $method,
         ]);
 
+        // Set PayPal API Request Endpoint.
+        $post_url = $this->config['api_url'];
+
         // Checking Whether The Request Is PayPal IPN Response
         if ($method == 'verifyipn') {
             $this->post = $this->post->filter(function ($value, $key) {
-                if ($key !== 'METHOD') {
-                    return $value;
-                }
+                return ($key !== 'METHOD') ? $value : '';
             });
 
             $post_url = $this->config['gateway_url'].'/cgi-bin/webscr';
-        } else {
-            $post_url = $this->config['api_url'];
         }
 
         // Merge $options array if set.
-        if (!empty($this->options)) {
-            $this->post->merge($this->options);
-        }
+        $this->post->merge($this->options);
 
         try {
             $request = $this->client->post($post_url, [
