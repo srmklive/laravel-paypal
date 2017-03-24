@@ -11,51 +11,76 @@ use Illuminate\Support\Collection;
 trait PayPalRequest
 {
     /**
+     * Http Client class object.
+     *
      * @var HttpClient
      */
     private $client;
 
     /**
+     * Request data to be sent to PayPal.
+     *
      * @var \Illuminate\Support\Collection
      */
     protected $post;
 
     /**
+     * PayPal API configuration.
+     *
      * @var array
      */
     private $config;
 
     /**
+     * Default currency for PayPal.
+     *
      * @var string
      */
     private $currency;
 
     /**
+     * Additional options for PayPal API request.
+     *
      * @var array
      */
     private $options;
 
     /**
+     * Default payment action for PayPal.
+     *
      * @var string
      */
     private $paymentAction;
 
     /**
+     * Default locale for PayPal.
+     *
      * @var string
      */
     private $locale;
 
     /**
+     * IPN notification url for PayPal.
+     *
      * @var string
      */
     private $notifyUrl;
 
     /**
+     * Http Client request body parameter name.
+     *
+     * @var string
+     */
+    private $httpBodyParam;
+
+    /**
      * Function To Set PayPal API Configuration.
+     *
+     * @param array $config
      *
      * @return void
      */
-    private function setConfig()
+    private function setConfig(array $config = [])
     {
         // Setting Http Client
         $this->client = $this->setClient();
@@ -65,6 +90,8 @@ trait PayPalRequest
             $this->setApiCredentials(
                 config('paypal')
             );
+        } elseif (!empty($config)) {
+            $this->setApiCredentials($config);
         }
 
         $this->setRequestData();
@@ -292,10 +319,10 @@ trait PayPalRequest
 
         try {
             $request = $this->client->post($post_url, [
-                'form_params' => $this->post->toArray(),
+                $this->httpBodyParam => $this->post->toArray(),
             ]);
 
-            $response = $request->getBody(true);
+            $response = $request->getBody();
 
             return ($method == 'verifyipn') ? $response : $this->retrieveData($response);
         } catch (HttpClientException $e) {

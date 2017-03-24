@@ -12,11 +12,23 @@ class ExpressCheckout
 
     /**
      * PayPal Processor Constructor.
+     *
+     * @param array $config
      */
-    public function __construct()
+    public function __construct(array $config = [])
     {
         // Setting PayPal API Credentials
-        $this->setConfig();
+        $this->setConfig($config);
+
+        $this->httpBodyParam = 'form_params';
+    }
+
+    /**
+     * Set Http Client request body param. Should only be called when Guzzle version 5 is used.
+     */
+    public function setPreviousHttpBodyParam()
+    {
+        $this->httpBodyParam = 'body';
     }
 
     /**
