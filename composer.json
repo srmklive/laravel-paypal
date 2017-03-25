@@ -20,11 +20,11 @@
   },
   "require": {
     "guzzlehttp/guzzle": "~5.0|~6.0",
-    "illuminate/support": "self.version"
+    "illuminate/support": "~5.0|~5.1|~5.2|~5.3|~5.4"
   },
   "config": {
     "sort-packages": true
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true
 }
