@@ -292,7 +292,7 @@ trait PayPalRequest
     private function doPayPalRequest($method)
     {
         // Setting API Credentials, Version & Method
-        $this->post->merge([
+        $this->post = $this->post->merge([
             'USER'      => $this->config['username'],
             'PWD'       => $this->config['password'],
             'SIGNATURE' => $this->config['signature'],
@@ -313,7 +313,7 @@ trait PayPalRequest
         }
 
         // Merge $options array if set.
-        $this->post->merge($this->options);
+        $this->post = $this->post->merge($this->options);
 
         try {
             $request = $this->client->post($post_url, [
