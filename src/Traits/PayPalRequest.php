@@ -256,7 +256,7 @@ trait PayPalRequest
             'TRANSACTIONID' => $transaction,
         ]);
 
-        if ($partial) {
+        if ($amount) {
             $this->post->merge([
                 'REFUNDTYPE' => 'Partial',
                 'AMT'        => $amount,
