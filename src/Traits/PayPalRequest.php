@@ -246,14 +246,22 @@ trait PayPalRequest
      * Refund PayPal Transaction.
      *
      * @param string $transaction
+     * @param float  $amount
      *
      * @return array
      */
-    public function refundTransaction($transaction)
+    public function refundTransaction($transaction, $amount = 0.00)
     {
         $this->setRequestData([
             'TRANSACTIONID' => $transaction,
         ]);
+
+        if ($partial) {
+            $this->post->merge([
+                'REFUNDTYPE' => 'Partial',
+                'AMT'        => $amount,
+            ]);
+        }
 
         return $this->doPayPalRequest('RefundTransaction');
     }
