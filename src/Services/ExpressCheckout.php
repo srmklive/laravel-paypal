@@ -34,15 +34,14 @@ class ExpressCheckout
     /**
      * Set ExpressCheckout API endpoints & options.
      *
-     * @param array  $credentials
-     * @param string $mode
+     * @param array $credentials
      *
      * @return void
      */
-    public function setExpressCheckoutOptions($credentials, $mode)
+    public function setExpressCheckoutOptions($credentials)
     {
         // Setting API Endpoints
-        if ($mode == 'sandbox') {
+        if ($this->mode === 'sandbox') {
             $this->config['api_url'] = !empty($this->config['secret']) ?
                 'https://api-3t.sandbox.paypal.com/nvp' : 'https://api.sandbox.paypal.com/nvp';
 

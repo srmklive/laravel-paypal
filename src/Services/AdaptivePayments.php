@@ -20,13 +20,11 @@ class AdaptivePayments
     /**
      * Set AdaptivePayments API endpoints & options.
      *
-     * @param string $mode
-     *
      * @return void
      */
-    public function setAdaptivePaymentsOptions($mode)
+    public function setAdaptivePaymentsOptions()
     {
-        if ($mode == 'sandbox') {
+        if ($this->mode == 'sandbox') {
             $this->config['api_url'] = 'https://svcs.sandbox.paypal.com/AdaptivePayments';
             $this->config['gateway_url'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         } else {

@@ -18,6 +18,13 @@ trait PayPalRequest
     private $client;
 
     /**
+     * PayPal API mode to be used.
+     *
+     * @var string
+     */
+    public $mode;
+
+    /**
      * Request data to be sent to PayPal.
      *
      * @var \Illuminate\Support\Collection
@@ -124,63 +131,79 @@ trait PayPalRequest
     /**
      * Set PayPal API Credentials.
      *
-     * @param array  $credentials
-     * @param string $mode
+     * @param array $credentials
      *
      * @throws \Exception
      *
      * @return void
      */
-    public function setApiCredentials($credentials, $mode = '')
+    public function setApiCredentials($credentials)
     {
         // Setting Default PayPal Mode If not set
-        if (empty($credentials['mode']) ||
-            (!in_array($credentials['mode'], ['sandbox', 'live']))
-        ) {
-            $credentials['mode'] = 'live';
-        }
+        $this->setApiEnvironment($credentials);
 
-        // Setting default mode.
-        if (empty($mode)) {
-            $mode = $credentials['mode'];
-        }
-
-        // Setting PayPal API Credentials
-        foreach ($credentials[$mode] as $key => $value) {
-            $this->config[$key] = $value;
-        }
-
-        // Setup PayPal API Signature value to use.
-        if (!empty($this->config['secret'])) {
-            $this->config['signature'] = $this->config['secret'];
-        } else {
-            $this->config['signature'] = file_get_contents($this->config['certificate']);
-        }
-
-        if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments) {
-            $this->setAdaptivePaymentsOptions($mode);
-        } elseif ($this instanceof \Srmklive\PayPal\Services\ExpressCheckout) {
-            $this->setExpressCheckoutOptions($credentials, $mode);
-        } else {
-            throw new \Exception('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
-        }
+        // Set API configuration for the PayPal provider
+        $this->setApiProviderConfiguration($credentials);
 
         // Set default currency.
         $this->setCurrency($credentials['currency']);
 
         // Set default payment action.
-        $this->paymentAction = !empty($this->config['payment_action']) ?
-            $this->config['payment_action'] : 'Sale';
+        $this->paymentAction = !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale';
 
         // Set default locale.
-        $this->locale = !empty($this->config['locale']) ?
-            $this->config['locale'] : 'en_US';
+        $this->locale = !empty($this->config['locale']) ? $this->config['locale'] : 'en_US';
 
         // Set PayPal API Endpoint.
         $this->apiUrl = $this->config['api_url'];
 
         // Set PayPal IPN Notification URL
         $this->notifyUrl = $credentials['notify_url'];
+    }
+
+    /**
+     * Set API environment to be used by PayPal.
+     *
+     * @param array $credentials
+     *
+     * @return void
+     */
+    private function setApiEnvironment($credentials)
+    {
+        if (empty($credentials['mode']) || !in_array($credentials['mode'], ['sandbox', 'live'])) {
+            $this->mode = 'live';
+        } else {
+            $this->mode = $credentials['mode'];
+        }
+    }
+
+    /**
+     * Set configuration details for the provider.
+     *
+     * @param array $credentials
+     *
+     * @throws \Exception
+     *
+     * @return void
+     */
+    private function setApiProviderConfiguration($credentials)
+    {
+        // Setting PayPal API Credentials
+        collect($credentials[$this->mode])->map(function ($value, $key) {
+            $this->config[$key] = $value;
+        });
+
+        // Setup PayPal API Signature value to use.
+        $this->config['signature'] = empty($this->config['certificate']) ?
+            $this->config['secret'] : file_get_contents($this->config['certificate']);
+
+        if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments) {
+            $this->setAdaptivePaymentsOptions();
+        } elseif ($this instanceof \Srmklive\PayPal\Services\ExpressCheckout) {
+            $this->setExpressCheckoutOptions($credentials);
+        } else {
+            throw new \Exception('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
+        }
     }
 
     /**
@@ -367,8 +390,8 @@ trait PayPalRequest
     /**
      * Parse PayPal NVP Response.
      *
-     * @param string $method
-     * @param mixed  $response
+     * @param string                                  $method
+     * @param array|\Psr\Http\Message\StreamInterface $response
      *
      * @return array
      */
