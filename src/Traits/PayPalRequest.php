@@ -60,6 +60,13 @@ trait PayPalRequest
     private $locale;
 
     /**
+     * PayPal API Endpoint.
+     *
+     * @var string
+     */
+    private $apiUrl;
+
+    /**
      * IPN notification url for PayPal.
      *
      * @var string
@@ -169,6 +176,9 @@ trait PayPalRequest
         $this->locale = !empty($this->config['locale']) ?
             $this->config['locale'] : 'en_US';
 
+        // Set PayPal API Endpoint.
+        $this->apiUrl = $this->config['api_url'];
+
         // Set PayPal IPN Notification URL
         $this->notifyUrl = $credentials['notify_url'];
     }
@@ -239,6 +249,8 @@ trait PayPalRequest
     {
         $this->setRequestData($post);
 
+        $this->apiUrl = $this->config['gateway_url'].'/cgi-bin/webscr';
+
         return $this->doPayPalRequest('verifyipn');
     }
 
@@ -281,6 +293,49 @@ trait PayPalRequest
     }
 
     /**
+     * Create request payload to be sent to PayPal.
+     *
+     * @param string $method
+     */
+    private function createRequestPayload($method)
+    {
+        $config = array_merge([
+            'USER'      => $this->config['username'],
+            'PWD'       => $this->config['password'],
+            'SIGNATURE' => $this->config['signature'],
+            'VERSION'   => 123,
+            'METHOD'    => $method,
+        ], $this->options);
+
+        $this->post = $this->post->merge($config)
+            ->filter(function ($value, $key) use ($method) {
+                return (($method === 'verifyipn') && ($key === 'METHOD')) ?: $value;
+            });
+    }
+
+    /**
+     * Perform PayPal API request & return response.
+     *
+     * @throws \Exception
+     *
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    private function makeHttpRequest()
+    {
+        try {
+            return $this->client->post($this->apiUrl, [
+                $this->httpBodyParam => $this->post->toArray(),
+            ])->getBody();
+        } catch (HttpClientException $e) {
+            throw new \Exception($e->getRequest().' '.$e->getResponse());
+        } catch (HttpServerException $e) {
+            throw new \Exception($e->getRequest().' '.$e->getResponse());
+        } catch (HttpBadResponseException $e) {
+            throw new \Exception($e->getRequest().' '.$e->getResponse());
+        }
+    }
+
+    /**
      * Function To Perform PayPal API Request.
      *
      * @param string $method
@@ -291,46 +346,16 @@ trait PayPalRequest
      */
     private function doPayPalRequest($method)
     {
-        // Setting API Credentials, Version & Method
-        $this->post = $this->post->merge([
-            'USER'      => $this->config['username'],
-            'PWD'       => $this->config['password'],
-            'SIGNATURE' => $this->config['signature'],
-            'VERSION'   => 123,
-            'METHOD'    => $method,
-        ]);
-
-        // Set PayPal API Request Endpoint.
-        $post_url = $this->config['api_url'];
-
-        // Checking Whether The Request Is PayPal IPN Response
-        if ($method == 'verifyipn') {
-            $this->post = $this->post->filter(function ($value, $key) {
-                return ($key !== 'METHOD') ? $value : '';
-            });
-
-            $post_url = $this->config['gateway_url'].'/cgi-bin/webscr';
-        }
-
-        // Merge $options array if set.
-        $this->post = $this->post->merge($this->options);
+        // Setup PayPal API Request Payload
+        $this->createRequestPayload($method);
 
         try {
-            $request = $this->client->post($post_url, [
-                $this->httpBodyParam => $this->post->toArray(),
-            ]);
+            // Perform PayPal HTTP API request.
+            $response = $this->makeHttpRequest();
 
-            $response = $request->getBody();
-
-            return ($method == 'verifyipn') ? $response : $this->retrieveData($response);
-        } catch (HttpClientException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (HttpServerException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (HttpBadResponseException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
+            return $this->retrieveData($method, $response);
         } catch (\Exception $e) {
-            $message = $e->getMessage();
+            $message = collect($e->getTrace())->implode('\n');
         }
 
         return [
@@ -342,15 +367,19 @@ trait PayPalRequest
     /**
      * Parse PayPal NVP Response.
      *
-     * @param string $request
-     * @param array  $response
+     * @param string $method
+     * @param mixed  $response
      *
      * @return array
      */
-    private function retrieveData($request, array $response = null)
+    private function retrieveData($method, $response)
     {
-        parse_str($request, $response);
+        if ($method === 'verifyipn') {
+            return $response;
+        }
 
-        return $response;
+        parse_str($response, $output);
+
+        return $output;
     }
 }
