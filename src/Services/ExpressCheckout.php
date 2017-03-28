@@ -80,6 +80,23 @@ class ExpressCheckout
     }
 
     /**
+     * Set Recurring payments details for SetExpressCheckout API call.
+     *
+     * @param array $data
+     * @param bool  $subscription
+     */
+    protected function setExpressCheckoutRecurringPaymentConfig($data, $subscription = false)
+    {
+        if ($subscription) {
+            $this->post = $this->post->merge([
+                'L_BILLINGTYPE0'                    => 'RecurringPayments',
+                'L_BILLINGAGREEMENTDESCRIPTION0'    => !empty($data['subscription_desc']) ?
+                    $data['subscription_desc'] : $data['invoice_description'],
+            ]);
+        }
+    }
+
+    /**
      * Function to perform SetExpressCheckout PayPal API operation.
      *
      * @param array $data
@@ -102,13 +119,7 @@ class ExpressCheckout
             'LOCALE'                            => $this->locale,
         ]);
 
-        if ($subscription) {
-            $this->post->merge([
-                'L_BILLINGTYPE0'                    => 'RecurringPayment',
-                'L_BILLINGAGREEMENTDESCRIPTION0'    => !empty($data['subscription_desc']) ?
-                    $data['subscription_desc'] : $data['invoice_description'],
-            ]);
-        }
+        $this->setExpressCheckoutRecurringPaymentConfig($data, $subscription);
 
         $response = $this->doPayPalRequest('SetExpressCheckout');
 
