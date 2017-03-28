@@ -109,37 +109,32 @@ class AdaptivePayments
      */
     public function setPaymentOptions($payKey, $receivers)
     {
-        $post = [
+        $this->setRequestData([
             'requestEnvelope' => $this->setEnvelope(),
             'payKey'          => $payKey,
-        ];
+        ]);
 
-        $receiverOptions = [];
-        foreach ($receivers as $receiver) {
-            $tmp = [];
+        $receiverOptions = collect($receivers)->map(function ($receiver) {
+            $item = [];
 
-            $tmp['receiver'] = [
+            $item['receiver'] = [
                 'email' => $receiver['email'],
             ];
 
-            $tmp['invoiceData'] = [];
-            foreach ($receiver['invoice_data'] as $invoice) {
-                $tmp['invoiceData']['item'][] = $invoice;
-            }
+            $item['invoiceData']['item'] = collect($receiver['invoice_data'])->map(function ($invoice) {
+                return $invoice;
+            })->toArray();
 
-            if (isset($receiver['description'])) {
-                $tmp['description'] = $receiver['description'];
-            }
+            $item['description'] = $receiver['description'];
 
-            $receiverOptions[] = $tmp;
-            unset($tmp);
-        }
+            return $item;
+        })->toArray();
 
-        $post['receiverOptions'] = $receiverOptions;
+        $this->post = $this->post->merge([
+            'receiverOptions' => $receiverOptions,
+        ]);
 
-        $response = $this->doPayPalRequest('SetPaymentOptions', $post);
-
-        return $response;
+        return $this->doPayPalRequest('SetPaymentOptions');
     }
 
     /**
@@ -154,10 +149,12 @@ class AdaptivePayments
     {
         $operation = ($details) ? 'PaymentDetails' : 'GetPaymentOptions';
 
-        return $this->doPayPalRequest($operation, [
+        $this->setRequestData([
             'requestEnvelope' => $this->setEnvelope(),
             'payKey'          => $payKey,
         ]);
+
+        return $this->doPayPalRequest($operation);
     }
 
     /**
@@ -194,6 +191,41 @@ class AdaptivePayments
     }
 
     /**
+     * Create request payload to be sent to PayPal.
+     *
+     * @param string $method
+     */
+    private function createRequestPayload($method)
+    {
+        $this->apiUrl = $this->config['api_url'].'/'.$method;
+
+        $this->post = $this->post->merge($this->options);
+    }
+
+    /**
+     * Perform PayPal API request & return response.
+     *
+     * @throws \Exception
+     *
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    private function makeHttpRequest()
+    {
+        try {
+            return $this->client->post($this->apiUrl, [
+                'json'    => $this->post->toArray(),
+                'headers' => $this->setHeaders(),
+            ])->getBody();
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            throw new \Exception(collect($e->getTrace())->implode('\n'));
+        } catch (\GuzzleHttp\Exception\ServerException $e) {
+            throw new \Exception(collect($e->getTrace())->implode('\n'));
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+            throw new \Exception(collect($e->getTrace())->implode('\n'));
+        }
+    }
+
+    /**
      * Function To Perform PayPal API Request.
      *
      * @param string $method
@@ -204,43 +236,13 @@ class AdaptivePayments
      */
     private function doPayPalRequest($method)
     {
-        // Check configuration settings. Reset them if empty.
-        if (empty($this->config)) {
-            self::setConfig();
-        }
-
-        // Throw exception if configuration is still not set.
-        if (empty($this->config)) {
-            throw new \Exception('PayPal api settings not found.');
-        }
-
-        $post_url = $this->config['api_url'].'/'.$method;
-
-        $post = [];
-        foreach ($params as $key => $value) {
-            $post[$key] = $value;
-        }
-
-        // Merge $options array if set.
-        if (!empty($this->options)) {
-            $post = array_merge($post, $this->options);
-        }
+        // Setup PayPal API Request Payload
+        $this->createRequestPayload($method);
 
         try {
-            $request = $this->client->post($post_url, [
-                'json'    => $post,
-                'headers' => $this->setHeaders(),
-            ]);
-
-            $response = $request->getBody();
+            $response = $this->makeHttpRequest();
 
             return \GuzzleHttp\json_decode($response, true);
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (\GuzzleHttp\Exception\ServerException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
