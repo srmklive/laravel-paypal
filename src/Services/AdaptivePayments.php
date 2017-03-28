@@ -78,30 +78,25 @@ class AdaptivePayments
      */
     public function createPayRequest($data)
     {
-        $post = [
-            'actionType'   => 'PAY',
-            'currencyCode' => $this->currency,
-            'receiverList' => [
-                'receiver' => $data['receivers'],
-            ],
-        ];
-
-        if (!empty($data['feesPayer'])) {
-            $post['feesPayer'] = $data['payer'];
-        }
-
-        if (!empty($data['return_url']) && !empty($data['cancel_url'])) {
-            $post['returnUrl'] = $data['return_url'];
-            $post['cancelUrl'] = $data['cancel_url'];
-        } else {
+        if (empty($data['return_url']) && empty($data['cancel_url'])) {
             throw new \Exception('Return & Cancel URL should be specified');
         }
 
-        $post['requestEnvelope'] = $this->setEnvelope();
+        $this->setRequestData([
+            'actionType'        => 'PAY',
+            'currencyCode'      => $this->currency,
+            'receiverList'      => [
+                'receiver'      => $data['receivers'],
+            ],
+            'returnUrl'         => $data['return_url'],
+            'cancelUrl'         => $data['cancel_url'],
+            'requestEnvelope'   => $this->setEnvelope(),
+            'feesPayer'         => $data['payer'],
+        ])->filter(function ($value, $key) use ($data) {
+            return (($key === 'feesPayer') && empty($value)) ?: $value;
+        });
 
-        $response = $this->doPayPalRequest('Pay', $post);
-
-        return $response;
+        return $this->doPayPalRequest('Pay');
     }
 
     /**
@@ -202,13 +197,12 @@ class AdaptivePayments
      * Function To Perform PayPal API Request.
      *
      * @param string $method
-     * @param array  $params
      *
      * @throws \Exception
      *
      * @return array|mixed|\Psr\Http\Message\StreamInterface
      */
-    private function doPayPalRequest($method, $params)
+    private function doPayPalRequest($method)
     {
         // Check configuration settings. Reset them if empty.
         if (empty($this->config)) {
