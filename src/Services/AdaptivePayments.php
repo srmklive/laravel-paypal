@@ -68,6 +68,30 @@ class AdaptivePayments
     }
 
     /**
+     * Set request details for Pay API operation.
+     *
+     * @param array $data
+     *
+     * @return void
+     */
+    private function setPayRequestDetails($data)
+    {
+        $this->post = $this->setRequestData([
+            'actionType'        => 'PAY',
+            'currencyCode'      => $this->currency,
+            'receiverList'      => [
+                'receiver'      => $data['receivers'],
+            ],
+            'returnUrl'         => $data['return_url'],
+            'cancelUrl'         => $data['cancel_url'],
+            'requestEnvelope'   => $this->setEnvelope(),
+            'feesPayer'         => $data['payer'],
+        ])->filter(function ($value, $key) use ($data) {
+            return (($key === 'feesPayer') && empty($value)) ?: $value;
+        });
+    }
+
+    /**
      * Function to perform Adaptive Payments API's PAY operation.
      *
      * @param array $data
@@ -82,19 +106,7 @@ class AdaptivePayments
             throw new \Exception('Return & Cancel URL should be specified');
         }
 
-        $this->setRequestData([
-            'actionType'        => 'PAY',
-            'currencyCode'      => $this->currency,
-            'receiverList'      => [
-                'receiver'      => $data['receivers'],
-            ],
-            'returnUrl'         => $data['return_url'],
-            'cancelUrl'         => $data['cancel_url'],
-            'requestEnvelope'   => $this->setEnvelope(),
-            'feesPayer'         => $data['payer'],
-        ])->filter(function ($value, $key) use ($data) {
-            return (($key === 'feesPayer') && empty($value)) ?: $value;
-        });
+        $this->setPayRequestDetails($data);
 
         return $this->doPayPalRequest('Pay');
     }
@@ -109,29 +121,11 @@ class AdaptivePayments
      */
     public function setPaymentOptions($payKey, $receivers)
     {
-        $this->setRequestData([
+        $this->post = $this->setRequestData([
             'requestEnvelope' => $this->setEnvelope(),
             'payKey'          => $payKey,
-        ]);
-
-        $receiverOptions = collect($receivers)->map(function ($receiver) {
-            $item = [];
-
-            $item['receiver'] = [
-                'email' => $receiver['email'],
-            ];
-
-            $item['invoiceData']['item'] = collect($receiver['invoice_data'])->map(function ($invoice) {
-                return $invoice;
-            })->toArray();
-
-            $item['description'] = $receiver['description'];
-
-            return $item;
-        })->toArray();
-
-        $this->post = $this->post->merge([
-            'receiverOptions' => $receiverOptions,
+        ])->merge([
+            'receiverOptions' => $this->setPaymentOptionsReceiverDetails($receivers),
         ]);
 
         return $this->doPayPalRequest('SetPaymentOptions');
@@ -188,6 +182,32 @@ class AdaptivePayments
         }
 
         return $url;
+    }
+
+    /**
+     * Set receiver details for SetPaymentOptions.
+     *
+     * @param array $receivers
+     *
+     * @return array
+     */
+    private function setPaymentOptionsReceiverDetails($receivers)
+    {
+        return collect($receivers)->map(function ($receiver) {
+            $item = [];
+
+            $item['receiver'] = [
+                'email' => $receiver['email'],
+            ];
+
+            $item['invoiceData']['item'] = collect($receiver['invoice_data'])->map(function ($invoice) {
+                return $invoice;
+            })->toArray();
+
+            $item['description'] = $receiver['description'];
+
+            return $item;
+        })->toArray();
     }
 
     /**
