@@ -87,13 +87,11 @@ class ExpressCheckout
      */
     protected function setExpressCheckoutRecurringPaymentConfig($data, $subscription = false)
     {
-        if ($subscription) {
-            $this->post = $this->post->merge([
-                'L_BILLINGTYPE0'                    => 'RecurringPayments',
-                'L_BILLINGAGREEMENTDESCRIPTION0'    => !empty($data['subscription_desc']) ?
-                    $data['subscription_desc'] : $data['invoice_description'],
-            ]);
-        }
+        $this->post = $this->post->merge([
+            'L_BILLINGTYPE0'                    => ($subscription) ? 'RecurringPayments' : 'MerchantInitiatedBilling',
+            'L_BILLINGAGREEMENTDESCRIPTION0'    => !empty($data['subscription_desc']) ?
+                $data['subscription_desc'] : $data['invoice_description'],
+        ]);
     }
 
     /**
@@ -260,9 +258,9 @@ class ExpressCheckout
      */
     public function createRecurringPaymentsProfile($data, $token)
     {
-        $this->setRequestData(
-            array_merge(['TOKEN' => $token], $data)
-        );
+        $this->post = $this->setRequestData($data)->merge([
+            'TOKEN' => $token,
+        ]);
 
         return $this->doPayPalRequest('CreateRecurringPaymentsProfile');
     }
@@ -293,15 +291,33 @@ class ExpressCheckout
      */
     public function updateRecurringPaymentsProfile($data, $id)
     {
-        $this->post = (new Collection([
+        $this->post = $this->setRequestData($data)->merge([
             'PROFILEID' => $id,
-        ]))->merge($data);
+        ]);
 
         return $this->doPayPalRequest('UpdateRecurringPaymentsProfile');
     }
 
     /**
-     * Function to cancel RecurringPaymentsProfile on PayPal.
+     * Change Recurring payment profile status on PayPal.
+     *
+     * @param string $id
+     * @param string $status
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
+     */
+    protected function manageRecurringPaymentsProfileStatus($id, $status)
+    {
+        $this->setRequestData([
+            'PROFILEID' => $id,
+            'ACTION'    => $status,
+        ]);
+
+        return $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus');
+    }
+
+    /**
+     * Cancel RecurringPaymentsProfile on PayPal.
      *
      * @param string $id
      *
@@ -309,16 +325,11 @@ class ExpressCheckout
      */
     public function cancelRecurringPaymentsProfile($id)
     {
-        $this->setRequestData([
-            'PROFILEID' => $id,
-            'ACTION'    => 'Cancel',
-        ]);
-
-        return $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus');
+        return $this->manageRecurringPaymentsProfileStatus($id, 'Cancel');
     }
 
     /**
-     * Function to suspend an active RecurringPaymentsProfile on PayPal.
+     * Suspend an active RecurringPaymentsProfile on PayPal.
      *
      * @param string $id
      *
@@ -326,16 +337,11 @@ class ExpressCheckout
      */
     public function suspendRecurringPaymentsProfile($id)
     {
-        $this->setRequestData([
-            'PROFILEID' => $id,
-            'ACTION'    => 'Suspend',
-        ]);
-
-        return $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus');
+        return $this->manageRecurringPaymentsProfileStatus($id, 'Suspend');
     }
 
     /**
-     * Function to reactivate a suspended RecurringPaymentsProfile on PayPal.
+     * Reactivate a suspended RecurringPaymentsProfile on PayPal.
      *
      * @param string $id
      *
@@ -343,11 +349,6 @@ class ExpressCheckout
      */
     public function reactivateRecurringPaymentsProfile($id)
     {
-        $this->setRequestData([
-            'PROFILEID' => $id,
-            'ACTION'    => 'Reactivate',
-        ]);
-
-        return $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus');
+        return $this->manageRecurringPaymentsProfileStatus($id, 'Reactivate');
     }
 }
