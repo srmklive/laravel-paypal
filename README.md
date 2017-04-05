@@ -26,6 +26,7 @@
   - [Adaptive Payments](#usage-adaptive-payments)
     - [Pay](#usage-adaptive-pay)
 - [Handling PayPal IPN](#paypalipn)
+- [Creating Subscriptions](#create-subscriptions)
 - [Support](#support)
 
 <a name="introduction"></a>
@@ -35,6 +36,9 @@ Laravel plugin For Processing Payments Through Paypal. Using this plugin you can
 
 **Currently only PayPal Express Checkout API Is Supported.**
 
+I have also created a [demo application](https://github.com/srmklive/laravel-paypal-demo) which utilizes this package. Following is the demo link for the application:
+
+https://laravel-paypal-demo.srmk.info/
 
 <a name="installation"></a>
 ## Installation
@@ -368,6 +372,58 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
         }                            
     }        
     ```
+
+<a name="create-subscriptions"></a>
+## Create Subscriptions
+
+* To create recurring payment subscriptions on paypal, first pass data to `SetExpressCheckout` API call in following format:
+
+```php
+// Always update the code below accordingly to your own requirements.
+$data = [];
+
+$data['items'] = [
+    [
+        'name'  => "Monthly Subscription",
+        'price' => 0,
+        'qty'   => 1,
+    ],
+];
+
+$data['subscription_desc'] = "Monthly Subscription #1";
+$data['invoice_id'] = 1;
+$data['invoice_description'] = "Monthly Subscription #1";
+$data['return_url'] = url('/paypal/ec-checkout-success?mode=recurring');
+$data['cancel_url'] = url('/');
+
+$total = 0;
+foreach ($data['items'] as $item) {
+    $total += $item['price'] * $item['qty'];
+}
+
+$data['total'] = $total;
+```            
+
+* Next perform the remaining steps listed in [`SetExpressCheckout`](#usage-ec-setexpresscheckout).
+* Next perform the exact steps listed in [`GetExpressCheckoutDetails`](#usage-ec-getexpresscheckoutdetails).
+* Finally do the following for [`CreateRecurringPaymentsProfile`](#usage-ec-createrecurringprofile)
+
+```php
+// Always update the code below accordingly to your own requirements.
+$startdate = Carbon::now()->addMonth()->toAtomString();
+
+$data = [
+    'PROFILESTARTDATE' => $startdate,
+    'DESC' => "Monthly Subscription #1",
+    'BILLINGPERIOD' => 'Month',
+    'BILLINGFREQUENCY' => 12,
+    'AMT' => 9.99,
+    'INITAMT' => 9.99,
+    'CURRENCYCODE' => 'USD'
+];
+
+$response = $provider->createRecurringPaymentsProfile($data, $token);
+```
             
 <a name="support"></a>
 ## Support
