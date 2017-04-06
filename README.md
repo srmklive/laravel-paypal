@@ -376,7 +376,7 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
 <a name="create-subscriptions"></a>
 ## Create Subscriptions
 
-* To create recurring payment subscriptions on paypal, first pass data to `SetExpressCheckout` API call in following format:
+* For example, you want to create a recurring subscriptions on paypal, first pass data to `SetExpressCheckout` API call in following format:
 
 ```php
 // Always update the code below accordingly to your own requirements.
@@ -409,20 +409,12 @@ $data['total'] = $total;
 * Finally do the following for [`CreateRecurringPaymentsProfile`](#usage-ec-createrecurringprofile)
 
 ```php
-// Always update the code below accordingly to your own requirements.
-$startdate = Carbon::now()->addMonth()->toAtomString();
+$amount = 9.99;
+$description = "Monthly Subscription #1";
+$response = $provider->createMonthlySubscription($token, $amount, $description);
 
-$data = [
-    'PROFILESTARTDATE' => $startdate,
-    'DESC' => "Monthly Subscription #1",
-    'BILLINGPERIOD' => 'Month',
-    'BILLINGFREQUENCY' => 1,
-    'AMT' => 9.99,
-    'INITAMT' => 9.99,
-    'CURRENCYCODE' => 'USD'
-];
-
-$response = $provider->createRecurringPaymentsProfile($data, $token);
+// To create recurring yearly subscription on PayPal
+$response = $provider->createYearlySubscription($token, $amount, $description);
 ```
             
 <a name="support"></a>
