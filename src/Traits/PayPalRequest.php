@@ -215,7 +215,7 @@ trait PayPalRequest
      */
     protected function setRequestData(array $data = [])
     {
-        if (($this->post instanceof Collection) && ($this->post->isNotEmpty())) {
+        if (($this->post instanceof Collection) && (!$this->post->isEmpty())) {
             unset($this->post);
         }
 
