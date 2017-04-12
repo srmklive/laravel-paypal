@@ -221,6 +221,13 @@ $data['total'] = $total;
     $response = $provider->refundTransaction($transactionid);
     ```
 
+To issue partial refund, you must provide the amount as well for refund:
+
+    ```php
+    $amount = 10;
+    $response = $provider->refundTransaction($transactionid, $amount);
+    ```
+
 <a name="usage-ec-createbillingagreement"></a>    
 * **CreateBillingAgreement**
 
