@@ -108,9 +108,6 @@ trait PayPalRequest
             $this->setApiCredentials($config);
         }
 
-        // Set options to be empty.
-        $this->options = [];
-
         $this->setRequestData();
     }
 

@@ -22,6 +22,8 @@ class ExpressCheckout
         $this->setConfig($config);
 
         $this->httpBodyParam = 'form_params';
+
+        $this->options = [];
     }
 
     /**
