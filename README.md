@@ -32,7 +32,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel plugin For Processing Payments Through Paypal. Using this plugin you can process or refund payments and handle IPN (Instant Payment Notification) from PayPal in your Laravel application.
+By using this plugin you can process or refund payments and handle IPN (Instant Payment Notification) from PayPal in your Laravel application.
 
 **Currently only PayPal Express Checkout API Is Supported.**
 
