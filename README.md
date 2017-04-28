@@ -1,10 +1,11 @@
 # Laravel PayPal
 
-[![StyleCI](https://styleci.io/repos/43671533/shield?style=flat)](https://styleci.io/repos/43671533)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/srmklive/paypal.svg?style=flat-square)](https://packagist.org/packages/srmklive/paypal)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/srmklive/paypal.svg?style=flat-square)](https://packagist.org/packages/srmklive/paypal)
 [![Total Downloads](https://img.shields.io/packagist/dt/srmklive/paypal.svg?style=flat-square)](https://packagist.org/packages/srmklive/paypal)
+[![StyleCI](https://styleci.io/repos/43671533/shield?style=flat)](https://styleci.io/repos/43671533)
 [![Code Quality](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/?branch=master)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/5f21a940-9d60-4d33-84ce-e367a253cce3.svg?style=flat-square)](https://insight.sensiolabs.com/projects/5f21a940-9d60-4d33-84ce-e367a253cce3)
 
 - [Introduction](#introduction)
 - [Installation](#installation)

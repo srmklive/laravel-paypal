@@ -86,7 +86,7 @@ class AdaptivePayments
             'cancelUrl'         => $data['cancel_url'],
             'requestEnvelope'   => $this->setEnvelope(),
             'feesPayer'         => $data['payer'],
-        ])->filter(function ($value, $key) use ($data) {
+        ])->filter(function ($value, $key) {
             return (($key === 'feesPayer') && empty($value)) ?: $value;
         });
     }
