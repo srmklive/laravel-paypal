@@ -352,16 +352,6 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
     ```php
     'ipn/notify'
     ```
-
-* Then in the controller where you are handling IPN, write the following:
-
-    ```
-    // Put this above controller definition
-    use Srmklive\PayPal\Traits\IPNResponse As PayPalIPN;
-    
-    // Then add the following before function declaration
-    use PayPalIPN;
-    ```
     
 * Write the following code in the function where you will parse IPN response:    
     
@@ -373,7 +363,7 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
      */
     public function postNotify(Request $request)
     {
-        $response = $this->parsePayPalIPN($request);
+        $response = (string) express_checkout()->parsePayPalIPN($request);
         
         if ($response === 'VERIFIED') {                      
             // Your code goes here ...
