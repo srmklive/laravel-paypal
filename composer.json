@@ -13,10 +13,7 @@
   "autoload":{
     "psr-4": {
       "Srmklive\\PayPal\\": "src/"
-    },
-    "files": [
-      "src/functions.php"
-    ]
+    }
   },
   "require": {
     "guzzlehttp/guzzle": "~5.0|~6.0",

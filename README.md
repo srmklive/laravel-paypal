@@ -116,10 +116,6 @@ $provider = new AdaptivePayments;     // To use adaptive payments.
 // Through facade. No need to import namespaces
 $provider = PayPal::setProvider('express_checkout');      // To use express checkout(used by default).
 $provider = PayPal::setProvider('adaptive_payments');     // To use adaptive payments.
- 
-// Through global helper functions
-$provider = express_checkout();      // To use express checkout.
-$provider = adaptive_payments();     // To use adaptive payments. 
 ```
 
 <a name="usage-paypal-api-configuration"></a>
@@ -363,7 +359,9 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
      */
     public function postNotify(Request $request)
     {
-        $response = (string) express_checkout()->parsePayPalIPN($request);
+        // Import the namespace Srmklive\PayPal\Services\ExpressCheckout first in your controller.
+        $provider = new ExpressCheckout;
+        $response = (string) $provider->parsePayPalIPN($request);
         
         if ($response === 'VERIFIED') {                      
             // Your code goes here ...
