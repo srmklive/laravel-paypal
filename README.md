@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/srmklive/paypal.svg?style=flat-square)](https://packagist.org/packages/srmklive/paypal)
 [![StyleCI](https://styleci.io/repos/43671533/shield?style=flat)](https://styleci.io/repos/43671533)
 [![Code Quality](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/?branch=master)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/5f21a940-9d60-4d33-84ce-e367a253cce3.svg?style=flat-square)](https://insight.sensiolabs.com/projects/5f21a940-9d60-4d33-84ce-e367a253cce3)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5140968d-c422-4a3d-94e0-c1301f2ad3bb/small.png)](https://insight.sensiolabs.com/projects/5140968d-c422-4a3d-94e0-c1301f2ad3bb)
 
 - [Introduction](#introduction)
 - [Installation](#installation)
