@@ -76,7 +76,7 @@ class AdaptivePayments
      */
     private function setPayRequestDetails($data)
     {
-        $this->setRequestData([
+        $this->post = $this->setRequestData([
             'actionType'        => 'PAY',
             'currencyCode'      => $this->currency,
             'receiverList'      => [
@@ -86,10 +86,8 @@ class AdaptivePayments
             'cancelUrl'         => $data['cancel_url'],
             'requestEnvelope'   => $this->setEnvelope(),
             'feesPayer'         => $data['payer'],
-        ]);
-
-        $this->post = $this->post->filter(function ($value, $key) {
-            return (($key === 'feesPayer') && empty($value)) ?: $value;
+        ])->filter(function ($value, $key) {
+            return (($key === 'feesPayer') && empty($value)) ? null : $value;
         });
     }
 
