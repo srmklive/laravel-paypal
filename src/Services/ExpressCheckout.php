@@ -124,7 +124,9 @@ class ExpressCheckout
 
         $response = $this->doPayPalRequest('SetExpressCheckout');
 
-        $response['paypal_link'] = $this->config['gateway_url'].'/webscr?cmd=_express-checkout&token='.$response['TOKEN'];
+        if (isset($response['TOKEN'])) {
+            $response['paypal_link'] = $this->config['gateway_url'].'/webscr?cmd=_express-checkout&token='.$response['TOKEN'];
+        }
 
         return $response;
     }
