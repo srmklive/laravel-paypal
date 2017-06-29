@@ -328,7 +328,7 @@ trait PayPalRequest
         ], $this->options);
 
         $this->post = $this->post->merge($config);
-    	if ($method === 'verifyipn') {
+        if ($method === 'verifyipn') {
             $this->post->forget('METHOD');
         }
     }
