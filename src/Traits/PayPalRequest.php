@@ -327,10 +327,10 @@ trait PayPalRequest
             'METHOD'    => $method,
         ], $this->options);
 
-        $this->post = $this->post->merge($config)
-            ->filter(function ($value, $key) use ($method) {
-                return (($method === 'verifyipn') && ($key === 'METHOD')) ?: $value;
-            });
+        $this->post = $this->post->merge($config);
+    	if ($method === 'verifyipn') {
+            $this->post->forget('METHOD');
+        }
     }
 
     /**
