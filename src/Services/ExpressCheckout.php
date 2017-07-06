@@ -73,9 +73,9 @@ class ExpressCheckout
     {
         return (new Collection($items))->map(function ($item, $num) {
             return [
-                'L_PAYMENTREQUEST_0_NAME'.$num  => $item['name'],
-                'L_PAYMENTREQUEST_0_AMT'.$num   => $item['price'],
-                'L_PAYMENTREQUEST_0_QTY'.$num   => $item['qty'],
+                'L_PAYMENTREQUEST_0_NAME'.$num => $item['name'],
+                'L_PAYMENTREQUEST_0_AMT'.$num  => $item['price'],
+                'L_PAYMENTREQUEST_0_QTY'.$num  => isset($item['qty']) ? $item['qty'] : 1,
             ];
         })->flatMap(function ($value) {
             return $value;
