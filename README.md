@@ -66,19 +66,13 @@ composer require srmklive/paypal:~1.0
 * Add the service provider to your `$providers` array in `config/app.php` file like: 
 
 ```php
-'Srmklive\PayPal\Providers\PayPalServiceProvider' // Laravel 5
-```
-```php
-Srmklive\PayPal\Providers\PayPalServiceProvider::class // Laravel 5.1 or greater
+Srmklive\PayPal\Providers\PayPalServiceProvider::class
 ```
 
 * Add the alias to your `$aliases` array in `config/app.php` file like: 
 
 ```php
-'PayPal' => 'Srmklive\PayPal\Facades\PayPal' // Laravel 5
-```
-```php
-'PayPal' => Srmklive\PayPal\Facades\PayPal::class // Laravel 5.1 or greater
+'PayPal' => Srmklive\PayPal\Facades\PayPal::class
 ```
 
 * Run the following command to publish configuration:
@@ -229,13 +223,9 @@ $data['total'] = $total;
 
     ```php
     $response = $provider->refundTransaction($transactionid);
-    ```
-
-To issue partial refund, you must provide the amount as well for refund:
-
-    ```php
-    $amount = 10;
-    $response = $provider->refundTransaction($transactionid, $amount);
+    
+    // To issue partial refund, you must provide the amount as well for refund:
+    $response = $provider->refundTransaction($transactionid, 9.99);      
     ```
 
 <a name="usage-ec-createbillingagreement"></a>    
@@ -429,7 +419,7 @@ $response = $provider->createYearlySubscription($token, $amount, $description);
 <a name="support"></a>
 ## Support
 
-This plugin only supports Laravel 5 or greater.
+This plugin only supports Laravel 5.1 or greater.
 * In case of any issues, kindly create one on the [Issues](https://github.com/srmklive/laravel-paypal/issues) section.
 * If you would like to contribute:
   * Fork this repository.
