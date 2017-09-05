@@ -29,19 +29,8 @@
 - [Handling PayPal IPN](#paypalipn)
 - [Creating Subscriptions](#create-subscriptions)
 - [Support](#support)
-- [PayPal Documentation](#paypal-documentation)
-  - [Express Checkout](https://developer.paypal.com/docs/classic/api/#express-checkout)
-    - [SetExpressCheckout](https://developer.paypal.com/docs/classic/api/merchant/SetExpressCheckout_API_Operation_NVP/)
-    - [GetExpressCheckoutDetails](https://developer.paypal.com/docs/classic/api/merchant/GetExpressCheckoutDetails_API_Operation_NVP/)
-    - [DoExpressCheckoutPayment](https://developer.paypal.com/docs/classic/api/merchant/DoExpressCheckoutPayment_API_Operation_NVP/)
-    - [RefundTransaction](https://developer.paypal.com/docs/classic/api/merchant/RefundTransaction_API_Operation_NVP/)
-    - [CreateBillingAgreement](https://developer.paypal.com/docs/classic/api/merchant/CreateBillingAgreement_API_Operation_NVP/)
-    - [CreateRecurringPaymentsProfile](https://developer.paypal.com/docs/classic/api/merchant/CreateRecurringPaymentsProfile_API_Operation_NVP/)
-    - [GetRecurringPaymentsProfileDetails](https://developer.paypal.com/docs/classic/api/merchant/GetRecurringPaymentsProfileDetails_API_Operation_NVP/)
-    - [UpdateRecurringPaymentsProfile](https://developer.paypal.com/docs/classic/api/merchant/UpdateRecurringPaymentsProfile_API_Operation_NVP/)
-    - [ManageRecurringPaymentsProfileStatus](https://developer.paypal.com/docs/classic/api/merchant/ManageRecurringPaymentsProfileStatus_API_Operation_NVP/)
-  - [Adaptive Payments](https://developer.paypal.com/docs/classic/api/adaptive-payments/)
-    - [Pay](https://developer.paypal.com/docs/classic/api/adaptive-payments/Pay_API_Operation/)
+- [PayPal Documentation](https://github.com/srmklive/laravel-paypal/blob/master/PAYPALDOCS.md)
+
     
 <a name="introduction"></a>
 ## Introduction
