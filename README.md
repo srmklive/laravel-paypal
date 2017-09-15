@@ -353,7 +353,11 @@ Suppose you have set IPN URL to **http://example.com/ipn/notify/** in PayPal. To
     {
         // Import the namespace Srmklive\PayPal\Services\ExpressCheckout first in your controller.
         $provider = new ExpressCheckout;
-        $response = (string) $provider->verifyIPN($request);
+        
+        $request->merge(['cmd' => '_notify-validate']);
+        $post = $request->all();        
+        
+        $response = (string) $provider->verifyIPN($post);
         
         if ($response === 'VERIFIED') {                      
             // Your code goes here ...
