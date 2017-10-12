@@ -218,6 +218,27 @@ class ExpressCheckout
     }
 
     /**
+     * Perform a DoReauthorization API call on PayPal to reauthorize an existing authorization transaction.
+     *
+     * @param string $authorization_id
+     * @param float  $amount
+     * @param array  $data
+     *
+     * @return array
+     */
+    public function doReAuthorization($authorization_id, $amount, $data = [])
+    {
+        $this->setRequestData(
+            array_merge($data, [
+                'AUTHORIZATIONID'   => $authorization_id,
+                'AMOUNT'            => $amount,
+            ])
+        );
+
+        return $this->doPayPalRequest('DoReauthorization');
+    }
+
+    /**
      * Perform a DoVoid API call on PayPal.
      *
      * @param string $authorization_id Transaction ID
