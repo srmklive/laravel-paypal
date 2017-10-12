@@ -148,6 +148,8 @@ $options = [
 $provider->addOptions($options)->setExpressCheckout($data);
 ```
 
+**Warning:** Any parameters should be referenced accordingly to the API call you will perform. For example, if you are performing `SetExpressCheckout`, then you must provide the parameters as documented by PayPal for `SetExpressCheckout` to `addOptions` method.
+
 <a name="usage-express-checkout"></a>
 #### Express Checkout
 
