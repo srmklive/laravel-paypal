@@ -28,14 +28,6 @@ class ExpressCheckout
     }
 
     /**
-     * Set Http Client request body param. Should only be called when Guzzle version 5 is used.
-     */
-    public function setPreviousHttpBodyParam()
-    {
-        $this->httpBodyParam = 'body';
-    }
-
-    /**
      * Set ExpressCheckout API endpoints & options.
      *
      * @param array $credentials
