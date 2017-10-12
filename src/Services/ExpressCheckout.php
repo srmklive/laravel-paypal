@@ -173,6 +173,27 @@ class ExpressCheckout
     }
 
     /**
+     * Perform a DoAuthorization API call on PayPal.
+     *
+     * @param string $authorization_id Transaction ID
+     * @param float  $amount           Amount to capture
+     * @param array  $data             Optional request fields
+     *
+     * @return array
+     */
+    public function doAuthorization($authorization_id, $amount, $data = [])
+    {
+        $this->setRequestData(
+            array_merge($data, [
+                'AUTHORIZATIONID' => $authorization_id,
+                'AMT'             => $amount,
+            ])
+        );
+
+        return $this->doPayPalRequest('DoAuthorization');
+    }
+
+    /**
      * Perform a DoCapture API call on PayPal.
      *
      * @param string $authorization_id Transaction ID
@@ -194,27 +215,6 @@ class ExpressCheckout
         );
 
         return $this->doPayPalRequest('DoCapture');
-    }
-
-    /**
-     * Perform a DoAuthorization API call on PayPal.
-     *
-     * @param string $authorization_id Transaction ID
-     * @param float  $amount           Amount to capture
-     * @param array  $data             Optional request fields
-     *
-     * @return array
-     */
-    public function doAuthorization($authorization_id, $amount, $data = [])
-    {
-        $this->setRequestData(
-            array_merge($data, [
-                'AUTHORIZATIONID' => $authorization_id,
-                'AMT'             => $amount,
-            ])
-        );
-
-        return $this->doPayPalRequest('DoAuthorization');
     }
 
     /**
