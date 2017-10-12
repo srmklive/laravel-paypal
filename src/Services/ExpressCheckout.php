@@ -4,12 +4,13 @@ namespace Srmklive\PayPal\Services;
 
 use Illuminate\Support\Collection;
 use Srmklive\PayPal\Traits\PayPalRequest as PayPalAPIRequest;
+use Srmklive\PayPal\Traits\PayPalTransactions;
 use Srmklive\PayPal\Traits\RecurringProfiles;
 
 class ExpressCheckout
 {
     // Integrate PayPal Request trait
-    use PayPalAPIRequest, RecurringProfiles;
+    use PayPalAPIRequest, PayPalTransactions, RecurringProfiles;
 
     /**
      * PayPal Processor Constructor.

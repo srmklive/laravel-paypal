@@ -276,44 +276,6 @@ trait PayPalRequest
     }
 
     /**
-     * Refund PayPal Transaction.
-     *
-     * @param string $transaction
-     * @param float  $amount
-     *
-     * @return array
-     */
-    public function refundTransaction($transaction, $amount = 0.00)
-    {
-        $this->setRequestData([
-            'TRANSACTIONID' => $transaction,
-        ]);
-
-        if ($amount > 0) {
-            $this->post = $this->post->merge([
-                'REFUNDTYPE' => 'Partial',
-                'AMT'        => $amount,
-            ]);
-        }
-
-        return $this->doPayPalRequest('RefundTransaction');
-    }
-
-    /**
-     * Search Transactions On PayPal.
-     *
-     * @param array $post
-     *
-     * @return array
-     */
-    public function searchTransactions($post)
-    {
-        $this->setRequestData($post);
-
-        return $this->doPayPalRequest('TransactionSearch');
-    }
-
-    /**
      * Create request payload to be sent to PayPal.
      *
      * @param string $method
