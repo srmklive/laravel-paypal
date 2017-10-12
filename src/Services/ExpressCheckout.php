@@ -99,7 +99,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform SetExpressCheckout PayPal API operation.
+     * Perform a SetExpressCheckout API call on PayPal.
      *
      * @param array $data
      * @param bool  $subscription
@@ -131,7 +131,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform GetExpressCheckoutDetails PayPal API operation.
+     * Perform a GetExpressCheckoutDetails API call on PayPal.
      *
      * @param string $token
      *
@@ -147,7 +147,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform DoExpressCheckoutPayment PayPal API operation.
+     * Perform DoExpressCheckoutPayment API call on PayPal.
      *
      * @param array  $data
      * @param string $token
@@ -173,7 +173,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform DoCapture PayPal API operation.
+     * Perform a DoCapture API call on PayPal.
      *
      * @param string $authorization_id Transaction ID
      * @param float  $amount           Amount to capture
@@ -197,7 +197,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform DoAuthorization PayPal API operation.
+     * Perform a DoAuthorization API call on PayPal.
      *
      * @param string $authorization_id Transaction ID
      * @param float  $amount           Amount to capture
@@ -218,7 +218,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform DoVoid PayPal API operation.
+     * Perform a DoVoid API call on PayPal.
      *
      * @param string $authorization_id Transaction ID
      * @param array  $data             Optional request fields
@@ -237,7 +237,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform CreateBillingAgreement PayPal API operation.
+     * Perform a CreateBillingAgreement API call on PayPal.
      *
      * @param string $token
      *
@@ -253,7 +253,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform CreateRecurringPaymentsProfile PayPal API operation.
+     * Perform a CreateRecurringPaymentsProfile API call on PayPal.
      *
      * @param array  $data
      * @param string $token
@@ -270,7 +270,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform GetRecurringPaymentsProfileDetails PayPal API operation.
+     * Perform a GetRecurringPaymentsProfileDetails API call on PayPal.
      *
      * @param string $id
      *
@@ -286,7 +286,7 @@ class ExpressCheckout
     }
 
     /**
-     * Function to perform UpdateRecurringPaymentsProfile PayPal API operation.
+     * Perform a UpdateRecurringPaymentsProfile API call on PayPal.
      *
      * @param array  $data
      * @param string $id
@@ -321,7 +321,7 @@ class ExpressCheckout
     }
 
     /**
-     * Cancel RecurringPaymentsProfile on PayPal.
+     * Perform a ManageRecurringPaymentsProfileStatus API call on PayPal to cancel a RecurringPaymentsProfile.
      *
      * @param string $id
      *
@@ -333,7 +333,7 @@ class ExpressCheckout
     }
 
     /**
-     * Suspend an active RecurringPaymentsProfile on PayPal.
+     * Perform a ManageRecurringPaymentsProfileStatus API call on PayPal to suspend a RecurringPaymentsProfile.
      *
      * @param string $id
      *
@@ -345,7 +345,7 @@ class ExpressCheckout
     }
 
     /**
-     * Reactivate a suspended RecurringPaymentsProfile on PayPal.
+     * Perform a ManageRecurringPaymentsProfileStatus API call on PayPal to reactivate a RecurringPaymentsProfile.
      *
      * @param string $id
      *
