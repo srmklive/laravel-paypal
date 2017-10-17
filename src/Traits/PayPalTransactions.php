@@ -25,14 +25,16 @@ trait PayPalTransactions
      *
      * @param string $transaction
      * @param string $action
+     * @param float  $amount
      *
      * @return array
      */
-    public function doReferenceTransaction($transaction, $action)
+    public function doReferenceTransaction($transaction, $action, $amount = 0.00)
     {
         $this->setRequestData([
             'REFERENCEID'       => $transaction,
             'PAYMENTACTION'     => $action,
+            'AMT'               => $amount,
         ]);
 
         return $this->doPayPalRequest('DoReferenceTransaction');
