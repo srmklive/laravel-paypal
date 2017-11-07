@@ -77,15 +77,15 @@ class AdaptivePayments
     private function setPayRequestDetails($data)
     {
         $this->post = $this->setRequestData([
-            'actionType'        => 'PAY',
-            'currencyCode'      => $this->currency,
-            'receiverList'      => [
-                'receiver'      => $data['receivers'],
+            'actionType'   => 'PAY',
+            'currencyCode' => $this->currency,
+            'receiverList' => [
+                'receiver' => $data['receivers'],
             ],
-            'returnUrl'         => $data['return_url'],
-            'cancelUrl'         => $data['cancel_url'],
-            'requestEnvelope'   => $this->setEnvelope(),
-            'feesPayer'         => $data['payer'],
+            'returnUrl'       => $data['return_url'],
+            'cancelUrl'       => $data['cancel_url'],
+            'requestEnvelope' => $this->setEnvelope(),
+            'feesPayer'       => $data['payer'],
         ])->filter(function ($value, $key) {
             return (($key === 'feesPayer') && empty($value)) ? null : $value;
         });
@@ -268,8 +268,8 @@ class AdaptivePayments
         }
 
         return [
-            'type'      => 'error',
-            'message'   => $message,
+            'type'    => 'error',
+            'message' => $message,
         ];
     }
 }

@@ -84,8 +84,8 @@ class ExpressCheckout
     protected function setExpressCheckoutRecurringPaymentConfig($data, $subscription = false)
     {
         $this->post = $this->post->merge([
-            'L_BILLINGTYPE0'                    => ($subscription) ? 'RecurringPayments' : 'MerchantInitiatedBilling',
-            'L_BILLINGAGREEMENTDESCRIPTION0'    => !empty($data['subscription_desc']) ?
+            'L_BILLINGTYPE0'                 => ($subscription) ? 'RecurringPayments' : 'MerchantInitiatedBilling',
+            'L_BILLINGAGREEMENTDESCRIPTION0' => !empty($data['subscription_desc']) ?
                 $data['subscription_desc'] : $data['invoice_description'],
         ]);
     }
@@ -101,16 +101,16 @@ class ExpressCheckout
     public function setExpressCheckout($data, $subscription = false)
     {
         $this->post = $this->setCartItems($data['items'])->merge([
-            'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
-            'PAYMENTREQUEST_0_AMT'              => $data['total'],
-            'PAYMENTREQUEST_0_PAYMENTACTION'    => $this->paymentAction,
-            'PAYMENTREQUEST_0_CURRENCYCODE'     => $this->currency,
-            'PAYMENTREQUEST_0_DESC'             => $data['invoice_description'],
-            'PAYMENTREQUEST_0_INVNUM'           => $data['invoice_id'],
-            'NOSHIPPING'                        => 1,
-            'RETURNURL'                         => $data['return_url'],
-            'CANCELURL'                         => $data['cancel_url'],
-            'LOCALE'                            => $this->locale,
+            'PAYMENTREQUEST_0_ITEMAMT'       => $data['total'],
+            'PAYMENTREQUEST_0_AMT'           => $data['total'],
+            'PAYMENTREQUEST_0_PAYMENTACTION' => $this->paymentAction,
+            'PAYMENTREQUEST_0_CURRENCYCODE'  => $this->currency,
+            'PAYMENTREQUEST_0_DESC'          => $data['invoice_description'],
+            'PAYMENTREQUEST_0_INVNUM'        => $data['invoice_id'],
+            'NOSHIPPING'                     => 1,
+            'RETURNURL'                      => $data['return_url'],
+            'CANCELURL'                      => $data['cancel_url'],
+            'LOCALE'                         => $this->locale,
         ]);
 
         $this->setExpressCheckoutRecurringPaymentConfig($data, $subscription);
@@ -150,15 +150,15 @@ class ExpressCheckout
     public function doExpressCheckoutPayment($data, $token, $payerid)
     {
         $this->post = $this->setCartItems($data['items'])->merge([
-            'TOKEN'                             => $token,
-            'PAYERID'                           => $payerid,
-            'PAYMENTREQUEST_0_ITEMAMT'          => $data['total'],
-            'PAYMENTREQUEST_0_AMT'              => $data['total'],
-            'PAYMENTREQUEST_0_PAYMENTACTION'    => !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE'     => $this->currency,
-            'PAYMENTREQUEST_0_DESC'             => $data['invoice_description'],
-            'PAYMENTREQUEST_0_INVNUM'           => $data['invoice_id'],
-            'PAYMENTREQUEST_0_NOTIFYURL'        => $this->notifyUrl,
+            'TOKEN'                          => $token,
+            'PAYERID'                        => $payerid,
+            'PAYMENTREQUEST_0_ITEMAMT'       => $data['total'],
+            'PAYMENTREQUEST_0_AMT'           => $data['total'],
+            'PAYMENTREQUEST_0_PAYMENTACTION' => !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
+            'PAYMENTREQUEST_0_CURRENCYCODE'  => $this->currency,
+            'PAYMENTREQUEST_0_DESC'          => $data['invoice_description'],
+            'PAYMENTREQUEST_0_INVNUM'        => $data['invoice_id'],
+            'PAYMENTREQUEST_0_NOTIFYURL'     => $this->notifyUrl,
         ]);
 
         return $this->doPayPalRequest('DoExpressCheckoutPayment');
@@ -222,8 +222,8 @@ class ExpressCheckout
     {
         $this->setRequestData(
             array_merge($data, [
-                'AUTHORIZATIONID'   => $authorization_id,
-                'AMOUNT'            => $amount,
+                'AUTHORIZATIONID' => $authorization_id,
+                'AMOUNT'          => $amount,
             ])
         );
 
