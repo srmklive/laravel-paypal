@@ -342,8 +342,8 @@ trait PayPalRequest
         }
 
         return [
-            'type'      => 'error',
-            'message'   => $message,
+            'type'    => 'error',
+            'message' => $message,
         ];
     }
 
