@@ -88,6 +88,13 @@ trait PayPalRequest
     private $httpBodyParam;
 
     /**
+     * Validate SSL details when creating HTTP client.
+     *
+     * @var bool
+     */
+    private $validateSSL;
+
+    /**
      * Function To Set PayPal API Configuration.
      *
      * @param array $config
@@ -96,9 +103,6 @@ trait PayPalRequest
      */
     private function setConfig(array $config = [])
     {
-        // Setting Http Client
-        $this->client = $this->setClient();
-
         // Set Api Credentials
         if (function_exists('config')) {
             $this->setApiCredentials(
@@ -114,14 +118,14 @@ trait PayPalRequest
     /**
      * Function to initialize Http Client.
      *
-     * @return HttpClient
+     * @return void
      */
     protected function setClient()
     {
-        return new HttpClient([
+        $this->client = new HttpClient([
             'curl' => [
                 CURLOPT_SSLVERSION     => CURL_SSLVERSION_TLSv1_2,
-                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYPEER => $this->validateSSL,
             ],
         ]);
     }
@@ -146,6 +150,9 @@ trait PayPalRequest
         // Set default currency.
         $this->setCurrency($credentials['currency']);
 
+        // Setting Http Client
+        $this->setClient();
+
         // Set default payment action.
         $this->paymentAction = !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale';
 
@@ -156,7 +163,7 @@ trait PayPalRequest
         $this->apiUrl = $this->config['api_url'];
 
         // Set PayPal IPN Notification URL
-        $this->notifyUrl = $credentials['notify_url'];
+        $this->notifyUrl = $this->config['notify_url'];
     }
 
     /**
@@ -194,6 +201,8 @@ trait PayPalRequest
         // Setup PayPal API Signature value to use.
         $this->config['signature'] = empty($this->config['certificate']) ?
             $this->config['secret'] : file_get_contents($this->config['certificate']);
+
+        $this->validateSSL = !empty($credentials['validate_ssl']) ? $credentials['validate_ssl'] : false;
 
         if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments) {
             $this->setAdaptivePaymentsOptions();

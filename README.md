@@ -93,6 +93,7 @@ return [
     'payment_action' => 'Sale', // Can Only Be 'Sale', 'Authorization', 'Order'
     'currency' => 'USD',
     'notify_url' => '',         // Change this accordingly for your application.
+    'validate_ssl' => true,     // Validate SSL when creating api client.
 ];
 ```
 
