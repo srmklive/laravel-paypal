@@ -8,6 +8,7 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5f21a940-9d60-4d33-84ce-e367a253cce3/small.png)](https://insight.sensiolabs.com/projects/5f21a940-9d60-4d33-84ce-e367a253cce3)
 
 - [Introduction](#introduction)
+- [PayPal API Credentials](#paypal-api-credentials)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
@@ -42,6 +43,13 @@ By using this plugin you can process or refund payments and handle IPN (Instant 
 I have also created a [demo application](https://github.com/srmklive/laravel-paypal-demo) which utilizes this package. Following is the demo link for the application:
 
 https://laravel-paypal-demo.srmk.info/
+
+<a name="paypal-api-credentials"></a>
+## PayPal API Credentials
+
+This package uses the classic paypal express checkout. Refer to this link on how to create API credentials:
+
+https://developer.paypal.com/docs/classic/api/apiCredentials/#create-an-api-signature 
 
 <a name="installation"></a>
 ## Installation
