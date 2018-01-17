@@ -101,7 +101,7 @@ class ExpressCheckout
     public function setExpressCheckout($data, $subscription = false)
     {
         $this->post = $this->setCartItems($data['items'])->merge([
-            'PAYMENTREQUEST_0_ITEMAMT'       => $data['total'],
+            'PAYMENTREQUEST_0_ITEMAMT'       => isset($data['subtotal']) ? $data['subtotal'] : $data['total'],
             'PAYMENTREQUEST_0_AMT'           => $data['total'],
             'PAYMENTREQUEST_0_PAYMENTACTION' => $this->paymentAction,
             'PAYMENTREQUEST_0_CURRENCYCODE'  => $this->currency,
@@ -112,6 +112,10 @@ class ExpressCheckout
             'CANCELURL'                      => $data['cancel_url'],
             'LOCALE'                         => $this->locale,
         ]);
+
+        if (isset($data['shipping'])) {
+            $this->post['PAYMENTREQUEST_0_SHIPPINGAMT'] = $data['shipping'];
+        }
 
         $this->setExpressCheckoutRecurringPaymentConfig($data, $subscription);
 
