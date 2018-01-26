@@ -122,17 +122,17 @@ trait PayPalRequest
      */
     protected function setClient($certificate = '')
     {
-	$curlConfig = [
+        $curlConfig = [
                 CURLOPT_SSLVERSION     => CURL_SSLVERSION_TLSv1_2,
                 CURLOPT_SSL_VERIFYPEER => $this->validateSSL,
-	];
+    ];
 
-	if(!empty($certificate)) {
-	    $curlConfig[CURLOPT_SSLCERT] = $certificate;
-	}
+        if (!empty($certificate)) {
+            $curlConfig[CURLOPT_SSLCERT] = $certificate;
+        }
 
         $this->client = new HttpClient([
-            'curl' => $curlConfig
+            'curl' => $curlConfig,
         ]);
     }
 
