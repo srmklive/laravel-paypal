@@ -120,13 +120,19 @@ trait PayPalRequest
      *
      * @return void
      */
-    protected function setClient()
+    protected function setClient($certificate = '')
     {
-        $this->client = new HttpClient([
-            'curl' => [
+	$curlConfig = [
                 CURLOPT_SSLVERSION     => CURL_SSLVERSION_TLSv1_2,
                 CURLOPT_SSL_VERIFYPEER => $this->validateSSL,
-            ],
+	];
+
+	if(!empty($certificate)) {
+	    $curlConfig[CURLOPT_SSLCERT] = $certificate;
+	}
+
+        $this->client = new HttpClient([
+            'curl' => $curlConfig
         ]);
     }
 
@@ -151,7 +157,7 @@ trait PayPalRequest
         $this->setCurrency($credentials['currency']);
 
         // Setting Http Client
-        $this->setClient();
+        $this->setClient($credentials[$this->mode]['certificate']);
 
         // Set default payment action.
         $this->paymentAction = !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale';
