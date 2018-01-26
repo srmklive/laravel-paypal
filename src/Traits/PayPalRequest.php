@@ -18,6 +18,20 @@ trait PayPalRequest
     private $client;
 
     /**
+     * Http Client configuration.
+     *
+     * @var array
+     */
+    private $httpClientConfig;
+
+    /**
+     * PayPal API Certificate data for authentication.
+     *
+     * @var string
+     */
+    private $certificate;
+
+    /**
      * PayPal API mode to be used.
      *
      * @var string
@@ -99,7 +113,7 @@ trait PayPalRequest
      *
      * @param array $config
      *
-     * @return void
+     * @throws \Exception
      */
     private function setConfig(array $config = [])
     {
@@ -120,20 +134,28 @@ trait PayPalRequest
      *
      * @return void
      */
-    protected function setClient($certificate = '')
+    protected function setClient()
     {
-        $curlConfig = [
+        $this->client = new HttpClient([
+            'curl' => $this->httpClientConfig,
+        ]);
+    }
+
+    /**
+     * Function to set Http Client configuration.
+     *
+     * @return void
+     */
+    protected function setHttpClientConfiguration()
+    {
+        $this->httpClientConfig = [
             CURLOPT_SSLVERSION     => CURL_SSLVERSION_TLSv1_2,
             CURLOPT_SSL_VERIFYPEER => $this->validateSSL,
         ];
 
-        if (!empty($certificate)) {
-            $curlConfig[CURLOPT_SSLCERT] = $certificate;
+        if (!empty($this->certificate)) {
+            $this->httpClientConfig[CURLOPT_SSLCERT] = $this->certificate;
         }
-
-        $this->client = new HttpClient([
-            'curl' => $curlConfig,
-        ]);
     }
 
     /**
@@ -156,8 +178,11 @@ trait PayPalRequest
         // Set default currency.
         $this->setCurrency($credentials['currency']);
 
-        // Setting Http Client
-        $this->setClient($credentials[$this->mode]['certificate']);
+        // Set Http Client configuration.
+        $this->setHttpClientConfiguration();
+
+        // Initialize Http Client
+        $this->setClient();
 
         // Set default payment action.
         $this->paymentAction = !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale';
@@ -207,6 +232,8 @@ trait PayPalRequest
         // Setup PayPal API Signature value to use.
         $this->config['signature'] = empty($this->config['certificate']) ?
             $this->config['secret'] : file_get_contents($this->config['certificate']);
+
+        $this->certificate = file_get_contents($this->config['certificate']);
 
         $this->validateSSL = !empty($credentials['validate_ssl']) ? $credentials['validate_ssl'] : false;
 

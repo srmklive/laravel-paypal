@@ -13,9 +13,11 @@ class ExpressCheckout
     use PayPalAPIRequest, PayPalTransactions, RecurringProfiles;
 
     /**
-     * PayPal Processor Constructor.
+     * ExpressCheckout constructor.
      *
      * @param array $config
+     *
+     * @throws \Exception
      */
     public function __construct(array $config = [])
     {
