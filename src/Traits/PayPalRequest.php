@@ -130,6 +130,29 @@ trait PayPalRequest
     }
 
     /**
+     * Set default values for configuration.
+     *
+     * @return void
+     */
+    private function setDefaultValues()
+    {
+        // Set default payment action.
+        if (empty($this->paymentAction)) {
+            $this->paymentAction = 'Sale';
+        }
+
+        // Set default locale.
+        if (empty($this->locale)) {
+            $this->locale = 'en_US';
+        }
+
+        // Set default value for SSL validation.
+        if (empty($this->validateSSL)) {
+            $this->validateSSL = false;
+        }
+    }
+
+    /**
      * Function to initialize Http Client.
      *
      * @return void
@@ -184,11 +207,8 @@ trait PayPalRequest
         // Initialize Http Client
         $this->setClient();
 
-        // Set default payment action.
-        $this->paymentAction = !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale';
-
-        // Set default locale.
-        $this->locale = !empty($this->config['locale']) ? $this->config['locale'] : 'en_US';
+        // Set default values.
+        $this->setDefaultValues();
 
         // Set PayPal API Endpoint.
         $this->apiUrl = $this->config['api_url'];
@@ -233,10 +253,26 @@ trait PayPalRequest
         $this->config['signature'] = empty($this->config['certificate']) ?
             $this->config['secret'] : file_get_contents($this->config['certificate']);
 
+        $this->paymentAction = $this->config['payment_action'];
+
+        $this->locale = $this->config['locale'];
+
         $this->certificate = file_get_contents($this->config['certificate']);
 
-        $this->validateSSL = !empty($credentials['validate_ssl']) ? $credentials['validate_ssl'] : false;
+        $this->validateSSL = $credentials['validate_ssl'];
 
+        $this->setApiProvider($credentials);
+    }
+
+    /**
+     * Determines which API provider should be used.
+     *
+     * @param array $credentials
+     *
+     * @throws \Exception
+     */
+    private function setApiProvider($credentials)
+    {
         if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments) {
             $this->setAdaptivePaymentsOptions();
         } elseif ($this instanceof \Srmklive\PayPal\Services\ExpressCheckout) {
