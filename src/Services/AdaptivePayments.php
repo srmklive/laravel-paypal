@@ -31,6 +31,7 @@ class AdaptivePayments
             $this->config['api_url'] = 'https://svcs.paypal.com/AdaptivePayments';
             $this->config['gateway_url'] = 'https://www.paypal.com/cgi-bin/webscr';
         }
+        $this->config['notify_url'] = config('paypal.notify_url');
     }
 
     /**
