@@ -253,9 +253,9 @@ trait PayPalRequest
         $this->config['signature'] = empty($this->config['certificate']) ?
             $this->config['secret'] : file_get_contents($this->config['certificate']);
 
-        $this->paymentAction = $this->config['payment_action'];
+        $this->paymentAction = $credentials['payment_action'];
 
-        $this->locale = $this->config['locale'];
+        $this->locale = $credentials['locale'];
 
         $this->certificate = file_get_contents($this->config['certificate']);
 
