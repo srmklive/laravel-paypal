@@ -179,6 +179,18 @@ trait PayPalRequest
         if (!empty($this->certificate)) {
             $this->httpClientConfig[CURLOPT_SSLCERT] = $this->certificate;
         }
+
+        // Initialize Http Client
+        $this->setClient();
+
+        // Set default values.
+        $this->setDefaultValues();
+
+        // Set PayPal API Endpoint.
+        $this->apiUrl = $this->config['api_url'];
+
+        // Set PayPal IPN Notification URL
+        $this->notifyUrl = $this->config['notify_url'];
     }
 
     /**
@@ -203,18 +215,6 @@ trait PayPalRequest
 
         // Set Http Client configuration.
         $this->setHttpClientConfiguration();
-
-        // Initialize Http Client
-        $this->setClient();
-
-        // Set default values.
-        $this->setDefaultValues();
-
-        // Set PayPal API Endpoint.
-        $this->apiUrl = $this->config['api_url'];
-
-        // Set PayPal IPN Notification URL
-        $this->notifyUrl = $this->config['notify_url'];
     }
 
     /**
