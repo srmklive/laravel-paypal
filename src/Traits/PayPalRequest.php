@@ -251,13 +251,13 @@ trait PayPalRequest
 
         // Setup PayPal API Signature value to use.
         $this->config['signature'] = empty($this->config['certificate']) ?
-            $this->config['secret'] : file_get_contents($this->config['certificate']);
+            $this->config['secret'] : $this->config['certificate'];
 
         $this->paymentAction = $credentials['payment_action'];
 
         $this->locale = $credentials['locale'];
 
-        $this->certificate = file_get_contents($this->config['certificate']);
+        $this->certificate = $this->config['certificate'];
 
         $this->validateSSL = $credentials['validate_ssl'];
 
