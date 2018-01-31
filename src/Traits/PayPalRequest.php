@@ -51,6 +51,13 @@ trait PayPalRequest
     private $config;
 
     /**
+     * Item subtotal.
+     *
+     * @var double
+     */
+    private $subtotal;
+
+    /**
      * Default currency for PayPal.
      *
      * @var string

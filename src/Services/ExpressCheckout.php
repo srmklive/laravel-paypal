@@ -93,6 +93,30 @@ class ExpressCheckout
     }
 
     /**
+     * Set item subtotal if available.
+     *
+     * @param array $data
+     */
+    protected function setItemSubTotal($data)
+    {
+        $this->subtotal = isset($data['subtotal']) ? $data['subtotal'] : $data['total'];
+    }
+
+    /**
+     * Set shipping amount if available.
+     *
+     * @param array $data
+     */
+    protected function setShippingAmount($data)
+    {
+        if (isset($data['shipping'])) {
+            $this->post = $this->post->merge([
+                'PAYMENTREQUEST_0_SHIPPINGAMT' => $data['shipping'],
+            ]);
+        }
+    }
+
+    /**
      * Perform a SetExpressCheckout API call on PayPal.
      *
      * @param array $data
@@ -104,8 +128,10 @@ class ExpressCheckout
      */
     public function setExpressCheckout($data, $subscription = false)
     {
+        $this->setItemSubTotal($data);
+
         $this->post = $this->setCartItems($data['items'])->merge([
-            'PAYMENTREQUEST_0_ITEMAMT'       => isset($data['subtotal']) ? $data['subtotal'] : $data['total'],
+            'PAYMENTREQUEST_0_ITEMAMT'       => $this->subtotal,
             'PAYMENTREQUEST_0_AMT'           => $data['total'],
             'PAYMENTREQUEST_0_PAYMENTACTION' => $this->paymentAction,
             'PAYMENTREQUEST_0_CURRENCYCODE'  => $this->currency,
@@ -117,9 +143,7 @@ class ExpressCheckout
             'LOCALE'                         => $this->locale,
         ]);
 
-        if (isset($data['shipping'])) {
-            $this->post['PAYMENTREQUEST_0_SHIPPINGAMT'] = $data['shipping'];
-        }
+        $this->setShippingAmount($data);
 
         $this->setExpressCheckoutRecurringPaymentConfig($data, $subscription);
 
