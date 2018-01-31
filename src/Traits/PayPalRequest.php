@@ -53,7 +53,7 @@ trait PayPalRequest
     /**
      * Item subtotal.
      *
-     * @var double
+     * @var float
      */
     private $subtotal;
 

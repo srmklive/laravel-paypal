@@ -122,9 +122,9 @@ class ExpressCheckout
      * @param array $data
      * @param bool  $subscription
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function setExpressCheckout($data, $subscription = false)
     {
@@ -159,9 +159,9 @@ class ExpressCheckout
      *
      * @param string $token
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function getExpressCheckoutDetails($token)
     {
@@ -179,9 +179,9 @@ class ExpressCheckout
      * @param string $token
      * @param string $payerid
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function doExpressCheckoutPayment($data, $token, $payerid)
     {
@@ -207,9 +207,9 @@ class ExpressCheckout
      * @param float  $amount           Amount to capture
      * @param array  $data             Optional request fields
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function doAuthorization($authorization_id, $amount, $data = [])
     {
@@ -231,9 +231,9 @@ class ExpressCheckout
      * @param string $complete         Indicates whether or not this is the last capture.
      * @param array  $data             Optional request fields
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function doCapture($authorization_id, $amount, $complete = 'Complete', $data = [])
     {
@@ -256,9 +256,9 @@ class ExpressCheckout
      * @param float  $amount
      * @param array  $data
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function doReAuthorization($authorization_id, $amount, $data = [])
     {
@@ -278,9 +278,9 @@ class ExpressCheckout
      * @param string $authorization_id Transaction ID
      * @param array  $data             Optional request fields
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function doVoid($authorization_id, $data = [])
     {
@@ -298,9 +298,9 @@ class ExpressCheckout
      *
      * @param string $token
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function createBillingAgreement($token)
     {
@@ -317,9 +317,9 @@ class ExpressCheckout
      * @param array  $data
      * @param string $token
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function createRecurringPaymentsProfile($data, $token)
     {
@@ -335,9 +335,9 @@ class ExpressCheckout
      *
      * @param string $id
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function getRecurringPaymentsProfileDetails($id)
     {
@@ -354,9 +354,9 @@ class ExpressCheckout
      * @param array  $data
      * @param string $id
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function updateRecurringPaymentsProfile($data, $id)
     {
@@ -373,9 +373,9 @@ class ExpressCheckout
      * @param string $id
      * @param string $status
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     protected function manageRecurringPaymentsProfileStatus($id, $status)
     {
@@ -392,9 +392,9 @@ class ExpressCheckout
      *
      * @param string $id
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function cancelRecurringPaymentsProfile($id)
     {
@@ -406,9 +406,9 @@ class ExpressCheckout
      *
      * @param string $id
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function suspendRecurringPaymentsProfile($id)
     {
@@ -420,9 +420,9 @@ class ExpressCheckout
      *
      * @param string $id
      *
-     * @return array|\Psr\Http\Message\StreamInterface
-     *
      * @throws \Exception
+     *
+     * @return array|\Psr\Http\Message\StreamInterface
      */
     public function reactivateRecurringPaymentsProfile($id)
     {
