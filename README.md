@@ -101,6 +101,7 @@ return [
     'payment_action' => 'Sale', // Can Only Be 'Sale', 'Authorization', 'Order'
     'currency' => 'USD',
     'notify_url' => '',         // Change this accordingly for your application.
+    'locale'     => 'en_US', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
     'validate_ssl' => true,     // Validate SSL when creating api client.
 ];
 ```
