@@ -117,9 +117,9 @@ return [
 * Add this to `.env.example` and `.env`
 ```
 #PayPal Setting & API Credentials - sandbox
-PAYPAL_USERNAME=
-PAYPAL_PASSWORD=
-PAYPAL_SECRET=
+PAYPAL_SANDBOX_API_USERNAME=
+PAYPAL_SANDBOX_API_PASSWORD=
+PAYPAL_SANDBOX_API_SECRET=
 PAYPAL_SANDBOX_API_CERTIFICATE=
 #PayPal Setting & API Credentials - live
 PAYPAL_LIVE_API_USERNAME=
