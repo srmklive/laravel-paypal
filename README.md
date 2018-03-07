@@ -84,12 +84,6 @@ php artisan vendor:publish --provider "Srmklive\PayPal\Providers\PayPalServicePr
 * After installation, you will need to add your paypal settings. Following is the code you will find in **config/paypal.php**, which you should update accordingly.
 
 ```php
-<?php
-/**
- * PayPal Setting & API Credentials
- * Created by Raza Mehdi <srmk@outlook.com>.
- */
-
 return [
     'mode'    => 'sandbox', // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
     'sandbox' => [
@@ -114,13 +108,16 @@ return [
     'validate_ssl'   => true, // Validate SSL when creating api client.
 ];
 ```
+
 * Add this to `.env.example` and `.env`
+
 ```
 #PayPal Setting & API Credentials - sandbox
 PAYPAL_SANDBOX_API_USERNAME=
 PAYPAL_SANDBOX_API_PASSWORD=
 PAYPAL_SANDBOX_API_SECRET=
 PAYPAL_SANDBOX_API_CERTIFICATE=
+
 #PayPal Setting & API Credentials - live
 PAYPAL_LIVE_API_USERNAME=
 PAYPAL_LIVE_API_PASSWORD=
