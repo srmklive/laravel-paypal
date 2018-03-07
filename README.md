@@ -114,6 +114,19 @@ return [
     'validate_ssl'   => true, // Validate SSL when creating api client.
 ];
 ```
+* Add this to `.env.example` and `.env`
+```
+#PayPal Setting & API Credentials - sandbox
+PAYPAL_USERNAME=
+PAYPAL_PASSWORD=
+PAYPAL_SECRET=
+PAYPAL_SANDBOX_API_CERTIFICATE=
+#PayPal Setting & API Credentials - live
+PAYPAL_LIVE_API_USERNAME=
+PAYPAL_LIVE_API_PASSWORD=
+PAYPAL_LIVE_API_SECRET=
+PAYPAL_LIVE_API_CERTIFICATE=
+```
 
 <a name="usage"></a>
 ## Usage
