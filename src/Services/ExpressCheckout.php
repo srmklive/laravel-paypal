@@ -185,10 +185,12 @@ class ExpressCheckout
      */
     public function doExpressCheckoutPayment($data, $token, $payerid)
     {
+        $this->setItemSubTotal($data);
+
         $this->post = $this->setCartItems($data['items'])->merge([
             'TOKEN'                          => $token,
             'PAYERID'                        => $payerid,
-            'PAYMENTREQUEST_0_ITEMAMT'       => $data['total'],
+            'PAYMENTREQUEST_0_ITEMAMT'       => $this->subtotal,
             'PAYMENTREQUEST_0_AMT'           => $data['total'],
             'PAYMENTREQUEST_0_PAYMENTACTION' => !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
             'PAYMENTREQUEST_0_CURRENCYCODE'  => $this->currency,
@@ -196,6 +198,8 @@ class ExpressCheckout
             'PAYMENTREQUEST_0_INVNUM'        => $data['invoice_id'],
             'PAYMENTREQUEST_0_NOTIFYURL'     => $this->notifyUrl,
         ]);
+
+        $this->setShippingAmount($data);
 
         return $this->doPayPalRequest('DoExpressCheckoutPayment');
     }
