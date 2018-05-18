@@ -21,6 +21,8 @@
     - [DoExpressCheckoutPayment](#usage-ec-doexpresscheckoutpayment)
     - [RefundTransaction](#usage-ec-refundtransaction)
     - [CreateBillingAgreement](#usage-ec-createbillingagreement)
+    - [DoReferenceTransaction](#usage-ec-doreferencetransaction)
+    - [GetTransactionDetails](#usage-ec-gettransactiondetails)
     - [CreateRecurringPaymentsProfile](#usage-ec-createrecurringprofile)
     - [GetRecurringPaymentsProfileDetails](#usage-ec-getrecurringprofiledetails)
     - [UpdateRecurringPaymentsProfile](#usage-ec-updaterecurringprofile)
@@ -255,6 +257,24 @@ $data['total'] = $total;
     // The $token is the value returned from SetExpressCheckout API call
     $response = $provider->createBillingAgreement($token);
     ```    
+    
+<a name="usage-ec-doreferencetransaction"></a>    
+* **DoReferenceTransaction**
+
+    ```php
+    // The $token is the value returned from CreateBillingAgreement API call
+    // $action Can be Order, Sale or Authorization
+    // $amount to withdraw from the given BillingAgreement defaults to $. To overwrite use $provider->addOptions
+    $response = $provider->doReferenceTransaction($token,$action,$amount);
+    ```  
+ 
+<a name="usage-ec-gettransactiondetails"></a>    
+* **GetTransactionDetails**
+
+    ```php
+    // The $token is the value returned from doReferenceTransaction API call
+    $response = $provider->getTransactionDetails($token);
+    ```
 
 <a name="usage-ec-createrecurringprofile"></a>
 * **CreateRecurringPaymentsProfile**
