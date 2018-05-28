@@ -8,6 +8,7 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5f21a940-9d60-4d33-84ce-e367a253cce3/small.png)](https://insight.sensiolabs.com/projects/5f21a940-9d60-4d33-84ce-e367a253cce3)
 
 - [Introduction](#introduction)
+- [Demo Application](#demo-application)
 - [PayPal API Credentials](#paypal-api-credentials)
 - [Installation](#installation)
 - [Configuration](#configuration)
@@ -42,9 +43,14 @@ By using this plugin you can process or refund payments and handle IPN (Instant 
 
 **Currently only PayPal Express Checkout API Is Supported.**
 
-I have also created a [demo application](https://github.com/srmklive/laravel-paypal-demo) which utilizes this package. Following is the demo link for the application:
+<a name="demo-application"></a>
+## Demo Application
 
+Demo Application:
 https://laravel-paypal-demo.srmk.info/
+
+Github repo
+https://github.com/srmklive/laravel-paypal-demo
 
 <a name="paypal-api-credentials"></a>
 ## PayPal API Credentials
