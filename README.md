@@ -206,7 +206,7 @@ $data['items'] = [
 ];
 
 $data['invoice_id'] = 1;
-$data['invoice_description'] = "Order #{$data[invoice_id]} Invoice";
+$data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
 $data['return_url'] = url('/payment/success');
 $data['cancel_url'] = url('/cart');
 
