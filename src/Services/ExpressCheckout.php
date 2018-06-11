@@ -115,6 +115,20 @@ class ExpressCheckout
             ]);
         }
     }
+    
+    /**
+     * Set shipping discount if available.
+     *
+     * @param array $data
+     */
+    protected function setShippingDiscount($data)
+    {
+        if (isset($data['shipping_discount'])) {
+            $this->post = $this->post->merge([
+                'PAYMENTREQUEST_0_SHIPDISCAMT' => $data['shipping_discount'] * -1,
+            ]);
+        }
+    }
 
     /**
      * Perform a SetExpressCheckout API call on PayPal.
@@ -144,6 +158,8 @@ class ExpressCheckout
         ]);
 
         $this->setShippingAmount($data);
+        
+        $this->setShippingDiscount($data);
 
         $this->setExpressCheckoutRecurringPaymentConfig($data, $subscription);
 
