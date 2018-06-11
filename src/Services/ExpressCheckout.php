@@ -92,17 +92,14 @@ class ExpressCheckout
             $billingType = 'RecurringPayments';
         }
 
-        // Send L_BILLINGTYPE0 only if it is set
+        // Send L_BILLINGTYPE0 and L_BILLINGAGREEMENTDESCRIPTION0 only if there is billing type
         if (isset($billingType)) {
             $this->post = $this->post->merge([
                 'L_BILLINGTYPE0' => $billingType,
+                'L_BILLINGAGREEMENTDESCRIPTION0' => !empty($data['subscription_desc']) ?
+                    $data['subscription_desc'] : $data['invoice_description'],
             ]);
         }
-
-        $this->post = $this->post->merge([
-            'L_BILLINGAGREEMENTDESCRIPTION0' => !empty($data['subscription_desc']) ?
-                $data['subscription_desc'] : $data['invoice_description'],
-        ]);
     }
 
     /**
