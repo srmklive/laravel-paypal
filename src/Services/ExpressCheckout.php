@@ -95,7 +95,7 @@ class ExpressCheckout
         // Send L_BILLINGTYPE0 and L_BILLINGAGREEMENTDESCRIPTION0 only if there is billing type
         if (isset($billingType)) {
             $this->post = $this->post->merge([
-                'L_BILLINGTYPE0' => $billingType,
+                'L_BILLINGTYPE0'                 => $billingType,
                 'L_BILLINGAGREEMENTDESCRIPTION0' => !empty($data['subscription_desc']) ?
                     $data['subscription_desc'] : $data['invoice_description'],
             ]);
@@ -125,7 +125,7 @@ class ExpressCheckout
             ]);
         }
     }
-    
+
     /**
      * Set shipping discount if available.
      *
@@ -168,7 +168,7 @@ class ExpressCheckout
         ]);
 
         $this->setShippingAmount($data);
-        
+
         $this->setShippingDiscount($data);
 
         $this->setExpressCheckoutRecurringPaymentConfig($data, $subscription);
