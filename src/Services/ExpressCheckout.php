@@ -85,11 +85,21 @@ class ExpressCheckout
      */
     protected function setExpressCheckoutRecurringPaymentConfig($data, $subscription = false)
     {
-        $this->post = $this->post->merge([
-            'L_BILLINGTYPE0'                 => ($subscription) ? 'RecurringPayments' : 'MerchantInitiatedBilling',
-            'L_BILLINGAGREEMENTDESCRIPTION0' => !empty($data['subscription_desc']) ?
-                $data['subscription_desc'] : $data['invoice_description'],
-        ]);
+        $billingType = $this->billingType;
+
+        // Overwrite billing type if $subscription flag is enabled
+        if ($subscription) {
+            $billingType = 'RecurringPayments';
+        }
+
+        // Send L_BILLINGTYPE0 and L_BILLINGAGREEMENTDESCRIPTION0 only if there is billing type
+        if (isset($billingType)) {
+            $this->post = $this->post->merge([
+                'L_BILLINGTYPE0' => $billingType,
+                'L_BILLINGAGREEMENTDESCRIPTION0' => !empty($data['subscription_desc']) ?
+                    $data['subscription_desc'] : $data['invoice_description'],
+            ]);
+        }
     }
 
     /**
