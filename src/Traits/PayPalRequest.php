@@ -65,8 +65,8 @@ trait PayPalRequest
     private $currency;
 
     /**
-     * Defaut billing type for PayPal reference transactions
-     * 
+     * Defaut billing type for PayPal reference transactions.
+     *
      * @var string
      */
     private $billingType;
@@ -323,13 +323,13 @@ trait PayPalRequest
     public function setBillingType($billingType = 'MerchantInitiatedBilling')
     {
         $allowedBillingTypes = ['MerchantInitiatedBilling', 'MerchantInitiatedBillingSingleAgreement', 'RecurringPayments'];
-        
-        if ($billingType != null && !in_array($billingType, $allowedBillingTypes )) {
+
+        if ($billingType != null && !in_array($billingType, $allowedBillingTypes)) {
             throw new \Exception('Billing type is not supported by PayPal.');
         }
 
         $this->billingType = $billingType;
-        
+
         return $this;
     }
 
