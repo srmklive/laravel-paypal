@@ -451,6 +451,9 @@ foreach ($data['items'] as $item) {
 }
 
 $data['total'] = $total;
+
+//give a discount of 10% of the order amount
+$data['shipping_discount'] = round((10 / 100) * $total, 2);
 ```            
 
 * Next perform the remaining steps listed in [`SetExpressCheckout`](#usage-ec-setexpresscheckout).
