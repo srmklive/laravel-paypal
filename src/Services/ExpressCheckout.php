@@ -68,9 +68,9 @@ class ExpressCheckout
     {
         return (new Collection($items))->map(function ($item, $num) {
             return [
-                'L_PAYMENTREQUEST_0_NAME' . $num => $item['name'],
-                'L_PAYMENTREQUEST_0_AMT' . $num => $item['price'],
-                'L_PAYMENTREQUEST_0_QTY' . $num => isset($item['qty']) ? $item['qty'] : 1,
+                'L_PAYMENTREQUEST_0_NAME'.$num => $item['name'],
+                'L_PAYMENTREQUEST_0_AMT'.$num  => $item['price'],
+                'L_PAYMENTREQUEST_0_QTY'.$num  => isset($item['qty']) ? $item['qty'] : 1,
             ];
         })->flatMap(function ($value) {
             return $value;
@@ -81,7 +81,7 @@ class ExpressCheckout
      * Set Recurring payments details for SetExpressCheckout API call.
      *
      * @param array $data
-     * @param bool $subscription
+     * @param bool  $subscription
      */
     protected function setExpressCheckoutRecurringPaymentConfig($data, $subscription = false)
     {
@@ -95,7 +95,7 @@ class ExpressCheckout
         // Send L_BILLINGTYPE0 and L_BILLINGAGREEMENTDESCRIPTION0 only if there is billing type
         if (isset($billingType)) {
             $this->post = $this->post->merge([
-                'L_BILLINGTYPE0' => $billingType,
+                'L_BILLINGTYPE0'                 => $billingType,
                 'L_BILLINGAGREEMENTDESCRIPTION0' => !empty($data['subscription_desc']) ?
                     $data['subscription_desc'] : $data['invoice_description'],
             ]);
@@ -140,7 +140,7 @@ class ExpressCheckout
 
             $this->post = $this->post->merge([
                 'PAYMENTREQUEST_0_SHIPDISCAMT' => $data['shipping_discount'],
-                'PAYMENTREQUEST_0_AMT' => round($data['total'] + $data['shipping_discount'], 2)
+                'PAYMENTREQUEST_0_AMT'         => round($data['total'] + $data['shipping_discount'], 2),
             ]);
         }
     }
@@ -149,7 +149,7 @@ class ExpressCheckout
      * Perform a SetExpressCheckout API call on PayPal.
      *
      * @param array $data
-     * @param bool $subscription
+     * @param bool  $subscription
      *
      * @throws \Exception
      *
@@ -160,16 +160,16 @@ class ExpressCheckout
         $this->setItemSubTotal($data);
 
         $this->post = $this->setCartItems($data['items'])->merge([
-            'PAYMENTREQUEST_0_ITEMAMT' => $this->subtotal,
-            'PAYMENTREQUEST_0_AMT' => $data['total'],
+            'PAYMENTREQUEST_0_ITEMAMT'       => $this->subtotal,
+            'PAYMENTREQUEST_0_AMT'           => $data['total'],
             'PAYMENTREQUEST_0_PAYMENTACTION' => $this->paymentAction,
-            'PAYMENTREQUEST_0_CURRENCYCODE' => $this->currency,
-            'PAYMENTREQUEST_0_DESC' => $data['invoice_description'],
-            'PAYMENTREQUEST_0_INVNUM' => $data['invoice_id'],
-            'NOSHIPPING' => 1,
-            'RETURNURL' => $data['return_url'],
-            'CANCELURL' => $data['cancel_url'],
-            'LOCALE' => $this->locale,
+            'PAYMENTREQUEST_0_CURRENCYCODE'  => $this->currency,
+            'PAYMENTREQUEST_0_DESC'          => $data['invoice_description'],
+            'PAYMENTREQUEST_0_INVNUM'        => $data['invoice_id'],
+            'NOSHIPPING'                     => 1,
+            'RETURNURL'                      => $data['return_url'],
+            'CANCELURL'                      => $data['cancel_url'],
+            'LOCALE'                         => $this->locale,
         ]);
 
         $this->setShippingAmount($data);
@@ -181,7 +181,7 @@ class ExpressCheckout
         $response = $this->doPayPalRequest('SetExpressCheckout');
 
         return collect($response)->merge([
-            'paypal_link' => !empty($response['TOKEN']) ? $this->config['gateway_url'] . '/webscr?cmd=_express-checkout&token=' . $response['TOKEN'] : null,
+            'paypal_link' => !empty($response['TOKEN']) ? $this->config['gateway_url'].'/webscr?cmd=_express-checkout&token='.$response['TOKEN'] : null,
         ])->toArray();
     }
 
@@ -206,7 +206,7 @@ class ExpressCheckout
     /**
      * Perform DoExpressCheckoutPayment API call on PayPal.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $token
      * @param string $payerid
      *
@@ -219,15 +219,15 @@ class ExpressCheckout
         $this->setItemSubTotal($data);
 
         $this->post = $this->setCartItems($data['items'])->merge([
-            'TOKEN' => $token,
-            'PAYERID' => $payerid,
-            'PAYMENTREQUEST_0_ITEMAMT' => $this->subtotal,
-            'PAYMENTREQUEST_0_AMT' => $data['total'],
+            'TOKEN'                          => $token,
+            'PAYERID'                        => $payerid,
+            'PAYMENTREQUEST_0_ITEMAMT'       => $this->subtotal,
+            'PAYMENTREQUEST_0_AMT'           => $data['total'],
             'PAYMENTREQUEST_0_PAYMENTACTION' => !empty($this->config['payment_action']) ? $this->config['payment_action'] : 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE' => $this->currency,
-            'PAYMENTREQUEST_0_DESC' => $data['invoice_description'],
-            'PAYMENTREQUEST_0_INVNUM' => $data['invoice_id'],
-            'PAYMENTREQUEST_0_NOTIFYURL' => $this->notifyUrl,
+            'PAYMENTREQUEST_0_CURRENCYCODE'  => $this->currency,
+            'PAYMENTREQUEST_0_DESC'          => $data['invoice_description'],
+            'PAYMENTREQUEST_0_INVNUM'        => $data['invoice_id'],
+            'PAYMENTREQUEST_0_NOTIFYURL'     => $this->notifyUrl,
         ]);
 
         $this->setShippingAmount($data);
@@ -239,8 +239,8 @@ class ExpressCheckout
      * Perform a DoAuthorization API call on PayPal.
      *
      * @param string $authorization_id Transaction ID
-     * @param float $amount Amount to capture
-     * @param array $data Optional request fields
+     * @param float  $amount           Amount to capture
+     * @param array  $data             Optional request fields
      *
      * @throws \Exception
      *
@@ -251,7 +251,7 @@ class ExpressCheckout
         $this->setRequestData(
             array_merge($data, [
                 'AUTHORIZATIONID' => $authorization_id,
-                'AMT' => $amount,
+                'AMT'             => $amount,
             ])
         );
 
@@ -262,9 +262,9 @@ class ExpressCheckout
      * Perform a DoCapture API call on PayPal.
      *
      * @param string $authorization_id Transaction ID
-     * @param float $amount Amount to capture
-     * @param string $complete Indicates whether or not this is the last capture.
-     * @param array $data Optional request fields
+     * @param float  $amount           Amount to capture
+     * @param string $complete         Indicates whether or not this is the last capture.
+     * @param array  $data             Optional request fields
      *
      * @throws \Exception
      *
@@ -275,9 +275,9 @@ class ExpressCheckout
         $this->setRequestData(
             array_merge($data, [
                 'AUTHORIZATIONID' => $authorization_id,
-                'AMT' => $amount,
-                'COMPLETETYPE' => $complete,
-                'CURRENCYCODE' => $this->currency,
+                'AMT'             => $amount,
+                'COMPLETETYPE'    => $complete,
+                'CURRENCYCODE'    => $this->currency,
             ])
         );
 
@@ -288,8 +288,8 @@ class ExpressCheckout
      * Perform a DoReauthorization API call on PayPal to reauthorize an existing authorization transaction.
      *
      * @param string $authorization_id
-     * @param float $amount
-     * @param array $data
+     * @param float  $amount
+     * @param array  $data
      *
      * @throws \Exception
      *
@@ -300,7 +300,7 @@ class ExpressCheckout
         $this->setRequestData(
             array_merge($data, [
                 'AUTHORIZATIONID' => $authorization_id,
-                'AMOUNT' => $amount,
+                'AMOUNT'          => $amount,
             ])
         );
 
@@ -311,7 +311,7 @@ class ExpressCheckout
      * Perform a DoVoid API call on PayPal.
      *
      * @param string $authorization_id Transaction ID
-     * @param array $data Optional request fields
+     * @param array  $data             Optional request fields
      *
      * @throws \Exception
      *
@@ -349,7 +349,7 @@ class ExpressCheckout
     /**
      * Perform a CreateRecurringPaymentsProfile API call on PayPal.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $token
      *
      * @throws \Exception
@@ -386,7 +386,7 @@ class ExpressCheckout
     /**
      * Perform a UpdateRecurringPaymentsProfile API call on PayPal.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $id
      *
      * @throws \Exception
@@ -416,7 +416,7 @@ class ExpressCheckout
     {
         $this->setRequestData([
             'PROFILEID' => $id,
-            'ACTION' => $status,
+            'ACTION'    => $status,
         ]);
 
         return $this->doPayPalRequest('ManageRecurringPaymentsProfileStatus');
