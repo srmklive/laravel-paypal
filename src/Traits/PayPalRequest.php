@@ -225,7 +225,7 @@ trait PayPalRequest
 
         // Setup PayPal API Signature value to use.
         $this->config['signature'] = empty($this->config['certificate']) ?
-            $this->config['secret'] : $this->config['certificate'];
+        $this->config['secret'] : $this->config['certificate'];
 
         $this->paymentAction = $credentials['payment_action'];
 
@@ -299,7 +299,7 @@ trait PayPalRequest
      */
     public function setCurrency($currency = 'USD')
     {
-        $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD', 'RUB'];
+        $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'INR', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD', 'RUB'];
 
         // Check if provided currency is valid.
         if (!in_array($currency, $allowedCurrencies)) {
@@ -344,7 +344,7 @@ trait PayPalRequest
     {
         $this->setRequestData($post);
 
-        $this->apiUrl = $this->config['gateway_url'].'/cgi-bin/webscr';
+        $this->apiUrl = $this->config['gateway_url'] . '/cgi-bin/webscr';
 
         return $this->doPayPalRequest('verifyipn');
     }
@@ -357,11 +357,11 @@ trait PayPalRequest
     private function createRequestPayload($method)
     {
         $config = array_merge([
-            'USER'      => $this->config['username'],
-            'PWD'       => $this->config['password'],
+            'USER' => $this->config['username'],
+            'PWD' => $this->config['password'],
             'SIGNATURE' => $this->config['signature'],
-            'VERSION'   => 123,
-            'METHOD'    => $method,
+            'VERSION' => 123,
+            'METHOD' => $method,
         ], $this->options);
 
         $this->post = $this->post->merge($config);
