@@ -344,7 +344,7 @@ trait PayPalRequest
     {
         $this->setRequestData($post);
 
-        $this->apiUrl = $this->config['gateway_url'] . '/cgi-bin/webscr';
+        $this->apiUrl = $this->config['gateway_url'].'/cgi-bin/webscr';
 
         return $this->doPayPalRequest('verifyipn');
     }
@@ -357,11 +357,11 @@ trait PayPalRequest
     private function createRequestPayload($method)
     {
         $config = array_merge([
-            'USER' => $this->config['username'],
-            'PWD' => $this->config['password'],
+            'USER'      => $this->config['username'],
+            'PWD'       => $this->config['password'],
             'SIGNATURE' => $this->config['signature'],
-            'VERSION' => 123,
-            'METHOD' => $method,
+            'VERSION'   => 123,
+            'METHOD'    => $method,
         ], $this->options);
 
         $this->post = $this->post->merge($config);
