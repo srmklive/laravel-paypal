@@ -44,11 +44,13 @@ class ExpressCheckout
                 'https://api-3t.sandbox.paypal.com/nvp' : 'https://api.sandbox.paypal.com/nvp';
 
             $this->config['gateway_url'] = 'https://www.sandbox.paypal.com';
+            $this->config['ipn_url'] = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
         } else {
             $this->config['api_url'] = !empty($this->config['secret']) ?
                 'https://api-3t.paypal.com/nvp' : 'https://api.paypal.com/nvp';
 
             $this->config['gateway_url'] = 'https://www.paypal.com';
+            $this->config['ipn_url'] = 'https://ipnpb.paypal.com/cgi-bin/webscr';
         }
 
         // Adding params outside sandbox / live array

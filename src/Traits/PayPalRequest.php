@@ -344,7 +344,7 @@ trait PayPalRequest
     {
         $this->setRequestData($post);
 
-        $this->apiUrl = $this->config['gateway_url'].'/cgi-bin/webscr';
+        $this->apiUrl = $this->config['ipn_url'];
 
         return $this->doPayPalRequest('verifyipn');
     }
