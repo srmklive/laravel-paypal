@@ -10,6 +10,26 @@ use GuzzleHttp\Exception\ServerException as HttpServerException;
 trait PayPalHttpClient
 {
     /**
+     * @var \GuzzleHttp\Client
+     */
+    public $client;
+
+    /**
+     * @var array
+     */
+    protected $params;
+
+    /**
+     * @var string
+     */
+    protected $apiUrl;
+
+    /**
+     * @var string
+     */
+    protected $accessToken;
+
+    /**
      * Function to initialize Http Client.
      *
      * @return void
@@ -17,7 +37,7 @@ trait PayPalHttpClient
     protected function setClient()
     {
         $this->client = new HttpClient([
-            'curl' => $this->httpClientConfig,
+            'curl' => $this->curlConfig,
         ]);
     }
 
@@ -28,26 +48,13 @@ trait PayPalHttpClient
      */
     protected function setHttpClientConfiguration()
     {
-        $this->httpClientConfig = [
+        $this->curlConfig = [
             CURLOPT_SSLVERSION     => CURL_SSLVERSION_TLSv1_2,
-            CURLOPT_SSL_VERIFYPEER => $this->validateSSL,
+            CURLOPT_SSL_VERIFYPEER => $this->credentials['validate_ssl'],
         ];
-
-        if (!empty($this->certificate)) {
-            $this->httpClientConfig[CURLOPT_SSLCERT] = $this->certificate;
-        }
 
         // Initialize Http Client
         $this->setClient();
-
-        // Set default values.
-        $this->setDefaultValues();
-
-        // Set PayPal API Endpoint.
-        $this->apiUrl = $this->config['api_url'];
-
-        // Set PayPal IPN Notification URL
-        $this->notifyUrl = $this->config['notify_url'];
     }
 
     /**
@@ -60,9 +67,7 @@ trait PayPalHttpClient
     private function makeHttpRequest()
     {
         try {
-            return $this->client->post($this->apiUrl, [
-                $this->httpBodyParam => $this->post->toArray(),
-            ])->getBody();
+            return $this->client->post($this->apiUrl, $this->params)->getBody();
         } catch (HttpClientException $e) {
             throw new \Exception($e->getRequest().' '.$e->getResponse());
         } catch (HttpServerException $e) {
@@ -75,22 +80,17 @@ trait PayPalHttpClient
     /**
      * Function To Perform PayPal API Request.
      *
-     * @param string $method
-     *
      * @throws \Exception
      *
      * @return array|\Psr\Http\Message\StreamInterface
      */
-    private function doPayPalRequest($method)
+    public function sendRequest()
     {
-        // Setup PayPal API Request Payload
-        $this->createRequestPayload($method);
-
         try {
             // Perform PayPal HTTP API request.
             $response = $this->makeHttpRequest();
 
-            return $this->retrieveData($method, $response);
+            return \GuzzleHttp\json_decode($response, true);
         } catch (\Exception $e) {
             $message = collect($e->getTrace())->implode('\n');
         }

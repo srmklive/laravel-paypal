@@ -10,6 +10,7 @@ namespace Srmklive\PayPal\Providers;
 use Illuminate\Support\ServiceProvider;
 use Srmklive\PayPal\Services\AdaptivePayments;
 use Srmklive\PayPal\Services\ExpressCheckout;
+use Srmklive\PayPal\Services\PayPalRestAPI;
 
 class PayPalServiceProvider extends ServiceProvider
 {
@@ -31,9 +32,6 @@ class PayPalServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../config/config.php' => config_path('paypal.php'),
         ]);
-
-        // Publish Lang Files
-        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'paypal');
     }
 
     /**
@@ -55,12 +53,8 @@ class PayPalServiceProvider extends ServiceProvider
      */
     private function registerPayPal()
     {
-        $this->app->singleton('express_checkout', function () {
-            return new ExpressCheckout();
-        });
-
-        $this->app->singleton('adaptive_payments', function () {
-            return new AdaptivePayments();
+        $this->app->singleton('paypal_rest', function () {
+            return new PayPalRestAPI();
         });
     }
 
