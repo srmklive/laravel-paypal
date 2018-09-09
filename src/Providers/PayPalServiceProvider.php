@@ -8,8 +8,6 @@ namespace Srmklive\PayPal\Providers;
  */
 
 use Illuminate\Support\ServiceProvider;
-use Srmklive\PayPal\Services\AdaptivePayments;
-use Srmklive\PayPal\Services\ExpressCheckout;
 use Srmklive\PayPal\Services\PayPalRestAPI;
 
 class PayPalServiceProvider extends ServiceProvider

@@ -16,6 +16,6 @@ return [
         'secret'    => env('PAYPAL_LIVE_CLIENT_SECRET', ''),
         'app_id'    => '', // Used for Adaptive Payments API
     ],
-    'locale' => 'en_US',
-    'validate_ssl'  => env('PAYPAL_VALIDATE_SSL', true)
+    'locale'        => 'en_US',
+    'validate_ssl'  => env('PAYPAL_VALIDATE_SSL', true),
 ];

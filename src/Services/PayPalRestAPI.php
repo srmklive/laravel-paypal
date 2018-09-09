@@ -53,7 +53,7 @@ class PayPalRestAPI
 
         $sandbox = ($mode === 'sandbox') ? true : false;
         if (function_exists('config')) {
-            $credentials = config('paypal.' . $mode);
+            $credentials = config('paypal.'.$mode);
 
             $this->setApiCredentials($credentials, $sandbox);
         }
@@ -63,7 +63,7 @@ class PayPalRestAPI
      * Set PayPal Rest API credentials & endpoints.
      *
      * @param array $credentials
-     * @param bool $sandbox
+     * @param bool  $sandbox
      *
      * @throws \Exception
      */
@@ -78,12 +78,12 @@ class PayPalRestAPI
 
         if ($this->sandbox === true) {
             $this->endpoints = [
-                'rest' => 'https://api.sandbox.paypal.com/',
+                'rest'     => 'https://api.sandbox.paypal.com/',
                 'redirect' => 'https://www.sandbox.paypal.com',
             ];
         } else {
             $this->endpoints = [
-                'rest' => 'https://api.paypal.com/',
+                'rest'     => 'https://api.paypal.com/',
                 'redirect' => 'https://www.paypal.com',
             ];
         }
@@ -103,7 +103,7 @@ class PayPalRestAPI
     public function setLocale($locale)
     {
         if (!in_array($locale, $this->locales())) {
-            throw new \Exception("Invalid locale");
+            throw new \Exception('Invalid locale');
         }
 
         $this->locale = $locale;
@@ -130,12 +130,12 @@ class PayPalRestAPI
                 $this->credentials['secret'],
             ],
             'headers' => [
-                'Accept' => 'application/json',
-                'Accept-Language' => $this->locale
+                'Accept'          => 'application/json',
+                'Accept-Language' => $this->locale,
             ],
             'form_params' => [
                 'grant_type' => 'client_credentials',
-            ]
+            ],
         ];
 
         $this->setResponse(
