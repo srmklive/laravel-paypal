@@ -11,10 +11,10 @@ trait RecurringProfiles
      * The billing frequency is in months, i.e: if you want a monthly subscription, then your billing frequency would be 1.
      *
      * @param string $token
-     * @param float $amount
+     * @param float  $amount
      * @param string $description
-     * @param int $billingFrequency
-     * @param int $trialDays
+     * @param int    $billingFrequency
+     * @param int    $trialDays
      *
      * @return array
      */
