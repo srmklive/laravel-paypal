@@ -10,6 +10,30 @@ use GuzzleHttp\Exception\ServerException as HttpServerException;
 trait PayPalHttpClient
 {
     /**
+     * Set curl constants if not defined.
+     *
+     * @return void
+     */
+    protected function setCurlConstants()
+    {
+        if (!defined('CURLOPT_SSLVERSION')) {
+            define('CURLOPT_SSLVERSION', 32);
+        }
+
+        if (!defined('CURL_SSLVERSION_TLSv1_2')) {
+            define('CURL_SSLVERSION_TLSv1_2', 6);
+        }
+
+        if (!defined('CURLOPT_SSL_VERIFYPEER')) {
+            define('CURLOPT_SSL_VERIFYPEER', 64);
+        }
+
+        if (!defined('CURLOPT_SSLCERT')) {
+            define('CURLOPT_SSLCERT', 10025);
+        }
+    }
+
+    /**
      * Function to initialize Http Client.
      *
      * @return void
@@ -28,6 +52,8 @@ trait PayPalHttpClient
      */
     protected function setHttpClientConfiguration()
     {
+        $this->defineCurlConstants();
+
         $this->httpClientConfig = [
             CURLOPT_SSLVERSION     => CURL_SSLVERSION_TLSv1_2,
             CURLOPT_SSL_VERIFYPEER => $this->validateSSL,
