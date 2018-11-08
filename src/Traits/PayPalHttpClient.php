@@ -52,7 +52,7 @@ trait PayPalHttpClient
      */
     protected function setHttpClientConfiguration()
     {
-        $this->defineCurlConstants();
+        $this->setCurlConstants();
 
         $this->httpClientConfig = [
             CURLOPT_SSLVERSION     => CURL_SSLVERSION_TLSv1_2,
