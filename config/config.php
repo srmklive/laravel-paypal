@@ -5,7 +5,7 @@
  */
 
 return [
-    'mode'    => 'sandbox', // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
+    'mode'    => env('PAYPAL_MODE', 'sandbox'), // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
     'sandbox' => [
         'username'    => env('PAYPAL_SANDBOX_API_USERNAME', ''),
         'password'    => env('PAYPAL_SANDBOX_API_PASSWORD', ''),
@@ -22,7 +22,7 @@ return [
     ],
 
     'payment_action' => 'Sale', // Can only be 'Sale', 'Authorization' or 'Order'
-    'currency'       => 'USD',
+    'currency'       => env('PAYPAL_CURRENCY', 'USD'),
     'billing_type'   => 'MerchantInitiatedBilling',
     'notify_url'     => '', // Change this accordingly for your application.
     'locale'         => '', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
