@@ -196,11 +196,13 @@ $data['items'] = [
     [
         'name' => 'Product 1',
         'price' => 9.99,
+        'desc'  => 'Description for product 1'
         'qty' => 1
     ],
     [
         'name' => 'Product 2',
         'price' => 4.99,
+        'desc'  => 'Description for product 2',
         'qty' => 2
     ]
 ];
