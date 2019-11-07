@@ -174,6 +174,8 @@ class ExpressCheckout
             'CANCELURL'                      => $data['cancel_url'],
             'LOCALE'                         => $this->locale,
         ]);
+        
+        $this->setTaxAmount($data);
 
         $this->setShippingAmount($data);
 
@@ -232,6 +234,8 @@ class ExpressCheckout
             'PAYMENTREQUEST_0_INVNUM'        => $data['invoice_id'],
             'PAYMENTREQUEST_0_NOTIFYURL'     => $this->notifyUrl,
         ]);
+        
+        $this->setTaxAmount($data);
 
         $this->setShippingAmount($data);
 
