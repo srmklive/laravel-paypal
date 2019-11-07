@@ -130,6 +130,20 @@ class ExpressCheckout
     }
 
     /**
+     * Set tax amount if available.
+     *
+     * @param array $data
+     */
+    protected function setTaxAmount($data)
+    {
+        if (isset($data['tax'])) {
+            $this->post = $this->post->merge([
+                'PAYMENTREQUEST_0_TAXAMT' => $data['tax'],
+            ]);
+        }
+    }
+
+    /**
      * Set shipping discount if available.
      *
      * @param array $data
@@ -178,6 +192,8 @@ class ExpressCheckout
         $this->setShippingAmount($data);
 
         $this->setShippingDiscount($data);
+
+        $this->setTaxAmount($data);
 
         $this->setExpressCheckoutRecurringPaymentConfig($data, $subscription);
 
