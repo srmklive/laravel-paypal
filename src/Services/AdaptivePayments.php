@@ -237,12 +237,8 @@ class AdaptivePayments
                 'json'    => $this->post->toArray(),
                 'headers' => $this->setHeaders(),
             ])->getBody();
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            throw new \Exception(collect($e->getTrace())->implode('\n'));
-        } catch (\GuzzleHttp\Exception\ServerException $e) {
-            throw new \Exception(collect($e->getTrace())->implode('\n'));
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-            throw new \Exception(collect($e->getTrace())->implode('\n'));
+        } catch (\Throwable $t) {
+            throw new \Exception(collect($t->getTrace())->implode('\n'));
         }
     }
 
