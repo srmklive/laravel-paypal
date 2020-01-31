@@ -3,9 +3,6 @@
 namespace Srmklive\PayPal\Traits;
 
 use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Exception\BadResponseException as HttpBadResponseException;
-use GuzzleHttp\Exception\ClientException as HttpClientException;
-use GuzzleHttp\Exception\ServerException as HttpServerException;
 
 trait PayPalHttpClient
 {
