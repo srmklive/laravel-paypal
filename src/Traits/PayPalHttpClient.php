@@ -89,12 +89,8 @@ trait PayPalHttpClient
             return $this->client->post($this->apiUrl, [
                 $this->httpBodyParam => $this->post->toArray(),
             ])->getBody();
-        } catch (HttpClientException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (HttpServerException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (HttpBadResponseException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
+        } catch (\Throwable $t) {
+            throw new \Exception($t->getRequest().' '.$t->getResponse());
         }
     }
 
