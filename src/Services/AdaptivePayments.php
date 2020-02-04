@@ -2,7 +2,11 @@
 
 namespace Srmklive\PayPal\Services;
 
+use Exception;
+use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 use Srmklive\PayPal\Traits\PayPalRequest as PayPalAPIRequest;
+use Throwable;
 
 class AdaptivePayments
 {
@@ -10,6 +14,8 @@ class AdaptivePayments
 
     /**
      * PayPal Processor Constructor.
+     *
+     * @throws Exception
      */
     public function __construct()
     {
@@ -24,7 +30,7 @@ class AdaptivePayments
      */
     public function setAdaptivePaymentsOptions()
     {
-        if ($this->mode == 'sandbox') {
+        if ($this->mode === 'sandbox') {
             $this->config['api_url'] = 'https://svcs.sandbox.paypal.com/AdaptivePayments';
             $this->config['gateway_url'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         } else {
@@ -87,8 +93,8 @@ class AdaptivePayments
             'cancelUrl'       => $data['cancel_url'],
             'requestEnvelope' => $this->setEnvelope(),
             'feesPayer'       => $data['payer'],
-        ])->filter(function ($value, $key) {
-            return (($key === 'feesPayer') && empty($value)) ? null : $value;
+        ])->filter(static function ($value, $key) {
+            return $key === 'feesPayer' && empty($value) ? null : $value;
         });
     }
 
@@ -97,14 +103,14 @@ class AdaptivePayments
      *
      * @param array $data
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return array
      */
     public function createPayRequest($data)
     {
         if (empty($data['return_url']) && empty($data['cancel_url'])) {
-            throw new \Exception('Return & Cancel URL should be specified');
+            throw new RuntimeException('Return & Cancel URL should be specified');
         }
 
         $this->setPayRequestDetails($data);
@@ -174,15 +180,15 @@ class AdaptivePayments
      */
     public function getRedirectUrl($option, $payKey)
     {
-        $url = $this->config['gateway_url'].'?cmd=';
-
-        if ($option == 'approved') {
-            $url .= '_ap-payment&paykey='.$payKey;
-        } elseif ($option == 'pre-approved') {
-            $url .= '_ap-preapproval&preapprovalkey='.$payKey;
+        if ($option === 'approved') {
+            return $this->config['gateway_url'] . '?cmd=' . '_ap-payment&paykey='.$payKey;
         }
 
-        return $url;
+        if ($option === 'pre-approved') {
+            return $this->config['gateway_url'] . '?cmd=' . '_ap-preapproval&preapprovalkey='.$payKey;
+        }
+
+        return $this->config['gateway_url'] . '?cmd=';
     }
 
     /**
@@ -194,7 +200,7 @@ class AdaptivePayments
      */
     private function setPaymentOptionsReceiverDetails($receivers)
     {
-        return collect($receivers)->map(function ($receiver) {
+        return collect($receivers)->map(static function ($receiver) {
             $item = [];
 
             $item['receiver'] = [
@@ -226,9 +232,9 @@ class AdaptivePayments
     /**
      * Perform PayPal API request & return response.
      *
-     * @throws \Exception
+     * @throws Exception
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
     private function makeHttpRequest()
     {
@@ -237,19 +243,16 @@ class AdaptivePayments
                 'json'    => $this->post->toArray(),
                 'headers' => $this->setHeaders(),
             ])->getBody();
-        } catch (\Throwable $t) {
-            throw new \Exception(collect($t->getTrace())->implode('\n'));
+        } catch (Throwable $t) {
+            throw new RuntimeException(collect($t->getTrace())->implode('\n'));
         }
     }
 
     /**
      * Function To Perform PayPal API Request.
      *
-     * @param string $method
-     *
-     * @throws \Exception
-     *
-     * @return array|mixed|\Psr\Http\Message\StreamInterface
+     * @param $method
+     * @return array|mixed
      */
     private function doPayPalRequest($method)
     {
@@ -260,7 +263,7 @@ class AdaptivePayments
             $response = $this->makeHttpRequest();
 
             return \GuzzleHttp\json_decode($response, true);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $message = $e->getMessage();
         }
 

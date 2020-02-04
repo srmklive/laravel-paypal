@@ -2,7 +2,13 @@
 
 namespace Srmklive\PayPal\Traits;
 
+use Exception;
+use GuzzleHttp\Client as HttpClient;
 use Illuminate\Support\Collection;
+use Psr\Http\Message\StreamInterface;
+use RuntimeException;
+use Srmklive\PayPal\Services\AdaptivePayments;
+use Srmklive\PayPal\Services\ExpressCheckout;
 
 trait PayPalRequest
 {
@@ -39,7 +45,7 @@ trait PayPalRequest
     /**
      * Request data to be sent to PayPal.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     protected $post;
 
@@ -65,7 +71,7 @@ trait PayPalRequest
     private $currency;
 
     /**
-     * Defaut billing type for PayPal reference transactions.
+     * Default billing type for PayPal reference transactions.
      *
      * @var string
      */
@@ -121,11 +127,132 @@ trait PayPalRequest
     private $validateSSL;
 
     /**
+     * Set PayPal API Credentials.
+     *
+     * @param array $credentials
+     *
+     * @throws Exception
+     *
+     * @return void
+     */
+    public function setApiCredentials($credentials)
+    {
+        // Setting Default PayPal Mode If not set
+        $this->setApiEnvironment($credentials);
+
+        // Set API configuration for the PayPal provider
+        $this->setApiProviderConfiguration($credentials);
+
+        // Set default currency.
+        $this->setCurrency($credentials['currency']);
+
+        // Set default billing type
+        $this->setBillingType($credentials['billing_type']);
+
+        // Set Http Client configuration.
+        $this->setHttpClientConfiguration();
+    }
+
+    /**
+     * Set other/override PayPal API parameters.
+     *
+     * @param array $options
+     *
+     * @return $this
+     */
+    public function addOptions(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Function to set currency.
+     *
+     * @param string $currency
+     *
+     * @throws Exception
+     *
+     * @return $this
+     */
+    public function setCurrency($currency = 'USD')
+    {
+        $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'INR', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD', 'RUB'];
+
+        // Check if provided currency is valid.
+        if (!in_array($currency, $allowedCurrencies, true)) {
+            throw new Exception('Currency is not supported by PayPal.');
+        }
+
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * Function to set billing type.
+     *
+     * @param string $billingType
+     *
+     * @throws Exception
+     *
+     * @return $this
+     */
+    public function setBillingType($billingType = 'MerchantInitiatedBilling')
+    {
+        $allowedBillingTypes = ['MerchantInitiatedBilling', 'MerchantInitiatedBillingSingleAgreement', 'RecurringPayments'];
+
+        if ($billingType !== null && !in_array($billingType, $allowedBillingTypes, true)) {
+            throw new RuntimeException('Billing type is not supported by PayPal.');
+        }
+
+        $this->billingType = $billingType;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve PayPal IPN Response.
+     *
+     * @param array $post
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function verifyIPN($post)
+    {
+        $this->setRequestData($post);
+
+        $this->apiUrl = $this->config['ipn_url'];
+
+        return $this->doPayPalRequest('verifyipn');
+    }
+
+    /**
+     * Setup request data to be sent to PayPal.
+     *
+     * @param array $data
+     *
+     * @return Collection
+     */
+    protected function setRequestData(array $data = [])
+    {
+        if (($this->post instanceof Collection) && (!$this->post->isEmpty())) {
+            unset($this->post);
+        }
+
+        $this->post = new Collection($data);
+
+        return $this->post;
+    }
+
+    /**
      * Function To Set PayPal API Configuration.
      *
      * @param array $config
      *
-     * @throws \Exception
+     * @throws Exception
      */
     private function setConfig(array $config = [])
     {
@@ -165,33 +292,6 @@ trait PayPalRequest
     }
 
     /**
-     * Set PayPal API Credentials.
-     *
-     * @param array $credentials
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function setApiCredentials($credentials)
-    {
-        // Setting Default PayPal Mode If not set
-        $this->setApiEnvironment($credentials);
-
-        // Set API configuration for the PayPal provider
-        $this->setApiProviderConfiguration($credentials);
-
-        // Set default currency.
-        $this->setCurrency($credentials['currency']);
-
-        // Set default billing type
-        $this->setBillingType($credentials['billing_type']);
-
-        // Set Http Client configuration.
-        $this->setHttpClientConfiguration();
-    }
-
-    /**
      * Set API environment to be used by PayPal.
      *
      * @param array $credentials
@@ -212,7 +312,7 @@ trait PayPalRequest
      *
      * @param array $credentials
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return void
      */
@@ -243,110 +343,19 @@ trait PayPalRequest
      *
      * @param array $credentials
      *
-     * @throws \Exception
+     * @throws Exception
      */
     private function setApiProvider($credentials)
     {
-        if ($this instanceof \Srmklive\PayPal\Services\AdaptivePayments) {
-            $this->setAdaptivePaymentsOptions();
-        } elseif ($this instanceof \Srmklive\PayPal\Services\ExpressCheckout) {
-            $this->setExpressCheckoutOptions($credentials);
-        } else {
-            throw new \Exception('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
-        }
-    }
-
-    /**
-     * Setup request data to be sent to PayPal.
-     *
-     * @param array $data
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    protected function setRequestData(array $data = [])
-    {
-        if (($this->post instanceof Collection) && (!$this->post->isEmpty())) {
-            unset($this->post);
+        if ($this instanceof AdaptivePayments) {
+            return $this->setAdaptivePaymentsOptions();
         }
 
-        $this->post = new Collection($data);
-
-        return $this->post;
-    }
-
-    /**
-     * Set other/override PayPal API parameters.
-     *
-     * @param array $options
-     *
-     * @return $this
-     */
-    public function addOptions(array $options)
-    {
-        $this->options = $options;
-
-        return $this;
-    }
-
-    /**
-     * Function to set currency.
-     *
-     * @param string $currency
-     *
-     * @throws \Exception
-     *
-     * @return $this
-     */
-    public function setCurrency($currency = 'USD')
-    {
-        $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'INR', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD', 'RUB'];
-
-        // Check if provided currency is valid.
-        if (!in_array($currency, $allowedCurrencies)) {
-            throw new \Exception('Currency is not supported by PayPal.');
+        if ($this instanceof ExpressCheckout) {
+            return $this->setExpressCheckoutOptions($credentials);
         }
 
-        $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * Function to set billing type.
-     *
-     * @param string $billingType
-     *
-     * @throws \Exception
-     *
-     * @return $this
-     */
-    public function setBillingType($billingType = 'MerchantInitiatedBilling')
-    {
-        $allowedBillingTypes = ['MerchantInitiatedBilling', 'MerchantInitiatedBillingSingleAgreement', 'RecurringPayments'];
-
-        if ($billingType != null && !in_array($billingType, $allowedBillingTypes)) {
-            throw new \Exception('Billing type is not supported by PayPal.');
-        }
-
-        $this->billingType = $billingType;
-
-        return $this;
-    }
-
-    /**
-     * Retrieve PayPal IPN Response.
-     *
-     * @param array $post
-     *
-     * @return array
-     */
-    public function verifyIPN($post)
-    {
-        $this->setRequestData($post);
-
-        $this->apiUrl = $this->config['ipn_url'];
-
-        return $this->doPayPalRequest('verifyipn');
+        throw new RuntimeException('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
     }
 
     /**
@@ -373,8 +382,8 @@ trait PayPalRequest
     /**
      * Parse PayPal NVP Response.
      *
-     * @param string                                  $method
-     * @param array|\Psr\Http\Message\StreamInterface $response
+     * @param string                $method
+     * @param array|StreamInterface $response
      *
      * @return array
      */

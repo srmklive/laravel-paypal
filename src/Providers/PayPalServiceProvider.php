@@ -55,11 +55,11 @@ class PayPalServiceProvider extends ServiceProvider
      */
     private function registerPayPal()
     {
-        $this->app->singleton('express_checkout', function () {
+        $this->app->singleton('express_checkout', static function () {
             return new ExpressCheckout();
         });
 
-        $this->app->singleton('adaptive_payments', function () {
+        $this->app->singleton('adaptive_payments', static function () {
             return new AdaptivePayments();
         });
     }
