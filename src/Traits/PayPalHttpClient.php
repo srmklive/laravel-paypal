@@ -2,10 +2,11 @@
 
 namespace Srmklive\PayPal\Traits;
 
+use Exception;
 use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Exception\BadResponseException as HttpBadResponseException;
-use GuzzleHttp\Exception\ClientException as HttpClientException;
-use GuzzleHttp\Exception\ServerException as HttpServerException;
+use Psr\Http\Message\StreamInterface;
+use RuntimeException;
+use Throwable;
 
 trait PayPalHttpClient
 {
@@ -79,9 +80,9 @@ trait PayPalHttpClient
     /**
      * Perform PayPal API request & return response.
      *
-     * @throws \Exception
+     * @throws Exception
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
     private function makeHttpRequest()
     {
@@ -89,12 +90,8 @@ trait PayPalHttpClient
             return $this->client->post($this->apiUrl, [
                 $this->httpBodyParam => $this->post->toArray(),
             ])->getBody();
-        } catch (HttpClientException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (HttpServerException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
-        } catch (HttpBadResponseException $e) {
-            throw new \Exception($e->getRequest().' '.$e->getResponse());
+        } catch (Throwable $t) {
+            throw new RuntimeException($t->getRequest() . ' ' . $t->getResponse());
         }
     }
 
@@ -103,9 +100,8 @@ trait PayPalHttpClient
      *
      * @param string $method
      *
-     * @throws \Exception
-     *
-     * @return array|\Psr\Http\Message\StreamInterface
+     * @return array|StreamInterface
+     * @throws Exception
      */
     private function doPayPalRequest($method)
     {
@@ -117,8 +113,8 @@ trait PayPalHttpClient
             $response = $this->makeHttpRequest();
 
             return $this->retrieveData($method, $response);
-        } catch (\Exception $e) {
-            $message = collect($e->getTrace())->implode('\n');
+        } catch (Throwable $t) {
+            $message = collect($t->getTrace())->implode('\n');
         }
 
         return [

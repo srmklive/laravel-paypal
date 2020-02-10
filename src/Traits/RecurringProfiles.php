@@ -29,7 +29,7 @@ trait RecurringProfiles
             'CURRENCYCODE'     => $this->currency,
         ];
 
-        if (!is_null($trialDays) && is_numeric($trialDays)) {
+        if ($trialDays !== null && is_numeric($trialDays)) {
             $data['TRIALBILLINGPERIOD'] = 'Day';
             $data['TRIALTOTALBILLINGCYCLES'] = $trialDays;
             $data['TRIALBILLINGFREQUENCY'] = 1;
