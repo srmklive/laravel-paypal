@@ -91,7 +91,7 @@ trait PayPalHttpClient
                 $this->httpBodyParam => $this->post->toArray(),
             ])->getBody();
         } catch (Throwable $t) {
-            throw new RuntimeException($t->getRequest() . ' ' . $t->getResponse());
+            throw new RuntimeException($t->getRequest().' '.$t->getResponse());
         }
     }
 
@@ -100,8 +100,9 @@ trait PayPalHttpClient
      *
      * @param string $method
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     private function doPayPalRequest($method)
     {
