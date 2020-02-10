@@ -181,14 +181,14 @@ class AdaptivePayments
     public function getRedirectUrl($option, $payKey)
     {
         if ($option === 'approved') {
-            return $this->config['gateway_url'] . '?cmd=' . '_ap-payment&paykey='.$payKey;
+            return $this->config['gateway_url'].'?cmd='.'_ap-payment&paykey='.$payKey;
         }
 
         if ($option === 'pre-approved') {
-            return $this->config['gateway_url'] . '?cmd=' . '_ap-preapproval&preapprovalkey='.$payKey;
+            return $this->config['gateway_url'].'?cmd='.'_ap-preapproval&preapprovalkey='.$payKey;
         }
 
-        return $this->config['gateway_url'] . '?cmd=';
+        return $this->config['gateway_url'].'?cmd=';
     }
 
     /**
@@ -252,6 +252,7 @@ class AdaptivePayments
      * Function To Perform PayPal API Request.
      *
      * @param $method
+     *
      * @return array|mixed
      */
     private function doPayPalRequest($method)

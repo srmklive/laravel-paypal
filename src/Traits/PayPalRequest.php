@@ -217,8 +217,9 @@ trait PayPalRequest
      *
      * @param array $post
      *
-     * @return array
      * @throws Exception
+     *
+     * @return array
      */
     public function verifyIPN($post)
     {

@@ -12,8 +12,9 @@ use Srmklive\PayPal\Traits\RecurringProfiles;
 class ExpressCheckout
 {
     // Integrate PayPal Request trait
-    use PayPalAPIRequest, PayPalTransactions, RecurringProfiles;
-
+    use PayPalAPIRequest;
+    use PayPalTransactions;
+    use RecurringProfiles;
     /**
      * ExpressCheckout constructor.
      *
@@ -170,8 +171,9 @@ class ExpressCheckout
      * @param array $data
      * @param bool  $subscription
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function setExpressCheckout($data, $subscription = false)
     {
@@ -212,8 +214,9 @@ class ExpressCheckout
      *
      * @param string $token
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function getExpressCheckoutDetails($token)
     {
@@ -227,12 +230,13 @@ class ExpressCheckout
     /**
      * Perform DoExpressCheckoutPayment API call on PayPal.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $token
      * @param string $payerId
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function doExpressCheckoutPayment($data, $token, $payerId)
     {
@@ -261,11 +265,12 @@ class ExpressCheckout
      * Perform a DoAuthorization API call on PayPal.
      *
      * @param string $authorizationId Transaction ID
-     * @param float  $amount           Amount to capture
-     * @param array  $data             Optional request fields
+     * @param float  $amount          Amount to capture
+     * @param array  $data            Optional request fields
+     *
+     * @throws Exception
      *
      * @return array|StreamInterface
-     * @throws Exception
      */
     public function doAuthorization($authorizationId, $amount, $data = [])
     {
@@ -283,12 +288,13 @@ class ExpressCheckout
      * Perform a DoCapture API call on PayPal.
      *
      * @param string $authorizationId Transaction ID
-     * @param float  $amount           Amount to capture
-     * @param string $complete         Indicates whether or not this is the last capture.
-     * @param array  $data             Optional request fields
+     * @param float  $amount          Amount to capture
+     * @param string $complete        Indicates whether or not this is the last capture.
+     * @param array  $data            Optional request fields
+     *
+     * @throws Exception
      *
      * @return array|StreamInterface
-     * @throws Exception
      */
     public function doCapture($authorizationId, $amount, $complete = 'Complete', $data = [])
     {
@@ -311,8 +317,9 @@ class ExpressCheckout
      * @param float  $amount
      * @param array  $data
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function doReAuthorization($authorizationId, $amount, $data = [])
     {
@@ -330,10 +337,11 @@ class ExpressCheckout
      * Perform a DoVoid API call on PayPal.
      *
      * @param string $authorizationId Transaction ID
-     * @param array  $data             Optional request fields
+     * @param array  $data            Optional request fields
+     *
+     * @throws Exception
      *
      * @return array|StreamInterface
-     * @throws Exception
      */
     public function doVoid($authorizationId, $data = [])
     {
@@ -351,8 +359,9 @@ class ExpressCheckout
      *
      * @param string $token
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function createBillingAgreement($token)
     {
@@ -369,8 +378,9 @@ class ExpressCheckout
      * @param array  $data
      * @param string $token
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function createRecurringPaymentsProfile($data, $token)
     {
@@ -386,8 +396,9 @@ class ExpressCheckout
      *
      * @param string $id
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function getRecurringPaymentsProfileDetails($id)
     {
@@ -404,8 +415,9 @@ class ExpressCheckout
      * @param array  $data
      * @param string $id
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function updateRecurringPaymentsProfile($data, $id)
     {
@@ -422,8 +434,9 @@ class ExpressCheckout
      * @param string $id
      * @param string $status
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     protected function manageRecurringPaymentsProfileStatus($id, $status)
     {
@@ -440,8 +453,9 @@ class ExpressCheckout
      *
      * @param string $id
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function cancelRecurringPaymentsProfile($id)
     {
@@ -453,8 +467,9 @@ class ExpressCheckout
      *
      * @param string $id
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function suspendRecurringPaymentsProfile($id)
     {
@@ -466,8 +481,9 @@ class ExpressCheckout
      *
      * @param string $id
      *
-     * @return array|StreamInterface
      * @throws Exception
+     *
+     * @return array|StreamInterface
      */
     public function reactivateRecurringPaymentsProfile($id)
     {
