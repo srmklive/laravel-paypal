@@ -18,8 +18,9 @@ class PayPalFacadeAccessor
     /**
      * Get specific PayPal API provider object to use.
      *
-     * @return ExpressCheckout|AdaptivePayments
      * @throws Exception
+     *
+     * @return ExpressCheckout|AdaptivePayments
      */
     public static function getProvider()
     {
@@ -35,8 +36,9 @@ class PayPalFacadeAccessor
      *
      * @param string $option Defaults to express_checkout
      *
-     * @return ExpressCheckout|AdaptivePayments
      * @throws Exception
+     *
+     * @return ExpressCheckout|AdaptivePayments
      */
     public static function setProvider($option = 'express_checkout')
     {
