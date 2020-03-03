@@ -15,6 +15,7 @@ class ExpressCheckout
     use PayPalAPIRequest;
     use PayPalTransactions;
     use RecurringProfiles;
+
     /**
      * ExpressCheckout constructor.
      *
