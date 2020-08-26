@@ -60,10 +60,6 @@ trait PayPalHttpClient
             CURLOPT_SSL_VERIFYPEER => $this->validateSSL,
         ];
 
-        if (!empty($this->certificate)) {
-            $this->httpClientConfig[CURLOPT_SSLCERT] = $this->certificate;
-        }
-
         // Initialize Http Client
         $this->setClient();
 

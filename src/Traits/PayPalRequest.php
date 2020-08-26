@@ -7,8 +7,7 @@ use GuzzleHttp\Client as HttpClient;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
-use Srmklive\PayPal\Services\AdaptivePayments;
-use Srmklive\PayPal\Services\ExpressCheckout;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 trait PayPalRequest
 {
@@ -27,13 +26,6 @@ trait PayPalRequest
      * @var array
      */
     private $httpClientConfig;
-
-    /**
-     * PayPal API Certificate data for authentication.
-     *
-     * @var string
-     */
-    private $certificate;
 
     /**
      * PayPal API mode to be used.
@@ -69,13 +61,6 @@ trait PayPalRequest
      * @var string
      */
     private $currency;
-
-    /**
-     * Default billing type for PayPal reference transactions.
-     *
-     * @var string
-     */
-    private $billingType;
 
     /**
      * Additional options for PayPal API request.
@@ -146,9 +131,6 @@ trait PayPalRequest
         // Set default currency.
         $this->setCurrency($credentials['currency']);
 
-        // Set default billing type
-        $this->setBillingType($credentials['billing_type']);
-
         // Set Http Client configuration.
         $this->setHttpClientConfiguration();
     }
@@ -186,28 +168,6 @@ trait PayPalRequest
         }
 
         $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * Function to set billing type.
-     *
-     * @param string $billingType
-     *
-     * @throws Exception
-     *
-     * @return $this
-     */
-    public function setBillingType($billingType = 'MerchantInitiatedBilling')
-    {
-        $allowedBillingTypes = ['MerchantInitiatedBilling', 'MerchantInitiatedBillingSingleAgreement', 'RecurringPayments'];
-
-        if ($billingType !== null && !in_array($billingType, $allowedBillingTypes, true)) {
-            throw new RuntimeException('Billing type is not supported by PayPal.');
-        }
-
-        $this->billingType = $billingType;
 
         return $this;
     }
@@ -324,15 +284,9 @@ trait PayPalRequest
             $this->config[$key] = $value;
         });
 
-        // Setup PayPal API Signature value to use.
-        $this->config['signature'] = empty($this->config['certificate']) ?
-        $this->config['secret'] : $this->config['certificate'];
-
         $this->paymentAction = $credentials['payment_action'];
 
         $this->locale = $credentials['locale'];
-
-        $this->certificate = $this->config['certificate'];
 
         $this->validateSSL = $credentials['validate_ssl'];
 
@@ -344,40 +298,15 @@ trait PayPalRequest
      *
      * @param array $credentials
      *
-     * @throws Exception
+     * @throws \RuntimeException
      */
     private function setApiProvider($credentials)
     {
-        if ($this instanceof AdaptivePayments) {
-            return $this->setAdaptivePaymentsOptions();
-        }
-
-        if ($this instanceof ExpressCheckout) {
-            return $this->setExpressCheckoutOptions($credentials);
+        if ($this instanceof PayPalClient) {
+            $this->setOptions($credentials);
         }
 
         throw new RuntimeException('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
-    }
-
-    /**
-     * Create request payload to be sent to PayPal.
-     *
-     * @param string $method
-     */
-    private function createRequestPayload($method)
-    {
-        $config = array_merge([
-            'USER'      => $this->config['username'],
-            'PWD'       => $this->config['password'],
-            'SIGNATURE' => $this->config['signature'],
-            'VERSION'   => 123,
-            'METHOD'    => $method,
-        ], $this->options);
-
-        $this->post = $this->post->merge($config);
-        if ($method === 'verifyipn') {
-            $this->post->forget('METHOD');
-        }
     }
 
     /**

@@ -2,3 +2,4 @@
 /.idea
 .env
 composer.lock
+/build

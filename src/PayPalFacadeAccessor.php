@@ -3,8 +3,7 @@
 namespace Srmklive\PayPal;
 
 use Exception;
-use Srmklive\PayPal\Services\AdaptivePayments;
-use Srmklive\PayPal\Services\ExpressCheckout;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PayPalFacadeAccessor
 {
@@ -20,34 +19,24 @@ class PayPalFacadeAccessor
      *
      * @throws Exception
      *
-     * @return ExpressCheckout|AdaptivePayments
+     * @return \Srmklive\PayPal\Services\PayPal
      */
     public static function getProvider()
     {
-        if (empty(self::$provider)) {
-            return new ExpressCheckout();
-        }
-
         return self::$provider;
     }
 
     /**
-     * Set specific PayPal API to use.
+     * Set PayPal API Client to use.
      *
-     * @param string $option Defaults to express_checkout
+     * @throws \Exception
      *
-     * @throws Exception
-     *
-     * @return ExpressCheckout|AdaptivePayments
+     * @return \Srmklive\PayPal\Services\PayPal
      */
-    public static function setProvider($option = 'express_checkout')
+    public static function setProvider()
     {
         // Set default provider. Defaults to ExpressCheckout
-        if (empty($option) || $option === 'express_checkout' || $option !== 'adaptive_payments') {
-            self::$provider = new ExpressCheckout();
-        } else {
-            self::$provider = new AdaptivePayments();
-        }
+        self::$provider = new PayPalClient();
 
         return self::getProvider();
     }
