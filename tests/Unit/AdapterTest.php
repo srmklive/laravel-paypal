@@ -2,13 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit;
 
-
-use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Exception\ClientException;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class AdapterTest extends TestCase
@@ -30,7 +24,7 @@ class AdapterTest extends TestCase
             'token_type'    => 'Bearer',
             'app_id'        => 'APP-80W284485P519543T',
             'expires_in'    => 32400,
-            'nonce'         => 'some_nonce'
+            'nonce'         => 'some_nonce',
         ];
 
         $expectedMethod = 'getAccessToken';
@@ -70,17 +64,17 @@ class AdapterTest extends TestCase
     private function getCredentials()
     {
         return [
-            'mode' => 'sandbox',
+            'mode'    => 'sandbox',
             'sandbox' => [
-                'client_id' => 'some-client-id',
+                'client_id'     => 'some-client-id',
                 'client_secret' => 'some-access-token',
-                'app_id' => '',
+                'app_id'        => '',
             ],
             'payment_action' => 'Sale',
             'currency'       => 'USD',
             'notify_url'     => '',
             'locale'         => 'en_US',
-            'validate_ssl'   => true
+            'validate_ssl'   => true,
         ];
     }
 }

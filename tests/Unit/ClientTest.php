@@ -2,7 +2,6 @@
 
 namespace Srmklive\PayPal\Tests\Unit;
 
-
 use GuzzleHttp\Client as HttpClient;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -25,7 +24,7 @@ class ClientTest extends TestCase
             'token_type'    => 'Bearer',
             'app_id'        => 'APP-80W284485P519543T',
             'expires_in'    => 32400,
-            'nonce'         => 'some_nonce'
+            'nonce'         => 'some_nonce',
         ];
 
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/oauth2/token?grant_type=client_credentials';
@@ -34,7 +33,7 @@ class ClientTest extends TestCase
                 'Accept'            => 'application/json',
                 'Accept-Language'   => 'en_US',
             ],
-            'auth' => ['username', 'password']
+            'auth' => ['username', 'password'],
         ];
 
         $mockHttpClient = $this->mock_http_request(json_encode($expectedResponse), $expectedEndpoint, $expectedParams);

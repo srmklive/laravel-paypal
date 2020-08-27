@@ -311,6 +311,7 @@ trait PayPalRequest
     {
         if ($this instanceof PayPalClient) {
             $this->setOptions($credentials);
+
             return;
         }
 

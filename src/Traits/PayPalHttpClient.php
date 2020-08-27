@@ -2,7 +2,6 @@
 
 namespace Srmklive\PayPal\Traits;
 
-use Exception;
 use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
@@ -106,6 +105,7 @@ trait PayPalHttpClient
         try {
             // Perform PayPal HTTP API request.
             $response = $this->makeHttpRequest();
+
             return \GuzzleHttp\json_decode($response, true);
         } catch (Throwable $t) {
             $message = collect($t->getTrace())->implode('\n');

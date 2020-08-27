@@ -3,7 +3,6 @@
 namespace Srmklive\PayPal\Services;
 
 use Exception;
-use Illuminate\Support\Collection;
 use Psr\Http\Message\StreamInterface;
 use Srmklive\PayPal\Traits\PayPalRequest as PayPalAPIRequest;
 
@@ -29,7 +28,7 @@ class PayPal
 
         $this->options = [];
         $this->options['headers'] = [
-            'Accept'            =>  'application/json',
+            'Accept'            => 'application/json',
             'Accept-Language'   => $this->locale,
         ];
     }
@@ -65,9 +64,9 @@ class PayPal
     /**
      * Login through PayPal API to get access token.
      *
-     * @return array|StreamInterface|string
-     *
      * @throws \Throwable
+     *
+     * @return array|StreamInterface|string
      */
     public function getAccessToken()
     {
@@ -77,7 +76,7 @@ class PayPal
 
         $response = $this->doPayPalRequest();
 
-        if (isset($response["access_token"])) {
+        if (isset($response['access_token'])) {
             $this->access_token = $response['access_token'];
 
             if (empty($this->config['app_id'])) {
