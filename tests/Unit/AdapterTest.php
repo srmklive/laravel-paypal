@@ -60,7 +60,7 @@ class AdapterTest extends TestCase
             ->setConstructorArgs($expectedParams)
             ->{$set_method_name}([$expectedMethod])
             ->getMock();
-        $mockClient->expects($this->once())
+        $mockClient->expects($this->exactly(1))
             ->method($expectedMethod)
             ->willReturn($expectedResponse);
 

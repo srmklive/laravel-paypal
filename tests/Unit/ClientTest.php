@@ -51,7 +51,7 @@ class ClientTest extends TestCase
 
         $mockResponse = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
-        $mockResponse->expects($this->once())
+        $mockResponse->expects($this->exactly(1))
             ->method('getBody')
             ->willReturn($expectedResponse);
 
