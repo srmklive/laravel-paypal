@@ -51,9 +51,14 @@ class AdapterTest extends TestCase
 
     private function mock_client($expectedResponse, $expectedMethod, $expectedParams)
     {
+        $set_method_name = 'setMethods';
+        if (function_exists('onlyMethods')) {
+            $set_method_name = 'onlyMethods';
+        }
+
         $mockClient = $this->getMockBuilder(PayPalClient::class)
             ->setConstructorArgs($expectedParams)
-            ->onlyMethods([$expectedMethod])
+            ->{$set_method_name}([$expectedMethod])
             ->getMock();
         $mockClient->expects($this->once())
             ->method($expectedMethod)

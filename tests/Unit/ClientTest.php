@@ -44,6 +44,11 @@ class ClientTest extends TestCase
 
     private function mock_http_request($expectedResponse, $expectedEndpoint, $expectedParams, $expectedMethod = 'post')
     {
+        $set_method_name = 'setMethods';
+        if (function_exists('onlyMethods')) {
+            $set_method_name = 'onlyMethods';
+        }
+
         $mockResponse = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $mockResponse->expects($this->once())
@@ -51,7 +56,7 @@ class ClientTest extends TestCase
             ->willReturn($expectedResponse);
 
         $mockHttpClient = $this->getMockBuilder(HttpClient::class)
-            ->setMethods([$expectedMethod])
+            ->{$set_method_name}([$expectedMethod])
             ->getMock();
         $mockHttpClient->expects($this->once())
             ->method($expectedMethod)
