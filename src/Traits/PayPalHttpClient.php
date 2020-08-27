@@ -10,6 +10,8 @@ use Throwable;
 
 trait PayPalHttpClient
 {
+    protected $verb = 'post';
+
     /**
      * Set curl constants if not defined.
      *
@@ -76,16 +78,17 @@ trait PayPalHttpClient
     /**
      * Perform PayPal API request & return response.
      *
-     * @throws Exception
+     * @throws \Throwable
      *
      * @return StreamInterface
      */
     private function makeHttpRequest()
     {
         try {
-            return $this->client->post($this->apiUrl, [
-                $this->httpBodyParam => $this->post->toArray(),
-            ])->getBody();
+            return $this->client->{$this->verb}(
+                $this->apiUrl,
+                $this->options
+            )->getBody();
         } catch (Throwable $t) {
             throw new RuntimeException($t->getRequest().' '.$t->getResponse());
         }
@@ -94,22 +97,16 @@ trait PayPalHttpClient
     /**
      * Function To Perform PayPal API Request.
      *
-     * @param string $method
-     *
-     * @throws Exception
+     * @throws \Throwable
      *
      * @return array|StreamInterface
      */
-    private function doPayPalRequest($method)
+    private function doPayPalRequest()
     {
-        // Setup PayPal API Request Payload
-        $this->createRequestPayload($method);
-
         try {
             // Perform PayPal HTTP API request.
             $response = $this->makeHttpRequest();
-
-            return $this->retrieveData($method, $response);
+            return \GuzzleHttp\json_decode($response, true);
         } catch (Throwable $t) {
             $message = collect($t->getTrace())->implode('\n');
         }

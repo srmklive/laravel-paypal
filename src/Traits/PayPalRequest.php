@@ -35,6 +35,13 @@ trait PayPalRequest
     public $mode;
 
     /**
+     * PayPal access token.
+     *
+     * @var string
+     */
+    protected $access_token;
+
+    /**
      * Request data to be sent to PayPal.
      *
      * @var Collection
@@ -47,13 +54,6 @@ trait PayPalRequest
      * @var array
      */
     private $config;
-
-    /**
-     * Item subtotal.
-     *
-     * @var float
-     */
-    private $subtotal;
 
     /**
      * Default currency for PayPal.
@@ -89,6 +89,13 @@ trait PayPalRequest
      * @var string
      */
     private $apiUrl;
+
+    /**
+     * PayPal API Endpoint.
+     *
+     * @var string
+     */
+    private $apiEndPoint;
 
     /**
      * IPN notification url for PayPal.
@@ -304,6 +311,7 @@ trait PayPalRequest
     {
         if ($this instanceof PayPalClient) {
             $this->setOptions($credentials);
+            return;
         }
 
         throw new RuntimeException('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
