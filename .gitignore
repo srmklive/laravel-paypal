@@ -1,0 +1,8 @@
+/vendor
+/.idea
+.env
+composer.lock
+/build
+*docker*
+*-container*
+*.phpunit*
