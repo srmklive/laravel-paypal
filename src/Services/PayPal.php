@@ -3,7 +3,6 @@
 namespace Srmklive\PayPal\Services;
 
 use Exception;
-use Psr\Http\Message\StreamInterface;
 use Srmklive\PayPal\Traits\PayPalRequest as PayPalAPIRequest;
 
 class PayPal
@@ -59,32 +58,5 @@ class PayPal
         $this->config['payment_action'] = $credentials['payment_action'];
         $this->config['notify_url'] = $credentials['notify_url'];
         $this->config['locale'] = $credentials['locale'];
-    }
-
-    /**
-     * Login through PayPal API to get access token.
-     *
-     * @throws \Throwable
-     *
-     * @return array|StreamInterface|string
-     */
-    public function getAccessToken()
-    {
-        $this->apiEndPoint = 'v1/oauth2/token?grant_type=client_credentials';
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
-
-        $this->options['auth'] = [$this->config['client_id'], $this->config['client_secret']];
-
-        $response = $this->doPayPalRequest();
-
-        if (isset($response['access_token'])) {
-            $this->access_token = $response['access_token'];
-
-            if (empty($this->config['app_id'])) {
-                $this->config['app_id'] = $response['app_id'];
-            }
-        }
-
-        return $response;
     }
 }

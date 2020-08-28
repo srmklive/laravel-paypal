@@ -11,7 +11,7 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 trait PayPalRequest
 {
-    use PayPalHttpClient;
+    use PayPalHttpClient, PayPalAPI;
 
     /**
      * Http Client class object.

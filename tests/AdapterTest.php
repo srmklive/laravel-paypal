@@ -4,9 +4,12 @@ namespace Srmklive\PayPal\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Srmklive\PayPal\Tests\MockClientClasses;
 
 class AdapterTest extends TestCase
 {
+    use MockClientClasses;
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -41,24 +44,6 @@ class AdapterTest extends TestCase
         $method->setAccessible(true);
 
         return $method;
-    }
-
-    private function mock_client($expectedResponse, $expectedMethod, $expectedParams)
-    {
-        $set_method_name = 'setMethods';
-        if (function_exists('onlyMethods')) {
-            $set_method_name = 'onlyMethods';
-        }
-
-        $mockClient = $this->getMockBuilder(PayPalClient::class)
-            ->setConstructorArgs($expectedParams)
-            ->{$set_method_name}([$expectedMethod])
-            ->getMock();
-        $mockClient->expects($this->exactly(1))
-            ->method($expectedMethod)
-            ->willReturn($expectedResponse);
-
-        return $mockClient;
     }
 
     private function getCredentials()

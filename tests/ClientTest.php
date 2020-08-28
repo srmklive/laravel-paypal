@@ -1,13 +1,14 @@
 <?php
 
-namespace Srmklive\PayPal\Tests\Unit;
+namespace Srmklive\PayPal\Tests;
 
 use GuzzleHttp\Client as HttpClient;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
 
 class ClientTest extends TestCase
 {
+    use MockClientClasses;
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -39,29 +40,5 @@ class ClientTest extends TestCase
         $mockHttpClient = $this->mock_http_request(json_encode($expectedResponse), $expectedEndpoint, $expectedParams);
 
         $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
-    }
-
-    private function mock_http_request($expectedResponse, $expectedEndpoint, $expectedParams, $expectedMethod = 'post')
-    {
-        $set_method_name = 'setMethods';
-        if (function_exists('onlyMethods')) {
-            $set_method_name = 'onlyMethods';
-        }
-
-        $mockResponse = $this->getMockBuilder(ResponseInterface::class)
-            ->getMock();
-        $mockResponse->expects($this->exactly(1))
-            ->method('getBody')
-            ->willReturn($expectedResponse);
-
-        $mockHttpClient = $this->getMockBuilder(HttpClient::class)
-            ->{$set_method_name}([$expectedMethod])
-            ->getMock();
-        $mockHttpClient->expects($this->once())
-            ->method($expectedMethod)
-            ->with($expectedEndpoint, $expectedParams)
-            ->willReturn($mockResponse);
-
-        return $mockHttpClient;
     }
 }

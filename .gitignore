@@ -6,3 +6,4 @@ composer.lock
 *docker*
 *-container*
 *.phpunit*
+test.php
