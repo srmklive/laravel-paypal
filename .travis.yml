@@ -1,0 +1,44 @@
+language: php
+
+sudo: false
+
+php:
+- 5.6
+- 7.0
+- 7.1
+- 7.2
+- 7.3
+- 7.4
+
+env:
+  global:
+  - setup=stable
+  - coverage=no
+
+before_script:
+- if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable; fi
+- if [[ $setup = 'coveralls' ]]; then travis_retry composer require php-coveralls/php-coveralls '^2.2' --prefer-dist --no-interaction --dev; fi
+
+script:
+- if [[ $coverage = 'yes' ]]; then ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
+- if [[ $coverage = 'no' ]]; then ./vendor/bin/phpunit; fi
+
+after_script:
+- if [[ $setup = 'coveralls' ]]; then php vendor/bin/coveralls -v; fi
+
+matrix:
+  include:
+  - php: 7.0
+    env: setup=coveralls coverage=yes
+  - php: 7.1
+    env: setup=coveralls coverage=yes
+  - php: 7.2
+    env: setup=coveralls coverage=yes
+  - php: 7.3
+    env: setup=coveralls coverage=yes
+  - php: 7.4
+    env: setup=coveralls coverage=yes
+  allow_failures:
+  - php: 5.6
+    env: setup=coveralls coverage=yes
+  fast_finish: true
