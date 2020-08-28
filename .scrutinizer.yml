@@ -18,13 +18,18 @@ checks:
         fix_doc_comments: true
 
 build:
-    environment:
-        php:
-            version: '7.3.21'
-    tests:
+  nodes:
+    analysis:
+      tests:
         override:
-        -
-            command: 'vendor/bin/phpunit --coverage-clover=build/logs/clover.xml'
-            coverage:
-                file: 'build/logs/clover.xml'
-                format: 'clover'
+        - php-scrutinizer-run
+  environment:
+      php:
+          version: '7.3.21'
+  tests:
+      override:
+      -
+          command: 'vendor/bin/phpunit --coverage-clover=build/logs/clover.xml'
+          coverage:
+              file: 'build/logs/clover.xml'
+              format: 'clover'
