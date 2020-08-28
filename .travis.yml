@@ -28,6 +28,8 @@ after_script:
 
 matrix:
   include:
+  - php: 5.6
+    env: setup=coveralls coverage=yes
   - php: 7.0
     env: setup=coveralls coverage=yes
   - php: 7.1
