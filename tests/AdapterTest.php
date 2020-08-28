@@ -36,30 +36,4 @@ class AdapterTest extends TestCase
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
     }
-
-    protected static function getMethod($name)
-    {
-        $class = new \ReflectionClass(Client::class);
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-
-        return $method;
-    }
-
-    private function getCredentials()
-    {
-        return [
-            'mode'    => 'sandbox',
-            'sandbox' => [
-                'client_id'     => 'some-client-id',
-                'client_secret' => 'some-access-token',
-                'app_id'        => '',
-            ],
-            'payment_action' => 'Sale',
-            'currency'       => 'USD',
-            'notify_url'     => '',
-            'locale'         => 'en_US',
-            'validate_ssl'   => true,
-        ];
-    }
 }

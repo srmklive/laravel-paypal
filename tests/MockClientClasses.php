@@ -48,4 +48,21 @@ trait MockClientClasses
 
         return $mockClient;
     }
+
+    private function getCredentials()
+    {
+        return [
+            'mode'    => 'sandbox',
+            'sandbox' => [
+                'client_id'     => 'some-client-id',
+                'client_secret' => 'some-access-token',
+                'app_id'        => '',
+            ],
+            'payment_action' => 'Sale',
+            'currency'       => 'USD',
+            'notify_url'     => '',
+            'locale'         => 'en_US',
+            'validate_ssl'   => true,
+        ];
+    }
 }

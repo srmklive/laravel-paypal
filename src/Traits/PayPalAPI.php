@@ -23,7 +23,7 @@ trait PayPalAPI
 
         $this->options['auth'] = [$this->config['client_id'], $this->config['client_secret']];
         $this->options[$this->httpBodyParam] = [
-            'grant_type' => 'client_credentials'
+            'grant_type' => 'client_credentials',
         ];
 
         $response = $this->doPayPalRequest();

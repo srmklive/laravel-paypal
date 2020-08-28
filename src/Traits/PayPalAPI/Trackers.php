@@ -2,7 +2,6 @@
 
 namespace Srmklive\PayPal\Traits\PayPalAPI;
 
-
 trait Trackers
 {
     /**
@@ -22,6 +21,7 @@ trait Trackers
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
+
         return $this->doPayPalRequest();
     }
 
@@ -45,13 +45,14 @@ trait Trackers
         $this->options['json'] = $data;
 
         $this->verb = 'put';
+
         return $this->doPayPalRequest();
     }
 
     /**
      * Add batch tracking.
      *
-     * @param array  $data
+     * @param array $data
      *
      * @throws \Throwable
      *
@@ -61,12 +62,13 @@ trait Trackers
      */
     public function addBatchTracking($data)
     {
-        $this->apiEndPoint = "v1/shipping/trackers-batch";
+        $this->apiEndPoint = 'v1/shipping/trackers-batch';
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
         $this->verb = 'post';
+
         return $this->doPayPalRequest();
     }
 }
