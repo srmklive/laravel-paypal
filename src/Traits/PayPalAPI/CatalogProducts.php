@@ -2,13 +2,12 @@
 
 namespace Srmklive\PayPal\Traits\PayPalAPI;
 
-
 trait CatalogProducts
 {
     /**
      * Create a product.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $request_id
      *
      * @throws \Throwable
@@ -19,7 +18,7 @@ trait CatalogProducts
      */
     public function createProduct(array $data, $request_id)
     {
-        $this->apiEndPoint = "v1/catalogs/products";
+        $this->apiEndPoint = 'v1/catalogs/products';
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->options['headers']['PayPal-Request-Id'] = $request_id;
@@ -41,7 +40,7 @@ trait CatalogProducts
      */
     public function listProducts()
     {
-        $this->apiEndPoint = "v1/catalogs/products";
+        $this->apiEndPoint = 'v1/catalogs/products';
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
@@ -52,7 +51,7 @@ trait CatalogProducts
     /**
      * Update a product.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $product_id
      *
      * @throws \Throwable

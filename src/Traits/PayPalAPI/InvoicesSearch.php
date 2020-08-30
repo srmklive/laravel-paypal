@@ -8,9 +8,9 @@ trait InvoicesSearch
      * Search and return existing invoices.
      *
      * @param array $filters
-     * @param int $page
-     * @param int $size
-     * @param bool $totals
+     * @param int   $page
+     * @param int   $size
+     * @param bool  $totals
      * @param array $fields
      *
      * @throws \Throwable
@@ -19,13 +19,14 @@ trait InvoicesSearch
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list
      */
-    public function searchInvoices($filters, $page=1, $size=20, $totals=true, array $fields=[])
+    public function searchInvoices($filters, $page = 1, $size = 20, $totals = true, array $fields = [])
     {
         $fields_list = collect($fields);
 
-        $fields = "";
-        if ($fields_list->count() > 0)
-            $fields = "&fields={$fields_list->implode(",")}";
+        $fields = '';
+        if ($fields_list->count() > 0) {
+            $fields = "&fields={$fields_list->implode(',')}";
+        }
 
         $this->apiEndPoint = "v2/invoicing/search-invoices?page={$page}&page_size={$size}&total_required={$totals}{$fields}";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');

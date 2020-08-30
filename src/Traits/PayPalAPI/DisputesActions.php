@@ -9,7 +9,7 @@ trait DisputesActions
      *
      * @param string $dispute_id
      * @param string $dispute_note
-     * @param array $data
+     * @param array  $data
      *
      * @throws \Throwable
      *
@@ -22,8 +22,8 @@ trait DisputesActions
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/accept-claim";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
-        $data["note"] = $dispute_note;
-        $data["accept_claim_type"] = "REFUND";
+        $data['note'] = $dispute_note;
+        $data['accept_claim_type'] = 'REFUND';
 
         $this->options['json'] = $data;
 
@@ -50,7 +50,7 @@ trait DisputesActions
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
-            "note"  => $dispute_note,
+            'note'  => $dispute_note,
         ];
 
         $this->verb = 'post';
@@ -77,8 +77,8 @@ trait DisputesActions
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
-            "note"                  => $dispute_note,
-            "acknowledgement_type"  => $acknowledgement_type
+            'note'                  => $dispute_note,
+            'acknowledgement_type'  => $acknowledgement_type,
         ];
 
         $this->verb = 'post';

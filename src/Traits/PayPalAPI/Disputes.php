@@ -15,7 +15,7 @@ trait Disputes
      */
     public function listDisputes()
     {
-        $this->apiEndPoint = "v1/customer/disputes";
+        $this->apiEndPoint = 'v1/customer/disputes';
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
@@ -26,7 +26,7 @@ trait Disputes
     /**
      * Update a dispute.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $dispute_id
      *
      * @throws \Throwable

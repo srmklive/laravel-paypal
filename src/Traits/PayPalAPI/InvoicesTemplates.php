@@ -17,7 +17,7 @@ trait InvoicesTemplates
      */
     public function createInvoiceTemplate(array $data)
     {
-        $this->apiEndPoint = "v2/invoicing/templates";
+        $this->apiEndPoint = 'v2/invoicing/templates';
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
@@ -30,8 +30,8 @@ trait InvoicesTemplates
     /**
      * Get list of invoice templates.
      *
-     * @param int $page
-     * @param int $size
+     * @param int    $page
+     * @param int    $size
      * @param string $fields
      *
      * @throws \Throwable
@@ -40,7 +40,7 @@ trait InvoicesTemplates
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_list
      */
-    public function listInvoiceTemplates($page=1, $size=20, $fields='all')
+    public function listInvoiceTemplates($page = 1, $size = 20, $fields = 'all')
     {
         $this->apiEndPoint = "v2/invoicing/templates?page={$page}&page_size={$size}&fields={$fields}";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
@@ -75,7 +75,7 @@ trait InvoicesTemplates
      * Update an existing invoice template.
      *
      * @param string $template_id
-     * @param array $data
+     * @param array  $data
      *
      * @throws \Throwable
      *
