@@ -6,6 +6,8 @@ trait PayPalAPI
 {
     use PayPalAPI\Trackers;
     use PayPalAPI\CatalogProducts;
+    use PayPalAPI\Disputes;
+    use PayPalAPI\DisputesActions;
 
     /**
      * Login through PayPal API to get access token.
