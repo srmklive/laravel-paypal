@@ -5,6 +5,7 @@ namespace Srmklive\PayPal\Traits;
 trait PayPalAPI
 {
     use PayPalAPI\Trackers;
+    use PayPalAPI\CatalogProducts;
 
     /**
      * Login through PayPal API to get access token.
