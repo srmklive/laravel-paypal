@@ -2,10 +2,6 @@
 
 namespace Srmklive\PayPal\Traits;
 
-use Exception;
-use GuzzleHttp\Client as HttpClient;
-use Illuminate\Support\Collection;
-use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -13,20 +9,6 @@ trait PayPalRequest
 {
     use PayPalHttpClient;
     use PayPalAPI;
-
-    /**
-     * Http Client class object.
-     *
-     * @var HttpClient
-     */
-    private $client;
-
-    /**
-     * Http Client configuration.
-     *
-     * @var array
-     */
-    private $httpClientConfig;
 
     /**
      * PayPal API mode to be used.
@@ -41,13 +23,6 @@ trait PayPalRequest
      * @var string
      */
     protected $access_token;
-
-    /**
-     * Request data to be sent to PayPal.
-     *
-     * @var Collection
-     */
-    protected $post;
 
     /**
      * PayPal API configuration.
@@ -71,60 +46,11 @@ trait PayPalRequest
     private $options;
 
     /**
-     * Default payment action for PayPal.
-     *
-     * @var string
-     */
-    private $paymentAction;
-
-    /**
-     * Default locale for PayPal.
-     *
-     * @var string
-     */
-    private $locale;
-
-    /**
-     * PayPal API Endpoint.
-     *
-     * @var string
-     */
-    private $apiUrl;
-
-    /**
-     * PayPal API Endpoint.
-     *
-     * @var string
-     */
-    private $apiEndPoint;
-
-    /**
-     * IPN notification url for PayPal.
-     *
-     * @var string
-     */
-    private $notifyUrl;
-
-    /**
-     * Http Client request body parameter name.
-     *
-     * @var string
-     */
-    private $httpBodyParam;
-
-    /**
-     * Validate SSL details when creating HTTP client.
-     *
-     * @var bool
-     */
-    private $validateSSL;
-
-    /**
      * Set PayPal API Credentials.
      *
      * @param array $credentials
      *
-     * @throws Exception
+     * @throws \RuntimeException
      *
      * @return void
      */
@@ -162,7 +88,7 @@ trait PayPalRequest
      *
      * @param string $currency
      *
-     * @throws Exception
+     * @throws \RuntimeException
      *
      * @return $this
      */
@@ -172,48 +98,12 @@ trait PayPalRequest
 
         // Check if provided currency is valid.
         if (!in_array($currency, $allowedCurrencies, true)) {
-            throw new Exception('Currency is not supported by PayPal.');
+            throw new RuntimeException('Currency is not supported by PayPal.');
         }
 
         $this->currency = $currency;
 
         return $this;
-    }
-
-    /**
-     * Retrieve PayPal IPN Response.
-     *
-     * @param array|StreamInterface $post
-     *
-     * @throws \Throwable
-     *
-     * @return array
-     */
-    public function verifyIPN($post)
-    {
-        $this->setRequestData($post);
-
-        $this->apiUrl = $this->config['ipn_url'];
-
-        return $this->doPayPalRequest('verifyipn');
-    }
-
-    /**
-     * Setup request data to be sent to PayPal.
-     *
-     * @param array $data
-     *
-     * @return Collection
-     */
-    protected function setRequestData(array $data = [])
-    {
-        if (($this->post instanceof Collection) && (!$this->post->isEmpty())) {
-            unset($this->post);
-        }
-
-        $this->post = new Collection($data);
-
-        return $this->post;
     }
 
     /**
@@ -232,31 +122,6 @@ trait PayPalRequest
             );
         } elseif (!empty($config)) {
             $this->setApiCredentials($config);
-        }
-
-        $this->setRequestData();
-    }
-
-    /**
-     * Set default values for configuration.
-     *
-     * @return void
-     */
-    private function setDefaultValues()
-    {
-        // Set default payment action.
-        if (empty($this->paymentAction)) {
-            $this->paymentAction = 'Sale';
-        }
-
-        // Set default locale.
-        if (empty($this->locale)) {
-            $this->locale = 'en_US';
-        }
-
-        // Set default value for SSL validation.
-        if (empty($this->validateSSL)) {
-            $this->validateSSL = false;
         }
     }
 
@@ -317,24 +182,5 @@ trait PayPalRequest
         }
 
         throw new RuntimeException('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
-    }
-
-    /**
-     * Parse PayPal NVP Response.
-     *
-     * @param string                $method
-     * @param array|StreamInterface $response
-     *
-     * @return array
-     */
-    private function retrieveData($method, $response)
-    {
-        if ($method === 'verifyipn') {
-            return $response;
-        }
-
-        parse_str($response, $output);
-
-        return $output;
     }
 }

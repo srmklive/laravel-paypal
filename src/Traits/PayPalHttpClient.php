@@ -9,6 +9,74 @@ use Throwable;
 
 trait PayPalHttpClient
 {
+    /**
+     * Http Client class object.
+     *
+     * @var HttpClient
+     */
+    private $client;
+
+    /**
+     * Http Client configuration.
+     *
+     * @var array
+     */
+    private $httpClientConfig;
+
+    /**
+     * PayPal API Endpoint.
+     *
+     * @var string
+     */
+    private $apiUrl;
+
+    /**
+     * PayPal API Endpoint.
+     *
+     * @var string
+     */
+    private $apiEndPoint;
+
+    /**
+     * IPN notification url for PayPal.
+     *
+     * @var string
+     */
+    private $notifyUrl;
+
+    /**
+     * Http Client request body parameter name.
+     *
+     * @var string
+     */
+    private $httpBodyParam;
+
+    /**
+     * Default payment action for PayPal.
+     *
+     * @var string
+     */
+    private $paymentAction;
+
+    /**
+     * Default locale for PayPal.
+     *
+     * @var string
+     */
+    private $locale;
+
+    /**
+     * Validate SSL details when creating HTTP client.
+     *
+     * @var bool
+     */
+    private $validateSSL;
+
+    /**
+     * Request type.
+     *
+     * @var string
+     */
     protected $verb = 'post';
 
     /**
@@ -72,6 +140,29 @@ trait PayPalHttpClient
 
         // Set PayPal IPN Notification URL
         $this->notifyUrl = $this->config['notify_url'];
+    }
+
+    /**
+     * Set default values for configuration.
+     *
+     * @return void
+     */
+    private function setDefaultValues()
+    {
+        // Set default payment action.
+        if (empty($this->paymentAction)) {
+            $this->paymentAction = 'Sale';
+        }
+
+        // Set default locale.
+        if (empty($this->locale)) {
+            $this->locale = 'en_US';
+        }
+
+        // Set default value for SSL validation.
+        if (empty($this->validateSSL)) {
+            $this->validateSSL = false;
+        }
     }
 
     /**
