@@ -147,6 +147,7 @@ trait Invoices
      * Cancel an existing invoice which is already sent.
      *
      * @param string $invoice_id
+     * @param array  $notes
      *
      * @throws \Throwable
      *
@@ -154,10 +155,12 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_cancel
      */
-    public function cancelInvoice($invoice_id)
+    public function cancelInvoice($invoice_id, array $notes)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/cancel";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+
+        $this->options['json'] = $notes;
 
         $this->verb = 'post';
 
@@ -195,12 +198,11 @@ trait Invoices
      * Register payment against an existing invoice.
      *
      * @param string $invoice_id
-     * @param string $payment_id
      * @param string $payment_date
      * @param string $payment_method
-     * @param string $payment_note
      * @param float  $amount
-     * @param string $currency
+     * @param string $payment_note
+     * @param string $payment_id
      *
      * @throws \Throwable
      *
@@ -208,14 +210,10 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_payments
      */
-    public function registerPaymentInvoice($invoice_id, $payment_id, $payment_date, $payment_method, $payment_note, $amount, $currency = '')
+    public function registerPaymentInvoice($invoice_id, $payment_date, $payment_method, $amount, $payment_note = '', $payment_id = '')
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/payments";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
-
-        if (isset($currency)) {
-            $this->setCurrency($currency);
-        }
 
         $data = [
             'payment_id'    => $payment_id,
@@ -264,7 +262,6 @@ trait Invoices
      * @param string $payment_date
      * @param string $payment_method
      * @param float  $amount
-     * @param string $currency
      *
      * @throws \Throwable
      *
@@ -272,7 +269,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_refunds
      */
-    public function refundInvoice($invoice_id, $payment_date, $payment_method, $amount, $currency = '')
+    public function refundInvoice($invoice_id, $payment_date, $payment_method, $amount)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/refunds";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
