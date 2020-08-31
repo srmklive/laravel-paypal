@@ -11,6 +11,7 @@ trait PayPalAPI
     use PayPalAPI\Invoices;
     use PayPalAPI\InvoicesSearch;
     use PayPalAPI\InvoicesTemplates;
+    use PayPalAPI\Reporting;
     use PayPalAPI\WebHooks;
     use PayPalAPI\WebHooksVerification;
     use PayPalAPI\WebHooksEvents;
