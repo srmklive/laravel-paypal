@@ -32,15 +32,19 @@ trait CatalogProducts
     /**
      * List products.
      *
+     * @param int  $page
+     * @param int  $size
+     * @param bool $totals
+     *
      * @throws \Throwable
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
      * @see https://developer.paypal.com/docs/api/catalog-products/v1/#products_list
      */
-    public function listProducts()
+    public function listProducts($page = 1, $size = 20, $totals = true)
     {
-        $this->apiEndPoint = 'v1/catalogs/products';
+        $this->apiEndPoint = "v1/catalogs/products?page={$page}&page_size={$size}&total_required={$totals}";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';

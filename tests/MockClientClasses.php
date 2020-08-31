@@ -31,17 +31,28 @@ trait MockClientClasses
         return $mockHttpClient;
     }
 
-    private function mock_client($expectedResponse, $expectedMethod, $expectedParams)
+    private function mock_client($expectedResponse, $expectedMethod, $expectedParams, $token = false)
     {
         $set_method_name = 'setMethods';
         if (function_exists('onlyMethods')) {
             $set_method_name = 'onlyMethods';
         }
 
+        $methods = [$expectedMethod];
+        if ($token) {
+            $methods[] = 'getAccessToken';
+        }
+
         $mockClient = $this->getMockBuilder(PayPalClient::class)
             ->setConstructorArgs($expectedParams)
-            ->{$set_method_name}([$expectedMethod])
+            ->{$set_method_name}($methods)
             ->getMock();
+
+        if ($token) {
+            $mockClient->expects($this->exactly(1))
+                ->method('getAccessToken');
+        }
+
         $mockClient->expects($this->exactly(1))
             ->method($expectedMethod)
             ->willReturn($expectedResponse);
