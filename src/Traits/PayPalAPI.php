@@ -12,6 +12,7 @@ trait PayPalAPI
     use PayPalAPI\InvoicesSearch;
     use PayPalAPI\InvoicesTemplates;
     use PayPalAPI\BillingPlans;
+    use PayPalAPI\Subscriptions;
     use PayPalAPI\Reporting;
     use PayPalAPI\WebHooks;
     use PayPalAPI\WebHooksVerification;

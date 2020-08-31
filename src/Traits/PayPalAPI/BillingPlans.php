@@ -7,7 +7,7 @@ trait BillingPlans
     /**
      * Create a new billing plan.
      *
-     * @param array  $data
+     * @param array $data
      *
      * @throws \Throwable
      *
@@ -163,7 +163,7 @@ trait BillingPlans
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
-            "pricing_schemes" => $pricing
+            'pricing_schemes' => $pricing,
         ];
 
         $this->verb = 'post';
