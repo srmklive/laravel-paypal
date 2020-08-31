@@ -11,6 +11,9 @@ trait PayPalAPI
     use PayPalAPI\Invoices;
     use PayPalAPI\InvoicesSearch;
     use PayPalAPI\InvoicesTemplates;
+    use PayPalAPI\WebHooks;
+    use PayPalAPI\WebHooksVerification;
+    use PayPalAPI\WebHooksEvents;
 
     /**
      * Login through PayPal API to get access token.
