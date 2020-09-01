@@ -20,7 +20,7 @@ class PayPal
     {
         // Setting PayPal API Credentials
         if (is_array($config)) {
-            $this->setConfig();
+            $this->setConfig($config);
         }
 
         $this->httpBodyParam = 'form_params';

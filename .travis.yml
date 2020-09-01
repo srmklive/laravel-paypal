@@ -16,15 +16,14 @@ env:
   - coverage=no
 
 before_script:
-- if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable; fi
-- if [[ $setup = 'coveralls' ]]; then travis_retry composer require php-coveralls/php-coveralls '^2.2' --prefer-dist --no-interaction --dev; fi
+- composer update --prefer-dist --no-interaction
 
 script:
 - if [[ $coverage = 'yes' ]]; then ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
 - if [[ $coverage = 'no' ]]; then ./vendor/bin/phpunit; fi
 
 after_script:
-- if [[ $setup = 'coveralls' ]]; then php vendor/bin/coveralls -v; fi
+- if [[ $setup = 'coveralls' ]]; then php vendor/bin/php-coveralls -v; fi
 
 matrix:
   include:
@@ -41,6 +40,7 @@ matrix:
   - php: 7.4
     env: setup=coveralls coverage=yes
   allow_failures:
+  - php: 5.6
   - php: 5.6
     env: setup=coveralls coverage=yes
   fast_finish: true
