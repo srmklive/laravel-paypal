@@ -78,6 +78,7 @@ trait Subscriptions
      * Activate an existing subscription.
      *
      * @param string $subscription_id
+     * @param string $reason
      *
      * @throws \Throwable
      *
@@ -85,10 +86,12 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_activate
      */
-    public function activateSubscription($subscription_id)
+    public function activateSubscription($subscription_id, $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/activate";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+
+        $this->options['json'] = ['reason' => $reason];
 
         $this->verb = 'post';
 
@@ -99,6 +102,7 @@ trait Subscriptions
      * Cancel an existing subscription.
      *
      * @param string $subscription_id
+     * @param string $reason
      *
      * @throws \Throwable
      *
@@ -106,10 +110,12 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_cancel
      */
-    public function cancelSubscription($subscription_id)
+    public function cancelSubscription($subscription_id, $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/cancel";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+
+        $this->options['json'] = ['reason' => $reason];
 
         $this->verb = 'post';
 
@@ -120,6 +126,7 @@ trait Subscriptions
      * Suspend an existing subscription.
      *
      * @param string $subscription_id
+     * @param string $reason
      *
      * @throws \Throwable
      *
@@ -127,10 +134,12 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_suspend
      */
-    public function suspendSubscription($subscription_id)
+    public function suspendSubscription($subscription_id, $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/suspend";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+
+        $this->options['json'] = ['reason' => $reason];
 
         $this->verb = 'post';
 
