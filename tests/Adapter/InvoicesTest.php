@@ -1388,7 +1388,7 @@ class InvoicesTest extends TestCase
             true,
             [
                 'customer-a@example.com',
-                'customer@example.com'
+                'customer@example.com',
             ]
         ));
     }
