@@ -129,7 +129,7 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_get
      */
-    public function listWebHookDetails($web_hook_id)
+    public function listWebHookEvents($web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}/event-types";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
