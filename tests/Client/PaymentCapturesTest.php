@@ -67,9 +67,9 @@ class PaymentCapturesTest extends TestCase
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P';
         $expectedParams = [
             'headers' => [
-                'Accept' => 'application/json',
-                'Accept-Language' => 'en_US',
-                'Authorization' => 'Bearer some-token',
+                'Accept'            => 'application/json',
+                'Accept-Language'   => 'en_US',
+                'Authorization'     => 'Bearer some-token',
             ],
         ];
 
@@ -101,9 +101,9 @@ class PaymentCapturesTest extends TestCase
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P/refund';
         $expectedParams = [
             'headers' => [
-                'Accept' => 'application/json',
-                'Accept-Language' => 'en_US',
-                'Authorization' => 'Bearer some-token',
+                'Accept'            => 'application/json',
+                'Accept-Language'   => 'en_US',
+                'Authorization'     => 'Bearer some-token',
             ],
             'json' => \GuzzleHttp\json_decode('{
   "amount": {

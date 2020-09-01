@@ -57,9 +57,9 @@ class PaymentAuthorizationsTest extends TestCase
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046';
         $expectedParams = [
             'headers' => [
-                'Accept' => 'application/json',
-                'Accept-Language' => 'en_US',
-                'Authorization' => 'Bearer some-token',
+                'Accept'            => 'application/json',
+                'Accept-Language'   => 'en_US',
+                'Authorization'     => 'Bearer some-token',
             ],
         ];
 
@@ -96,9 +96,9 @@ class PaymentAuthorizationsTest extends TestCase
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/capture';
         $expectedParams = [
             'headers' => [
-                'Accept' => 'application/json',
-                'Accept-Language' => 'en_US',
-                'Authorization' => 'Bearer some-token',
+                'Accept'            => 'application/json',
+                'Accept-Language'   => 'en_US',
+                'Authorization'     => 'Bearer some-token',
             ],
             'json' => \GuzzleHttp\json_decode('{
   "amount": {
@@ -149,9 +149,9 @@ class PaymentAuthorizationsTest extends TestCase
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/reauthorize';
         $expectedParams = [
             'headers' => [
-                'Accept' => 'application/json',
-                'Accept-Language' => 'en_US',
-                'Authorization' => 'Bearer some-token',
+                'Accept'            => 'application/json',
+                'Accept-Language'   => 'en_US',
+                'Authorization'     => 'Bearer some-token',
             ],
             'json' => \GuzzleHttp\json_decode('{
   "amount": {
@@ -174,9 +174,9 @@ class PaymentAuthorizationsTest extends TestCase
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/void';
         $expectedParams = [
             'headers' => [
-                'Accept' => 'application/json',
-                'Accept-Language' => 'en_US',
-                'Authorization' => 'Bearer some-token',
+                'Accept'            => 'application/json',
+                'Accept-Language'   => 'en_US',
+                'Authorization'     => 'Bearer some-token',
             ],
         ];
 

@@ -58,9 +58,9 @@ class PaymentRefundsTest extends TestCase
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/refunds/1JU08902781691411';
         $expectedParams = [
             'headers' => [
-                'Accept' => 'application/json',
-                'Accept-Language' => 'en_US',
-                'Authorization' => 'Bearer some-token',
+                'Accept'            => 'application/json',
+                'Accept-Language'   => 'en_US',
+                'Authorization'     => 'Bearer some-token',
             ],
         ];
 
