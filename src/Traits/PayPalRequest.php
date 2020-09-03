@@ -48,14 +48,13 @@ trait PayPalRequest
     /**
      * Set PayPal API Credentials.
      *
-     * @param array                   $credentials
-     * @param \GuzzleHttp\Client|null $client
+     * @param array $credentials
      *
      * @throws \RuntimeException
      *
      * @return void
      */
-    public function setApiCredentials($credentials, $client = null)
+    public function setApiCredentials($credentials)
     {
         if (empty($credentials)) {
             throw new RuntimeException('Empty configuration provided. Please provide valid configuration for Express Checkout API.');
@@ -71,7 +70,7 @@ trait PayPalRequest
         $this->setCurrency($credentials['currency']);
 
         // Set Http Client configuration.
-        $this->setHttpClientConfiguration($client);
+        $this->setHttpClientConfiguration();
     }
 
     /**
@@ -114,17 +113,16 @@ trait PayPalRequest
     /**
      * Function To Set PayPal API Configuration.
      *
-     * @param array                   $config
-     * @param \GuzzleHttp\Client|null $client
+     * @param array $config
      *
      * @throws Exception
      */
-    private function setConfig(array $config = [], $client = null)
+    private function setConfig(array $config = [])
     {
         $api_config = function_exists('config') ? config('paypal') : $config;
 
         // Set Api Credentials
-        $this->setApiCredentials($api_config, $client);
+        $this->setApiCredentials($api_config);
     }
 
     /**

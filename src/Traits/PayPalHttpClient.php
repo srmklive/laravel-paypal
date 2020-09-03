@@ -103,27 +103,21 @@ trait PayPalHttpClient
     /**
      * Function to initialize Http Client.
      *
-     * @param \GuzzleHttp\Client|null $client
-     *
      * @return void
      */
-    protected function setClient($client)
+    protected function setClient()
     {
-        if (is_null($client)) {
-            $this->client = new HttpClient([
-                'curl' => $this->httpClientConfig,
-            ]);
-        }
+        $this->client = new HttpClient([
+            'curl' => $this->httpClientConfig,
+        ]);
     }
 
     /**
      * Function to set Http Client configuration.
      *
-     * @param \GuzzleHttp\Client|null $client
-     *
      * @return void
      */
-    protected function setHttpClientConfiguration($client)
+    protected function setHttpClientConfiguration()
     {
         $this->setCurlConstants();
 
@@ -133,7 +127,7 @@ trait PayPalHttpClient
         ];
 
         // Initialize Http Client
-        $this->setClient($client);
+        $this->setClient();
 
         // Set default values.
         $this->setDefaultValues();
