@@ -12,15 +12,16 @@ class PayPal
     /**
      * PayPal constructor.
      *
-     * @param string|array $config
+     * @param string|array            $config
+     * @param \GuzzleHttp\Client|null $client
      *
      * @throws Exception
      */
-    public function __construct($config = '')
+    public function __construct($config = '', $client = null)
     {
         // Setting PayPal API Credentials
         if (is_array($config)) {
-            $this->setConfig($config);
+            $this->setConfig($config, $client);
         }
 
         $this->httpBodyParam = 'form_params';

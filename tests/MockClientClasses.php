@@ -2,11 +2,30 @@
 
 namespace Srmklive\PayPal\Tests;
 
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Handler\MockHandler as HttpMockHandler;
+use GuzzleHttp\HandlerStack as HttpHandlerStack;
+use GuzzleHttp\Psr7\Response as HttpResponse;
 use Psr\Http\Message\ResponseInterface;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 trait MockClientClasses
 {
+    private function mock_http_client($response)
+    {
+        $mock = new HttpMockHandler([
+            new HttpResponse(
+                200,
+                [],
+                \GuzzleHttp\json_encode($response)
+            ),
+        ]);
+
+        $handler = HttpHandlerStack::create($mock);
+
+        $this->client = new HttpClient(['handler' => $handler]);
+    }
+
     private function mock_http_request($expectedResponse, $expectedEndpoint, $expectedParams, $expectedMethod = 'post')
     {
         $set_method_name = 'setMethods';
@@ -63,9 +82,6 @@ trait MockClientClasses
     private function createProphecyObject($class)
     {
         $this->client = $this->prophesize($class);
-        if ($class instanceof PayPalClient) {
-            $this->client->setApiCredentials($this->getCredentials());
-        }
     }
 
     private function getCredentials()

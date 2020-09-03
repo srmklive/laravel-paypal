@@ -3,7 +3,6 @@
 namespace Srmklive\PayPal\Tests\Functional;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy as AdapterProphecyObject;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Srmklive\PayPal\Tests\MockClientClasses;
 
@@ -19,6 +18,6 @@ class AdapterTest extends TestCase
     {
         $this->createProphecyObject(PayPalClient::class);
 
-        $this->assertInstanceOf(AdapterProphecyObject::class, $this->client);
+        $this->assertInstanceOf(PayPalClient::class, $this->client->reveal());
     }
 }
