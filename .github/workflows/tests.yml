@@ -30,4 +30,6 @@ jobs:
         PHP_VERSION: ${{ matrix.php-versions }}
       run: composer install --no-progress --prefer-dist --optimize-autoloader $(if [ "$PHP_VERSION" == "8.0" ]; then echo "--ignore-platform-reqs"; fi;)
     - name: Test with PHPUnit
-      run: vendor/bin/phpunit
+      env:
+        PHP_VERSION: ${{ matrix.php-versions }}
+      run: vendor/bin/phpunit $(if [[ "$PHP_VERSION" == "7.1" ] || [ "$PHP_VERSION" == "7.2" ]]; then echo "-c phpunit.xml.legacy"; fi;)
