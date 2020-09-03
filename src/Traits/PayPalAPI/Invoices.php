@@ -274,10 +274,6 @@ trait Invoices
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/refunds";
         $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
 
-        if (isset($currency)) {
-            $this->setCurrency($currency);
-        }
-
         $data = [
             'refund_date'   => $payment_date,
             'method'        => $payment_method,
