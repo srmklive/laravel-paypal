@@ -14,16 +14,11 @@ class ClientTest extends TestCase
     /** @var \GuzzleHttp\Client|\Prophecy\Prophecy\ObjectProphecy */
     protected $client;
 
-    public function setUp(): void
-    {
-        $this->client = $this->prophesize(HttpClient::class);
-
-        parent::setUp();
-    }
-
     /** @test */
     public function it_can_be_instantiated()
     {
+        $this->createProphecyObject(HttpClient::class);
+
         $this->assertInstanceOf(ClientProphecyObject::class, $this->client);
     }
 }

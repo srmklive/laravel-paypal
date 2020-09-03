@@ -60,6 +60,14 @@ trait MockClientClasses
         return $mockClient;
     }
 
+    private function createProphecyObject($class)
+    {
+        $this->client = $this->prophesize($class);
+        if ($class instanceof PayPalClient) {
+            $this->client->setApiCredentials($this->getCredentials());
+        }
+    }
+
     private function getCredentials()
     {
         return [

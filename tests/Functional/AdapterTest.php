@@ -14,17 +14,11 @@ class AdapterTest extends TestCase
     /** @var \Srmklive\PayPal\Services\PayPal|\Prophecy\Prophecy\ObjectProphecy */
     protected $client;
 
-    public function setUp(): void
-    {
-        $this->client = $this->prophesize(PayPalClient::class);
-        $this->client->setApiCredentials($this->getCredentials());
-
-        parent::setUp();
-    }
-
     /** @test */
     public function it_can_be_instantiated()
     {
+        $this->createProphecyObject(PayPalClient::class);
+
         $this->assertInstanceOf(AdapterProphecyObject::class, $this->client);
     }
 }

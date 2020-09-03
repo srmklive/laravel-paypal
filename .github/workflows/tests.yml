@@ -32,4 +32,4 @@ jobs:
     - name: Test with PHPUnit
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
-      run: vendor/bin/phpunit $(if [[ "$PHP_VERSION" == "7.1" ] || [ "$PHP_VERSION" == "7.2" ]]; then echo "-c phpunit.xml.legacy"; fi;)
+      run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "7.1" ] || [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.legacy"; fi;)
