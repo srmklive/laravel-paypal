@@ -86,20 +86,17 @@ trait PayPalHttpClient
      */
     protected function setCurlConstants()
     {
-        if (!defined('CURLOPT_SSLVERSION')) {
-            define('CURLOPT_SSLVERSION', 32);
-        }
+        $constants = [
+            'CURLOPT_SSLVERSION'        => 32,
+            'CURL_SSLVERSION_TLSv1_2'   => 6,
+            'CURLOPT_SSL_VERIFYPEER'    => 64,
+            'CURLOPT_SSLCERT'           => 10025,
+        ];
 
-        if (!defined('CURL_SSLVERSION_TLSv1_2')) {
-            define('CURL_SSLVERSION_TLSv1_2', 6);
-        }
-
-        if (!defined('CURLOPT_SSL_VERIFYPEER')) {
-            define('CURLOPT_SSL_VERIFYPEER', 64);
-        }
-
-        if (!defined('CURLOPT_SSLCERT')) {
-            define('CURLOPT_SSLCERT', 10025);
+        foreach ($constants as $key => $value) {
+            if (!defined($key)) {
+                define($key, $constants[$key]);
+            }
         }
     }
 
@@ -149,19 +146,16 @@ trait PayPalHttpClient
      */
     private function setDefaultValues()
     {
-        // Set default payment action.
-        if (empty($this->paymentAction)) {
-            $this->paymentAction = 'Sale';
-        }
+        $defaults = [
+            'paymentAction' => 'Sale',
+            'locale'        => 'en_US',
+            'validateSSL'   => true,
+        ];
 
-        // Set default locale.
-        if (empty($this->locale)) {
-            $this->locale = 'en_US';
-        }
-
-        // Set default value for SSL validation.
-        if (empty($this->validateSSL)) {
-            $this->validateSSL = false;
+        foreach ($defaults as $key => $value) {
+            if (empty($this->$key)) {
+                $this->$key = $defaults[$key];
+            }
         }
     }
 

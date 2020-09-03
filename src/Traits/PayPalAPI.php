@@ -44,15 +44,39 @@ trait PayPalAPI
         $response = $this->doPayPalRequest();
 
         if (isset($response['access_token'])) {
-            $this->access_token = $response['access_token'];
+            $this->setAccessToken($response);
 
-            if (empty($this->config['app_id'])) {
-                $this->config['app_id'] = $response['app_id'];
-            }
-
-            $this->options['headers']['Authorization'] = "{$response['token_type']} {$this->access_token}";
+            $this->setPayPalAppId($response);
         }
 
         return $response;
+    }
+
+    /**
+     * Set PayPal Rest API access token.
+     *
+     * @param array $response
+     *
+     * @return void
+     */
+    public function setAccessToken($response)
+    {
+        $this->access_token = $response['access_token'];
+
+        $this->options['headers']['Authorization'] = "{$response['token_type']} {$this->access_token}";
+    }
+
+    /**
+     * Set PayPal App ID.
+     *
+     * @param array $response
+     *
+     * @return void
+     */
+    private function setPayPalAppId($response)
+    {
+        if (empty($this->config['app_id'])) {
+            $this->config['app_id'] = $response['app_id'];
+        }
     }
 }

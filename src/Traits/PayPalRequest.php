@@ -56,6 +56,10 @@ trait PayPalRequest
      */
     public function setApiCredentials($credentials)
     {
+        if (empty($credentials)) {
+            throw new RuntimeException('Empty configuration provided. Please provide valid configuration for Express Checkout API.');
+        }
+
         // Setting Default PayPal Mode If not set
         $this->setApiEnvironment($credentials);
 
@@ -115,14 +119,10 @@ trait PayPalRequest
      */
     private function setConfig(array $config = [])
     {
+        $api_config = function_exists('config') ? config('paypal') : $config;
+
         // Set Api Credentials
-        if (function_exists('config')) {
-            $this->setApiCredentials(
-                config('paypal')
-            );
-        } elseif (!empty($config)) {
-            $this->setApiCredentials($config);
-        }
+        $this->setApiCredentials($api_config);
     }
 
     /**
@@ -134,11 +134,23 @@ trait PayPalRequest
      */
     private function setApiEnvironment($credentials)
     {
-        if (empty($credentials['mode']) || !in_array($credentials['mode'], ['sandbox', 'live'])) {
-            $this->mode = 'live';
-        } else {
-            $this->mode = $credentials['mode'];
+        $this->mode = 'live';
+
+        if (!empty($credentials['mode'])) {
+            $this->setValidApiEnvironment($credentials['mode']);
         }
+    }
+
+    /**
+     * Validate & set the environment to be used by PayPal.
+     *
+     * @param string $mode
+     *
+     * @return void
+     */
+    private function setValidApiEnvironment($mode)
+    {
+        $this->mode = !in_array($mode, ['sandbox', 'live']) ? 'live' : $mode;
     }
 
     /**
