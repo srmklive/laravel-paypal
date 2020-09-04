@@ -3,9 +3,9 @@
 namespace Srmklive\PayPal\Traits;
 
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException as HttpClientException;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
-use Throwable;
 
 trait PayPalHttpClient
 {
@@ -173,7 +173,7 @@ trait PayPalHttpClient
                 $this->apiUrl,
                 $this->options
             )->getBody();
-        } catch (Throwable $t) {
+        } catch (HttpClientException $e) {
             throw new RuntimeException($t->getRequest().' '.$t->getResponse());
         }
     }
@@ -192,7 +192,7 @@ trait PayPalHttpClient
             $response = $this->makeHttpRequest();
 
             return \GuzzleHttp\json_decode($response, true);
-        } catch (Throwable $t) {
+        } catch (RuntimeException $t) {
             $message = collect($t->getTrace())->implode('\n');
         }
 

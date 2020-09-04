@@ -10,6 +10,8 @@ class AdapterTest extends TestCase
 {
     use MockClientClasses;
 
+    protected static $access_token = '';
+
     /** @var \Srmklive\PayPal\Services\PayPal */
     protected $client;
 
@@ -76,5 +78,27 @@ class AdapterTest extends TestCase
 
         $this->assertNotEmpty($this->client->getCurrency());
         $this->assertEquals('EUR', $this->client->getCurrency());
+    }
+
+    /** @test */
+    public function it_can_get_access_token()
+    {
+        $this->client = new PayPalClient($this->getApiCredentials());
+        $response = $this->client->getAccessToken();
+
+        self::$access_token = $response['access_token'];
+
+        $this->assertArrayHasKey('access_token', $response);
+        $this->assertNotEmpty($response['access_token']);
+    }
+
+    /** @test */
+    public function it_returns_error_if_invalid_credentials_are_used_to_get_access_token()
+    {
+        $this->client = new PayPalClient($this->getMockCredentials());
+        $response = $this->client->getAccessToken();
+
+        $this->assertArrayHasKey('type', $response);
+        $this->assertEquals('error', $response['type']);
     }
 }

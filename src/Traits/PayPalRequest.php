@@ -3,7 +3,6 @@
 namespace Srmklive\PayPal\Traits;
 
 use RuntimeException;
-use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 trait PayPalRequest
 {
