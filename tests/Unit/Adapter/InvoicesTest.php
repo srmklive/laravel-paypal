@@ -18,7 +18,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'generateInvoiceNumber';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -423,7 +423,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'createInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -558,7 +558,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'listInvoices';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -572,7 +572,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'deleteInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1003,7 +1003,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'updateInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1250,7 +1250,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'showInvoiceDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1274,7 +1274,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'cancelInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1288,7 +1288,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'generateQRCodeInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1304,7 +1304,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'registerPaymentInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1318,7 +1318,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'deleteExternalPaymentInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1334,7 +1334,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'refundInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1348,7 +1348,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'deleteRefundInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1362,7 +1362,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'sendInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -1376,7 +1376,7 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'sendInvoiceReminder';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 

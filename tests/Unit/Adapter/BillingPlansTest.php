@@ -182,7 +182,7 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'createPlan';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -253,7 +253,7 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'listPlans';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -275,7 +275,7 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'updatePlan';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -380,7 +380,7 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'showPlanDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -394,7 +394,7 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'activatePlan';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -408,7 +408,7 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'deactivatePlan';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -436,7 +436,7 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'updatePlanPricing';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 

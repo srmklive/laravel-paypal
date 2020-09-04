@@ -24,7 +24,7 @@ class DisputeActionsTest extends TestCase
 
         $expectedMethod = 'acceptDisputeClaim';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -46,7 +46,7 @@ class DisputeActionsTest extends TestCase
 
         $expectedMethod = 'acceptDisputeOfferResolution';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -68,7 +68,7 @@ class DisputeActionsTest extends TestCase
 
         $expectedMethod = 'acknowledgeItemReturned';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 

@@ -57,7 +57,7 @@ class PaymentRefundsTest extends TestCase
 
         $expectedMethod = 'showRefundDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 

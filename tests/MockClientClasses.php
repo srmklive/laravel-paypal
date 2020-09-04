@@ -79,18 +79,30 @@ trait MockClientClasses
         return $mockClient;
     }
 
-    private function createProphecyObject($class)
-    {
-        $this->client = $this->prophesize($class);
-    }
-
-    private function getCredentials()
+    private function getMockCredentials()
     {
         return [
             'mode'    => 'sandbox',
             'sandbox' => [
                 'client_id'     => 'some-client-id',
                 'client_secret' => 'some-access-token',
+                'app_id'        => '',
+            ],
+            'payment_action' => 'Sale',
+            'currency'       => 'USD',
+            'notify_url'     => '',
+            'locale'         => 'en_US',
+            'validate_ssl'   => true,
+        ];
+    }
+
+    private function getApiCredentials()
+    {
+        return [
+            'mode'    => 'sandbox',
+            'sandbox' => [
+                'client_id'     => 'AbJgVQM6g57qPrXimGkBz1UaBOXn1dKLSdUj7BgiB3JhzJRCapzCnkPq6ycOOmgXHtnDZcjwLMJ2IdAI',
+                'client_secret' => 'EPd_XBNkfhU3-MlSw6gpa6EJj9x8QBdsC3o77jZZWjcFy_hrjR4kzBP8QN3MPPH4g52U_acG4-ogWUxI',
                 'app_id'        => '',
             ],
             'payment_action' => 'Sale',

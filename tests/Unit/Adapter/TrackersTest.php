@@ -38,7 +38,7 @@ class TrackersTest extends TestCase
 
         $expectedMethod = 'showTrackingDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -61,7 +61,7 @@ class TrackersTest extends TestCase
 
         $expectedMethod = 'updateTrackingDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -108,7 +108,7 @@ class TrackersTest extends TestCase
 
         $expectedMethod = 'addBatchTracking';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 

@@ -4,6 +4,11 @@
     <include>
       <directory suffix=".php">src/</directory>
     </include>
+    <exclude>
+      <file>src/PayPalFacadeAccessor.php</file>
+      <directory suffix=".php">src/Facades/</directory>
+      <directory suffix=".php">src/Providers/</directory>
+    </exclude>
     <report>
       <clover outputFile="build/logs/clover.xml"/>
       <html outputDirectory="build/coverage"/>

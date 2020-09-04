@@ -32,7 +32,7 @@ class AdapterTest extends TestCase
 
         $expectedMethod = 'getAccessToken';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials());
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials());
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
     }

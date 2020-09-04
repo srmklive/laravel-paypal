@@ -36,14 +36,14 @@ trait PayPalRequest
      *
      * @var string
      */
-    private $currency;
+    protected $currency;
 
     /**
      * Additional options for PayPal API request.
      *
      * @var array
      */
-    private $options;
+    protected $options;
 
     /**
      * Set PayPal API Credentials.
@@ -74,20 +74,6 @@ trait PayPalRequest
     }
 
     /**
-     * Set other/override PayPal API parameters.
-     *
-     * @param array $options
-     *
-     * @return $this
-     */
-    public function addOptions(array $options)
-    {
-        $this->options = $options;
-
-        return $this;
-    }
-
-    /**
      * Function to set currency.
      *
      * @param string $currency
@@ -108,6 +94,16 @@ trait PayPalRequest
         $this->currency = $currency;
 
         return $this;
+    }
+
+    /**
+     * Return the set currency.
+     *
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
     }
 
     /**
@@ -175,24 +171,6 @@ trait PayPalRequest
 
         $this->validateSSL = $credentials['validate_ssl'];
 
-        $this->setApiProvider($credentials);
-    }
-
-    /**
-     * Determines which API provider should be used.
-     *
-     * @param array $credentials
-     *
-     * @throws \RuntimeException
-     */
-    private function setApiProvider($credentials)
-    {
-        if ($this instanceof PayPalClient) {
-            $this->setOptions($credentials);
-
-            return;
-        }
-
-        throw new RuntimeException('Invalid api credentials provided for PayPal!. Please provide the right api credentials.');
+        $this->setOptions($credentials);
     }
 }

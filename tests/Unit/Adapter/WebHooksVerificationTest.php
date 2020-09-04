@@ -71,7 +71,7 @@ class WebHooksVerificationTest extends TestCase
 
         $expectedMethod = 'verifyWebHook';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 

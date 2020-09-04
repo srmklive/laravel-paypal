@@ -66,7 +66,7 @@ class PaymentCapturesTest extends TestCase
 
         $expectedMethod = 'showCapturedPaymentDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -95,7 +95,7 @@ class PaymentCapturesTest extends TestCase
 
         $expectedMethod = 'refundCapturedPayment';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 

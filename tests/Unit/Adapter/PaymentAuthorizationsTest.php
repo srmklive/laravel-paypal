@@ -56,7 +56,7 @@ class PaymentAuthorizationsTest extends TestCase
 
         $expectedMethod = 'showAuthorizedPaymentDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -90,7 +90,7 @@ class PaymentAuthorizationsTest extends TestCase
 
         $expectedMethod = 'captureAuthorizedPayment';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -134,7 +134,7 @@ class PaymentAuthorizationsTest extends TestCase
 
         $expectedMethod = 'reAuthorizeAuthorizedPayment';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
@@ -148,7 +148,7 @@ class PaymentAuthorizationsTest extends TestCase
 
         $expectedMethod = 'voidAuthorizedPayment';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 

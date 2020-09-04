@@ -88,7 +88,7 @@ class InvoicesSearchTest extends TestCase
 
         $expectedMethod = 'searchInvoices';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
 
         $mockClient->getAccessToken();
 
