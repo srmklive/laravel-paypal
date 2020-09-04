@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.0', '7.1', '7.2', '7.3', '7.4']
+        php-versions: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
     - name: Run tests with code coverage
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
-      run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "7.0" ] || [ "$PHP_VERSION" == "7.1" ] || [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.legacy"; fi;) --coverage-clover build/logs/clover.xml
+      run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "5.6" ] || [ "$PHP_VERSION" == "7.0" ] || [ "$PHP_VERSION" == "7.1" ] || [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.legacy"; fi;) --coverage-clover build/logs/clover.xml
     - name: Install PHP Coveralls library
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
