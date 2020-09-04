@@ -37,7 +37,7 @@ https://developer.paypal.com/docs/api/overview/
 * Use following command to install:
 
 ```bash
-composer require srmklive/paypal:~2.0
+composer require srmklive/paypal:~1.0|~2.0
 ```
 
 Perform the following steps if you are using Laravel 5.4 or less.
