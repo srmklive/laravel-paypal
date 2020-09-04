@@ -1,7 +1,7 @@
 name: Tests
 on: [push, pull_request]
 jobs:
-  predis:
+  paypal:
     name: PHP ${{ matrix.php-versions }}
     runs-on: ubuntu-latest
     strategy:
@@ -29,7 +29,29 @@ jobs:
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
       run: composer install --no-progress --prefer-dist --optimize-autoloader $(if [ "$PHP_VERSION" == "8.0" ]; then echo "--ignore-platform-reqs"; fi;)
-    - name: Test with PHPUnit
+    - name: Run tests with code coverage
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
-      run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "7.1" ] || [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.legacy"; fi;)
+      run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "7.0" ] || [ "$PHP_VERSION" == "7.1" ] || [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.legacy"; fi;) --coverage-clover build/logs/clover.xml
+    - name: Install PHP Coveralls library
+      env:
+        PHP_VERSION: ${{ matrix.php-versions }}
+      run:
+        composer global require --dev twinh/php-coveralls
+    - name: Upload coverage results to Coveralls
+      env:
+        PHP_VERSION: ${{ matrix.php-versions }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_PARALLEL: true
+        COVERALLS_FLAG_NAME: php-${{ matrix.php-versions }}
+      run:
+        php-coveralls -v
+  coveralls-finish:
+    needs: [paypal]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
