@@ -21,7 +21,7 @@ class AdapterFeatureTest extends TestCase
     /** @var \Srmklive\PayPal\Services\PayPal */
     protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = new PayPalClient($this->getApiCredentials());
 
@@ -134,7 +134,23 @@ class AdapterFeatureTest extends TestCase
 
         $response = $this->client->listInvoices();
 
-        $this->assertNotEmpty($response);
-        $this->assertArrayHasKey('invoices', $response);
+        $this->assertArrayHasKey('total_pages', $response);
+        $this->assertArrayHasKey('total_items', $response);
+    }
+
+    /** @test */
+    public function it_can_search_invoices()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $filters = $this->invoiceSearchParams();
+
+        $response = $this->client->searchInvoices($filters);
+
+        $this->assertArrayHasKey('total_pages', $response);
+        $this->assertArrayHasKey('total_items', $response);
     }
 }

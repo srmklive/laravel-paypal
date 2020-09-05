@@ -21,6 +21,8 @@ trait InvoicesSearch
      */
     public function searchInvoices($filters, $page = 1, $size = 20, $totals = true, array $fields = [])
     {
+        $totals = ($totals === true) ? 'true' : 'false';
+
         $fields_list = collect($fields);
 
         $fields = '';
