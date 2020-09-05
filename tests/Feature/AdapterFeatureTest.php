@@ -123,4 +123,18 @@ class AdapterFeatureTest extends TestCase
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('items', $response);
     }
+
+    /** @test */
+    public function it_can_list_invoices()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $response = $this->client->listInvoices();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('invoices', $response);
+    }
 }
