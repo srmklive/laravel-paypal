@@ -18,7 +18,7 @@ trait PaymentAuthorizations
     public function showAuthorizedPaymentDetails($authorization_id)
     {
         $this->apiEndPoint = "v2/payments/authorizations/{$authorization_id}";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -42,7 +42,7 @@ trait PaymentAuthorizations
     public function captureAuthorizedPayment($authorization_id, $invoice_id, $amount, $note)
     {
         $this->apiEndPoint = "v2/payments/authorizations/{$authorization_id}/capture";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'amount' => [
@@ -74,7 +74,7 @@ trait PaymentAuthorizations
     public function reAuthorizeAuthorizedPayment($authorization_id, $amount)
     {
         $this->apiEndPoint = "v2/payments/authorizations/{$authorization_id}/reauthorize";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'amount' => [
@@ -102,7 +102,7 @@ trait PaymentAuthorizations
     public function voidAuthorizedPayment($authorization_id)
     {
         $this->apiEndPoint = "v2/payments/authorizations/{$authorization_id}/void";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'post';
 

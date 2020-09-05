@@ -21,7 +21,7 @@ trait Reporting
     public function listTransactions($page = 1, $page_size = 100)
     {
         $this->apiEndPoint = "v1/reporting/transactions?page={$page}&page_size={$page_size}";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -44,7 +44,7 @@ trait Reporting
         $date = empty($date) ? Carbon::now()->toIso8601String() : Carbon::parse($date)->toIso8601String();
 
         $this->apiEndPoint = "v1/reporting/balances?currency_code={$this->currency}&as_of_date={$date}";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

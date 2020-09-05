@@ -18,7 +18,7 @@ trait WebHooksVerification
     public function verifyWebHook(array $data)
     {
         $this->apiEndPoint = 'v1/notifications/verify-webhook-signature';
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 

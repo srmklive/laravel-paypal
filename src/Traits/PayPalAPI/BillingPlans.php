@@ -18,7 +18,7 @@ trait BillingPlans
     public function createPlan(array $data)
     {
         $this->apiEndPoint = 'v1/billing/plans';
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -51,7 +51,7 @@ trait BillingPlans
         }
 
         $this->apiEndPoint = "v1/billing/plans?page={$page}&page_size={$size}&total_required={$totals}{$fields}";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -73,7 +73,7 @@ trait BillingPlans
     public function updatePlan($plan_id, array $data)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -96,7 +96,7 @@ trait BillingPlans
     public function showPlanDetails($plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -117,7 +117,7 @@ trait BillingPlans
     public function activatePlan($plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/activate";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'post';
 
@@ -138,7 +138,7 @@ trait BillingPlans
     public function deactivatePlan($plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/deactivate";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'post';
 
@@ -160,7 +160,7 @@ trait BillingPlans
     public function updatePlanPricing($plan_id, array $pricing)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/update-pricing-schemes";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'pricing_schemes' => $pricing,

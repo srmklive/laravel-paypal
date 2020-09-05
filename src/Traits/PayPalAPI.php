@@ -34,7 +34,7 @@ trait PayPalAPI
     public function getAccessToken()
     {
         $this->apiEndPoint = 'v1/oauth2/token';
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['auth'] = [$this->config['client_id'], $this->config['client_secret']];
         $this->options[$this->httpBodyParam] = [

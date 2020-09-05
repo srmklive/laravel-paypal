@@ -18,7 +18,7 @@ trait Trackers
     public function showTrackingDetails($tracking_id)
     {
         $this->apiEndPoint = "v1/shipping/trackers/{$tracking_id}";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -40,7 +40,7 @@ trait Trackers
     public function updateTrackingDetails($tracking_id, $data)
     {
         $this->apiEndPoint = "v1/shipping/trackers/{$tracking_id}";
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -63,7 +63,7 @@ trait Trackers
     public function addBatchTracking($data)
     {
         $this->apiEndPoint = 'v1/shipping/trackers-batch';
-        $this->apiUrl = collect([$this->apiUrl, $this->apiEndPoint])->implode('/');
+        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 

@@ -132,9 +132,6 @@ trait PayPalHttpClient
         // Set default values.
         $this->setDefaultValues();
 
-        // Set PayPal API Endpoint.
-        $this->apiUrl = $this->config['api_url'];
-
         // Set PayPal IPN Notification URL
         $this->notifyUrl = $this->config['notify_url'];
     }
