@@ -44,6 +44,8 @@ trait CatalogProducts
      */
     public function listProducts($page = 1, $size = 20, $totals = true)
     {
+        $totals = ($totals === true) ? 'true' : 'false';
+
         $this->apiEndPoint = "v1/catalogs/products?page={$page}&page_size={$size}&total_required={$totals}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
@@ -73,7 +75,7 @@ trait CatalogProducts
 
         $this->verb = 'patch';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**

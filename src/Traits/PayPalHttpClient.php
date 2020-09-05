@@ -178,17 +178,19 @@ trait PayPalHttpClient
     /**
      * Function To Perform PayPal API Request.
      *
+     * @param bool $decode
+     *
      * @throws \Throwable
      *
-     * @return array|StreamInterface
+     * @return array|StreamInterface|string
      */
-    private function doPayPalRequest()
+    private function doPayPalRequest($decode = true)
     {
         try {
             // Perform PayPal HTTP API request.
             $response = $this->makeHttpRequest();
 
-            return \GuzzleHttp\json_decode($response, true);
+            return ($decode === false) ? $response->getContents() : \GuzzleHttp\json_decode($response, true);
         } catch (RuntimeException $t) {
             $message = collect($t->getMessage())->implode('\n');
         }
