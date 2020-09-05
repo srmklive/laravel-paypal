@@ -5,10 +5,12 @@ namespace Srmklive\PayPal\Tests\Feature;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Srmklive\PayPal\Tests\MockClientClasses;
+use Srmklive\PayPal\Tests\RequestPayloads;
 
 class AdapterFeatureTest extends TestCase
 {
     use MockClientClasses;
+    use RequestPayloads;
 
     /** @var string */
     protected static $access_token = '';
@@ -69,14 +71,7 @@ class AdapterFeatureTest extends TestCase
             'token_type'    => 'Bearer',
         ]);
 
-        $expectedParams = \GuzzleHttp\json_decode('{
-  "name": "Video Streaming Service",
-  "description": "Video streaming service",
-  "type": "SERVICE",
-  "category": "SOFTWARE",
-  "image_url": "https://example.com/streaming.jpg",
-  "home_url": "https://example.com/home"
-}', true);
+        $expectedParams = $this->createProductParams();
 
         $response = $this->client->createProduct($expectedParams, 'product-request-'.time());
 
@@ -94,13 +89,7 @@ class AdapterFeatureTest extends TestCase
             'token_type'    => 'Bearer',
         ]);
 
-        $expectedParams = \GuzzleHttp\json_decode('[
-          {
-            "op": "replace",
-            "path": "/description",
-            "value": "Premium video streaming service"
-          }
-        ]', true);
+        $expectedParams = $this->updateProductParams();
 
         $response = $this->client->updateProduct($expectedParams, self::$product_id);
 
@@ -119,5 +108,19 @@ class AdapterFeatureTest extends TestCase
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_list_disputes()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $response = $this->client->listDisputes();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('items', $response);
     }
 }
