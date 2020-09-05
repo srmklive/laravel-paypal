@@ -4,7 +4,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/srmklive/paypal.svg?style=flat-square)](https://packagist.org/packages/srmklive/paypal)
 [![Total Downloads](https://img.shields.io/packagist/dt/srmklive/paypal.svg?style=flat-square)](https://packagist.org/packages/srmklive/paypal)
 [![StyleCI](https://github.styleci.io/repos/43671533/shield?branch=v2.0)](https://github.styleci.io/repos/43671533?branch=v2.0)
-![Tests](https://github.com/srmklive/laravel-paypal/workflows/Tests/badge.svg)
+![Tests](https://github.com/srmklive/laravel-paypal/workflows/TestsV2/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/srmklive/laravel-paypal/badge.svg)](https://coveralls.io/github/srmklive/laravel-paypal)
 [![Code Quality](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/badges/quality-score.png?b=v2.0)](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/?branch=v2.0)
 

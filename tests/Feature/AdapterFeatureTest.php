@@ -123,4 +123,34 @@ class AdapterFeatureTest extends TestCase
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('items', $response);
     }
+
+    /** @test */
+    public function it_can_list_invoices()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $response = $this->client->listInvoices();
+
+        $this->assertArrayHasKey('total_pages', $response);
+        $this->assertArrayHasKey('total_items', $response);
+    }
+
+    /** @test */
+    public function it_can_search_invoices()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $filters = $this->invoiceSearchParams();
+
+        $response = $this->client->searchInvoices($filters);
+
+        $this->assertArrayHasKey('total_pages', $response);
+        $this->assertArrayHasKey('total_items', $response);
+    }
 }
