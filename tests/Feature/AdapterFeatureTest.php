@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Feature;
 
+use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Srmklive\PayPal\Tests\MockClientClasses;
@@ -152,5 +153,40 @@ class AdapterFeatureTest extends TestCase
 
         $this->assertArrayHasKey('total_pages', $response);
         $this->assertArrayHasKey('total_items', $response);
+    }
+
+    /** @test */
+    public function it_throws_error_if_list_transaction_api_call_fails()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $filters = [
+            'start_date'    => Carbon::now()->toIso8601String(),
+            'end_date'      => Carbon::now()->subDays(30)->toIso8601String(),
+        ];
+
+        $response = $this->client->listTransactions($filters);
+
+        $this->assertArrayHasKey('type', $response);
+        $this->assertEquals('error', $response['type']);
+    }
+
+    /** @test */
+    public function it_throws_error_if_list_balances_api_call_fails()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $date = Carbon::now()->subDays(30)->toIso8601String();
+
+        $response = $this->client->listBalances($date);
+
+        $this->assertArrayHasKey('type', $response);
+        $this->assertEquals('error', $response['type']);
     }
 }
