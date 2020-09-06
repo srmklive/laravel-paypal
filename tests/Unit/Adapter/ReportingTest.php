@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
+use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 
@@ -170,7 +171,12 @@ class ReportingTest extends TestCase
 
         $mockClient->getAccessToken();
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
+        $filters = [
+            'start_date'    => Carbon::now()->toIso8601String(),
+            'end_date'      => Carbon::now()->subDays(30)->toIso8601String(),
+        ];
+
+        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($filters));
     }
 
     /** @test */

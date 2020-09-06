@@ -9,8 +9,10 @@ trait Reporting
     /**
      * List all transactions.
      *
-     * @param int $page
-     * @param int $page_size
+     * @param array  $filters
+     * @param string $fields
+     * @param int    $page
+     * @param int    $page_size
      *
      * @throws \Throwable
      *
@@ -18,9 +20,14 @@ trait Reporting
      *
      * @see https://developer.paypal.com/docs/api/transaction-search/v1/#transactions_get
      */
-    public function listTransactions($page = 1, $page_size = 100)
+    public function listTransactions(array $filters, $fields = 'all', $page = 1, $page_size = 100)
     {
-        $this->apiEndPoint = "v1/reporting/transactions?page={$page}&page_size={$page_size}";
+        $filters_list = collect($filters)->isEmpty() ? '' :
+            collect($filters)->map(function ($value, $key) {
+                return "{$key}={$value}&";
+            })->implode('');
+
+        $this->apiEndPoint = "v1/reporting/transactions?{$filters_list}fields={$fields}&page={$page}&page_size={$page_size}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
