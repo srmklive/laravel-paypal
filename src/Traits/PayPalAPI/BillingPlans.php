@@ -45,10 +45,7 @@ trait BillingPlans
     {
         $fields_list = collect($fields);
 
-        $fields = '';
-        if ($fields_list->count() > 0) {
-            $fields = "&fields={$fields_list->implode(',')}";
-        }
+        $fields = ($fields_list->count() > 0) ? "&fields={$fields_list->implode(',')}" : '';
 
         $this->apiEndPoint = "v1/billing/plans?page={$page}&page_size={$size}&total_required={$totals}{$fields}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -79,7 +76,7 @@ trait BillingPlans
 
         $this->verb = 'patch';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -121,7 +118,7 @@ trait BillingPlans
 
         $this->verb = 'post';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -142,7 +139,7 @@ trait BillingPlans
 
         $this->verb = 'post';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -168,6 +165,6 @@ trait BillingPlans
 
         $this->verb = 'post';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 }

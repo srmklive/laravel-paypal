@@ -58,6 +58,140 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_a_billing_plan()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePlansResponse()
+            )
+        );
+
+        $expectedParams = $this->createPlanParams();
+
+        $response = $this->client->createPlan($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_list_billing_plans()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListPlansResponse()
+            )
+        );
+
+        $response = $this->client->listPlans();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('plans', $response);
+    }
+
+    /** @test */
+    public function it_can_update_a_billing_plan()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $expectedParams = $this->updatePlanParams();
+
+        $response = $this->client->updatePlan('P-7GL4271244454362WXNWU5NQ', $expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_a_billing_plan()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetPlansResponse()
+            )
+        );
+
+        $response = $this->client->showPlanDetails('P-5ML4271244454362WXNWU5NQ');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_activate_a_billing_plan()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->activatePlan('P-7GL4271244454362WXNWU5NQ');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_deactivate_a_billing_plan()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->deactivatePlan('P-7GL4271244454362WXNWU5NQ');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_update_pricing_for_a_billing_plan()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $expectedParams = $this->updatePlanPricingParams();
+
+        $response = $this->client->updatePlanPricing('P-2UF78835G6983425GLSM44MA', $expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
     public function it_can_list_products()
     {
         $this->client->setAccessToken([
