@@ -101,12 +101,19 @@ trait PayPalHttpClient
     }
 
     /**
-     * Function to initialize Http Client.
+     * Function to initialize/override Http Client.
+     *
+     * @param \GuzzleHttp\Client|null $client
      *
      * @return void
      */
-    protected function setClient()
+    public function setClient($client=null)
     {
+        if ($client instanceof HttpClient) {
+            $this->client = $client;
+            return;
+        }
+
         $this->client = new HttpClient([
             'curl' => $this->httpClientConfig,
         ]);

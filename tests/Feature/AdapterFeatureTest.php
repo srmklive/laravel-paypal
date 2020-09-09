@@ -7,11 +7,13 @@ use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\RequestPayloads;
+use Srmklive\PayPal\Tests\ResponsePayloads;
 
 class AdapterFeatureTest extends TestCase
 {
     use MockClientClasses;
     use RequestPayloads;
+    use ResponsePayloads;
 
     /** @var string */
     protected static $access_token = '';
@@ -42,6 +44,11 @@ class AdapterFeatureTest extends TestCase
     /** @test */
     public function it_can_get_access_token()
     {
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAccessTokenResponse()
+            )
+        );
         $response = $this->client->getAccessToken();
 
         self::$access_token = $response['access_token'];
@@ -58,6 +65,12 @@ class AdapterFeatureTest extends TestCase
             'token_type'    => 'Bearer',
         ]);
 
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListCatalogProductsResponse()
+            )
+        );
+
         $response = $this->client->listProducts();
 
         $this->assertNotEmpty($response);
@@ -71,6 +84,12 @@ class AdapterFeatureTest extends TestCase
             'access_token'  => self::$access_token,
             'token_type'    => 'Bearer',
         ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateCatalogProductsResponse()
+            )
+        );
 
         $expectedParams = $this->createProductParams();
 
@@ -90,6 +109,10 @@ class AdapterFeatureTest extends TestCase
             'token_type'    => 'Bearer',
         ]);
 
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
         $expectedParams = $this->updateProductParams();
 
         $response = $this->client->updateProduct($expectedParams, self::$product_id);
@@ -105,6 +128,12 @@ class AdapterFeatureTest extends TestCase
             'token_type'    => 'Bearer',
         ]);
 
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetCatalogProductsResponse()
+            )
+        );
+
         $response = $this->client->showProductDetails(self::$product_id);
 
         $this->assertNotEmpty($response);
@@ -118,6 +147,12 @@ class AdapterFeatureTest extends TestCase
             'access_token'  => self::$access_token,
             'token_type'    => 'Bearer',
         ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListDisputesResponse()
+            )
+        );
 
         $response = $this->client->listDisputes();
 
@@ -133,6 +168,12 @@ class AdapterFeatureTest extends TestCase
             'token_type'    => 'Bearer',
         ]);
 
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListInvoicesResponse()
+            )
+        );
+
         $response = $this->client->listInvoices();
 
         $this->assertArrayHasKey('total_pages', $response);
@@ -147,6 +188,12 @@ class AdapterFeatureTest extends TestCase
             'token_type'    => 'Bearer',
         ]);
 
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
         $filters = $this->invoiceSearchParams();
 
         $response = $this->client->searchInvoices($filters);
@@ -156,12 +203,18 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_error_if_list_transaction_api_call_fails()
+    public function it_can_list_transactions()
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
             'token_type'    => 'Bearer',
         ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListTransactionsResponse()
+            )
+        );
 
         $filters = [
             'start_date'    => Carbon::now()->toIso8601String(),
@@ -170,23 +223,28 @@ class AdapterFeatureTest extends TestCase
 
         $response = $this->client->listTransactions($filters);
 
-        $this->assertArrayHasKey('type', $response);
-        $this->assertEquals('error', $response['type']);
+        $this->assertArrayHasKey('transaction_details', $response);
+        $this->assertGreaterThan(0, sizeof($response['transaction_details']));
     }
 
     /** @test */
-    public function it_throws_error_if_list_balances_api_call_fails()
+    public function it_can_list_account_balances()
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
             'token_type'    => 'Bearer',
         ]);
 
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListBalancesResponse()
+            )
+        );
+
         $date = Carbon::now()->subDays(30)->toIso8601String();
 
         $response = $this->client->listBalances($date);
 
-        $this->assertArrayHasKey('type', $response);
-        $this->assertEquals('error', $response['type']);
+        $this->assertNotEmpty($response);
     }
 }
