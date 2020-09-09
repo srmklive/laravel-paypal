@@ -275,6 +275,22 @@ trait ResponsePayloads
     /**
      * @return array
      */
+    private function mockAcceptDisputesClaimResponse()
+    {
+        return \GuzzleHttp\json_decode('{
+  "links": [
+    {
+      "rel": "self",
+      "method": "GET",
+      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-D-27803"
+    }
+  ]
+}', true);
+    }
+
+    /**
+     * @return array
+     */
     private function mockListInvoicesResponse()
     {
         return \GuzzleHttp\json_decode('{

@@ -200,6 +200,76 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_accept_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->acceptDisputeClaim(
+            'PP-D-4012',
+            'Full refund to the customer.'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_accept_dispute_offer_resolution()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->acceptDisputeOfferResolution(
+            'PP-D-4012',
+            'I am ok with the refund offered.'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_acknowledge_item_is_returned_for_raised_dispute()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->acknowledgeItemReturned(
+            'PP-D-4012',
+            'I have received the item back.',
+            'ITEM_RECEIVED'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
     public function it_can_list_invoices()
     {
         $this->client->setAccessToken([
