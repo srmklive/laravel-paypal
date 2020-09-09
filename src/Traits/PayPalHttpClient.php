@@ -107,10 +107,11 @@ trait PayPalHttpClient
      *
      * @return void
      */
-    public function setClient($client=null)
+    public function setClient($client = null)
     {
         if ($client instanceof HttpClient) {
             $this->client = $client;
+
             return;
         }
 

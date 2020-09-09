@@ -4,6 +4,9 @@ namespace Srmklive\PayPal\Tests;
 
 trait ResponsePayloads
 {
+    /**
+     * @return array
+     */
     private function mockAccessTokenResponse()
     {
         return [
@@ -16,6 +19,9 @@ trait ResponsePayloads
         ];
     }
 
+    /**
+     * @return array
+     */
     private function mockCreateCatalogProductsResponse()
     {
         return \GuzzleHttp\json_decode('{
@@ -43,6 +49,9 @@ trait ResponsePayloads
 }', true);
     }
 
+    /**
+     * @return array
+     */
     private function mockListCatalogProductsResponse()
     {
         return \GuzzleHttp\json_decode('{
@@ -96,6 +105,9 @@ trait ResponsePayloads
 }', true);
     }
 
+    /**
+     * @return array
+     */
     private function mockGetCatalogProductsResponse()
     {
         return \GuzzleHttp\json_decode('{
@@ -123,6 +135,9 @@ trait ResponsePayloads
 }', true);
     }
 
+    /**
+     * @return array
+     */
     private function mockListDisputesResponse()
     {
         return \GuzzleHttp\json_decode('{
@@ -180,6 +195,86 @@ trait ResponsePayloads
 }', true);
     }
 
+    /**
+     * @return array
+     */
+    private function mockGetDisputesResponse()
+    {
+        return \GuzzleHttp\json_decode('{
+  "dispute_id": "PP-D-4012",
+  "create_time": "2019-04-11T04:18:00.000Z",
+  "update_time": "2019-04-21T04:19:08.000Z",
+  "disputed_transactions": [
+    {
+      "seller_transaction_id": "3BC38643YC807283D",
+      "create_time": "2019-04-11T04:16:58.000Z",
+      "transaction_status": "REVERSED",
+      "gross_amount": {
+        "currency_code": "USD",
+        "value": "192.00"
+      },
+      "buyer": {
+        "name": "Lupe Justin"
+      },
+      "seller": {
+        "email": "merchant@example.com",
+        "merchant_id": "5U29WL78XSAEL",
+        "name": "Lesley Paul"
+      }
+    }
+  ],
+  "reason": "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED",
+  "status": "RESOLVED",
+  "dispute_amount": {
+    "currency_code": "USD",
+    "value": "96.00"
+  },
+  "dispute_outcome": {
+    "outcome_code": "RESOLVED_BUYER_FAVOUR",
+    "amount_refunded": {
+      "currency_code": "USD",
+      "value": "96.00"
+    }
+  },
+  "dispute_life_cycle_stage": "CHARGEBACK",
+  "dispute_channel": "INTERNAL",
+  "messages": [
+    {
+      "posted_by": "BUYER",
+      "time_posted": "2019-04-11T04:18:04.000Z",
+      "content": "SNAD case created through automation"
+    }
+  ],
+  "extensions": {
+    "merchandize_dispute_properties": {
+      "issue_type": "SERVICE",
+      "service_details": {
+        "sub_reasons": [
+          "INCOMPLETE"
+        ],
+        "purchase_url": "https://ebay.in"
+      }
+    }
+  },
+  "offer": {
+    "buyer_requested_amount": {
+      "currency_code": "USD",
+      "value": "96.00"
+    }
+  },
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-D-4012",
+      "rel": "self",
+      "method": "GET"
+    }
+  ]
+}', true);
+    }
+
+    /**
+     * @return array
+     */
     private function mockListInvoicesResponse()
     {
         return \GuzzleHttp\json_decode('{
@@ -306,6 +401,9 @@ trait ResponsePayloads
 }', true);
     }
 
+    /**
+     * @return array
+     */
     private function mockSearchInvoicesResponse()
     {
         return \GuzzleHttp\json_decode('{
@@ -366,6 +464,9 @@ trait ResponsePayloads
 }', true);
     }
 
+    /**
+     * @return array
+     */
     private function mockListTransactionsResponse()
     {
         return \GuzzleHttp\json_decode('{
@@ -521,6 +622,9 @@ trait ResponsePayloads
 }', true);
     }
 
+    /**
+     * @return array
+     */
     private function mockListBalancesResponse()
     {
         return \GuzzleHttp\json_decode('{

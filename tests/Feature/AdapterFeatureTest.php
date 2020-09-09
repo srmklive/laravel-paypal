@@ -161,6 +161,45 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_partially_update_a_dispute()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $expectedParams = $this->updateDisputeParams();
+
+        $response = $this->client->updateDispute($expectedParams, 'PP-D-27803');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_get_details_for_a_dispute()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetDisputesResponse()
+            )
+        );
+
+        $response = $this->client->showDisputeDetails('PP-D-4012');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('dispute_id', $response);
+    }
+
+    /** @test */
     public function it_can_list_invoices()
     {
         $this->client->setAccessToken([
