@@ -106,6 +106,6 @@ trait PaymentAuthorizations
 
         $this->verb = 'post';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 }

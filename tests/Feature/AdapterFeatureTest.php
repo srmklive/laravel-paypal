@@ -814,6 +814,153 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_show_details_for_an_authorized_payment()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetAuthorizedPaymentDetailsResponse()
+            )
+        );
+
+        $response = $this->client->showAuthorizedPaymentDetails('0VF52814937998046');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_capture_an_authorized_payment()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCaptureAuthorizedPaymentResponse()
+            )
+        );
+
+        $response = $this->client->captureAuthorizedPayment(
+            '0VF52814937998046',
+            'INVOICE-123',
+            10.99,
+            'Payment is due'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_reauthorize_an_authorized_payment()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockReAuthorizeAuthorizedPaymentResponse()
+            )
+        );
+
+        $response = $this->client->reAuthorizeAuthorizedPayment('0VF52814937998046', 10.99);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_void_an_authorized_payment()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->voidAuthorizedPayment('0VF52814937998046');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_a_captured_payment()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetCapturedPaymentDetailsResponse()
+            )
+        );
+
+        $response = $this->client->showCapturedPaymentDetails('2GG279541U471931P');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_refund_a_captured_payment()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockRefundCapturedPaymentResponse()
+            )
+        );
+
+        $response = $this->client->refundCapturedPayment(
+            '2GG279541U471931P',
+            'INVOICE-123',
+            10.99,
+            'Defective product'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_a_refund()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetRefundDetailsResponse()
+            )
+        );
+
+        $response = $this->client->showRefundDetails('1JU08902781691411');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
     public function it_can_list_transactions()
     {
         $this->client->setAccessToken([
