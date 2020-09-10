@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests;
 
-trait ResponsePayloads
+trait MockResponsePayloads
 {
     use Mocks\Responses\BillingPlans;
     use Mocks\Responses\CatalogProducts;
@@ -10,7 +10,14 @@ trait ResponsePayloads
     use Mocks\Responses\DisputesActions;
     use Mocks\Responses\Invoices;
     use Mocks\Responses\InvoicesSearch;
+    use Mocks\Responses\InvoicesTemplates;
+    use Mocks\Responses\PaymentAuthorizations;
+    use Mocks\Responses\PaymentCaptures;
+    use Mocks\Responses\PaymentRefunds;
     use Mocks\Responses\Reporting;
+    use Mocks\Responses\Subscriptions;
+    use Mocks\Responses\Trackers;
+    use Mocks\Responses\WebHooks;
 
     /**
      * @return array

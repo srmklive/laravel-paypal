@@ -383,4 +383,73 @@ trait Invoices
   ]
 }', true);
     }
+
+    /**
+     * @return array
+     */
+    private function generateQRCodeInvoiceParams()
+    {
+        return \GuzzleHttp\json_decode('{
+  "width": 400,
+  "height": 400
+}', true);
+    }
+
+    /**
+     * @return array
+     */
+    private function registerInvoicePaymentParams()
+    {
+        return \GuzzleHttp\json_decode('{
+  "width": 400,
+  "height": 400
+}', true);
+    }
+
+    /**
+     * @return array
+     */
+    private function refundInvoicePaymentParams()
+    {
+        return \GuzzleHttp\json_decode('{
+  "method": "BANK_TRANSFER",
+  "refund_date": "2018-05-21",
+  "amount": {
+    "currency_code": "USD",
+    "value": "5.00"
+  }
+}', true);
+    }
+
+    /**
+     * @return array
+     */
+    private function sendInvoiceParams()
+    {
+        return \GuzzleHttp\json_decode('{
+  "subject": "Payment due for the invoice #ABC-123",
+  "note": "Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.",
+  "send_to_invoicer": true,
+  "additional_recipients": [
+    "customer-a@example.com",
+    "customer@example.com"
+  ]
+}', true);
+    }
+
+    /**
+     * @return array
+     */
+    private function sendInvoiceReminderParams()
+    {
+        return \GuzzleHttp\json_decode('{
+  "subject": "Reminder: Payment due for the invoice #ABC-123",
+  "note": "Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.",
+  "send_to_invoicer": true,
+  "additional_recipients": [
+    "customer-a@example.com",
+    "customer@example.com"
+  ]
+}', true);
+    }
 }

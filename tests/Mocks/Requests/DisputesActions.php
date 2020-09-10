@@ -7,19 +7,32 @@ trait DisputesActions
     /**
      * @return array
      */
-    protected function updateDisputeParams()
+    protected function acceptDisputeClaimParams()
     {
-        return \GuzzleHttp\json_decode('[
-  {
-    "op": "add",
-    "path": "/partner_actions/-",
-    "value": {
-      "id": "AMX-22345",
-      "name": "ACCEPT_DISPUTE",
-      "create_time": "2018-01-12T10:41:35.000Z",
-      "status": "PENDING"
+        return \GuzzleHttp\json_decode('{
+  "note": "Full refund to the customer.",
+  "accept_claim_type": "REFUND"
+}', true);
     }
-  }
-]', true);
+
+    /**
+     * @return array
+     */
+    protected function acceptDisputeResoltuionParams()
+    {
+        return \GuzzleHttp\json_decode('{
+  "note": "I am ok with the refund offered."
+}', true);
+    }
+
+    /**
+     * @return array
+     */
+    protected function acknowledgeItemReturnedParams()
+    {
+        return \GuzzleHttp\json_decode('{
+  "note": "I have received the item back.",
+  "acknowledgement_type": "ITEM_RECEIVED"
+}', true);
     }
 }
