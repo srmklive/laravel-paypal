@@ -6,14 +6,14 @@ use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Srmklive\PayPal\Tests\MockClientClasses;
-use Srmklive\PayPal\Tests\RequestPayloads;
-use Srmklive\PayPal\Tests\ResponsePayloads;
+use Srmklive\PayPal\Tests\MockRequestPayloads;
+use Srmklive\PayPal\Tests\MockResponsePayloads;
 
 class AdapterFeatureTest extends TestCase
 {
     use MockClientClasses;
-    use RequestPayloads;
-    use ResponsePayloads;
+    use MockRequestPayloads;
+    use MockResponsePayloads;
 
     /** @var string */
     protected static $access_token = '';
@@ -688,6 +688,107 @@ class AdapterFeatureTest extends TestCase
         );
 
         $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_create_invoice_template()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateInvoiceTemplateResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreateInvoiceTemplateParams();
+
+        $response = $this->client->createInvoiceTemplate($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_list_invoice_templates()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListInvoiceTemplateResponse()
+            )
+        );
+
+        $response = $this->client->listInvoiceTemplates();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('templates', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_an_invoice_template()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->deleteInvoiceTemplate('TEMP-19V05281TU309413B');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_update_an_invoice_template()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockUpdateInvoiceTemplateResponse()
+            )
+        );
+
+        $expectedParams = $this->mockUpdateInvoiceTemplateParams();
+
+        $response = $this->client->updateInvoiceTemplate('TEMP-19V05281TU309413B', $expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_get_details_for_an_invoice_template()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetInvoiceTemplateResponse()
+            )
+        );
+
+        $response = $this->client->showInvoiceTemplateDetails('TEMP-19V05281TU309413B');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
     }
 
     /** @test */
