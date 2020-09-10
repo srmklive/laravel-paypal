@@ -404,6 +404,48 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_unique_invoice_number()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGenerateInvoiceNumberResponse()
+            )
+        );
+
+        $response = $this->client->generateInvoiceNumber();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('invoice_number', $response);
+    }
+
+    /** @test */
+    public function it_can_create_a_draft_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateInvoicesResponse()
+            )
+        );
+
+        $expectedParams = $this->createInvoiceParams();
+
+        $response = $this->client->createInvoice($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
     public function it_can_list_invoices()
     {
         $this->client->setAccessToken([
@@ -421,6 +463,231 @@ class AdapterFeatureTest extends TestCase
 
         $this->assertArrayHasKey('total_pages', $response);
         $this->assertArrayHasKey('total_items', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_an_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->deleteInvoice('INV2-Z56S-5LLA-Q52L-CPZ5');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_update_an_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockUpdateInvoicesResponse()
+            )
+        );
+
+        $expectedParams = $this->updateInvoiceParams();
+
+        $response = $this->client->updateInvoice('INV2-Z56S-5LLA-Q52L-CPZ5', $expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_an_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetInvoicesResponse()
+            )
+        );
+
+        $response = $this->client->showInvoiceDetails('INV2-Z56S-5LLA-Q52L-CPZ5');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_cancel_an_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $expectedParams = $this->cancelInvoiceParams();
+
+        $response = $this->client->cancelInvoice('INV2-Z56S-5LLA-Q52L-CPZ5', $expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_generate_qr_code_for_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGenerateInvoiceQRCodeResponse()
+            )
+        );
+
+        $response = $this->client->generateQRCodeInvoice('INV2-Z56S-5LLA-Q52L-CPZ5');
+
+        $this->assertNotEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_register_payment_for_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockInvoiceRegisterPaymentResponse()
+            )
+        );
+
+        $response = $this->client->registerPaymentInvoice('INV2-Z56S-5LLA-Q52L-CPZ5', '2018-05-01', 'BANK_TRANSFER', 10.00);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('payment_id', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_payment_for_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->deleteExternalPaymentInvoice('INV2-Z56S-5LLA-Q52L-CPZ5', 'EXTR-86F38350LX4353815');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_refund_payment_for_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockInvoiceRefundPaymentResponse()
+            )
+        );
+
+        $response = $this->client->refundInvoice('INV2-Z56S-5LLA-Q52L-CPZ5', '2018-05-01', 'BANK_TRANSFER', 5.00);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('refund_id', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_refund_for_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->deleteRefundInvoice('INV2-Z56S-5LLA-Q52L-CPZ5', 'EXTR-2LG703375E477444T');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_send_an_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->sendInvoice(
+            'INV2-Z56S-5LLA-Q52L-CPZ5',
+            'Payment due for the invoice #ABC-123',
+            'Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.',
+            true,
+            true,
+            [
+                'customer-a@example.com',
+                'customer@example.com',
+            ]
+        );
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_send_reminder_for_an_invoice()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->sendInvoiceReminder(
+            'INV2-Z56S-5LLA-Q52L-CPZ5',
+            'Reminder: Payment due for the invoice #ABC-123',
+            'Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.',
+            true,
+            true,
+            [
+                'customer-a@example.com',
+                'customer@example.com',
+            ]
+        );
+
+        $this->assertEmpty($response);
     }
 
     /** @test */

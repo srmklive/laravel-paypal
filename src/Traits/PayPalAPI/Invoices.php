@@ -66,10 +66,7 @@ trait Invoices
 
         $fields_list = collect($fields);
 
-        $fields = '';
-        if ($fields_list->count() > 0) {
-            $fields = "&fields={$fields_list->implode(',')}";
-        }
+        $fields = ($fields_list->count() > 0) ? "&fields={$fields_list->implode(',')}" : '';
 
         $this->apiEndPoint = "v2/invoicing/invoices?page={$page}&page_size={$size}&total_required={$totals}{$fields}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -97,7 +94,7 @@ trait Invoices
 
         $this->verb = 'delete';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -166,7 +163,7 @@ trait Invoices
 
         $this->verb = 'post';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -254,7 +251,7 @@ trait Invoices
 
         $this->verb = 'delete';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -311,7 +308,7 @@ trait Invoices
 
         $this->verb = 'delete';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -335,27 +332,19 @@ trait Invoices
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/send";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
-        $data = [];
-        if (!empty($subject)) {
-            $data['subject'] = $subject;
-        }
+        $data = [
+            'subject'                   => !empty($subject) ? $subject : '',
+            'note'                      => !empty($note) ? $note : '',
+            'additional_recipients'     => (collect($recipients)->count() > 0) ? $recipients : '',
+            'send_to_recipient'         => $send_recipient,
+            'send_to_invoicer'          => $send_merchant,
+        ];
 
-        if (!empty($note)) {
-            $data['note'] = $note;
-        }
-
-        if (collect($recipients)->count() > 0) {
-            $data['additional_recipients'] = $recipients;
-        }
-
-        $data['send_to_recipient'] = $send_recipient;
-        $data['send_to_invoicer'] = $send_merchant;
-
-        $this->options['json'] = $data;
+        $this->options['json'] = collect($data)->filter()->toArray();
 
         $this->verb = 'post';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -379,26 +368,18 @@ trait Invoices
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/remind";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
-        $data = [];
-        if (!empty($subject)) {
-            $data['subject'] = $subject;
-        }
+        $data = [
+            'subject'                   => !empty($subject) ? $subject : '',
+            'note'                      => !empty($note) ? $note : '',
+            'additional_recipients'     => (collect($recipients)->count() > 0) ? $recipients : '',
+            'send_to_recipient'         => $send_recipient,
+            'send_to_invoicer'          => $send_merchant,
+        ];
 
-        if (!empty($note)) {
-            $data['note'] = $note;
-        }
-
-        if (collect($recipients)->count() > 0) {
-            $data['additional_recipients'] = $recipients;
-        }
-
-        $data['send_to_recipient'] = $send_recipient;
-        $data['send_to_invoicer'] = $send_merchant;
-
-        $this->options['json'] = $data;
+        $this->options['json'] = collect($data)->filter()->toArray();
 
         $this->verb = 'post';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 }
