@@ -1239,4 +1239,230 @@ class AdapterFeatureTest extends TestCase
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('tracker_identifiers', $response);
     }
+
+    /** @test */
+    public function it_can_list_web_hooks_event_types()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListWebHookEventsTypesResponse()
+            )
+        );
+
+        $response = $this->client->listEventTypes();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('event_types', $response);
+    }
+
+    /** @test */
+    public function it_can_list_web_hooks_events()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockWebHookEventsListResponse()
+            )
+        );
+
+        $response = $this->client->listEvents();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('events', $response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_a_web_hooks_event()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetWebHookEventResponse()
+            )
+        );
+
+        $response = $this->client->showEventDetails('8PT597110X687430LKGECATA');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_resend_notification_for_a_web_hooks_event()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockResendWebHookEventNotificationResponse()
+            )
+        );
+
+        $expectedParams = ['12334456'];
+
+        $response = $this->client->resendEventNotification('8PT597110X687430LKGECATA', $expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_create_a_web_hook()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateWebHookResponse()
+            )
+        );
+
+        $response = $this->client->createWebHook(
+            'https://example.com/example_webhook',
+            ['PAYMENT.AUTHORIZATION.CREATED', 'PAYMENT.AUTHORIZATION.VOIDED']
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('event_types', $response);
+    }
+
+    /** @test */
+    public function it_can_list_web_hooks()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListWebHookResponse()
+            )
+        );
+
+        $response = $this->client->listWebHooks();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('webhooks', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_a_web_hook()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->deleteWebHook('5GP028458E2496506');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_update_a_web_hook()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockUpdateWebHookResponse()
+            )
+        );
+
+        $expectedParams = $this->mockUpdateWebHookParams();
+
+        $response = $this->client->updateWebHook('0EH40505U7160970P', $expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('event_types', $response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_a_web_hook()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetWebHookResponse()
+            )
+        );
+
+        $response = $this->client->showWebHookDetails('0EH40505U7160970P');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('event_types', $response);
+    }
+
+    /** @test */
+    public function it_can_list_events_for_web_hooks()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListWebHookEventsResponse()
+            )
+        );
+
+        $response = $this->client->listWebHookEvents('0EH40505U7160970P');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('event_types', $response);
+    }
+
+    /** @test */
+    public function it_can_verify_web_hook_signature()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockVerifyWebHookSignatureResponse()
+            )
+        );
+
+        $expectedParams = $this->mockVerifyWebHookSignatureParams();
+
+        $response = $this->client->verifyWebHook($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('verification_status', $response);
+    }
 }

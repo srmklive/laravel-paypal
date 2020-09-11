@@ -70,7 +70,7 @@ trait WebHooks
 
         $this->verb = 'delete';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
