@@ -205,9 +205,9 @@ trait Subscriptions
     /**
      * List transactions for an existing subscription.
      *
-     * @param string $subscription_id
-     * @param string $start_date
-     * @param string $end_date
+     * @param string                    $subscription_id
+     * @param \DateTimeInterface|string $start_date
+     * @param \DateTimeInterface|string $end_date
      *
      * @throws \Throwable
      *
@@ -217,13 +217,16 @@ trait Subscriptions
      */
     public function listSubscriptionTransactions($subscription_id, $start_date = '', $end_date = '')
     {
-        $start_date = empty($start_date) ?
-            Carbon::now()->subDay()->toIso8601String() :
-            Carbon::parse($start_date)->toIso8601String();
+        if (($start_date instanceof \DateTimeInterface) === false) {
+            $start_date = Carbon::parse($start_date);
+        }
 
-        $end_date = empty($end_date) ?
-            Carbon::now()->toIso8601String() :
-            Carbon::parse($end_date)->toIso8601String();
+        if (($end_date instanceof \DateTimeInterface) === false) {
+            $end_date = Carbon::parse($end_date);
+        }
+
+        $start_date = $start_date->toIso8601String();
+        $end_date = $end_date->toIso8601String();
 
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/transactions?start_time={$start_date}&end_time={$end_date}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');

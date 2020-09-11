@@ -5,8 +5,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/srmklive/paypal.svg?style=flat-square)](https://packagist.org/packages/srmklive/paypal)
 [![StyleCI](https://github.styleci.io/repos/43671533/shield?branch=v2.0)](https://github.styleci.io/repos/43671533?branch=v2.0)
 ![Tests](https://github.com/srmklive/laravel-paypal/workflows/TestsV3/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/srmklive/laravel-paypal/badge.svg)](https://coveralls.io/github/srmklive/laravel-paypal)
-[![Code Quality](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/badges/quality-score.png?b=v2.0)](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/?branch=v2.0)
+[![Coverage Status](https://coveralls.io/repos/github/srmklive/laravel-paypal/badge.svg?branch=v3.0)](https://coveralls.io/github/srmklive/laravel-paypal?branch=v3.0)
+[![Code Quality](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/badges/quality-score.png?b=v3.0)](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/?branch=v3.0)
 
 - [Introduction](#introduction)
 - [PayPal API Credentials](#paypal-api-credentials)
@@ -36,23 +36,14 @@ https://developer.paypal.com/docs/api/overview/
 * Use following command to install:
 
 ```bash
-composer require srmklive/paypal:~1.0|~2.0
+composer require srmklive/paypal:~3.0
 ```
 
-Perform the following steps if you are using Laravel 5.4 or less.
+To use this package for Laravel 5.1 to 5.8 use the following commands
 
-* Add the service provider to your `providers[]` array in `config/app.php` file like: 
-
-```php
-Srmklive\PayPal\Providers\PayPalServiceProvider::class
+```bash
+composer require srmklive/paypal:~2.0
 ```
-
-* Add the alias to your `aliases[]` array in `config/app.php` file like: 
-
-```php
-'PayPal' => Srmklive\PayPal\Facades\PayPal::class
-```
-
 * Run the following command to publish configuration:
 
 ```bash
@@ -134,7 +125,7 @@ $provider->setCurrency('EUR')->setExpressCheckout($data);
 <a name="support"></a>
 ## Support
 
-This plugin only supports Laravel 5.1 or greater.
+This version supports Laravel 6 or greater.
 * In case of any issues, kindly create one on the [Issues](https://github.com/srmklive/laravel-paypal/issues) section.
 * If you would like to contribute:
   * Fork this repository.

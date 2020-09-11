@@ -151,17 +151,14 @@ trait PayPalHttpClient
      */
     private function setDefaultValues()
     {
-        $defaults = [
-            'paymentAction' => 'Sale',
-            'locale'        => 'en_US',
-            'validateSSL'   => true,
-        ];
+        $paymentAction = empty($this->paymentAction) ? 'Sale' : $this->paymentAction;
+        $this->paymentAction = $paymentAction;
 
-        foreach ($defaults as $key => $value) {
-            if (empty($this->$key)) {
-                $this->$key = $defaults[$key];
-            }
-        }
+        $locale = empty($this->locale) ? 'en_US' : $this->locale;
+        $this->locale = $locale;
+
+        $validateSSL = empty($validateSSL) ? true : $this->validateSSL;
+        $this->validateSSL = $validateSSL;
     }
 
     /**
