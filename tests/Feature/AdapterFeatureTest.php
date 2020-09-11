@@ -1176,4 +1176,67 @@ class AdapterFeatureTest extends TestCase
         $this->assertNotEmpty($response);
         $this->assertEquals($response, $this->mockListSubscriptionTransactionsResponse());
     }
+
+    /** @test */
+    public function it_can_get_tracking_details_for_tracking_id()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetTrackingDetailsResponse()
+            )
+        );
+
+        $response = $this->client->showTrackingDetails('8MC585209K746392H-443844607820');
+
+        $this->assertNotEmpty($response);
+        $this->assertEquals($response, $this->mockGetTrackingDetailsResponse());
+        $this->assertArrayHasKey('tracking_number', $response);
+    }
+
+    /** @test */
+    public function it_can_update_tracking_details_for_tracking_id()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->updateTrackingDetails(
+            '8MC585209K746392H-443844607820',
+            $this->mockUpdateTrackingDetailsParams()
+        );
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_create_tracking_in_batches()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateTrackinginBatchesResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreateTrackinginBatchesParams();
+
+        $response = $this->client->addBatchTracking($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('tracker_identifiers', $response);
+    }
 }
