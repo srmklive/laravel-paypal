@@ -44,7 +44,7 @@ trait Disputes
 
         $this->verb = 'patch';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**

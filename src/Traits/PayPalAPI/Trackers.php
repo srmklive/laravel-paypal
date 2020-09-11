@@ -46,7 +46,7 @@ trait Trackers
 
         $this->verb = 'put';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**

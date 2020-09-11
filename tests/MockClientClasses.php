@@ -17,13 +17,13 @@ trait MockClientClasses
             new HttpResponse(
                 200,
                 [],
-                \GuzzleHttp\json_encode($response)
+                ($response === false) ? '' : \GuzzleHttp\json_encode($response)
             ),
         ]);
 
         $handler = HttpHandlerStack::create($mock);
 
-        $this->client = new HttpClient(['handler' => $handler]);
+        return new HttpClient(['handler' => $handler]);
     }
 
     private function mock_http_request($expectedResponse, $expectedEndpoint, $expectedParams, $expectedMethod = 'post')

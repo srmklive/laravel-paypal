@@ -4,35 +4,19 @@ namespace Srmklive\PayPal\Tests\Unit\Client;
 
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
+use Srmklive\PayPal\Tests\MockRequestPayloads;
+use Srmklive\PayPal\Tests\MockResponsePayloads;
 
 class TrackersTest extends TestCase
 {
     use MockClientClasses;
+    use MockRequestPayloads;
+    use MockResponsePayloads;
 
     /** @test */
     public function it_can_get_tracking_details_for_tracking_id()
     {
-        $expectedResponse = [
-            'transaction_id'    => '8MC585209K746392H',
-            'tracking_number'   => '443844607820',
-            'status'            => 'SHIPPED',
-            'carrier'           => 'FEDEX',
-            'links'             => [
-                [
-                    'href'  => 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820',
-                    'rel'   => 'self',
-                ],
-                [
-                    'href'      => 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820',
-                    'rel'       => 'replace',
-                    'method'    => 'PUT',
-                ],
-                [
-                    'href'      => 'https://api.sandbox.paypal.com/v1/shipping/trackers-batch',
-                    'method'    => 'POST',
-                ],
-            ],
-        ];
+        $expectedResponse = $this->mockGetTrackingDetailsResponse();
 
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
         $expectedParams = [
@@ -60,12 +44,7 @@ class TrackersTest extends TestCase
                 'Accept-Language'   => 'en_US',
                 'Authorization'     => 'Bearer some-token',
             ],
-            'json' => [
-                'transaction_id'    => '8MC585209K746392H',
-                'tracking_number'   => '443844607820',
-                'status'            => 'SHIPPED',
-                'carrier'           => 'FEDEX',
-            ],
+            'json' => $this->mockUpdateTrackingDetailsParams(),
         ];
 
         $mockHttpClient = $this->mock_http_request(json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'put');
@@ -76,31 +55,7 @@ class TrackersTest extends TestCase
     /** @test */
     public function it_can_create_tracking_in_batches()
     {
-        $expectedResponse = [
-            'tracker_identifiers' => [
-                [
-                    'transaction_id'    => '8MC585209K746392H',
-                    'tracking_number'   => '443844607820',
-                    'status'            => 'SHIPPED',
-                    'carrier'           => 'FEDEX',
-                    'links'             => [
-                        [
-                            'href'  => 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820',
-                            'rel'   => 'self',
-                        ],
-                        [
-                            'href'      => 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820',
-                            'rel'       => 'replace',
-                            'method'    => 'PUT',
-                        ],
-                        [
-                            'href'      => 'https://api.sandbox.paypal.com/v1/shipping/trackers-batch',
-                            'method'    => 'POST',
-                        ],
-                    ],
-                ],
-            ],
-        ];
+        $expectedResponse = $this->mockCreateTrackinginBatchesResponse();
 
         $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/shipping/trackers-batch';
         $expectedParams = [
@@ -109,14 +64,7 @@ class TrackersTest extends TestCase
                 'Accept-Language'   => 'en_US',
                 'Authorization'     => 'Bearer some-token',
             ],
-            'json' => [
-                'trackers' => [
-                    'transaction_id'    => '8MC585209K746392H',
-                    'tracking_number'   => '443844607820',
-                    'status'            => 'SHIPPED',
-                    'carrier'           => 'FEDEX',
-                ],
-            ],
+            'json' => $this->mockCreateTrackinginBatchesParams(),
         ];
 
         $mockHttpClient = $this->mock_http_request(json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');

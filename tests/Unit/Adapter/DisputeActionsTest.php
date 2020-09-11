@@ -4,23 +4,17 @@ namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
+use Srmklive\PayPal\Tests\MockResponsePayloads;
 
 class DisputeActionsTest extends TestCase
 {
     use MockClientClasses;
+    use MockResponsePayloads;
 
     /** @test */
     public function it_can_accept_dispute_claim()
     {
-        $expectedResponse = \GuzzleHttp\json_decode('{
-  "links": [
-    {
-      "rel": "self",
-      "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-D-27803"
-    }
-  ]
-}', true);
+        $expectedResponse = $this->mockAcceptDisputesClaimResponse();
 
         $expectedMethod = 'acceptDisputeClaim';
 
@@ -34,15 +28,7 @@ class DisputeActionsTest extends TestCase
     /** @test */
     public function it_can_accept_dispute_offer_resolution()
     {
-        $expectedResponse = \GuzzleHttp\json_decode('{
-  "links": [
-    {
-      "rel": "self",
-      "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
-    }
-  ]
-}', true);
+        $expectedResponse = $this->mockAcceptDisputesOfferResolutionResponse();
 
         $expectedMethod = 'acceptDisputeOfferResolution';
 
@@ -56,15 +42,7 @@ class DisputeActionsTest extends TestCase
     /** @test */
     public function it_can_acknowledge_item_is_returned_for_raised_dispute()
     {
-        $expectedResponse = \GuzzleHttp\json_decode('{
-  "links": [
-    {
-      "rel": "self",
-      "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
-    }
-  ]
-}', true);
+        $expectedResponse = $this->mockAcknowledgeItemReturnedResponse();
 
         $expectedMethod = 'acknowledgeItemReturned';
 

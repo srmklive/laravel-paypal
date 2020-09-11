@@ -4,46 +4,21 @@ namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
+use Srmklive\PayPal\Tests\MockRequestPayloads;
+use Srmklive\PayPal\Tests\MockResponsePayloads;
 
 class CatalogProductsTest extends TestCase
 {
     use MockClientClasses;
+    use MockRequestPayloads;
+    use MockResponsePayloads;
 
     /** @test */
     public function it_can_create_a_product()
     {
-        $expectedResponse = \GuzzleHttp\json_decode('{
-  "id": "PROD-XYAB12ABSB7868434",
-  "name": "Video Streaming Service",
-  "description": "Video streaming service",
-  "type": "SERVICE",
-  "category": "SOFTWARE",
-  "image_url": "https://example.com/streaming.jpg",
-  "home_url": "https://example.com/home",
-  "create_time": "2020-01-10T21:20:49Z",
-  "update_time": "2020-01-10T21:20:49Z",
-  "links": [
-    {
-      "href": "https://api.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173",
-      "rel": "self",
-      "method": "GET"
-    },
-    {
-      "href": "https://api.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173",
-      "rel": "edit",
-      "method": "PATCH"
-    }
-  ]
-}', true);
+        $expectedResponse = $this->mockCreateCatalogProductsResponse();
 
-        $expectedParams = \GuzzleHttp\json_decode('{
-  "name": "Video Streaming Service",
-  "description": "Video streaming service",
-  "type": "SERVICE",
-  "category": "SOFTWARE",
-  "image_url": "https://example.com/streaming.jpg",
-  "home_url": "https://example.com/home"
-}', true);
+        $expectedParams = $this->createProductParams();
 
         $expectedMethod = 'createProduct';
 
@@ -57,55 +32,7 @@ class CatalogProductsTest extends TestCase
     /** @test */
     public function it_can_list_products()
     {
-        $expectedResponse = \GuzzleHttp\json_decode('{
-  "total_items": 20,
-  "total_pages": 1,
-  "products": [
-    {
-      "id": "72255d4849af8ed6e0df1173",
-      "name": "Video Streaming Service",
-      "description": "Video streaming service",
-      "create_time": "2018-12-10T21:20:49Z",
-      "links": [
-        {
-          "href": "https://api.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173",
-          "rel": "self",
-          "method": "GET"
-        }
-      ]
-    },
-    {
-      "id": "PROD-XYAB12ABSB7868434",
-      "name": "Video Streaming Service",
-      "description": "Audio streaming service",
-      "create_time": "2018-12-10T21:20:49Z",
-      "links": [
-        {
-          "href": "https://api.paypal.com/v1/catalogs/products/125d4849af8ed6e0df18",
-          "rel": "self",
-          "method": "GET"
-        }
-      ]
-    }
-  ],
-  "links": [
-    {
-      "href": "https://api.paypal.com/v1/catalogs/products?page_size=2&page=1",
-      "rel": "self",
-      "method": "GET"
-    },
-    {
-      "href": "https://api.paypal.com/v1/catalogs/products?page_size=2&page=2",
-      "rel": "next",
-      "method": "GET"
-    },
-    {
-      "href": "https://api.paypal.com/v1/catalogs/products?page_size=2&page=10",
-      "rel": "last",
-      "method": "GET"
-    }
-  ]
-}', true);
+        $expectedResponse = $this->mockListCatalogProductsResponse();
 
         $expectedMethod = 'listProducts';
 
@@ -121,13 +48,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedParams = \GuzzleHttp\json_decode('[
-  {
-    "op": "replace",
-    "path": "/description",
-    "value": "Premium video streaming service"
-  }
-]', true);
+        $expectedParams = $this->updateProductParams();
 
         $expectedMethod = 'updateProduct';
 
@@ -141,29 +62,7 @@ class CatalogProductsTest extends TestCase
     /** @test */
     public function it_can_get_details_for_a_product()
     {
-        $expectedResponse = \GuzzleHttp\json_decode('{
-  "id": "72255d4849af8ed6e0df1173",
-  "name": "Video Streaming Service",
-  "description": "Video streaming service",
-  "type": "SERVICE",
-  "category": "SOFTWARE",
-  "image_url": "https://example.com/streaming.jpg",
-  "home_url": "https://example.com/home",
-  "create_time": "2018-12-10T21:20:49Z",
-  "update_time": "2018-12-10T21:20:49Z",
-  "links": [
-    {
-      "href": "https://api.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173",
-      "rel": "self",
-      "method": "GET"
-    },
-    {
-      "href": "https://api.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173",
-      "rel": "edit",
-      "method": "PATCH"
-    }
-  ]
-}', true);
+        $expectedResponse = $this->mockGetCatalogProductsResponse();
 
         $expectedMethod = 'showProductDetails';
 
