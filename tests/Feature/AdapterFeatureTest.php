@@ -1005,4 +1005,175 @@ class AdapterFeatureTest extends TestCase
 
         $this->assertNotEmpty($response);
     }
+
+    /** @test */
+    public function it_can_create_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreateSubscriptionParams();
+
+        $response = $this->client->createSubscription($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_update_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $expectedParams = $this->mockUpdateSubscriptionParams();
+
+        $response = $this->client->updateSubscription('I-BW452GLLEP1G', $expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetSubscriptionDetailsResponse()
+            )
+        );
+
+        $response = $this->client->showSubscriptionDetails('I-BW452GLLEP1G');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+    }
+
+    /** @test */
+    public function it_can_activate_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->activateSubscription('I-BW452GLLEP1G', 'Reactivating the subscription');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_cancel_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->cancelSubscription('I-BW452GLLEP1G', 'Not satisfied with the service');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_suspend_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->suspendSubscription('I-BW452GLLEP1G', 'Item out of stock');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_capture_payment_for_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->captureSubscriptionPayment('I-BW452GLLEP1G', 'Charging as the balance reached the limit', 100);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_update_quantity_or_product_for_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockUpdateSubscriptionItemsResponse()
+            )
+        );
+
+        $expectedParams = $this->mockUpdateSubscriptionItemsParams();
+
+        $response = $this->client->reviseSubscription('I-BW452GLLEP1G', $expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
+
+    /** @test */
+    public function it_can_list_transactions_for_a_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListSubscriptionTransactionsResponse()
+            )
+        );
+
+        $response = $this->client->listSubscriptionTransactions('I-BW452GLLEP1G', '2018-01-21T07:50:20.940Z', '2018-08-22T07:50:20.940Z');
+
+        $this->assertNotEmpty($response);
+        $this->assertEquals($response, $this->mockListSubscriptionTransactionsResponse());
+    }
 }
