@@ -36,7 +36,13 @@ https://developer.paypal.com/docs/api/overview/
 * Use following command to install:
 
 ```bash
-composer require srmklive/paypal:~1.0|~2.0
+composer require srmklive/paypal:~2.0|~3.0
+```
+
+If you wish to use PayPal Express Checkout API, please use the following command:
+
+```bash
+composer require srmklive/paypal:~1.0
 ```
 
 Perform the following steps if you are using Laravel 5.4 or less.
@@ -134,7 +140,7 @@ $provider->setCurrency('EUR')->setExpressCheckout($data);
 <a name="support"></a>
 ## Support
 
-This plugin only supports Laravel 5.1 or greater.
+This plugin only supports Laravel 5.1 to 5.8.
 * In case of any issues, kindly create one on the [Issues](https://github.com/srmklive/laravel-paypal/issues) section.
 * If you would like to contribute:
   * Fork this repository.
