@@ -42,7 +42,7 @@ class PayPal
     protected function setOptions($credentials)
     {
         // Setting API Endpoints
-        $this->config['api_url'] = 'https://api.paypal.com/';
+        $this->config['api_url'] = 'https://api.paypal.com';
 
         $this->config['gateway_url'] = 'https://www.paypal.com';
         $this->config['ipn_url'] = 'https://ipnpb.paypal.com/cgi-bin/webscr';
