@@ -37,7 +37,7 @@ jobs:
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
       run:
-        composer global require --dev twinh/php-coveralls
+        composer global require --dev php-coveralls/php-coveralls
     - name: Upload coverage results to Coveralls
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
