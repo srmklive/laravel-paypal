@@ -50,20 +50,19 @@ trait MockClientClasses
         return $mockHttpClient;
     }
 
-    private function mock_client($expectedResponse, $expectedMethod, $expectedParams, $token = false)
+    private function mock_client($expectedResponse, $expectedMethod, $token = false)
     {
         $set_method_name = 'setMethods';
         if (function_exists('onlyMethods')) {
             $set_method_name = 'onlyMethods';
         }
 
-        $methods = [$expectedMethod];
+        $methods = [$expectedMethod, 'setApiCredentials'];
         if ($token) {
             $methods[] = 'getAccessToken';
         }
 
         $mockClient = $this->getMockBuilder(PayPalClient::class)
-            ->setConstructorArgs($expectedParams)
             ->{$set_method_name}($methods)
             ->getMock();
 
@@ -71,6 +70,9 @@ trait MockClientClasses
             $mockClient->expects($this->exactly(1))
                 ->method('getAccessToken');
         }
+
+        $mockClient->expects($this->exactly(1))
+            ->method('setApiCredentials');
 
         $mockClient->expects($this->exactly(1))
             ->method($expectedMethod)

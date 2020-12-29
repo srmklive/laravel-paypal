@@ -20,8 +20,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'generateInvoiceNumber';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
@@ -36,8 +37,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'createInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
@@ -50,8 +52,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'listInvoices';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}(1, 2, true));
@@ -64,8 +67,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'deleteInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5'));
@@ -80,8 +84,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'updateInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5', $expectedParams));
@@ -94,8 +99,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'showInvoiceDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5'));
@@ -110,8 +116,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'cancelInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5', $expectedParams));
@@ -124,8 +131,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'generateQRCodeInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5', 400, 400));
@@ -138,8 +146,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'registerPaymentInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5', '2018-05-01', 'BANK_TRANSFER', 10.00));
@@ -152,8 +161,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'deleteExternalPaymentInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5', 'EXTR-86F38350LX4353815'));
@@ -166,8 +176,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'refundInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5', '2018-05-01', 'BANK_TRANSFER', 5.00));
@@ -180,8 +191,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'deleteRefundInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('INV2-Z56S-5LLA-Q52L-CPZ5', 'EXTR-2LG703375E477444T'));
@@ -194,8 +206,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'sendInvoice';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}(
@@ -218,8 +231,9 @@ class InvoicesTest extends TestCase
 
         $expectedMethod = 'sendInvoiceReminder';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}(

@@ -20,8 +20,9 @@ class DisputesTest extends TestCase
 
         $expectedMethod = 'listDisputes';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
@@ -36,8 +37,9 @@ class DisputesTest extends TestCase
 
         $expectedMethod = 'updateDispute';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams, 'PP-D-27803'));
@@ -50,8 +52,9 @@ class DisputesTest extends TestCase
 
         $expectedMethod = 'showDisputeDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('PP-D-4012'));

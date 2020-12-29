@@ -22,8 +22,9 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'createPlan';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
@@ -36,8 +37,9 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'listPlans';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}(1, 2, true));
@@ -52,8 +54,9 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'updatePlan';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-7GL4271244454362WXNWU5NQ', $expectedParams));
@@ -66,8 +69,9 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'showPlanDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-7GL4271244454362WXNWU5NQ'));
@@ -80,8 +84,9 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'activatePlan';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-7GL4271244454362WXNWU5NQ'));
@@ -94,8 +99,9 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'deactivatePlan';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-7GL4271244454362WXNWU5NQ'));
@@ -110,8 +116,9 @@ class BillingPlansTest extends TestCase
 
         $expectedMethod = 'updatePlanPricing';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('P-2UF78835G6983425GLSM44MA', $expectedParams));

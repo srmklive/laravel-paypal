@@ -19,8 +19,9 @@ class ReportingTest extends TestCase
 
         $expectedMethod = 'listTransactions';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $filters = [
@@ -38,8 +39,9 @@ class ReportingTest extends TestCase
 
         $expectedMethod = 'listBalances';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('2016-10-15T06:07:00-0700'));

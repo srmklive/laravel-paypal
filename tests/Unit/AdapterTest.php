@@ -27,7 +27,9 @@ class AdapterTest extends TestCase
 
         $expectedMethod = 'getAccessToken';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials());
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, false);
+
+        $mockClient->setApiCredentials($this->getMockCredentials());
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
     }

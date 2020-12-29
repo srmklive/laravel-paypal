@@ -18,8 +18,9 @@ class PaymentAuthorizationsTest extends TestCase
 
         $expectedMethod = 'showAuthorizedPaymentDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('0VF52814937998046'));
@@ -32,8 +33,9 @@ class PaymentAuthorizationsTest extends TestCase
 
         $expectedMethod = 'captureAuthorizedPayment';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}(
@@ -51,8 +53,9 @@ class PaymentAuthorizationsTest extends TestCase
 
         $expectedMethod = 'reAuthorizeAuthorizedPayment';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('0VF52814937998046', 10.99));
@@ -65,8 +68,9 @@ class PaymentAuthorizationsTest extends TestCase
 
         $expectedMethod = 'voidAuthorizedPayment';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('0VF52814937998046'));
