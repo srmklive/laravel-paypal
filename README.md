@@ -128,13 +128,24 @@ You can override PayPal API configuration by calling `setApiCredentials` method:
 $provider->setApiCredentials($config);
 ```
 
+
+<a name="usage-paypal-get-access-token"></a>
+## Get Access Token
+
+After setting the PayPal API configuration by calling `setApiCredentials` method. You need to get access token before performing any API calls
+
+```php
+$provider->getAccessToken();
+```
+
+
 <a name="usage-currency"></a>
 ## Set Currency
 
 By default the currency used is `USD`. If you wish to change it, you may call `setCurrency` method to set a different currency before calling any respective API methods:
 
 ```php
-$provider->setCurrency('EUR')->setExpressCheckout($data);
+$provider->setCurrency('EUR');
 ```
             
 <a name="support"></a>
