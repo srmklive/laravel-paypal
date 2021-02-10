@@ -132,7 +132,7 @@ $provider->getAccessToken();
 By default the currency used is `USD`. If you wish to change it, you may call `setCurrency` method to set a different currency before calling any respective API methods:
 
 ```php
-$provider->setCurrency('EUR')->setExpressCheckout($data);
+$provider->setCurrency('EUR');
 ```
             
 <a name="support"></a>
