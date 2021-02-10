@@ -35,6 +35,8 @@ https://developer.paypal.com/docs/api/overview/
 
 * Use following command to install:
 
+If you intend to use ExpressCheckout, please to the following [README](https://github.com/srmklive/laravel-paypal/tree/v1.0). *v2.0* & *v3.0* uses the new rest api.
+
 ```bash
 composer require srmklive/paypal:~3.0
 ```
