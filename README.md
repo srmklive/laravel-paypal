@@ -115,6 +115,17 @@ You can override PayPal API configuration by calling `setApiCredentials` method:
 $provider->setApiCredentials($config);
 ```
 
+
+<a name="usage-paypal-get-access-token"></a>
+## Get Access Token
+
+After setting the PayPal API configuration by calling `setApiCredentials` method. You need to get access token before performing any API calls
+
+```php
+$provider->getAccessToken();
+```
+
+
 <a name="usage-currency"></a>
 ## Set Currency
 
