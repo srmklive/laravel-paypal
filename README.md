@@ -134,7 +134,29 @@ By default the currency used is `USD`. If you wish to change it, you may call `s
 ```php
 $provider->setCurrency('EUR');
 ```
-            
+
+## Initiating an order for Checkout
+Use the createOrder method to initiate an order
+```php
+$provider->createOrder([
+  "intent"=> "CAPTURE",
+  "purchase_units"=> [
+      "amount"=> [
+        "currency_code"=> "USD",
+        "value"=? "100.00"
+      ]
+  ]
+]);
+```
+
+The response from this will include an order ID which you will need to retail, and a links collection
+so you can direct the user to Paypal to complete the order with their payment details
+
+When the user returns to the notifcation url you can capture the order payment with
+```php
+$provider->capturePaymentOrder($order_id); //order id from the createOrder step 
+```
+
 <a name="support"></a>
 ## Support
 

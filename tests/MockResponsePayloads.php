@@ -11,6 +11,7 @@ trait MockResponsePayloads
     use Mocks\Responses\Invoices;
     use Mocks\Responses\InvoicesSearch;
     use Mocks\Responses\InvoicesTemplates;
+    use Mocks\Responses\Orders;
     use Mocks\Responses\PaymentAuthorizations;
     use Mocks\Responses\PaymentCaptures;
     use Mocks\Responses\PaymentRefunds;
