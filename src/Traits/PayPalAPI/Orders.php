@@ -17,7 +17,7 @@ trait Orders
      */
     public function createOrder(array $data)
     {
-        $this->apiEndPoint = "v2/checkout/orders";
+        $this->apiEndPoint = 'v2/checkout/orders';
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = (object) $data;
@@ -38,7 +38,7 @@ trait Orders
 
         return $this->doPayPalRequest();
     }
-    
+
     /**
      * Shows details for an order.
      *
@@ -64,7 +64,7 @@ trait Orders
      * Authorizes payment for an order.
      *
      * @param string $order_id
-     * @param array $data
+     * @param array  $data
      *
      * @throws \Throwable
      *
@@ -83,12 +83,12 @@ trait Orders
 
         return $this->doPayPalRequest();
     }
-    
-     /**
+
+    /**
      * Captures payment for an order.
      *
      * @param string $order_id
-     * @param array $data
+     * @param array  $data
      *
      * @throws \Throwable
      *

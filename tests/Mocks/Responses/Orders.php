@@ -7,8 +7,9 @@ trait Orders
     /**
      * @return array
      */
-    function mockCreateOrdersResponse(){
-       return \GuzzleHttp\json_decode('{
+    public function mockCreateOrdersResponse()
+    {
+        return \GuzzleHttp\json_decode('{
         "id": "5O190127TN364715T",
         "status": "CREATED",
         "links": [
@@ -39,15 +40,17 @@ trait Orders
     /**
      * @return empty
      */
-    function mockUpdateOrdersResponse(){
-      return '';
+    public function mockUpdateOrdersResponse()
+    {
+        return '';
     }
 
     /**
      * @return array
      */
-    function mockOrderDetailsResponse(){
-      return \GuzzleHttp\json_decode('{
+    public function mockOrderDetailsResponse()
+    {
+        return \GuzzleHttp\json_decode('{
         "id": "5O190127TN364715T",
         "status": "PAYER_ACTION_REQUIRED",
         "intent": "CAPTURE",
@@ -88,8 +91,9 @@ trait Orders
     /**
      * @return array
      */
-    function mockOrderPaymentAuthorizedResponse(){
-      return \GuzzleHttp\json_decode('{
+    public function mockOrderPaymentAuthorizedResponse()
+    {
+        return \GuzzleHttp\json_decode('{
         "id": "5O190127TN364715T",
         "status": "COMPLETED",
         "payer": {
@@ -172,8 +176,9 @@ trait Orders
     /**
      * @return array
      */
-    function mockOrderPaymentCapturedResponse(){
-      return \GuzzleHttp\json_decode('{
+    public function mockOrderPaymentCapturedResponse()
+    {
+        return \GuzzleHttp\json_decode('{
         "id": "5O190127TN364715T",
         "status": "COMPLETED",
         "payer": {
@@ -255,6 +260,6 @@ trait Orders
             "method": "GET"
           }
         ]
-      }',true);
+      }', true);
     }
 }

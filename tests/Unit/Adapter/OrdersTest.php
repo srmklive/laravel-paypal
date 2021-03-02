@@ -29,7 +29,7 @@ class OrdersTest extends TestCase
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
-    
+
     /** @test */
     public function it_can_update_an_order()
     {

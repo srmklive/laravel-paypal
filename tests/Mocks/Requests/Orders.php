@@ -4,11 +4,11 @@ namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
 trait Orders
 {
-  /*
-  * @return array
-  */
-   private function createOrderParams()
-   {
+    /*
+    * @return array
+    */
+    private function createOrderParams()
+    {
         return \GuzzleHttp\json_decode('{
             "intent": "CAPTURE",
             "purchase_units": [
@@ -19,15 +19,15 @@ trait Orders
                 }
               }
             ]
-          }',true);
-   }
-   
-  /*
-  * @return array
-  */
-  private function updateOrderParams()
-  {
-       return \GuzzleHttp\json_decode('[
+          }', true);
+    }
+
+    /*
+    * @return array
+    */
+    private function updateOrderParams()
+    {
+        return \GuzzleHttp\json_decode('[
         {
           "op": "replace",
           "path": "/purchase_units/@reference_id==\'PUHF\'/shipping/address",
@@ -40,6 +40,6 @@ trait Orders
             "country_code": "US"
           }
         }
-      ]',true);
-  }
+      ]', true);
+    }
 }
