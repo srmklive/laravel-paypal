@@ -32,5 +32,4 @@ class OrdersTest extends TestCase
 
         $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
-
 }

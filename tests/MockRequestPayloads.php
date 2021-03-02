@@ -17,5 +17,4 @@ trait MockRequestPayloads
     use Mocks\Requests\Subscriptions;
     use Mocks\Requests\Trackers;
     use Mocks\Requests\WebHooks;
-    
 }

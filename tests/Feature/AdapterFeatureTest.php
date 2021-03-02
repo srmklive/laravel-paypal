@@ -853,12 +853,11 @@ class AdapterFeatureTest extends TestCase
         $order_id = '5O190127TN364715T';
         $filters = $this->updateOrderParams();
 
-        $response = $this->client->updateOrder($order_id,$filters);
+        $response = $this->client->updateOrder($order_id, $filters);
 
         $this->assertEmpty($response);
     }
 
-    
     /** @test  */
     public function it_can_get_order_details()
     {
