@@ -141,9 +141,11 @@ Use the createOrder method to initiate an order
 $provider->createOrder([
   "intent"=> "CAPTURE",
   "purchase_units"=> [
-      "amount"=> [
-        "currency_code"=> "USD",
-        "value"=? "100.00"
+      0 => [
+          "amount"=> [
+              "currency_code"=> "USD",
+              "value"=? "100.00"
+          ]
       ]
   ]
 ]);
