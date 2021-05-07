@@ -144,7 +144,7 @@ $provider->createOrder([
       0 => [
           "amount"=> [
               "currency_code"=> "USD",
-              "value"=? "100.00"
+              "value"=> "100.00"
           ]
       ]
   ]
