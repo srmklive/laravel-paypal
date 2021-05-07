@@ -152,7 +152,7 @@ $provider->createOrder([
 ```
 
 The response from this will include an order ID which you will need to retail, and a links collection
-so you can direct the user to Paypal to complete the order with their payment details
+so you can redirect the user to Paypal to complete the order with their payment details
 
 When the user returns to the notifcation url you can capture the order payment with
 ```php
