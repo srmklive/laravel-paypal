@@ -16,7 +16,7 @@ class PayPal
      *
      * @throws Exception
      */
-    public function __construct($config = '')
+    public function __construct($config = [])
     {
         // Setting PayPal API Credentials
         if (is_array($config)) {
