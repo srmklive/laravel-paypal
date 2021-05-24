@@ -157,7 +157,7 @@ trait PayPalHttpClient
         $locale = empty($this->locale) ? 'en_US' : $this->locale;
         $this->locale = $locale;
 
-        $validateSSL = empty($validateSSL) ? true : $this->validateSSL;
+        $validateSSL = empty($this->validateSSL) ? true : $this->validateSSL;
         $this->validateSSL = $validateSSL;
     }
 
