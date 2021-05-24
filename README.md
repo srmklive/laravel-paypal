@@ -35,7 +35,7 @@ https://developer.paypal.com/docs/api/overview/
 
 * Use following command to install:
 
-If you intend to use ExpressCheckout, please to the following [README](https://github.com/srmklive/laravel-paypal/tree/v1.0). *v2.0* & *v3.0* uses the new rest api.
+If you intend to use ExpressCheckout, please see this: [README](https://github.com/srmklive/laravel-paypal/tree/v1.0). *v2.0* & *v3.0* uses the new rest api.
 
 ```bash
 composer require srmklive/paypal:~3.0
@@ -144,7 +144,7 @@ $provider->createOrder([
       0 => [
           "amount"=> [
               "currency_code"=> "USD",
-              "value"=? "100.00"
+              "value"=> "100.00"
           ]
       ]
   ]
@@ -152,7 +152,7 @@ $provider->createOrder([
 ```
 
 The response from this will include an order ID which you will need to retail, and a links collection
-so you can direct the user to Paypal to complete the order with their payment details
+so you can redirect the user to Paypal to complete the order with their payment details
 
 When the user returns to the notifcation url you can capture the order payment with
 ```php
