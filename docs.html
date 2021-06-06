@@ -82,6 +82,14 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-6-2">Create Product</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-6-3">Update Product</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-6-4">Get Product Details</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-7"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Disputes</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-7-1">List Disputes</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-7-2">Update Dispute</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-7-3">Get Dispute Details</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-8"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Disputes Actions</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-8-1">Accept Claim</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-8-2">Accept Offer to Resolve Dispute</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-8-3">Acknowledge Returned Items</a></li>
 			    </ul>
 
 		    </nav><!--//docs-nav-->
@@ -580,7 +588,7 @@ $data = json_decode('[
 
 $product_id = '72255d4849af8ed6e0df1173';
 
-$plan = $provider->updateProduct($product_id, $data);
+$product = $provider->updateProduct($product_id, $data);
                                 </code>
                             </pre>
                         </div>
@@ -597,12 +605,149 @@ $plan = $provider->updateProduct($product_id, $data);
                                 <code class="php hljs">
 $product_id = '72255d4849af8ed6e0df1173';
 
-$plan = $provider->showProductDetails($product_id);
+$product = $provider->showProductDetails($product_id);
                                 </code>
                             </pre>
                         </div>
                     </section><!--//section-->
 			    </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-7">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Disputes</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Disputes API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-7-1">
+                        <h2 class="section-heading">List Disputes</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_list" target="_blank">
+                                https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_list
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$products = $provider->listDisputes();
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-7-2">
+                        <h2 class="section-heading">Update Dispute</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_patch" target="_blank">
+                                https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_patch
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('[
+  {
+    "op": "add",
+    "path": "/partner_actions/-",
+    "value": {
+      "id": "AMX-22345",
+      "name": "ACCEPT_DISPUTE",
+      "create_time": "2018-01-12T10:41:35.000Z",
+      "status": "PENDING"
+    }
+  }
+]', true);
+
+$dispute_id = 'PP-D-27803';
+
+$dispute = $provider->updateDispute($dispute_id, $data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-7-3">
+                        <h2 class="section-heading">Get Dispute Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_get" target="_blank">
+                                https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$dispute_id = 'PP-D-27803';
+
+$dispute = $provider->showDisputeDetails($dispute_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-8">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Disputes Actions</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Disputes Actions API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-8-1">
+                        <h2 class="section-heading">Accept Claim</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_accept-claim" target="_blank">
+                                https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_accept-claim
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$dispute_id = 'PP-D-27803';
+$dispute_note = 'Dispute claim accepted due to wrong item being shipped';
+
+$dispute = $provider->acceptDisputeClaim($dispute_id, $dispute_note);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-8-2">
+                        <h2 class="section-heading">Accept Offer to Resolve Dispute</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_patch" target="_blank">
+                                https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_patch
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$dispute_id = 'PP-D-27803';
+$dispute_note = 'Accepting merchant offer of discount for next purchase';
+
+$dispute = $provider->acceptDisputeOfferResolution($dispute_id, $dispute_note);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-8-3">
+                        <h2 class="section-heading">Acknowledge Returned Items</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_acknowledge-return-item" target="_blank">
+                                https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_acknowledge-return-item
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$dispute_id = 'PP-D-27803';
+$dispute_note = 'Items have been returned by the customer';
+$acknowledgement_type = 'ITEM_RECEIVED';
+
+$dispute = $provider->acknowledgeItemReturned($dispute_id, $dispute_note, $acknowledgement_type);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
 
 			    <footer class="footer">
 				    <div class="container text-center py-5">
