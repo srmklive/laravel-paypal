@@ -180,7 +180,7 @@ class ExpressCheckout
     {
         $this->setItemSubTotal($data);
 
-        $solutiontype = $guest ? "Sole" : "Mark";
+        $solutiontype = $guest ? 'Sole' : 'Mark';
 
         $this->post = $this->setCartItems($data['items'])->merge([
             'PAYMENTREQUEST_0_ITEMAMT'       => $this->subtotal,
