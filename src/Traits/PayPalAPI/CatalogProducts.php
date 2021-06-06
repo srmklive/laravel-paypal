@@ -57,8 +57,8 @@ trait CatalogProducts
     /**
      * Update a product.
      *
-     * @param array  $data
      * @param string $product_id
+     * @param array  $data
      *
      * @throws \Throwable
      *
@@ -66,7 +66,7 @@ trait CatalogProducts
      *
      * @see https://developer.paypal.com/docs/api/catalog-products/v1/#products_patch
      */
-    public function updateProduct(array $data, $product_id)
+    public function updateProduct($product_id, array $data)
     {
         $this->apiEndPoint = "v1/catalogs/products/{$product_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');

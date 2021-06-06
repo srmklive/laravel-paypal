@@ -249,7 +249,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->updateProductParams();
 
-        $response = $this->client->updateProduct($expectedParams, self::$product_id);
+        $response = $this->client->updateProduct(self::$product_id, $expectedParams);
 
         $this->assertEmpty($response);
     }
