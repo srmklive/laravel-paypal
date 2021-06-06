@@ -77,6 +77,11 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-5-5">Activate Plan</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-5-6">Deactivate Plan</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-5-7">Update Plan Pricing</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-6"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Catalog Products</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-6-1">List Products</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-6-2">Create Product</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-6-3">Update Product</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-6-4">Get Product Details</a></li>
 			    </ul>
 
 		    </nav><!--//docs-nav-->
@@ -498,27 +503,105 @@ $plan = $provider->updatePlanPricing($plan_id, $pricing);
 			    </article><!--//docs-article-->
 			    
 			    
-		        <article class="docs-article d-none" id="section-6">
+		        <article class="docs-article" id="section-6">
 				    <header class="docs-header">
-					    <h1 class="docs-heading">Web</h1>
-					    <section class="docs-intro">
-						    <p>Section intro goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus condimentum nisl id vulputate. Praesent aliquet varius eros interdum suscipit. Donec eu purus sed nibh convallis bibendum quis vitae turpis. Duis vestibulum diam lorem, vitae dapibus nibh facilisis a. Fusce in malesuada odio.</p>
-						</section><!--//docs-intro-->
+                        <h1 class="docs-heading">Catalog Products</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Catalog Products API.</p>
+                        </section><!--//docs-intro-->
 				    </header>
 				     <section class="docs-section" id="item-6-1">
-						<h2 class="section-heading">Section Item 6.1</h2>
-						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
+						<h2 class="section-heading">List Products</h2>
+                         <p>This code snippet utilizes the following API: <br />
+                             <a href="https://developer.paypal.com/docs/api/catalog-products/v1/#products_list" target="_blank">
+                                 https://developer.paypal.com/docs/api/catalog-products/v1/#products_list
+                             </a>
+                         </p>
+                         <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$products = $provider->listProducts();
+                                </code>
+                            </pre>
+                         </div>
+                         <p>By default, the API returns a paginated response. However if you pass your own parameters, you can do writing the following:</p>
+                         <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$products = $provider->listProducts(1, 30, true);
+                                </code>
+                            </pre>
+                         </div>
+                         <p>In the above snippet, we are returning the plans containing upto 30 items in each paginated response along with count details.</p>
 					</section><!--//section-->
 					
 					<section class="docs-section" id="item-6-2">
-						<h2 class="section-heading">Section Item 6.2</h2>
-						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
+						<h2 class="section-heading">Create Product</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/catalog-products/v1/#products_create" target="_blank">
+                                https://developer.paypal.com/docs/api/catalog-products/v1/#products_create
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data =  json_decode('{
+  "name": "Video Streaming Service",
+  "description": "Video streaming service",
+  "type": "SERVICE",
+  "category": "SOFTWARE",
+  "image_url": "https://example.com/streaming.jpg",
+  "home_url": "https://example.com/home"
+}', true);
+
+$product = $provider->createProduct($data);
+                                </code>
+                            </pre>
+                        </div>
 					</section><!--//section-->
 					
 					<section class="docs-section" id="item-6-3">
-							<h2 class="section-heading">Section Item 6.3</h2>
-						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
+                        <h2 class="section-heading">Update Product</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/catalog-products/v1/#products_patch" target="_blank">
+                                https://developer.paypal.com/docs/api/catalog-products/v1/#products_patch
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('[
+  {
+    "op": "replace",
+    "path": "/description",
+    "value": "Premium video streaming service"
+  }
+]', true);
+
+$product_id = '72255d4849af8ed6e0df1173';
+
+$plan = $provider->updateProduct($product_id, $data);
+                                </code>
+                            </pre>
+                        </div>
 					</section><!--//section-->
+                    <section class="docs-section" id="item-6-4">
+                        <h2 class="section-heading">Get Product Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/catalog-products/v1/#products_get" target="_blank">
+                                https://developer.paypal.com/docs/api/catalog-products/v1/#products_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$product_id = '72255d4849af8ed6e0df1173';
+
+$plan = $provider->showProductDetails($product_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
 			    </article><!--//docs-article-->
 
 			    <footer class="footer">
