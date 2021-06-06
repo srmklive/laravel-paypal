@@ -36,7 +36,7 @@
 	                    <span></span>
 	                    <span></span>
 	                </button>
-	                <div class="site-logo"><a class="navbar-brand" href="index.html"><img class="logo-icon mr-2" src="assets/images/coderdocs-logo.svg" alt="logo"><span class="logo-text">Laravel<span class="text-alt">PayPal</span></span></a></div>
+	                <div class="site-logo"><a class="navbar-brand" href="/"><img class="logo-icon mr-2" src="assets/images/coderdocs-logo.svg" alt="logo"><span class="logo-text">Laravel<span class="text-alt">PayPal</span></span></a></div>
                 </div><!--//docs-logo-wrapper-->
 	            <div class="docs-top-utilities d-flex justify-content-end align-items-center">
 					<ul class="social-list list-inline mx-md-3 mx-lg-5 mb-0 d-none d-lg-flex">
@@ -69,10 +69,14 @@
 				    <li class="nav-item"><a class="nav-link scrollto" href="#item-3-3">Change Currency</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-3-3">Get Access Token</a></li>
 				    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-4"><span class="theme-icon-holder mr-2"><i class="fas fa-cogs"></i></span>Integrations</a></li>
-				    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-5"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Utilities</a></li>
-				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-1">Section Item 5.1</a></li>
-				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-2">Section Item 5.2</a></li>
-				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-3">Section Item 5.3</a></li>
+				    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-5"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Billing Plans</a></li>
+				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-1">List Plans</a></li>
+				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-2">Create Plan</a></li>
+				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-3">Update Plan</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-4">Get Plan Details</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-5">Activate Plan</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-6">Deactivate Plan</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-7">Update Plan Pricing</a></li>
 			    </ul>
 
 		    </nav><!--//docs-nav-->
@@ -265,33 +269,232 @@ $provider->getAccessToken();
 			    <article class="docs-article" id="section-4">
 				    <header class="docs-header">
 					    <h1 class="docs-heading">Integrations</h1>
-					    <section class="docs-intro">
-						    <p>Section intro goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus condimentum nisl id vulputate. Praesent aliquet varius eros interdum suscipit. Donec eu purus sed nibh convallis bibendum quis vitae turpis. Duis vestibulum diam lorem, vitae dapibus nibh facilisis a. Fusce in malesuada odio.</p>
-						</section><!--//docs-intro-->
 				    </header>
 			    </article><!--//docs-article-->
 			    
 			    <article class="docs-article" id="section-5">
 				    <header class="docs-header">
-					    <h1 class="docs-heading">Utilities</h1>
+					    <h1 class="docs-heading">Billing Plans</h1>
 					    <section class="docs-intro">
-						    <p>Section intro goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus condimentum nisl id vulputate. Praesent aliquet varius eros interdum suscipit. Donec eu purus sed nibh convallis bibendum quis vitae turpis. Duis vestibulum diam lorem, vitae dapibus nibh facilisis a. Fusce in malesuada odio.</p>
+						    <p>The following snippets lists code snippets for interacting with Billing Plans API.</p>
 						</section><!--//docs-intro-->
 				    </header>
 				     <section class="docs-section" id="item-5-1">
-						<h2 class="section-heading">Section Item 5.1</h2>
-						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
+                        <h2 class="section-heading">List Plans</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$plans = $provider->listPlans();
+                                </code>
+                            </pre>
+                        </div>
+                        <p>By default, the API returns a paginated response. However if you pass your own parameters, you can do writing the following:</p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$fields = ['id', 'product_id', 'name', 'description'];
+$plans = $provider->listPlans(1, 30, true, $fields);
+                                </code>
+                            </pre>
+                        </div>
+                        <p>In the above snippet, we are returning the plans containing upto 30 items in each paginated response along with count details.</p>
 					</section><!--//section-->
 					
 					<section class="docs-section" id="item-5-2">
-						<h2 class="section-heading">Section Item 5.2</h2>
-						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
+						<h2 class="section-heading">Create Plan</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#plans_create" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#plans_create
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "product_id": "PROD-XXCD1234QWER65782",
+  "name": "Video Streaming Service Plan",
+  "description": "Video Streaming Service basic plan",
+  "status": "ACTIVE",
+  "billing_cycles": [
+    {
+      "frequency": {
+        "interval_unit": "MONTH",
+        "interval_count": 1
+      },
+      "tenure_type": "TRIAL",
+      "sequence": 1,
+      "total_cycles": 2,
+      "pricing_scheme": {
+        "fixed_price": {
+          "value": "3",
+          "currency_code": "USD"
+        }
+      }
+    },
+    {
+      "frequency": {
+        "interval_unit": "MONTH",
+        "interval_count": 1
+      },
+      "tenure_type": "TRIAL",
+      "sequence": 2,
+      "total_cycles": 3,
+      "pricing_scheme": {
+        "fixed_price": {
+          "value": "6",
+          "currency_code": "USD"
+        }
+      }
+    },
+    {
+      "frequency": {
+        "interval_unit": "MONTH",
+        "interval_count": 1
+      },
+      "tenure_type": "REGULAR",
+      "sequence": 3,
+      "total_cycles": 12,
+      "pricing_scheme": {
+        "fixed_price": {
+          "value": "10",
+          "currency_code": "USD"
+        }
+      }
+    }
+  ],
+  "payment_preferences": {
+    "auto_bill_outstanding": true,
+    "setup_fee": {
+      "value": "10",
+      "currency_code": "USD"
+    },
+    "setup_fee_failure_action": "CONTINUE",
+    "payment_failure_threshold": 3
+  },
+  "taxes": {
+    "percentage": "10",
+    "inclusive": false
+  }
+}', true);
+
+$plan = $provider->createPlan($data);
+                                </code>
+                            </pre>
+                        </div>
 					</section><!--//section-->
 					
 					<section class="docs-section" id="item-5-3">
-							<h2 class="section-heading">Section Item 5.3</h2>
-						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
+                        <h2 class="section-heading">Update Plan</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#plans_patch" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#plans_patch
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('[
+  {
+    "op": "replace",
+    "path": "/payment_preferences/payment_failure_threshold",
+    "value": 7
+  }
+]', true);
+
+$plan_id = 'P-7GL4271244454362WXNWU5NQ';
+
+$plan = $provider->updatePlan($plan_id, $data);
+                                </code>
+                            </pre>
+                        </div>
 					</section><!--//section-->
+                    <section class="docs-section" id="item-5-4">
+                        <h2 class="section-heading">Get Plan Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#plans_get" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#plans_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$plan_id = 'P-7GL4271244454362WXNWU5NQ';
+
+$plan = $provider->showPlanDetails($plan_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-5-5">
+                        <h2 class="section-heading">Activate Plan</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#plans_activate" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#plans_activate
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$plan_id = 'P-7GL4271244454362WXNWU5NQ';
+
+$plan = $provider->activatePlan($plan_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-5-6">
+                        <h2 class="section-heading">Deactivate Plan</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#plans_deactivate" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#plans_deactivate
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$plan_id = 'P-7GL4271244454362WXNWU5NQ';
+
+$plan = $provider->deactivatePlan($plan_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-5-7">
+                        <h2 class="section-heading">Update Plan Pricing</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#plans_update-pricing-schemes" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#plans_update-pricing-schemes
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$pricibg = json_decode('{
+  "pricing_schemes": [
+    {
+      "billing_cycle_sequence": 2,
+      "pricing_scheme": {
+        "fixed_price": {
+          "value": "50",
+          "currency_code": "USD"
+        }
+      }
+    }
+  ]
+}', true);
+
+$plan_id = 'P-7GL4271244454362WXNWU5NQ';
+
+$plan = $provider->updatePlanPricing($plan_id, $pricing);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
 			    </article><!--//docs-article-->
 			    
 			    
