@@ -1,0 +1,309 @@
+/* ============= Base ============= */
+
+/*********** Theme Generic **********/
+body {
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $theme-text-color-secondary;
+    padding-top: 69px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Poppins', sans-serif;
+	color: $theme-text-color-primary;
+	font-weight: 600;
+}
+
+code {
+	background: $theme-bg-light;
+	color: $theme-text-color-primary;
+	padding: 0.25rem 0.375rem;
+	@include border-radius(0.25rem);
+}
+
+
+.table-bordered th, .table-bordered td {
+	border-color: $theme-divider;
+}
+
+.table th, .table td {
+	border-color: $theme-divider;
+}
+
+.table thead th {
+	border-color: $theme-divider;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+	background-color: $smoky-white;
+}
+
+.table-dark th, .table-dark td, .table-dark thead th {
+	border-color: lighten($theme-text-color-primary, 20%);
+}
+
+.popover {
+	border-color: darken($theme-bg-light, 5%);
+}
+.bs-popover-left>.arrow::before, .bs-popover-auto[x-placement^="left"]>.arrow::before {
+	border-left-color: darken($theme-bg-light, 5%);
+}
+.bs-popover-right>.arrow::before, .bs-popover-auto[x-placement^="right"]>.arrow::before {
+	border-right-color: darken($theme-bg-light, 5%);
+}
+.bs-popover-top>.arrow::before, .bs-popover-auto[x-placement^="top"]>.arrow::before {
+	border-top-color: darken($theme-bg-light, 5%);
+}
+.bs-popover-bottom>.arrow::before, .bs-popover-auto[x-placement^="bottom"]>.arrow::before {
+	border-bottom-color: darken($theme-bg-light, 5%);
+}
+
+a.theme-link {
+	color: $theme-text-color-primary;
+	text-decoration: underline;
+    -webkit-text-decoration-color: rgba($theme-text-color-primary,0.3);
+    text-decoration-color: rgba($theme-text-color-primary,0.3);
+    &:hover {
+	    color: $theme-color-primary;
+	    -webkit-text-decoration-color: rgba($theme-color-primary,0.8);
+	        text-decoration-color: rgba($theme-color-primary,0.8);
+    }
+}
+
+.btn {
+	font-weight: 600;
+	padding: 0.6rem 1.25rem;
+	@include transition (all 0.4s ease-in-out);
+	border: none;
+	&:hover, &:active, &:focus {
+		box-shadow: 0 5px 15px 0 rgba(0,0,0,0.15);
+		box-shadow: 0 12px 24px -6px rgba(0,0,0,0.15);
+	}
+}
+
+.btn:focus, .btn.focus {
+	box-shadow: none !important;
+}
+
+.btn-primary {
+   background: $theme-color-primary;
+}
+
+.btn-secondary {
+	background: $theme-text-color-secondary;
+	color: #fff;
+}
+
+.btn-light {
+	background: $theme-bg-light;
+	color: $theme-color-primary;
+	&:hover {
+		background: $theme-bg-light;
+		color: $theme-color-primary;
+	}
+}
+
+
+.form-control {
+	padding-top: 0.875rem;
+	padding-bottom: 0.875rem;
+	height: 2.75rem;
+	border-color: darken($theme-bg-light, 5%);
+	&:focus {
+		box-shadow: 0 5px 15px 0 rgba(0,0,0,0.15);
+		outline: none;
+	}
+}
+
+.theme-icon-holder {
+	display: inline-block;
+	background: $theme-bg-light;
+	color: $theme-color-primary;
+	width: 32px;
+	height: 32px;
+	padding-top: 4px;
+	font-size: 1rem;
+	text-align: center;
+	@include border-radius(50%);
+	
+	.svg-inline---fa {
+		color: $theme-color-primary;
+	}
+}
+
+.theme-bg-light {
+	background: $theme-bg-light;
+}
+
+.theme-bg-dark {
+	background: $theme-bg-dark;
+}
+
+.theme-bg-shapes-right {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	right: 0;
+	top: 0;
+	overflow:hidden;
+	&:before {
+		content: "";
+		width: 300px;
+	    height: 150px;
+	    background: rgba(256, 256, 256, 0.1);
+	    position: absolute;
+	    right: -60px;
+	    top: 0;
+	    @include border-radius(4px);
+	    @include skew(25,-10);
+        @include transform-origin(top left);
+	}
+	
+	&:after {
+		content: "";
+		width: 150px;
+	    height: 600px;
+	    background: rgba(256, 256, 256, 0.15);
+	    position: absolute;
+	    right: 0px;
+	    top: 30px;
+	    @include border-radius(6px);
+	    @include skew(25,10);
+        @include transform-origin(top left);
+	}
+}
+
+.theme-bg-shapes-left {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	right: 0;
+	top: 0;
+	overflow:hidden;
+	&:before {
+		content: "";
+		width: 300px;
+	    height: 150px;
+	    background: rgba(256, 256, 256, 0.1);
+	    position: absolute;
+	    left: -90px;
+	    top: 0;
+	    @include border-radius(6px);
+	    @include skew(25,-12);
+        @include transform-origin(top left);
+	}
+	
+	&:after {
+		content: "";
+		width: 150px;
+	    height: 600px;
+	    background: rgba(256, 256, 256, 0.15);
+	    position: absolute;
+	    left: 0px;
+	    top: 30px;
+	    @include border-radius(4px);
+	    @include skew(-25,10);
+        @include transform-origin(top left);
+	}
+}
+
+
+
+/*********** Theme Utilities **********/
+
+.border-radius-0 {
+	@include border-radius(0);
+}
+
+
+.font-style-normal {
+	font-style: normal !important;
+}
+
+
+.single-col-max {
+	max-width: $single-col-max;
+}
+
+
+/* Header */
+
+.site-logo {
+    .logo-text {
+	    color: $theme-text-color-primary;
+	    font-size: 1.5rem;
+	    font-weight:bold;
+    }
+    
+    .text-alt {
+	    font-weight:300;
+    }
+	.navbar-brand {
+		font-size: 2rem;
+		font-weight: 600;
+		padding-top: 0;
+	}
+
+}
+
+
+/* Page headers */
+.page-header {
+	&.theme-bg-dark {
+		.page-heading {
+			color: #fff;
+		}
+		.page-intro {
+			color: #fff;
+			@include opacity(0.8);
+		}
+	}
+}
+
+
+.social-list {
+	li {
+		font-size: 1.125rem;
+		background: $theme-bg-light;
+		width: 32px;
+		height: 32px;
+		text-align: center;
+		@include border-radius(50%);
+		padding-top: 2px;
+		a {
+			color: lighten($theme-color-primary, 10%);
+			&:hover {
+				color: $theme-color-primary;
+			}
+		}
+		
+		&:not(:last-child) {
+			margin-right: 0.875rem;
+		}
+	}
+}
+
+.header {
+	@include box-shadow(0 1px 4px 0 rgba(0,0,0,.1));
+	background: #fff;
+}
+
+/* Footer */
+.footer {
+
+	.copyright {
+		font-size: 0.875rem;
+	}
+	
+	
+}
+
+/* Page related */
+.page-heading {
+	font-size: 2.5rem;
+}
+.page-intro {
+	font-size: 1.125rem;
+}
+
