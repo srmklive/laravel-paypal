@@ -169,3 +169,120 @@ This version supports Laravel 6 or greater.
   * Implement your features.
   * Generate pull request.
  
+ 
+ 
+ 
+# Step by Step guide - How to set up the package.
+
+
+## Installation
+
+##### Using composer execute this command:
+```sh
+composer require srmklive/paypal:~3.0
+```
+#### Publish configuration
+This command will create a `config/paypal.php` file with parameters you can customize.
+```sh
+php artisan vendor:publish --provider "Srmklive\PayPal\Providers\PayPalServiceProvider"
+```
+
+#### Add this lines to your `.env`
+Get your credentials from 
+https://developer.paypal.com/developer/applications/
+```env
+PAYPAL_MODE=sandbox
+PAYPAL_SANDBOX_CLIENT_ID=YOUR_CLIENT_ID
+PAYPAL_SANDBOX_CLIENT_SECRET=YOUR_CLIENT_SECRET
+
+PAYPAL_LIVE_CLIENT_ID=
+PAYPAL_LIVE_CLIENT_SECRET=
+```
+
+## Usage
+#### Make a controller named `PaypalController`
+```sh
+php artisan make:controller PaypalController
+```
+
+#### Create your routes in web.php
+```php
+Route::get('/paypal', [PaypalController::class, 'payment']);
+Route::get('/paypal/capture', [PaypalController::class, 'capture'])->name('paypal.capture');
+```
+
+#### PayPal controller initialization
+```php
+namespace  App\Http\Controllers;
+use Illuminate\Http\Request;
+
+use  PayPal;
+
+class  PaypalController  extends  Controller
+{
+
+  private  $paypal;
+  
+  public  function  __construct()
+  {
+    $provider = PayPal::setProvider();
+
+    // Get configuration from config/paypal.php
+    $provider->setApiCredentials(config('paypal'));
+    // Required access token for the Api
+    $provider->getAccessToken();
+    // Set your currency (uppercase)
+    $provider->setCurrency('USD');
+    // Save into private $paypal class variable
+    $this->paypal = $provider;
+  }
+
+}
+```
+
+#### Paypal Controller Payment Method
+You can see the list of parameters accepted by `purchase_units` when creating your order
+Such as item list, description, etc, here:
+https://developer.paypal.com/docs/api/orders/v2/#definition-purchase_unit_request
+Put special attention on `return_url` parameter.
+```php
+public function payment()
+{
+  $result = $this->paypal->createOrder([
+    "application_context" => [
+      // Redirect buyer to the route we defined in web.php
+      "return_url" => route('paypal.capture')
+    ],
+    "intent"=> "CAPTURE",
+    "purchase_units"=> [
+        [
+          "description" => "My product in MXN currency",
+          "amount"=> [
+            "value"=> "179.00",
+            "currency_code"=> "MXN",
+          ]
+        ]
+    ]
+  ]);
+
+  return $result;
+}
+```
+
+
+#### Paypal Controller Capture Method
+When the buyer confirms the order, it will be redirected here.
+```php
+ public function capture(Request $request)
+ {
+   // Paypal will redirect with [token] and [PayerId] GET URL parameters.
+   // Capture the order to get the founds into your account
+   return $this->paypal->capturePaymentOrder($request->get('token'));
+ }
+```
+
+
+#### Open your browser
+Finally go toward `/paypal` url in a browser
+and see the magic happens!
+
