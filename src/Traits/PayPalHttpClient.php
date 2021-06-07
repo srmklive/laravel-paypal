@@ -87,9 +87,17 @@ trait PayPalHttpClient
     private function makeHttpRequest()
     {
         try {
-            return $this->client->post($this->apiUrl, [
+            $options = [
                 $this->httpBodyParam => $this->post->toArray(),
-            ])->getBody();
+            ];
+
+            if ($this->fraudnetId) {
+                $options['headers'] = [
+                    'PAYPAL-CLIENT-METADATA-ID' => $this->fraudnetId
+                ];
+            }
+
+            return $this->client->post($this->apiUrl, $options)->getBody();
         } catch (Throwable $t) {
             throw new RuntimeException($t->getRequest().' '.$t->getResponse());
         }
