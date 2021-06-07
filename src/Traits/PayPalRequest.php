@@ -127,7 +127,7 @@ trait PayPalRequest
     private $validateSSL;
 
     /**
-     * Fraudnet Header Id
+     * Fraudnet Header Id.
      *
      * @var string
      */

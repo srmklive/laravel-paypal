@@ -93,7 +93,7 @@ trait PayPalHttpClient
 
             if ($this->fraudnetId) {
                 $options['headers'] = [
-                    'PAYPAL-CLIENT-METADATA-ID' => $this->fraudnetId
+                    'PAYPAL-CLIENT-METADATA-ID' => $this->fraudnetId,
                 ];
             }
 
