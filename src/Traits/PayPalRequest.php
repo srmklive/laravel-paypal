@@ -247,6 +247,7 @@ trait PayPalRequest
     public function setFraudnetId($fraudnetId)
     {
         $this->fraudnetId = $fraudnetId;
+        
         return $this;
     }
 
