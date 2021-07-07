@@ -59,7 +59,7 @@ class CatalogProductsTest extends TestCase
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams, '72255d4849af8ed6e0df1173'));
+        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('72255d4849af8ed6e0df1173', $expectedParams));
     }
 
     /** @test */

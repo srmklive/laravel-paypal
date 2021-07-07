@@ -168,8 +168,8 @@ trait Subscriptions
             'note'          => $note,
             'capture_type'  => 'OUTSTANDING_BALANCE',
             'amount'        => [
-                'currency_code'  => $this->currency,
-                'value'     => "{$amount}",
+                'currency_code'     => $this->currency,
+                'value'             => "{$amount}",
             ],
         ];
 
