@@ -68,4 +68,23 @@ class AdapterConfigTest extends TestCase
         $this->assertNotEmpty($this->client->getCurrency());
         $this->assertEquals('EUR', $this->client->getCurrency());
     }
+
+    /** @test */
+    public function it_can_set_a_request_header()
+    {
+        $this->client->setRequestHeader('Prefer', 'return=representation');
+
+        $this->assertNotEmpty($this->client->getRequestHeader('Prefer'));
+        $this->assertEquals($this->client->getRequestHeader('Prefer'), 'return=representation');
+    }
+
+    /** @test */
+    public function it_throws_exception_if_options_header_not_set()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionCode('0');
+        $this->expectExceptionMessage('Options header is not set.');
+
+        $this->client->getRequestHeader('Prefer');
+    }
 }
