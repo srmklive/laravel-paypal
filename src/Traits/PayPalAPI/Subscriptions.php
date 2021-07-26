@@ -225,8 +225,8 @@ trait Subscriptions
             $end_date = Carbon::parse($end_date);
         }
 
-        $start_date = $start_date->toIso8601String();
-        $end_date = $end_date->toIso8601String();
+        $start_date = $start_date->toIso8601ZuluString();
+        $end_date = $end_date->toIso8601ZuluString();
 
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/transactions?start_time={$start_date}&end_time={$end_date}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
