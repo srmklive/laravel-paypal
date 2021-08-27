@@ -40,7 +40,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
      */
-    public function listPlans($product_id,$page = 1, $size = 20, $totals = true)
+    public function listPlans($product_id, $page = 1, $size = 20, $totals = true)
     {
         $this->apiEndPoint = "v1/billing/plans?product_id={$product_id}&page_size={$size}&page={$page}&total_required=true";
 
