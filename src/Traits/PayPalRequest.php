@@ -106,6 +106,39 @@ trait PayPalRequest
     }
 
     /**
+     * Function to add request header.
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setRequestHeader($key, $value)
+    {
+        $this->options['headers'][$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Return request options header. 
+     *
+     * @param string $key
+     *
+     * @throws \RuntimeException
+     *
+     * @return string
+     */
+    public function getRequestHeader($key)
+    {
+        if (isset($this->options['headers'][$key])) {
+            return $this->options['headers'][$key];
+        }
+
+        throw new RuntimeException('Options header is not set.');
+    }
+
+    /**
      * Function To Set PayPal API Configuration.
      *
      * @param array $config
