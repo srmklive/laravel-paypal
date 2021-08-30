@@ -121,7 +121,7 @@ trait PayPalRequest
     }
 
     /**
-     * Return request options header. 
+     * Return request options header.
      *
      * @param string $key
      *
