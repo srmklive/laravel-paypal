@@ -30,10 +30,9 @@ trait BillingPlans
     /**
      * List all billing plans.
      *
-     * @param int   $page
-     * @param int   $size
-     * @param bool  $totals
-     * @param array $fields
+     * @param int  $page
+     * @param int  $size
+     * @param bool $totals
      *
      * @throws \Throwable
      *
@@ -41,13 +40,10 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
      */
-    public function listPlans($page = 1, $size = 20, $totals = true, array $fields = [])
+    public function listPlans($product_id, $page = 1, $size = 20, $totals = true)
     {
-        $fields_list = collect($fields);
+        $this->apiEndPoint = "v1/billing/plans?product_id={$product_id}&page_size={$size}&page={$page}&total_required=true";
 
-        $fields = ($fields_list->count() > 0) ? "&fields={$fields_list->implode(',')}" : '';
-
-        $this->apiEndPoint = "v1/billing/plans?page={$page}&page_size={$size}&total_required={$totals}{$fields}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
