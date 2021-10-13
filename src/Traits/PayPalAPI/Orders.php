@@ -27,7 +27,7 @@ trait Orders
         return $this->doPayPalRequest();
     }
 
-    public function updateOrder(string $order_id, array $data)
+    public function updateOrder($order_id, array $data)
     {
         $this->apiEndPoint = "v2/checkout/orders/{$order_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');

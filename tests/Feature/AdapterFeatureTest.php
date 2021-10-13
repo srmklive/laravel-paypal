@@ -24,7 +24,7 @@ class AdapterFeatureTest extends TestCase
     /** @var \Srmklive\PayPal\Services\PayPal */
     protected $client;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->client = new PayPalClient($this->getApiCredentials());
 

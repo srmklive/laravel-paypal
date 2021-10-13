@@ -40,7 +40,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
      */
-    public function listPlans(int $page = 1, int $size = 20, bool $totals = true)
+    public function listPlans($page = 1, $size = 20, $totals = true)
     {
         $this->apiEndPoint = "v1/billing/plans?page={$page}&page_size={$size}&total_required={$totals}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
