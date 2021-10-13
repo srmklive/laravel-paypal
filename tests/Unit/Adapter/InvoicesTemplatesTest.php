@@ -22,8 +22,9 @@ class InvoicesTemplatesTest extends TestCase
 
         $expectedMethod = 'createInvoiceTemplate';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
@@ -36,8 +37,9 @@ class InvoicesTemplatesTest extends TestCase
 
         $expectedMethod = 'listInvoiceTemplates';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
@@ -50,8 +52,9 @@ class InvoicesTemplatesTest extends TestCase
 
         $expectedMethod = 'deleteInvoiceTemplate';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('TEMP-19V05281TU309413B'));
@@ -66,8 +69,9 @@ class InvoicesTemplatesTest extends TestCase
 
         $expectedMethod = 'updateInvoiceTemplate';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('TEMP-19V05281TU309413B', $expectedParams));
@@ -80,8 +84,9 @@ class InvoicesTemplatesTest extends TestCase
 
         $expectedMethod = 'showInvoiceTemplateDetails';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, $this->getMockCredentials(), true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
 
+        $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('TEMP-19V05281TU309413B'));

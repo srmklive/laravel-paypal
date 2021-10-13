@@ -83,7 +83,7 @@ trait PayPalRequest
      */
     public function setCurrency($currency = 'USD')
     {
-        $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'INR', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD', 'RUB'];
+        $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'INR', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD', 'RUB', 'CNY'];
 
         // Check if provided currency is valid.
         if (!in_array($currency, $allowedCurrencies, true)) {
@@ -103,6 +103,39 @@ trait PayPalRequest
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * Function to add request header.
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setRequestHeader($key, $value)
+    {
+        $this->options['headers'][$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Return request options header.
+     *
+     * @param string $key
+     *
+     * @throws \RuntimeException
+     *
+     * @return string
+     */
+    public function getRequestHeader($key)
+    {
+        if (isset($this->options['headers'][$key])) {
+            return $this->options['headers'][$key];
+        }
+
+        throw new RuntimeException('Options header is not set.');
     }
 
     /**

@@ -7,7 +7,7 @@ trait InvoicesSearch
     /**
      * @return array
      */
-    public function invoiceSearchParams()
+    private function invoiceSearchParams()
     {
         return \GuzzleHttp\json_decode('{
             "total_amount_range": {
