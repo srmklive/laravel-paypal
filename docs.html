@@ -105,7 +105,9 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-9-12">Delete External Refund</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-9-13">Send Reminder for Invoice</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-9-14">Send Invoice</a></li>
-                </ul>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-10"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Search Invoices</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-10-1">Search Invoices</a></li>
+          </ul>
 
 		    </nav><!--//docs-nav-->
 	    </div><!--//docs-sidebar-->
@@ -1381,6 +1383,181 @@ $status = $provider->sendInvoice($invoice_no, $subject, $note, true, true, $emai
                         </div>
                     </section><!--//section-->
                 </article>
+
+                <article class="docs-article" id="section-10">
+                  <header class="docs-header">
+                      <h1 class="docs-heading">Search Invoices</h1>
+                      <section class="docs-intro">
+                          <p>The following snippets lists code snippets for interacting with Search Invoices API.</p>
+                      </section><!--//docs-intro-->
+                  </header>
+                  <section class="docs-section" id="item-10-1">
+                      <h2 class="section-heading">Search Invoices</h2>
+                      <p>This code snippet utilizes the following API: <br />
+                          <a href="https://developer.paypal.com/docs/api/invoicing/v2/#search-invoices_search-invoices" target="_blank">
+                            https://developer.paypal.com/docs/api/invoicing/v2/#search-invoices_search-invoices
+                          </a>
+                      </p>
+                      <div class="docs-code-block pt-0 pb-0">
+                        <pre class="shadow-lg rounded mb-0">
+                            <code class="php hljs">
+$invoices = $provider->searchInvoices();
+                            </code>
+                        </pre>
+                        <p>By default, a paginated set of 20 invoices are returned with total records & pages. However, if you wish to provide different pagination parameters with no totals being returned. You may do using the following snippet:</p>
+                        <pre class="shadow-lg rounded mb-0">
+                            <code class="php hljs">
+$invoices = $provider->searchInvoices(1, 50, false);
+                            </code>
+                        </pre>
+                      </div>
+                  </section>
+                  <section class="docs-section" id="item-10-2">
+                      <h3 class="card-subtitle">Search Invoices - Filters</h3>
+                      <p>By default, the default currency code filter is applied if no filters are provided. Following are the filters you can utilize for search invoices:</p>
+                      <div class="alert alert-info">You must call the <strong>searchInvoices</strong> method after calling the filter methods mentioned below:</div>
+                      <ul>
+                          <li>
+                              <h4>Recipient Email</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByRecipientEmail('bill-me@example.com')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Recipient First Name</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByRecipientFirstName('John')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Recipient Last Name</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByRecipientLastName('Doe')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Recipient Business Name</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByRecipientBusinessName('Acme Inc.')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Invoice Number</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByInvoiceNumber('#123')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Invoice Status</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByInvoiceStatus(['PAID', 'MARKED_AS_PAID'])->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Reference</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByReferenceorMemo('deal-ref')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Memo</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByReferenceorMemo('deal-ref', true)->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Currency Code</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByCurrencyCode('USD')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Amount Range</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByAmountRange(30, 50)->searchInvoices();
+                                  </code>
+                              </pre>
+                              <p>By default, the currency defined the configuration or through the <strong>setCurrency</strong> method is used. However, if you wish to pass in a different currency you may use the following snippet.</p>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByAmountRange(30, 50, 'EUR')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Date Range with Type</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+// Invoice Date
+$invoices = $provider->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'invoice_date')->searchInvoices();
+
+// Due Date
+$invoices = $provider->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'due_date')->searchInvoices();
+
+// Payment Date
+$invoices = $provider->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'payment_date')->searchInvoices();
+
+// Creation Date
+$invoices = $provider->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'creation_date')->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Archived</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByArchivedStatus(false)->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                          <li>
+                              <h4>Fields</h4>
+                              <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByFields(['items', 'payments', 'refunds'])->searchInvoices();
+                                  </code>
+                              </pre>
+                          </li>
+                      </ul>
+                      <div class="alert alert-info">You can also chain the methods mentioned above in a single call.</div>
+                      <pre class="shadow-lg rounded mb-0">
+                                  <code class="php hljs">
+$invoices = $provider->addInvoiceFilterByRecipientEmail('bill-me@example.com')
+            ->addInvoiceFilterByRecipientFirstName('John')
+            ->addInvoiceFilterByRecipientLastName('Doe')
+            ->addInvoiceFilterByRecipientBusinessName('Acme Inc.')
+            ->addInvoiceFilterByInvoiceNumber('#123')
+            ->addInvoiceFilterByInvoiceStatus(['PAID', 'MARKED_AS_PAID'])
+            ->addInvoiceFilterByReferenceorMemo('deal-ref')
+            ->addInvoiceFilterByCurrencyCode('USD')
+            ->addInvoiceFilterByAmountRange(30, 50)
+            ->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'invoice_date')
+            ->addInvoiceFilterByArchivedStatus(false)
+            ->addInvoiceFilterByFields(['items', 'payments', 'refunds'])
+            ->searchInvoices();
+                                  </code>
+                              </pre>
+                  </section>
+                </article>                  
 			    <footer class="footer">
 				    <div class="container text-center py-5">
 					    <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
