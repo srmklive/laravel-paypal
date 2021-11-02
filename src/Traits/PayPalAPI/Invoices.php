@@ -179,7 +179,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_generate-qr-code
      */
-    public function generateQRCodeInvoice($invoice_id, $width = 200, $height = 20)
+    public function generateQRCodeInvoice($invoice_id, $width = 100, $height = 100)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/generate-qr-code";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
