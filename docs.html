@@ -90,7 +90,22 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-8-1">Accept Claim</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-8-2">Accept Offer to Resolve Dispute</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-8-3">Acknowledge Returned Items</a></li>
-			    </ul>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-9"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Invoices</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-1">Generate Invoice Number</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-2">List Invoices</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-3">Create Draft Invoice</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-4">Delete Invoice</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-5">Fully Update Invoice</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-6">Show Invoice Details</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-7">Cancel Sent Invoice</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-8">Generate QR Code</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-9">Record Payment for Invoice</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-10">Delete External Payment</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-11">Refund Invoice</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-12">Delete External Refund</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-13">Send Reminder for Invoice</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-9-14">Send Invoice</a></li>
+                </ul>
 
 		    </nav><!--//docs-nav-->
 	    </div><!--//docs-sidebar-->
@@ -749,6 +764,623 @@ $dispute = $provider->acknowledgeItemReturned($dispute_id, $dispute_note, $ackno
                     </section><!--//section-->
                 </article><!--//docs-article-->
 
+                <article class="docs-article" id="section-9">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Invoices</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Invoices API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-9-1">
+                        <h2 class="section-heading">Generate Invoice Number</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_generate-next-invoice-number" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_generate-next-invoice-number
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$invoice_no = $provider->generateInvoiceNumber();
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-2">
+                        <h2 class="section-heading">List Invoices</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$invoices = $provider->listInvoices();
+                                </code>
+                            </pre>
+                            <p>By default, a paginated response is returned containing 20 records. If you wish to provide a different page number or limit, you may do it using:</p>
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$invoices = $provider->listInvoices(2, 50);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-3">
+                        <h2 class="section-heading">Create Draft Invoice</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_create" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_create
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "detail": {
+    "invoice_number": "#123",
+    "reference": "deal-ref",
+    "invoice_date": "2018-11-12",
+    "currency_code": "USD",
+    "note": "Thank you for your business.",
+    "term": "No refunds after 30 days.",
+    "memo": "This is a long contract",
+    "payment_term": {
+      "term_type": "NET_10",
+      "due_date": "2018-11-22"
+    }
+  },
+  "invoicer": {
+    "name": {
+      "given_name": "David",
+      "surname": "Larusso"
+    },
+    "address": {
+      "address_line_1": "1234 First Street",
+      "address_line_2": "337673 Hillside Court",
+      "admin_area_2": "Anytown",
+      "admin_area_1": "CA",
+      "postal_code": "98765",
+      "country_code": "US"
+    },
+    "email_address": "merchant@example.com",
+    "phones": [
+      {
+        "country_code": "001",
+        "national_number": "4085551234",
+        "phone_type": "MOBILE"
+      }
+    ],
+    "website": "www.test.com",
+    "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g",
+    "logo_url": "https://example.com/logo.PNG",
+    "additional_notes": "2-4"
+  },
+  "primary_recipients": [
+    {
+      "billing_info": {
+        "name": {
+          "given_name": "Stephanie",
+          "surname": "Meyers"
+        },
+        "address": {
+          "address_line_1": "1234 Main Street",
+          "admin_area_2": "Anytown",
+          "admin_area_1": "CA",
+          "postal_code": "98765",
+          "country_code": "US"
+        },
+        "email_address": "bill-me@example.com",
+        "phones": [
+          {
+            "country_code": "001",
+            "national_number": "4884551234",
+            "phone_type": "HOME"
+          }
+        ],
+        "additional_info_value": "add-info"
+      },
+      "shipping_info": {
+        "name": {
+          "given_name": "Stephanie",
+          "surname": "Meyers"
+        },
+        "address": {
+          "address_line_1": "1234 Main Street",
+          "admin_area_2": "Anytown",
+          "admin_area_1": "CA",
+          "postal_code": "98765",
+          "country_code": "US"
+        }
+      }
+    }
+  ],
+  "items": [
+    {
+      "name": "Yoga Mat",
+      "description": "Elastic mat to practice yoga.",
+      "quantity": "1",
+      "unit_amount": {
+        "currency_code": "USD",
+        "value": "50.00"
+      },
+      "tax": {
+        "name": "Sales Tax",
+        "percent": "7.25"
+      },
+      "discount": {
+        "percent": "5"
+      },
+      "unit_of_measure": "QUANTITY"
+    },
+    {
+      "name": "Yoga t-shirt",
+      "quantity": "1",
+      "unit_amount": {
+        "currency_code": "USD",
+        "value": "10.00"
+      },
+      "tax": {
+        "name": "Sales Tax",
+        "percent": "7.25"
+      },
+      "discount": {
+        "amount": {
+          "currency_code": "USD",
+          "value": "5.00"
+        }
+      },
+      "unit_of_measure": "QUANTITY"
+    }
+  ],
+  "configuration": {
+    "partial_payment": {
+      "allow_partial_payment": true,
+      "minimum_amount_due": {
+        "currency_code": "USD",
+        "value": "20.00"
+      }
+    },
+    "allow_tip": true,
+    "tax_calculated_after_discount": true,
+    "tax_inclusive": false,
+    "template_id": "TEMP-19V05281TU309413B"
+  },
+  "amount": {
+    "breakdown": {
+      "custom": {
+        "label": "Packing Charges",
+        "amount": {
+          "currency_code": "USD",
+          "value": "10.00"
+        }
+      },
+      "shipping": {
+        "amount": {
+          "currency_code": "USD",
+          "value": "10.00"
+        },
+        "tax": {
+          "name": "Sales Tax",
+          "percent": "7.25"
+        }
+      },
+      "discount": {
+        "invoice_discount": {
+          "percent": "5"
+        }
+      }
+    }
+  }
+}', true);
+
+$invoice = $provider->createInvoice($data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-4">
+                        <h2 class="section-heading">Delete Invoice</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_delete" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_delete
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+$status = $provider->deleteInvoice($invoice_no);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-5">
+                        <h2 class="section-heading">Fully Update Invoice</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_update" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_update
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "detail": {
+    "invoice_number": "#123",
+    "reference": "deal-ref",
+    "invoice_date": "2018-11-12",
+    "currency_code": "USD",
+    "note": "Thank you for your business.",
+    "term": "No refunds after 30 days.",
+    "memo": "This is a long contract",
+    "payment_term": {
+      "term_type": "NET_10",
+      "due_date": "2018-11-22"
+    }
+  },
+  "invoicer": {
+    "name": {
+      "given_name": "David",
+      "surname": "Larusso"
+    },
+    "address": {
+      "address_line_1": "1234 First Street",
+      "address_line_2": "337673 Hillside Court",
+      "admin_area_2": "Anytown",
+      "admin_area_1": "CA",
+      "postal_code": "98765",
+      "country_code": "US"
+    },
+    "email_address": "merchant@example.com",
+    "phones": [
+      {
+        "country_code": "001",
+        "national_number": "4085551234",
+        "phone_type": "MOBILE"
+      }
+    ],
+    "website": "www.test.com",
+    "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g",
+    "logo_url": "https://example.com/logo.PNG",
+    "additional_notes": "2-4"
+  },
+  "primary_recipients": [
+    {
+      "billing_info": {
+        "name": {
+          "given_name": "Stephanie",
+          "surname": "Meyers"
+        },
+        "address": {
+          "address_line_1": "1234 Main Street",
+          "admin_area_2": "Anytown",
+          "admin_area_1": "CA",
+          "postal_code": "98765",
+          "country_code": "US"
+        },
+        "email_address": "bill-me@example.com",
+        "phones": [
+          {
+            "country_code": "001",
+            "national_number": "4884551234",
+            "phone_type": "HOME"
+          }
+        ],
+        "additional_info_value": "add-info"
+      },
+      "shipping_info": {
+        "name": {
+          "given_name": "Stephanie",
+          "surname": "Meyers"
+        },
+        "address": {
+          "address_line_1": "1234 Main Street",
+          "admin_area_2": "Anytown",
+          "admin_area_1": "CA",
+          "postal_code": "98765",
+          "country_code": "US"
+        }
+      }
+    }
+  ],
+  "items": [
+    {
+      "name": "Yoga Mat",
+      "description": "Elastic mat to practice yoga.",
+      "quantity": "1",
+      "unit_amount": {
+        "currency_code": "USD",
+        "value": "50.00"
+      },
+      "tax": {
+        "name": "Sales Tax",
+        "percent": "7.25"
+      },
+      "discount": {
+        "percent": "5"
+      },
+      "unit_of_measure": "QUANTITY"
+    },
+    {
+      "name": "Yoga t-shirt",
+      "quantity": "1",
+      "unit_amount": {
+        "currency_code": "USD",
+        "value": "10.00"
+      },
+      "tax": {
+        "name": "Sales Tax",
+        "percent": "7.25"
+      },
+      "discount": {
+        "amount": {
+          "currency_code": "USD",
+          "value": "5.00"
+        }
+      },
+      "unit_of_measure": "QUANTITY"
+    }
+  ],
+  "configuration": {
+    "partial_payment": {
+      "allow_partial_payment": true,
+      "minimum_amount_due": {
+        "currency_code": "USD",
+        "value": "20.00"
+      }
+    },
+    "allow_tip": true,
+    "tax_calculated_after_discount": true,
+    "tax_inclusive": false,
+    "template_id": "TEMP-19V05281TU309413B"
+  },
+  "amount": {
+    "breakdown": {
+      "custom": {
+        "label": "Packing Charges",
+        "amount": {
+          "currency_code": "USD",
+          "value": "10.00"
+        }
+      },
+      "shipping": {
+        "amount": {
+          "currency_code": "USD",
+          "value": "10.00"
+        },
+        "tax": {
+          "name": "Sales Tax",
+          "percent": "7.25"
+        }
+      },
+      "discount": {
+        "invoice_discount": {
+          "percent": "5"
+        }
+      }
+    }
+  }
+}', true);
+
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$invoice = $provider->updateInvoice($invoice_no, $data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-6">
+                        <h2 class="section-heading">Show Invoice Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_get" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$invoice = $provider->showInvoiceDetails($invoice_no);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-7">
+                        <h2 class="section-heading">Cancel Sent Invoice</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_cancel" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_cancel
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "subject": "Invoice Cancelled",
+  "note": "Cancelling the invoice",
+  "send_to_invoicer": true,
+  "send_to_recipient": true,
+  "additional_recipients": [
+    "user@example.com"
+  ]
+}', true);
+
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$status = $provider->cancelInvoice($invoice_no, $data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-8">
+                        <h2 class="section-heading">Generate QR Code</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_generate-qr-code" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_generate-qr-code
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+$status = $provider->generateQRCodeInvoice($invoice_no);
+                                </code>
+                            </pre>
+                            <p>By default, a QR code of 100x100 is generated. However, if you wish to generate a QR code with different width & height. You may use the following snippet:</p>
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+$status = $provider->generateQRCodeInvoice($invoice_no, 50, 50);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-9">
+                        <h2 class="section-heading">Record Payment for Invoice</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_payments" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_payments
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$payment_method = 'BANK_TRANSFER';
+
+$payment_date = '2018-05-21';
+
+$amount = 10;
+
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$status = $provider->registerPaymentInvoice($invoice_no, $payment_date, $payment_method, $amount);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-10">
+                        <h2 class="section-heading">Delete External Payment</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_payments-delete" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_payments-delete
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$transaction_id = 'EXTR-86F38350LX4353815';
+
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$status = $provider->deleteExternalPaymentInvoice($invoice_no, $transaction_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-11">
+                        <h2 class="section-heading">Refund Invoice</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_refunds" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_refunds
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$payment_method = 'BANK_TRANSFER';
+
+$payment_date = '2018-05-26';
+
+$amount = 5;
+
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$status = $provider->refundInvoice($invoice_no, $payment_date, $payment_method, $amount);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-12">
+                        <h2 class="section-heading">Delete External Refund</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_refunds-delete" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_refunds-delete
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$refund_id = 'EXTR-2LG703375E477444T';
+
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$status = $provider->deleteRefundInvoice($invoice_no, $transaction_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-13">
+                        <h2 class="section-heading">Send Reminder for Invoice</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_remind" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_remind
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$subject = "Reminder: Payment due for the invoice #ABC-123";
+
+$note = "Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.";
+
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$status = $provider->sendInvoiceReminder($invoice_no, $subject, $note);
+                                </code>
+                            </pre>
+                            <p>By default, a copy of the email is sent to the recipient. However, if you wish to send a copy of the email to the merchant and also some other recipients. You may use the following snippet:</p>
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$emails = ['receipt1@example.com', 'receipt2@example.com'];
+
+$status = $provider->sendInvoiceReminder($invoice_no, $subject, $note, true, true, $emails);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-9-14">
+                        <h2 class="section-heading">Send Invoice</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#invoices_send" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#invoices_send
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$subject = "Reminder: Payment due for the invoice #ABC-123";
+
+$note = "Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.";
+
+$invoice_no = 'INV2-Z56S-5LLA-Q52L-CPZ5';
+
+$status = $provider->sendInvoice($invoice_no, $subject, $note);
+                                </code>
+                            </pre>
+                            <p>By default, a copy of the email is sent to the recipient. However, if you wish to send a copy of the email to the merchant and also some other recipients. You may use the following snippet:</p>
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$emails = ['receipt1@example.com', 'receipt2@example.com'];
+
+$status = $provider->sendInvoice($invoice_no, $subject, $note, true, true, $emails);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article>
 			    <footer class="footer">
 				    <div class="container text-center py-5">
 					    <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
