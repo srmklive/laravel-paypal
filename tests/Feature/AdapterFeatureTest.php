@@ -807,7 +807,33 @@ class AdapterFeatureTest extends TestCase
 
         $filters = $this->invoiceSearchParams();
 
-        $response = $this->client->searchInvoices($filters);
+        $response = $this->client->searchInvoices();
+
+        $this->assertArrayHasKey('total_pages', $response);
+        $this->assertArrayHasKey('total_items', $response);
+    }
+
+    /** @test */
+    public function it_can_search_invoices_with_custom_filters()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $filters = $this->invoiceSearchParams();
+
+        $response = $this->client
+            ->addInvoiceFilterByRecipientEmail('bill-me@example.com')
+            ->addInvoiceFilterByCurrencyCode('USD')
+            ->addInvoiceFilterByAmountRange(30,50)
+            ->searchInvoices();
 
         $this->assertArrayHasKey('total_pages', $response);
         $this->assertArrayHasKey('total_items', $response);
