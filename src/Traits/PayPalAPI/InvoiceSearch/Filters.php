@@ -14,7 +14,30 @@ trait Filters
     /**
      * @var array
      */
-    protected $invoices_date_types = ['invoice_date', 'due_date', 'payment_date', 'creation_date'];
+    protected $invoices_date_types = [
+        'invoice_date',
+        'due_date',
+        'payment_date',
+        'creation_date',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $invoices_status_types = [
+        'DRAFT',
+        'SENT',
+        'SCHEDULED',
+        'PAID',
+        'MARKED_AS_PAID',
+        'CANCELLED',
+        'REFUNDED',
+        'PARTIALLY_PAID',
+        'PARTIALLY_REFUNDED',
+        'MARKED_AS_REFUNDED',
+        'UNPAID',
+        'PAYMENT_PENDING',
+    ];
 
     /**
      * @param string $email
@@ -79,12 +102,26 @@ trait Filters
     /**
      * @param array $status
      *
+     * @throws \Exception
+     *
      * @return \Srmklive\PayPal\Services\PayPal
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#definition-invoice_status
      */
     public function addInvoiceFilterByInvoiceStatus(array $status)
     {
+        $invalid_status = false;
+
+        foreach ($status as $item) {
+            if (!in_array($item, $this->invoices_status_types)) {
+                $invalid_status = true;
+            }
+        }
+
+        if ($invalid_status === true) {
+            throw new \Exception('status should be always one of these: '.implode(',', $this->invoices_date_types));
+        }
+
         $this->invoice_search_filters['status'] = $status;
 
         return $this;
@@ -112,9 +149,7 @@ trait Filters
      */
     public function addInvoiceFilterByCurrencyCode(string $currency = '')
     {
-        if (!isset($currency)) {
-            $currency = $this->getCurrency();
-        }
+        $currency = !isset($currency) ?: $this->getCurrency();
 
         $this->invoice_search_filters['currency_code'] = $currency;
 
@@ -126,23 +161,18 @@ trait Filters
      * @param float  $end_amount
      * @param string $amount_currency
      *
-     * @return \Srmklive\PayPal\Services\PayPal
-     *
      * @throws \Exception
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
      */
     public function addInvoiceFilterByAmountRange(float $start_amount, float $end_amount, string $amount_currency = '')
     {
         if ($start_amount > $end_amount) {
-            throw new \Exception("Starting amount should always be less than end amount!");
+            throw new \Exception('Starting amount should always be less than end amount!');
         }
 
-        $currency = $this->getCurrency();
-        if (!isset($amount_currency)) {
-            $currency = $amount_currency;
-        } elseif (!empty($this->invoice_search_filters['currency_code'])) {
-            $currency = $this->invoice_search_filters['currency_code'];
-        }
-        
+        $currency = !isset($amount_currency) ?: $this->getCurrency();
+
         $this->invoice_search_filters['total_amount_range'] = [
             'lower_amount' => [
                 'currency_code' => $currency,
@@ -151,7 +181,7 @@ trait Filters
             'upper_amount' => [
                 'currency_code' => $currency,
                 'value'         => $end_amount,
-            ],            
+            ],
         ];
 
         return $this;
@@ -162,9 +192,9 @@ trait Filters
      * @param string $end_date
      * @param string $date_type
      *
-     * @return \Srmklive\PayPal\Services\PayPal
-     *
      * @throws \Exception
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
      */
     public function addInvoiceFilterByDateRange(string $start_date, string $end_date, string $date_type)
     {
@@ -172,11 +202,11 @@ trait Filters
         $end_date_obj = Carbon::parse($end_date);
 
         if ($start_date_obj->gt($end_date_obj)) {
-            throw new \Exception("Starting date should always be less than the end date!");
+            throw new \Exception('Starting date should always be less than the end date!');
         }
 
         if (!in_array($date_type, $this->invoices_date_types)) {
-            throw new \Exception("date type should be always one of these: " . implode(',', $this->invoices_date_types));
+            throw new \Exception('date type should be always one of these: '.implode(',', $this->invoices_date_types));
         }
 
         $this->invoice_search_filters["{$date_type}_range"] = [
@@ -192,7 +222,7 @@ trait Filters
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addInvoiceFilterByArchivedStatus(bool $archived=null)
+    public function addInvoiceFilterByArchivedStatus(bool $archived = null)
     {
         $this->invoice_search_filters['archived'] = $archived;
 

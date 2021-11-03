@@ -831,12 +831,113 @@ class AdapterFeatureTest extends TestCase
 
         $response = $this->client
             ->addInvoiceFilterByRecipientEmail('bill-me@example.com')
+            ->addInvoiceFilterByRecipientFirstName('John')
+            ->addInvoiceFilterByRecipientLastName('Doe')
+            ->addInvoiceFilterByRecipientBusinessName('Acme Inc.')
+            ->addInvoiceFilterByInvoiceNumber('#123')
+            ->addInvoiceFilterByInvoiceStatus(['PAID', 'MARKED_AS_PAID'])
+            ->addInvoiceFilterByReferenceorMemo('deal-ref')
             ->addInvoiceFilterByCurrencyCode('USD')
-            ->addInvoiceFilterByAmountRange(30,50)
+            ->addInvoiceFilterByAmountRange(30, 50)
+            ->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'invoice_date')
+            ->addInvoiceFilterByArchivedStatus(false)
             ->searchInvoices();
 
         $this->assertArrayHasKey('total_pages', $response);
         $this->assertArrayHasKey('total_items', $response);
+        $this->assertArrayHasKey('items', $response);
+    }
+
+    /** @test */
+    public function it_throws_exception_on_search_invoices_with_invalid_status()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $filters = $this->invoiceSearchParams();
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client
+            ->addInvoiceFilterByInvoiceStatus(['DECLINED'])
+            ->searchInvoices();
+    }
+
+    /** @test */
+    public function it_throws_exception_on_search_invoices_with_invalid_amount_ranges()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $filters = $this->invoiceSearchParams();
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client
+            ->addInvoiceFilterByAmountRange(50, 30)
+            ->searchInvoices();
+    }
+
+    /** @test */
+    public function it_throws_exception_on_search_invoices_with_invalid_date_ranges()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $filters = $this->invoiceSearchParams();
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client
+            ->addInvoiceFilterByDateRange('2018-07-01', '2018-06-21', 'invoice_date')
+            ->searchInvoices();
+    }
+
+    /** @test */
+    public function it_throws_exception_on_search_invoices_with_invalid_date_range_type()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $filters = $this->invoiceSearchParams();
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client
+            ->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'declined_date')
+            ->searchInvoices();
     }
 
     /** @test  */

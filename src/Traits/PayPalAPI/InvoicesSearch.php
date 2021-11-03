@@ -11,14 +11,14 @@ trait InvoicesSearch
     /**
      * Search and return existing invoices.
      *
-     * @param int $page
+     * @param int   $page
      * @param int   $size
-     * @param bool $totals
+     * @param bool  $totals
      * @param array $fields
      *
-     * @return array|\Psr\Http\Message\StreamInterface|string
-     *
      * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list
      */
@@ -28,7 +28,7 @@ trait InvoicesSearch
 
         if (collect($this->invoice_search_filters)->count() < 1) {
             $this->invoice_search_filters = [
-                'currency_code' => $this->getCurrency()
+                'currency_code' => $this->getCurrency(),
             ];
         }
 

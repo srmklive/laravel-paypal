@@ -46,7 +46,7 @@ class InvoicesSearchTest extends TestCase
 
         $this->assertEquals($expectedResponse, $mockClient->addInvoiceFilterByRecipientEmail('bill-me@example.com')
             ->addInvoiceFilterByCurrencyCode('USD')
-            ->addInvoiceFilterByAmountRange(30,50)
+            ->addInvoiceFilterByAmountRange(30, 50)
             ->{$expectedMethod}(1, 1, true));
     }
 }
