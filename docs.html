@@ -113,7 +113,13 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-11-3">Delete Template</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-11-4">Update Template</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-11-5">Show Template Details</a></li>
-          </ul>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-12"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Orders</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-12-1">Create Order</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-12-2">Update Order</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-12-3">Show Order Details</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-12-4">Authorize Payment for Order</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-12-5">Capture Payment for Order</a></li>
+                </ul>
 
 		    </nav><!--//docs-nav-->
 	    </div><!--//docs-sidebar-->
@@ -2109,6 +2115,129 @@ $template = $provider->updateInvoiceTemplate($template_id, $data);
 $template_id = 'TEMP-19V05281TU309413B';
 
 $template = $provider->showInvoiceTemplateDetails($template_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-12">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Orders</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Orders API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-12-1">
+                        <h2 class="section-heading">Create Order</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/orders/v2/#orders_create" target="_blank">
+                                https://developer.paypal.com/docs/api/orders/v2/#orders_create
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+    "intent": "CAPTURE",
+    "purchase_units": [
+      {
+        "amount": {
+          "currency_code": "USD",
+          "value": "100.00"
+        }
+      }
+    ]
+}', true);
+
+$order = $provider->createOrder($data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-12-2">
+                        <h2 class="section-heading">Update Order</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/orders/v2/#orders_patch" target="_blank">
+                                https://developer.paypal.com/docs/api/orders/v2/#orders_patch
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$filters = json_decode('[
+    {
+      "op": "replace",
+      "path": "/purchase_units/@reference_id==\'PUHF\'/shipping/address",
+      "value": {
+        "address_line_1": "123 Townsend St",
+        "address_line_2": "Floor 6",
+        "admin_area_2": "San Francisco",
+        "admin_area_1": "CA",
+        "postal_code": "94107",
+        "country_code": "US"
+      }
+    }
+]', true);
+
+$order_id = '5O190127TN364715T';
+
+$order = $provider->updateOrder($order_id, $filters);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-12-3">
+                        <h2 class="section-heading">Show Order Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/orders/v2/#orders_get" target="_blank">
+                                https://developer.paypal.com/docs/api/orders/v2/#orders_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$order_id = '5O190127TN364715T';
+
+$order = $provider->showOrderDetails($order_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-12-4">
+                        <h2 class="section-heading">Authorize Payment for Order</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/orders/v2/#orders_authorize" target="_blank">
+                                https://developer.paypal.com/docs/api/orders/v2/#orders_authorize
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$order_id = '5O190127TN364715T';
+
+$order = $provider->authorizePaymentOrder($order_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-12-5">
+                        <h2 class="section-heading">Capture Payment for Order</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/orders/v2/#orders_capture" target="_blank">
+                                https://developer.paypal.com/docs/api/orders/v2/#orders_capture
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$order_id = '5O190127TN364715T';
+
+$order = $provider->capturePaymentOrder($order_id);
                                 </code>
                             </pre>
                         </div>
