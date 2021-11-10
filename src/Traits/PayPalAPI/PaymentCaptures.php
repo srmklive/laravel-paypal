@@ -15,7 +15,7 @@ trait PaymentCaptures
      *
      * @see https://developer.paypal.com/docs/api/payments/v2/#captures_get
      */
-    public function showCapturedPaymentDetails($capture_id)
+    public function showCapturedPaymentDetails(string $capture_id)
     {
         $this->apiEndPoint = "v2/payments/captures/{$capture_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -39,7 +39,7 @@ trait PaymentCaptures
      *
      * @see https://developer.paypal.com/docs/api/payments/v2/#captures_refund
      */
-    public function refundCapturedPayment($capture_id, $invoice_id, $amount, $note)
+    public function refundCapturedPayment(string $capture_id, string $invoice_id, float $amount, string $note)
     {
         $this->apiEndPoint = "v2/payments/captures/{$capture_id}/refund";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');

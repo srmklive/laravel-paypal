@@ -20,7 +20,7 @@ trait Reporting
      *
      * @see https://developer.paypal.com/docs/api/transaction-search/v1/#transactions_get
      */
-    public function listTransactions(array $filters, $fields = 'all', $page = 1, $page_size = 100)
+    public function listTransactions(array $filters, string $fields = 'all', int $page = 1, int $page_size = 100)
     {
         $filters_list = collect($filters)->isEmpty() ? '' :
             collect($filters)->map(function ($value, $key) {

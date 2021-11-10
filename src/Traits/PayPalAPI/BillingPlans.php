@@ -62,7 +62,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_update
      */
-    public function updatePlan($plan_id, array $data)
+    public function updatePlan(string $plan_id, array $data)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -85,7 +85,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_get
      */
-    public function showPlanDetails($plan_id)
+    public function showPlanDetails(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -106,7 +106,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_activate
      */
-    public function activatePlan($plan_id)
+    public function activatePlan(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/activate";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -127,7 +127,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_deactivate
      */
-    public function deactivatePlan($plan_id)
+    public function deactivatePlan(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/deactivate";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -149,7 +149,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_update-pricing-schemes
      */
-    public function updatePlanPricing($plan_id, array $pricing)
+    public function updatePlanPricing(string $plan_id, array $pricing)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/update-pricing-schemes";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');

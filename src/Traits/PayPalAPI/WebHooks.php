@@ -16,7 +16,7 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_post
      */
-    public function createWebHook($url, array $events)
+    public function createWebHook(string $url, array $events)
     {
         $this->apiEndPoint = 'v1/notifications/webhooks';
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -63,7 +63,7 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_delete
      */
-    public function deleteWebHook($web_hook_id)
+    public function deleteWebHook(string $web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -85,7 +85,7 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_update
      */
-    public function updateWebHook($web_hook_id, array $data)
+    public function updateWebHook(string $web_hook_id, array $data)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -108,7 +108,7 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_get
      */
-    public function showWebHookDetails($web_hook_id)
+    public function showWebHookDetails(string $web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');

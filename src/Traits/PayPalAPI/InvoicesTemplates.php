@@ -40,7 +40,7 @@ trait InvoicesTemplates
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_list
      */
-    public function listInvoiceTemplates($page = 1, $size = 20, $fields = 'all')
+    public function listInvoiceTemplates(int $page = 1, int $size = 20, string $fields = 'all')
     {
         $this->apiEndPoint = "v2/invoicing/templates?page={$page}&page_size={$size}&fields={$fields}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -61,7 +61,7 @@ trait InvoicesTemplates
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_delete
      */
-    public function deleteInvoiceTemplate($template_id)
+    public function deleteInvoiceTemplate(string $template_id)
     {
         $this->apiEndPoint = "v2/invoicing/templates/{$template_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -83,7 +83,7 @@ trait InvoicesTemplates
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_update
      */
-    public function updateInvoiceTemplate($template_id, array $data)
+    public function updateInvoiceTemplate(string $template_id, array $data)
     {
         $this->apiEndPoint = "v2/invoicing/templates/{$template_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -106,7 +106,7 @@ trait InvoicesTemplates
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_get
      */
-    public function showInvoiceTemplateDetails($template_id)
+    public function showInvoiceTemplateDetails(string $template_id)
     {
         $this->apiEndPoint = "v2/invoicing/templates/{$template_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');

@@ -15,7 +15,7 @@ trait PaymentAuthorizations
      *
      * @see https://developer.paypal.com/docs/api/payments/v2/#authorizations_get
      */
-    public function showAuthorizedPaymentDetails($authorization_id)
+    public function showAuthorizedPaymentDetails(string $authorization_id)
     {
         $this->apiEndPoint = "v2/payments/authorizations/{$authorization_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -39,7 +39,7 @@ trait PaymentAuthorizations
      *
      * @see https://developer.paypal.com/docs/api/payments/v2/#authorizations_capture
      */
-    public function captureAuthorizedPayment($authorization_id, $invoice_id, $amount, $note)
+    public function captureAuthorizedPayment(string $authorization_id, string $invoice_id, float $amount, string $note)
     {
         $this->apiEndPoint = "v2/payments/authorizations/{$authorization_id}/capture";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -71,7 +71,7 @@ trait PaymentAuthorizations
      *
      * @see https://developer.paypal.com/docs/api/payments/v2/#authorizations_reauthorize
      */
-    public function reAuthorizeAuthorizedPayment($authorization_id, $amount)
+    public function reAuthorizeAuthorizedPayment(string $authorization_id, float $amount)
     {
         $this->apiEndPoint = "v2/payments/authorizations/{$authorization_id}/reauthorize";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -99,7 +99,7 @@ trait PaymentAuthorizations
      *
      * @see https://developer.paypal.com/docs/api/payments/v2/#authorizations_void
      */
-    public function voidAuthorizedPayment($authorization_id)
+    public function voidAuthorizedPayment(string $authorization_id)
     {
         $this->apiEndPoint = "v2/payments/authorizations/{$authorization_id}/void";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');

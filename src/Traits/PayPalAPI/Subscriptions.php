@@ -41,7 +41,7 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_patch
      */
-    public function updateSubscription($subscription_id, array $data)
+    public function updateSubscription(string $subscription_id, array $data)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -64,7 +64,7 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_get
      */
-    public function showSubscriptionDetails($subscription_id)
+    public function showSubscriptionDetails(string $subscription_id)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -86,7 +86,7 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_activate
      */
-    public function activateSubscription($subscription_id, $reason)
+    public function activateSubscription(string $subscription_id, string $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/activate";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -110,7 +110,7 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_cancel
      */
-    public function cancelSubscription($subscription_id, $reason)
+    public function cancelSubscription(string $subscription_id, string $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/cancel";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -134,7 +134,7 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_suspend
      */
-    public function suspendSubscription($subscription_id, $reason)
+    public function suspendSubscription(string $subscription_id, string $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/suspend";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -159,7 +159,7 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_capture
      */
-    public function captureSubscriptionPayment($subscription_id, $note, $amount)
+    public function captureSubscriptionPayment(string $subscription_id, string $note, float $amount)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/capture";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -190,7 +190,7 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_revise
      */
-    public function reviseSubscription($subscription_id, array $items)
+    public function reviseSubscription(string $subscription_id, array $items)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/revise";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -215,7 +215,7 @@ trait Subscriptions
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_transactions
      */
-    public function listSubscriptionTransactions($subscription_id, $start_date = '', $end_date = '')
+    public function listSubscriptionTransactions(string $subscription_id, $start_date = '', $end_date = '')
     {
         if (($start_date instanceof \DateTimeInterface) === false) {
             $start_date = Carbon::parse($start_date);
