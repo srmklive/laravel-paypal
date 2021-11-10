@@ -228,4 +228,18 @@ trait Filters
 
         return $this;
     }
+
+    /**
+     * @param array $fields
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     *
+     * @see https://developer.paypal.com/docs/api/invoicing/v2/#definition-field
+     */
+    public function addInvoiceFilterByFields(array $fields)
+    {
+        $this->invoice_search_filters['status'] = $fields;
+
+        return $this;
+    }
 }

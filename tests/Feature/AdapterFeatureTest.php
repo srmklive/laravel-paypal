@@ -805,8 +805,6 @@ class AdapterFeatureTest extends TestCase
             )
         );
 
-        $filters = $this->invoiceSearchParams();
-
         $response = $this->client->searchInvoices();
 
         $this->assertArrayHasKey('total_pages', $response);
@@ -827,8 +825,6 @@ class AdapterFeatureTest extends TestCase
             )
         );
 
-        $filters = $this->invoiceSearchParams();
-
         $response = $this->client
             ->addInvoiceFilterByRecipientEmail('bill-me@example.com')
             ->addInvoiceFilterByRecipientFirstName('John')
@@ -841,6 +837,7 @@ class AdapterFeatureTest extends TestCase
             ->addInvoiceFilterByAmountRange(30, 50)
             ->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'invoice_date')
             ->addInvoiceFilterByArchivedStatus(false)
+            ->addInvoiceFilterByFields(['items', 'payments', 'refunds'])
             ->searchInvoices();
 
         $this->assertArrayHasKey('total_pages', $response);
@@ -861,8 +858,6 @@ class AdapterFeatureTest extends TestCase
                 $this->mockSearchInvoicesResponse()
             )
         );
-
-        $filters = $this->invoiceSearchParams();
 
         $this->expectException(\Exception::class);
 
