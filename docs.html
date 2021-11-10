@@ -107,6 +107,12 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-9-14">Send Invoice</a></li>
                     <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-10"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Search Invoices</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-10-1">Search Invoices</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-11"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Invoices Templates</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-11-1">List Templates</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-11-2">Create Template</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-11-3">Delete Template</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-11-4">Update Template</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-11-5">Show Template Details</a></li>
           </ul>
 
 		    </nav><!--//docs-nav-->
@@ -1557,7 +1563,558 @@ $invoices = $provider->addInvoiceFilterByRecipientEmail('bill-me@example.com')
                                   </code>
                               </pre>
                   </section>
-                </article>                  
+                </article>
+
+                <article class="docs-article" id="section-11">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Invoices Templates</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Invoices Templates API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-11-1">
+                        <h2 class="section-heading">List Templates</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#templates_list" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#templates_list
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$templates = $provider->listInvoiceTemplates();
+                                </code>
+                            </pre>
+                            <p>By default, a paginated set of 20 invoices are returned. However, if you wish to provide different pagination parameters you may do using the following snippet:</p>
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+// All fields
+$templates = $provider->listInvoiceTemplates(1, 50);
+
+// Default fields
+$templates = $provider->listInvoiceTemplates(1, 50, false);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-11-2">
+                        <h2 class="section-heading">Create Template</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#templates_create" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#templates_create
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "default_template": true,
+  "template_info": {
+    "configuration": {
+      "tax_calculated_after_discount": true,
+      "tax_inclusive": false,
+      "allow_tip": true,
+      "partial_payment": {
+        "allow_partial_payment": true,
+        "minimum_amount_due": {
+          "currency_code": "USD",
+          "value": "20.00"
+        }
+      }
+    },
+    "detail": {
+      "reference": "deal-ref",
+      "note": "Thank you for your business.",
+      "currency_code": "USD",
+      "terms_and_conditions": "No refunds after 30 days.",
+      "memo": "This is a long contract",
+      "attachments": [
+        {
+          "id": "Screen Shot 2018-11-23 at 16.45.01.png",
+          "reference_url": "https://api.paypal.com/invoice/payerView/attachments/RkG9ggQbd4Mwm1tYdcF6uuixfFTFq32bBdbE1VbtQLdKSoS2ZOYpfjw9gPp7eTrZmVaFaDWzixHXm-OXWHbmigHigHzURDxJs8IIKqcqP8jawnBEZcraEAPVMULxf5iTyOSpAUc2ugW0PWdwDbM6mg-guFAUyj3Z98H7htWNjQY95jb9heOlcSXUe.sbDUR9smAszzzJoA1NXT6rEEegwQ&version=1&sig=JNODB0xEayW8txMQm6ZsIwDnd4eh3hd6ijiRLi4ipHE"
+        }
+      ],
+      "payment_term": {
+        "term_type": "NET_10"
+      }
+    },
+    "invoicer": {
+      "name": {
+        "given_name": "David",
+        "surname": "Larusso"
+      },
+      "address": {
+        "address_line_1": "1234 First Street",
+        "address_line_2": "337673 Hillside Court",
+        "admin_area_2": "Anytown",
+        "admin_area_1": "CA",
+        "postal_code": "98765",
+        "country_code": "US"
+      },
+      "email_address": "merchant@example.com",
+      "phones": [
+        {
+          "country_code": "001",
+          "national_number": "4085551234",
+          "phone_type": "MOBILE"
+        }
+      ],
+      "website": "www.test.com",
+      "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy-Jb5SeuGj185MNNw6g",
+      "logo_url": "https://example.com/logo.PNG",
+      "additional_notes": "2-4"
+    },
+    "primary_recipients": [
+      {
+        "billing_info": {
+          "name": {
+            "given_name": "Stephanie",
+            "surname": "Meyers"
+          },
+          "address": {
+            "address_line_1": "1234 Main Street",
+            "admin_area_2": "Anytown",
+            "admin_area_1": "CA",
+            "postal_code": "98765",
+            "country_code": "US"
+          },
+          "email_address": "bill-me@example.com",
+          "phones": [
+            {
+              "country_code": "001",
+              "national_number": "4884551234",
+              "phone_type": "MOBILE"
+            }
+          ],
+          "additional_info": "add-info"
+        },
+        "shipping_info": {
+          "name": {
+            "given_name": "Stephanie",
+            "surname": "Meyers"
+          },
+          "address": {
+            "address_line_1": "1234 Main Street",
+            "admin_area_2": "Anytown",
+            "admin_area_1": "CA",
+            "postal_code": "98765",
+            "country_code": "US"
+          }
+        }
+      }
+    ],
+    "additional_recipients": [
+      "inform-me@example.com"
+    ],
+    "items": [
+      {
+        "name": "Yoga Mat",
+        "description": "new watch",
+        "quantity": "1",
+        "unit_amount": {
+          "currency_code": "USD",
+          "value": "50.00"
+        },
+        "tax": {
+          "name": "Sales Tax",
+          "percent": "7.25"
+        },
+        "discount": {
+          "percent": "5"
+        },
+        "unit_of_measure": "QUANTITY"
+      },
+      {
+        "name": "Yoga T Shirt",
+        "quantity": "1",
+        "unit_amount": {
+          "currency_code": "USD",
+          "value": "10.00"
+        },
+        "tax": {
+          "name": "Sales Tax",
+          "percent": "7.25"
+        },
+        "discount": {
+          "amount": {
+            "currency_code": "USD",
+            "value": "5.00"
+          }
+        },
+        "unit_of_measure": "QUANTITY"
+      }
+    ],
+    "amount": {
+      "currency_code": "USD",
+      "value": "74.21",
+      "breakdown": {
+        "custom": {
+          "label": "Packing Charges",
+          "amount": {
+            "currency_code": "USD",
+            "value": "10.00"
+          }
+        },
+        "shipping": {
+          "amount": {
+            "currency_code": "USD",
+            "value": "10.00"
+          },
+          "tax": {
+            "name": "Sales Tax",
+            "percent": "7.25"
+          }
+        },
+        "discount": {
+          "invoice_discount": {
+            "percent": "5"
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "template_item_settings": [
+      {
+        "field_name": "items.date",
+        "display_preference": {
+          "hidden": true
+        }
+      },
+      {
+        "field_name": "items.discount",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "items.tax",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "items.description",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "items.quantity",
+        "display_preference": {
+          "hidden": true
+        }
+      }
+    ],
+    "template_subtotal_settings": [
+      {
+        "field_name": "custom",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "discount",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "shipping",
+        "display_preference": {
+          "hidden": false
+        }
+      }
+    ]
+  },
+  "unit_of_measure": "QUANTITY",
+  "standard_template": false
+}', true);
+
+$template = $provider->createInvoiceTemplate($data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-11-3">
+                        <h2 class="section-heading">Delete Template</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#templates_delete" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#templates_delete
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$template_id = 'TEMP-19V05281TU309413B';
+
+$template = $provider->deleteInvoiceTemplate($template_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-11-4">
+                        <h2 class="section-heading">Update Template</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#templates_update" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#templates_update
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "default_template": true,
+  "template_info": {
+    "configuration": {
+      "tax_calculated_after_discount": true,
+      "tax_inclusive": false,
+      "allow_tip": true,
+      "partial_payment": {
+        "allow_partial_payment": true,
+        "minimum_amount_due": {
+          "currency_code": "USD",
+          "value": "20.00"
+        }
+      }
+    },
+    "detail": {
+      "reference": "deal-reference-value",
+      "note": "Thank you for your business.",
+      "currency_code": "USD",
+      "terms_and_conditions": "No refunds after 30 days.",
+      "memo": "This is a long contract",
+      "attachments": [
+        {
+          "id": "Screen Shot 2018-11-23 at 16.45.01.png",
+          "reference_url": "https://example.com/invoice/payerView/attachments/RkG9ggQbd4Mwm1tYdcF6uuixfFTFq32bBdbE1VbtQLdKSoS2ZOYpfjw9gPp7eTrZmVaFaDWzixHXm-OXWHbmigHigHzURDxJs8IIKqcqP8jawnBEZcraEAPVMULxf5iTyOSpAUc2ugW0PWdwDbM6mg-guFAUyj3Z98H7htWNjQY95jb9heOlcSXUe.sbDUR9smAszzzJoA1NXT6rEEegwQ&version=1&sig=JNODB0xEayW8txMQm6ZsIwDnd4eh3hd6ijiRLi4ipHE"
+        }
+      ],
+      "payment_term": {
+        "term_type": "NET_10"
+      }
+    },
+    "invoicer": {
+      "name": {
+        "given_name": "David",
+        "surname": "Larusso"
+      },
+      "address": {
+        "address_line_1": "1234 First Street",
+        "address_line_2": "337673 Hillside Court",
+        "admin_area_2": "Anytown",
+        "admin_area_1": "CA",
+        "postal_code": "98765",
+        "country_code": "US"
+      },
+      "email_address": "merchant@example.com",
+      "phones": [
+        {
+          "country_code": "001",
+          "national_number": "4085551234",
+          "phone_type": "MOBILE"
+        }
+      ],
+      "website": "www.test.com",
+      "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy-Jb5SeuGj185MNNw6g",
+      "logo_url": "https://example.com/logo.PNG",
+      "additional_notes": "2-4"
+    },
+    "primary_recipients": [
+      {
+        "billing_info": {
+          "name": {
+            "given_name": "Stephanie",
+            "surname": "Meyers"
+          },
+          "address": {
+            "address_line_1": "1234 Main Street",
+            "admin_area_2": "Anytown",
+            "admin_area_1": "CA",
+            "postal_code": "98765",
+            "country_code": "US"
+          },
+          "email_address": "bill-me@example.com",
+          "phones": [
+            {
+              "country_code": "001",
+              "national_number": "4884551234",
+              "phone_type": "MOBILE"
+            }
+          ],
+          "additional_info": "add-info"
+        },
+        "shipping_info": {
+          "name": {
+            "given_name": "Stephanie",
+            "surname": "Meyers"
+          },
+          "address": {
+            "address_line_1": "1234 Main Street",
+            "admin_area_2": "Anytown",
+            "admin_area_1": "CA",
+            "postal_code": "98765",
+            "country_code": "US"
+          }
+        }
+      }
+    ],
+    "additional_recipients": [
+      "inform-me@example.com"
+    ],
+    "items": [
+      {
+        "name": "Yoga Mat",
+        "description": "new watch",
+        "quantity": "1",
+        "unit_amount": {
+          "currency_code": "USD",
+          "value": "50.00"
+        },
+        "tax": {
+          "name": "Sales Tax",
+          "percent": "7.25"
+        },
+        "discount": {
+          "percent": "5"
+        },
+        "unit_of_measure": "QUANTITY"
+      },
+      {
+        "name": "Yoga T Shirt",
+        "quantity": "1",
+        "unit_amount": {
+          "currency_code": "USD",
+          "value": "10.00"
+        },
+        "tax": {
+          "name": "Sales Tax",
+          "percent": "7.25"
+        },
+        "discount": {
+          "amount": {
+            "currency_code": "USD",
+            "value": "5.00"
+          }
+        },
+        "unit_of_measure": "QUANTITY"
+      }
+    ],
+    "amount": {
+      "currency_code": "USD",
+      "value": "74.21",
+      "breakdown": {
+        "custom": {
+          "label": "Packing Charges",
+          "amount": {
+            "currency_code": "USD",
+            "value": "10.00"
+          }
+        },
+        "shipping": {
+          "amount": {
+            "currency_code": "USD",
+            "value": "10.00"
+          },
+          "tax": {
+            "name": "Sales Tax",
+            "percent": "7.25"
+          }
+        },
+        "discount": {
+          "invoice_discount": {
+            "percent": "5"
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "template_item_settings": [
+      {
+        "field_name": "items.date",
+        "display_preference": {
+          "hidden": true
+        }
+      },
+      {
+        "field_name": "items.discount",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "items.tax",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "items.description",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "items.quantity",
+        "display_preference": {
+          "hidden": true
+        }
+      }
+    ],
+    "template_subtotal_settings": [
+      {
+        "field_name": "custom",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "discount",
+        "display_preference": {
+          "hidden": false
+        }
+      },
+      {
+        "field_name": "shipping",
+        "display_preference": {
+          "hidden": false
+        }
+      }
+    ]
+  },
+  "unit_of_measure": "QUANTITY",
+  "standard_template": false
+}', true);
+
+$template_id = 'TEMP-19V05281TU309413B';
+
+$template = $provider->updateInvoiceTemplate($template_id, $data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-11-5">
+                        <h2 class="section-heading">Show Template Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/invoicing/v2/#templates_get" target="_blank">
+                                https://developer.paypal.com/docs/api/invoicing/v2/#templates_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$template_id = 'TEMP-19V05281TU309413B';
+
+$template = $provider->showInvoiceTemplateDetails($template_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
 			    <footer class="footer">
 				    <div class="container text-center py-5">
 					    <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
