@@ -32,10 +32,36 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 $provider = new PayPalClient;
 
 // Through facade. No need to import namespaces
-$provider = PayPal::setProvider();
+$provider = \PayPal::setProvider();
 ```
 
 <a name="usage-paypal-api-configuration"></a>
+## Configuration File
+
+The configuration file **paypal.php** is located in the **config** folder. Following are its contents when published:
+
+```php
+return [
+    'mode'    => env('PAYPAL_MODE', 'sandbox'), // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
+    'sandbox' => [
+        'client_id'         => env('PAYPAL_SANDBOX_CLIENT_ID', ''),
+        'client_secret'     => env('PAYPAL_SANDBOX_CLIENT_SECRET', ''),
+        'app_id'            => 'APP-80W284485P519543T',
+    ],
+    'live' => [
+        'client_id'         => env('PAYPAL_LIVE_CLIENT_ID', ''),
+        'client_secret'     => env('PAYPAL_LIVE_CLIENT_SECRET', ''),
+        'app_id'            => env('PAYPAL_LIVE_APP_ID', ''),
+    ],
+
+    'payment_action' => env('PAYPAL_PAYMENT_ACTION', 'Sale'), // Can only be 'Sale', 'Authorization' or 'Order'
+    'currency'       => env('PAYPAL_CURRENCY', 'USD'),
+    'notify_url'     => env('PAYPAL_NOTIFY_URL', ''), // Change this accordingly for your application.
+    'locale'         => env('PAYPAL_LOCALE', 'en_US'), // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
+    'validate_ssl'   => env('PAYPAL_VALIDATE_SSL', true), // Validate SSL when creating api client.
+];
+```
+
 ## Override PayPal API Configuration
 
 You can override PayPal API configuration by calling `setApiCredentials` method:
@@ -58,7 +84,7 @@ $provider->getAccessToken();
 <a name="usage-currency"></a>
 ## Set Currency
 
-By default the currency used is `USD`. If you wish to change it, you may call `setCurrency` method to set a different currency before calling any respective API methods:
+By default, the currency used is `USD`. If you wish to change it, you may call `setCurrency` method to set a different currency before calling any respective API methods:
 
 ```php
 $provider->setCurrency('EUR');
@@ -83,7 +109,7 @@ $provider->createOrder([
 The response from this will include an order ID which you will need to retail, and a links collection
 so you can redirect the user to Paypal to complete the order with their payment details
 
-When the user returns to the notifcation url you can capture the order payment with
+When the user returns to the notification url you can capture the order payment with
 ```php
 $provider->capturePaymentOrder($order_id); //order id from the createOrder step 
 ```
