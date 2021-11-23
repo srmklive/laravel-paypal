@@ -14,7 +14,7 @@ trait DisputesActions
     {
       "rel": "self",
       "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-D-27803"
+      "href": "https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-D-27803"
     }
   ]
 }', true);
@@ -30,7 +30,7 @@ trait DisputesActions
     {
       "rel": "self",
       "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
+      "href": "https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
     }
   ]
 }', true);
@@ -46,7 +46,7 @@ trait DisputesActions
     {
       "rel": "self",
       "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
+      "href": "https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
     }
   ]
 }', true);

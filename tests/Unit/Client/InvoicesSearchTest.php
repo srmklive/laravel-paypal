@@ -18,7 +18,7 @@ class InvoicesSearchTest extends TestCase
     {
         $expectedResponse = $this->mockSearchInvoicesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/search-invoices?page=1&page_size=1&total_required=true';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/search-invoices?page=1&page_size=1&total_required=true';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

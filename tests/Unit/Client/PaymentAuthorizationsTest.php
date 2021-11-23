@@ -18,7 +18,7 @@ class PaymentAuthorizationsTest extends TestCase
     {
         $expectedResponse = $this->mockGetAuthorizedPaymentDetailsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -37,7 +37,7 @@ class PaymentAuthorizationsTest extends TestCase
     {
         $expectedResponse = $this->mockCaptureAuthorizedPaymentResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/capture';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/capture';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -57,7 +57,7 @@ class PaymentAuthorizationsTest extends TestCase
     {
         $expectedResponse = $this->mockReAuthorizeAuthorizedPaymentResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/reauthorize';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/reauthorize';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -77,7 +77,7 @@ class PaymentAuthorizationsTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/void';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046/void';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

@@ -24,7 +24,7 @@ class ClientTest extends TestCase
     {
         $expectedResponse = $this->mockAccessTokenResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/oauth2/token?grant_type=client_credentials';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/oauth2/token?grant_type=client_credentials';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

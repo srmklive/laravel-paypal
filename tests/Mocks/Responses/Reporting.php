@@ -154,7 +154,7 @@ trait Reporting
   "total_pages": 1,
   "links": [
     {
-      "href": "https://api.sandbox.paypal.com/v1/reporting/transactions?start_date=2014-07-01T00:00:00-0700&end_date=2014-07-30T23:59:59-0700&transaction_id=5TY05013RG002845M&fields=all&page_size=100&page=1",
+      "href": "https://api-m.sandbox.paypal.com/v1/reporting/transactions?start_date=2014-07-01T00:00:00-0700&end_date=2014-07-30T23:59:59-0700&transaction_id=5TY05013RG002845M&fields=all&page_size=100&page=1",
       "rel": "self",
       "method": "GET"
     }

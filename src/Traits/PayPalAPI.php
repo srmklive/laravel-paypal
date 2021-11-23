@@ -13,6 +13,7 @@ trait PayPalAPI
     use PayPalAPI\InvoicesSearch;
     use PayPalAPI\InvoicesTemplates;
     use PayPalAPI\Orders;
+    use PayPalAPI\PartnerReferrals;
     use PayPalAPI\PaymentAuthorizations;
     use PayPalAPI\PaymentCaptures;
     use PayPalAPI\PaymentRefunds;

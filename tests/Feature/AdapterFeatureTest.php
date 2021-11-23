@@ -1120,6 +1120,49 @@ class AdapterFeatureTest extends TestCase
         $this->assertArrayHasKey('links', $response);
     }
 
+    /** @test */
+    public function it_can_create_partner_referral()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePartnerReferralsResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreatePartnerReferralParams();
+
+        $response = $this->client->createPartnerReferral($expectedParams);
+
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_get_referral_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockShowReferralDataResponse()
+            )
+        );
+
+        $partner_referral_id = 'ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=';
+
+        $response = $this->client->showReferralData($partner_referral_id);
+
+        $this->assertArrayHasKey('partner_referral_id', $response);
+        $this->assertArrayHasKey('referral_data', $response);
+    }
+
     /** @test  */
     public function it_can_capture_payment_for_an_order()
     {

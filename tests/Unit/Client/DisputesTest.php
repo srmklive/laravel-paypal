@@ -18,7 +18,7 @@ class DisputesTest extends TestCase
     {
         $expectedResponse = $this->mockListDisputesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/customer/disputes/';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/customer/disputes/';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -37,7 +37,7 @@ class DisputesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/customer/disputes/PP-D-27803';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-D-27803';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -57,7 +57,7 @@ class DisputesTest extends TestCase
     {
         $expectedResponse = $this->mockGetDisputesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/customer/disputes/PP-D-4012';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-D-4012';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

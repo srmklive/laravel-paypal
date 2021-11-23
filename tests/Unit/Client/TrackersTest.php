@@ -18,7 +18,7 @@ class TrackersTest extends TestCase
     {
         $expectedResponse = $this->mockGetTrackingDetailsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -37,7 +37,7 @@ class TrackersTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -57,7 +57,7 @@ class TrackersTest extends TestCase
     {
         $expectedResponse = $this->mockCreateTrackinginBatchesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/shipping/trackers-batch';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/shipping/trackers-batch';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

@@ -40,13 +40,13 @@ class PayPal
     protected function setOptions(array $credentials): void
     {
         // Setting API Endpoints
-        $this->config['api_url'] = 'https://api.paypal.com';
+        $this->config['api_url'] = 'https://api-m.paypal.com';
 
         $this->config['gateway_url'] = 'https://www.paypal.com';
         $this->config['ipn_url'] = 'https://ipnpb.paypal.com/cgi-bin/webscr';
 
         if ($this->mode === 'sandbox') {
-            $this->config['api_url'] = 'https://api.sandbox.paypal.com';
+            $this->config['api_url'] = 'https://api-m.sandbox.paypal.com';
 
             $this->config['gateway_url'] = 'https://www.sandbox.paypal.com';
             $this->config['ipn_url'] = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';

@@ -19,7 +19,7 @@ class IdentityTest extends TestCase
     {
         $expectedResponse = $this->mockShowProfileInfoResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/identity/oauth2/userinfo?schema=paypalv1.1';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/identity/oauth2/userinfo?schema=paypalv1.1';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -38,7 +38,7 @@ class IdentityTest extends TestCase
     {
         $expectedResponse = $this->mockCreateMerchantApplicationResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/identity/applications';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/identity/applications';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -61,7 +61,7 @@ class IdentityTest extends TestCase
         $params = $this->mockSetAccountPropertiesParams();
         $params['account_property'] = 'BRAINTREE_MERCHANT';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/identity/account-settings';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/identity/account-settings';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -85,7 +85,7 @@ class IdentityTest extends TestCase
             'account_property' => 'BRAINTREE_MERCHANT',
         ];
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/identity/account-settings/deactivate';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/identity/account-settings/deactivate';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

@@ -18,7 +18,7 @@ class OrdersTest extends TestCase
     {
         $expectedResponse = $this->mockCreateOrdersResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/checkout/orders';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/checkout/orders';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

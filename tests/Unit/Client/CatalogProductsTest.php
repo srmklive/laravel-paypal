@@ -18,7 +18,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = $this->mockCreateCatalogProductsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/catalogs/products';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/catalogs/products';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -38,7 +38,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = $this->mockListCatalogProductsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/catalogs/products?page=1&page_size=2&total_required=true';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/catalogs/products?page=1&page_size=2&total_required=true';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -57,7 +57,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -77,7 +77,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = $this->mockGetCatalogProductsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
