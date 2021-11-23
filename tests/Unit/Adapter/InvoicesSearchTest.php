@@ -18,8 +18,6 @@ class InvoicesSearchTest extends TestCase
     {
         $expectedResponse = $this->mockSearchInvoicesResponse();
 
-        $expectedParams = $this->invoiceSearchParams();
-
         $expectedMethod = 'searchInvoices';
 
         $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
@@ -34,8 +32,6 @@ class InvoicesSearchTest extends TestCase
     public function it_can_search_invoices_with_custom_filters()
     {
         $expectedResponse = $this->mockSearchInvoicesResponse();
-
-        $expectedParams = $this->invoiceSearchParams();
 
         $expectedMethod = 'searchInvoices';
 
