@@ -15,7 +15,7 @@ trait Identity
      */
     public function showProfileInfo()
     {
-        $this->apiEndPoint = "v1/identity/oauth2/userinfo?schema=paypalv1.1";
+        $this->apiEndPoint = 'v1/identity/oauth2/userinfo?schema=paypalv1.1';
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
@@ -51,7 +51,7 @@ trait Identity
             'client_name'       => $client_name,
             'contacts'          => $contacts,
             'payer_id'          => $payer_id,
-            'migrated_app'      => $migrated_app
+            'migrated_app'      => $migrated_app,
         ];
 
         $this->verb = 'post';

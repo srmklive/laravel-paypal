@@ -44,11 +44,11 @@ class IdentityTest extends TestCase
             'AGGREGATOR',
             [
                 'https://example.com/callback',
-                'https://example.com/callback2'
+                'https://example.com/callback2',
             ],
             [
                 'facilitator@example.com',
-                'merchant@example.com'
+                'merchant@example.com',
             ],
             'WDJJHEBZ4X2LY',
             'some-open-id'
