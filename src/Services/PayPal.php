@@ -36,10 +36,8 @@ class PayPal
      * Set ExpressCheckout API endpoints & options.
      *
      * @param array $credentials
-     *
-     * @return void
      */
-    protected function setOptions($credentials)
+    protected function setOptions(array $credentials): void
     {
         // Setting API Endpoints
         $this->config['api_url'] = 'https://api.paypal.com';
