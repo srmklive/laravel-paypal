@@ -8,6 +8,7 @@ trait MockResponsePayloads
     use Mocks\Responses\CatalogProducts;
     use Mocks\Responses\Disputes;
     use Mocks\Responses\DisputesActions;
+    use Mocks\Responses\Identity;
     use Mocks\Responses\Invoices;
     use Mocks\Responses\InvoicesSearch;
     use Mocks\Responses\InvoicesTemplates;

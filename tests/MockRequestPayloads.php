@@ -8,6 +8,7 @@ trait MockRequestPayloads
     use Mocks\Requests\CatalogProducts;
     use Mocks\Requests\Disputes;
     use Mocks\Requests\DisputesActions;
+    use Mocks\Requests\Identity;
     use Mocks\Requests\Invoices;
     use Mocks\Requests\InvoicesSearch;
     use Mocks\Requests\InvoicesTemplates;

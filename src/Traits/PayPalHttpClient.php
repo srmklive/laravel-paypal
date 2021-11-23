@@ -168,7 +168,7 @@ trait PayPalHttpClient
      *
      * @return StreamInterface
      */
-    private function makeHttpRequest()
+    private function makeHttpRequest(): StreamInterface
     {
         try {
             return $this->client->{$this->verb}(
@@ -189,7 +189,7 @@ trait PayPalHttpClient
      *
      * @return array|StreamInterface|string
      */
-    private function doPayPalRequest($decode = true)
+    private function doPayPalRequest(bool $decode = true)
     {
         try {
             // Perform PayPal HTTP API request.

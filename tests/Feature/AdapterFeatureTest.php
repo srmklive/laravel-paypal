@@ -935,6 +935,96 @@ class AdapterFeatureTest extends TestCase
             ->searchInvoices();
     }
 
+    /** @test */
+    public function it_can_get_user_profile_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockShowProfileInfoResponse()
+            )
+        );
+
+        $response = $this->client->showProfileInfo();
+
+        $this->assertArrayHasKey('user_id', $response);
+        $this->assertArrayHasKey('payer_id', $response);
+        $this->assertArrayHasKey('emails', $response);
+    }
+
+    /** @test */
+    public function it_can_create_merchant_applications()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateMerchantApplicationResponse()
+            )
+        );
+
+        $response = $this->client->createMerchantApplication(
+            'AGGREGATOR',
+            [
+                'https://example.com/callback',
+                'https://example.com/callback2',
+            ],
+            [
+                'facilitator@example.com',
+                'merchant@example.com',
+            ],
+            'WDJJHEBZ4X2LY',
+            'some-open-id'
+        );
+
+        $this->assertArrayHasKey('client_name', $response);
+        $this->assertArrayHasKey('contacts', $response);
+        $this->assertArrayHasKey('redirect_uris', $response);
+    }
+
+    /** @test */
+    public function it_can_set_account_properties()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client('')
+        );
+
+        $response = $this->client->setAccountProperties($this->mockSetAccountPropertiesParams());
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_disable_account_properties()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockUpdateOrdersResponse()
+            )
+        );
+
+        $response = $this->client->disableAccountProperties();
+
+        $this->assertEmpty($response);
+    }
+
     /** @test  */
     public function it_can_create_orders()
     {

@@ -8,6 +8,7 @@ trait PayPalAPI
     use PayPalAPI\CatalogProducts;
     use PayPalAPI\Disputes;
     use PayPalAPI\DisputesActions;
+    use PayPalAPI\Identity;
     use PayPalAPI\Invoices;
     use PayPalAPI\InvoicesSearch;
     use PayPalAPI\InvoicesTemplates;
