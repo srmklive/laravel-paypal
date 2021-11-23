@@ -18,7 +18,7 @@
 
 The documentation for the package can be viewed by clicking the following link:
 
-https://srmklive.github.io/laravel-paypal/docs.html
+[https://srmklive.github.io/laravel-paypal/docs.html](https://srmklive.github.io/laravel-paypal/docs.html)
 
 <a name="usage"></a>
 ## Usage
