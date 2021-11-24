@@ -54,6 +54,20 @@ class AdapterConfigTest extends TestCase
     }
 
     /** @test */
+    public function it_throws_exception_if_credentials_items_are_not_provided()
+    {
+        $item = "client_id";
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectErrorMessage("{$item} missing from the provided configuration. Please add your application {$item}.");
+
+        $credentials = $this->getApiCredentials();
+        $credentials['sandbox'][$item] = '';
+
+        $client = new PayPalClient($credentials);
+    }
+
+    /** @test */
     public function it_can_take_valid_credentials_and_return_the_client_instance()
     {
         $this->assertInstanceOf(PayPalClient::class, $this->client);
