@@ -15,9 +15,41 @@ class AdapterTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $client = new PayPalClient();
+        $client = new PayPalClient($this->getMockCredentials());
 
         $this->assertInstanceOf(PayPalClient::class, $client);
+    }
+
+    /** @test */
+    public function it_throws_exception_if_invalid_credentials_are_provided()
+    {
+        $this->expectException(\RuntimeException::class);
+
+        $client = new PayPalClient();
+    }
+
+    /** @test */
+    public function it_throws_exception_if_invalid_mode_is_provided()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectErrorMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
+
+        $credentials = $this->getMockCredentials();
+        $credentials['mode'] = '';
+
+        $client = new PayPalClient($credentials);
+    }
+
+    /** @test */
+    public function it_throws_exception_if_empty_credentials_are_provided()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectErrorMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
+
+        $credentials = $this->getMockCredentials();
+        $credentials['sandbox'] = [];
+
+        $client = new PayPalClient($credentials);
     }
 
     /** @test */
