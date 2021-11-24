@@ -56,7 +56,7 @@ class AdapterConfigTest extends TestCase
     /** @test */
     public function it_throws_exception_if_credentials_items_are_not_provided()
     {
-        $item = "client_id";
+        $item = 'client_id';
 
         $this->expectException(\RuntimeException::class);
         $this->expectErrorMessage("{$item} missing from the provided configuration. Please add your application {$item}.");

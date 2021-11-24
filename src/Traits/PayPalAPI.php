@@ -62,7 +62,7 @@ trait PayPalAPI
      *
      * @return void
      */
-    public function setAccessToken($response)
+    public function setAccessToken(array $response)
     {
         $this->access_token = $response['access_token'];
 
@@ -76,10 +76,8 @@ trait PayPalAPI
      *
      * @return void
      */
-    private function setPayPalAppId($response)
+    private function setPayPalAppId(array $response)
     {
-        if (empty($this->config['app_id'])) {
-            $this->config['app_id'] = $response['app_id'];
-        }
+        $this->config['app_id'] = empty($response['app_id']) ? $this->config['app_id'] : $response['app_id'];
     }
 }
