@@ -119,6 +119,22 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-12-3">Show Order Details</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-12-4">Authorize Payment for Order</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-12-5">Capture Payment for Order</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-13"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Identity</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-13-1">Show Profile Info</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-13-2">Create Merchant Application</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-13-3">Set Account Properties</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-13-4">Disable Account Properties</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-14"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Partner Referrals</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-14-1">Create Partner Referral</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-14-2">Show Referral Details</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-16"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Payments</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-16-1">Show Authorized Payment Details</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-16-2">Capture Authorized Payment</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-16-3">Reauthorize Authorized Payment</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-16-4">Void Authorized Payment</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-16-5">Show Captured Payment Details</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-16-6">Refund Captured Payment</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-16-7">Show Refund Details</a></li>
                 </ul>
 
 		    </nav><!--//docs-nav-->
@@ -591,7 +607,9 @@ $data =  json_decode('{
   "home_url": "https://example.com/home"
 }', true);
 
-$product = $provider->createProduct($data);
+$request_id = 'create-product-'.time();
+
+$product = $provider->createProduct($data, $request_id);
                                 </code>
                             </pre>
                         </div>
@@ -2238,6 +2256,568 @@ $order = $provider->authorizePaymentOrder($order_id);
 $order_id = '5O190127TN364715T';
 
 $order = $provider->capturePaymentOrder($order_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-13">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Identity</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Identity API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-13-1">
+                        <h2 class="section-heading">Show Profile Info</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/identity/v1/#userinfo_get" target="_blank">
+                                https://developer.paypal.com/docs/api/identity/v1/#userinfo_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$profile = $provider->showProfileInfo();
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-13-2">
+                        <h2 class="section-heading">Create Merchant Application</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/identity/v1/#applications_post" target="_blank">
+                                https://developer.paypal.com/docs/api/identity/v1/#applications_post
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$application = $provider->createMerchantApplication(
+    'AGGREGATOR',
+    [
+        'https://example.com/callback',
+        'https://example.com/callback2',
+    ],
+    [
+        'facilitator@example.com',
+        'merchant@example.com',
+    ],
+    'WDJJHEBZ4X2LY',
+    'some-open-id'
+);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-13-3">
+                        <h2 class="section-heading">Set Account Properties</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/identity/v1/#account-settings_post" target="_blank">
+                                https://developer.paypal.com/docs/api/identity/v1/#account-settings_post
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+    "categories": [
+      {
+        "name": "PAYMENT",
+        "groups": [
+          {
+            "name": "AUTH_SETTLE",
+            "preferences": [
+              {
+                "name": "ENABLE_ENHANCED_AUTH_SETTLE",
+                "value": "true"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }', true);
+
+$settings = $provider->setAccountProperties($data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-13-4">
+                        <h2 class="section-heading">Disable Account Properties</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/identity/v1/#account-settings_deactivate" target="_blank">
+                                https://developer.paypal.com/docs/api/identity/v1/#account-settings_deactivate
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$settings = $provider->disableAccountProperties();
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-14">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Partner Referral</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Partner Referral API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-14-1">
+                        <h2 class="section-heading">Create Partner Referral</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_create" target="_blank">
+                                https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_create
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "individual_owners": [
+    {
+      "names": [
+        {
+          "prefix": "Mr.",
+          "given_name": "John",
+          "surname": "Doe",
+          "middle_name": "Middle",
+          "suffix": "Jr.",
+          "full_name": "John Middle Doe Jr.",
+          "type": "LEGAL"
+        }
+      ],
+      "citizenship": "US",
+      "addresses": [
+        {
+          "address_line_1": "One Washington Square",
+          "address_line_2": "Apt 123",
+          "admin_area_2": "San Jose",
+          "admin_area_1": "CA",
+          "postal_code": "95112",
+          "country_code": "US",
+          "type": "HOME"
+        }
+      ],
+      "phones": [
+        {
+          "country_code": "1",
+          "national_number": "6692468839",
+          "extension_number": "1234",
+          "type": "MOBILE"
+        }
+      ],
+      "birth_details": {
+        "date_of_birth": "1955-12-29"
+      },
+      "type": "PRIMARY"
+    }
+  ],
+  "business_entity": {
+    "business_type": {
+      "type": "INDIVIDUAL",
+      "subtype": "ASSO_TYPE_INCORPORATED"
+    },
+    "business_industry": {
+      "category": "1004",
+      "mcc_code": "2025",
+      "subcategory": "8931"
+    },
+    "business_incorporation": {
+      "incorporation_country_code": "US",
+      "incorporation_date": "1986-12-29"
+    },
+    "names": [
+      {
+        "business_name": "Test Enterprise",
+        "type": "LEGAL_NAME"
+      }
+    ],
+    "emails": [
+      {
+        "type": "CUSTOMER_SERVICE",
+        "email": "customerservice@example.com"
+      }
+    ],
+    "website": "https://mystore.testenterprises.com",
+    "addresses": [
+      {
+        "address_line_1": "One Washington Square",
+        "address_line_2": "Apt 123",
+        "admin_area_2": "San Jose",
+        "admin_area_1": "CA",
+        "postal_code": "95112",
+        "country_code": "US",
+        "type": "WORK"
+      }
+    ],
+    "phones": [
+      {
+        "country_code": "1",
+        "national_number": "6692478833",
+        "extension_number": "1234",
+        "type": "CUSTOMER_SERVICE"
+      }
+    ],
+    "beneficial_owners": {
+      "individual_beneficial_owners": [
+        {
+          "names": [
+            {
+              "prefix": "Mr.",
+              "given_name": "John",
+              "surname": "Doe",
+              "middle_name": "Middle",
+              "suffix": "Jr.",
+              "full_name": "John Middle Doe Jr.",
+              "type": "LEGAL"
+            }
+          ],
+          "citizenship": "US",
+          "addresses": [
+            {
+              "address_line_1": "One Washington Square",
+              "address_line_2": "Apt 123",
+              "admin_area_2": "San Jose",
+              "admin_area_1": "CA",
+              "postal_code": "95112",
+              "country_code": "US",
+              "type": "HOME"
+            }
+          ],
+          "phones": [
+            {
+              "country_code": "1",
+              "national_number": "6692468839",
+              "extension_number": "1234",
+              "type": "MOBILE"
+            }
+          ],
+          "birth_details": {
+            "date_of_birth": "1955-12-29"
+          },
+          "percentage_of_ownership": "50"
+        }
+      ],
+      "business_beneficial_owners": [
+        {
+          "business_type": {
+            "type": "INDIVIDUAL",
+            "subtype": "ASSO_TYPE_INCORPORATED"
+          },
+          "business_industry": {
+            "category": "1004",
+            "mcc_code": "2025",
+            "subcategory": "8931"
+          },
+          "business_incorporation": {
+            "incorporation_country_code": "US",
+            "incorporation_date": "1986-12-29"
+          },
+          "names": [
+            {
+              "business_name": "Test Enterprise",
+              "type": "LEGAL_NAME"
+            }
+          ],
+          "emails": [
+            {
+              "type": "CUSTOMER_SERVICE",
+              "email": "customerservice@example.com"
+            }
+          ],
+          "website": "https://mystore.testenterprises.com",
+          "addresses": [
+            {
+              "address_line_1": "One Washington Square",
+              "address_line_2": "Apt 123",
+              "admin_area_2": "San Jose",
+              "admin_area_1": "CA",
+              "postal_code": "95112",
+              "country_code": "US",
+              "type": "WORK"
+            }
+          ],
+          "phones": [
+            {
+              "country_code": "1",
+              "national_number": "6692478833",
+              "extension_number": "1234",
+              "type": "CUSTOMER_SERVICE"
+            }
+          ],
+          "percentage_of_ownership": "50"
+        }
+      ]
+    },
+    "office_bearers": [
+      {
+        "names": [
+          {
+            "prefix": "Mr.",
+            "given_name": "John",
+            "surname": "Doe",
+            "middle_name": "Middle",
+            "suffix": "Jr.",
+            "full_name": "John Middle Doe Jr.",
+            "type": "LEGAL"
+          }
+        ],
+        "citizenship": "US",
+        "addresses": [
+          {
+            "address_line_1": "One Washington Square",
+            "address_line_2": "Apt 123",
+            "admin_area_2": "San Jose",
+            "admin_area_1": "CA",
+            "postal_code": "95112",
+            "country_code": "US",
+            "type": "HOME"
+          }
+        ],
+        "phones": [
+          {
+            "country_code": "1",
+            "national_number": "6692468839",
+            "extension_number": "1234",
+            "type": "MOBILE"
+          }
+        ],
+        "birth_details": {
+          "date_of_birth": "1955-12-29"
+        },
+        "role": "DIRECTOR"
+      }
+    ],
+    "annual_sales_volume_range": {
+      "minimum_amount": {
+        "currency_code": "USD",
+        "value": "10000"
+      },
+      "maximum_amount": {
+        "currency_code": "USD",
+        "value": "50000"
+      }
+    },
+    "average_monthly_volume_range": {
+      "minimum_amount": {
+        "currency_code": "USD",
+        "value": "1000"
+      },
+      "maximum_amount": {
+        "currency_code": "USD",
+        "value": "50000"
+      }
+    },
+    "purpose_code": "P0104"
+  },
+  "email": "accountemail@example.com",
+  "preferred_language_code": "en-US",
+  "tracking_id": "testenterprices123122",
+  "partner_config_override": {
+    "partner_logo_url": "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg",
+    "return_url": "https://testenterprises.com/merchantonboarded",
+    "return_url_description": "the url to return the merchant after the paypal onboarding process.",
+    "action_renewal_url": "https://testenterprises.com/renew-exprired-url",
+    "show_add_credit_card": true
+  },
+  "operations": [
+    {
+      "operation": "BANK_ADDITION"
+    }
+  ],
+  "financial_instruments": {
+    "banks": [
+      {
+        "nick_name": "Bank of America",
+        "account_number": "123405668293",
+        "account_type": "CHECKING",
+        "currency_code": "USD",
+        "identifiers": [
+          {
+            "type": "ROUTING_NUMBER_1",
+            "value": "123456789"
+          }
+        ]
+      }
+    ]
+  },
+  "legal_consents": [
+    {
+      "type": "SHARE_DATA_CONSENT",
+      "granted": true
+    }
+  ],
+  "products": [
+    "EXPRESS_CHECKOUT"
+  ]
+}', true);
+
+$partner = $provider->createPartnerReferral($data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-14-2">
+                        <h2 class="section-heading">Show Referral Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_read" target="_blank">
+                                https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_read
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$partner_referral_id = 'ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=';
+
+$partner = $provider->showReferralData($partner_referral_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-16">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Payments</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with the Payments API with the following:
+                            <ul>
+                                <li>Authorizations</li>
+                                <li>Captures</li>
+                                <li>Refunds</li>
+                            </ul>
+                            </p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-16-1">
+                        <h2 class="section-heading">Show Authorized Payment Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments/v2/#authorizations_get" target="_blank">
+                                https://developer.paypal.com/docs/api/payments/v2/#authorizations_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$payment_id = '0VF52814937998046';
+$response = $this->client->showAuthorizedPaymentDetails($payment_id);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-16-2">
+                        <h2 class="section-heading">Capture Authorized Payment</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments/v2/#authorizations_capture" target="_blank">
+                                https://developer.paypal.com/docs/api/payments/v2/#authorizations_capture
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->captureAuthorizedPayment(
+    '0VF52814937998046',
+    'INVOICE-123',
+    10.99,
+    'Payment is due'
+);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-16-3">
+                        <h2 class="section-heading">Reauthorize Authorized Payment</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments/v2/#authorizations_reauthorize" target="_blank">
+                                https://developer.paypal.com/docs/api/payments/v2/#authorizations_reauthorize
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->reAuthorizeAuthorizedPayment('0VF52814937998046', 10.99);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-16-4">
+                        <h2 class="section-heading">Void Authorized Payment</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments/v2/#authorizations_void" target="_blank">
+                                https://developer.paypal.com/docs/api/payments/v2/#authorizations_void
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->voidAuthorizedPayment('0VF52814937998046');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-16-5">
+                        <h2 class="section-heading">Show Captured Payment Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments/v2/#captures_get" target="_blank">
+                                https://developer.paypal.com/docs/api/payments/v2/#captures_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->showCapturedPaymentDetails('2GG279541U471931P');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-16-6">
+                        <h2 class="section-heading">Refund Captured Payment</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments/v2/#captures_refund" target="_blank">
+                                https://developer.paypal.com/docs/api/payments/v2/#captures_refund
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->refundCapturedPayment(
+    '2GG279541U471931P',
+    'INVOICE-123',
+    10.99,
+    'Defective product'
+);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-16-7">
+                        <h2 class="section-heading">Show Refund Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments/v2/#refunds_get" target="_blank">
+                                https://developer.paypal.com/docs/api/payments/v2/#refunds_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->showRefundDetails('1JU08902781691411');
                                 </code>
                             </pre>
                         </div>
