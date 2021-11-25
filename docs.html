@@ -135,6 +135,19 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-16-5">Show Captured Payment Details</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-16-6">Refund Captured Payment</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-16-7">Show Refund Details</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-19"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Transactions Search</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-19-1">List Transactions</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-19-2">List Balances</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-20"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Subscriptions</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-1">Create Subscription</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-2">Update Subscription</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-3">Show Subscription Details</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-4">Activate Subscription</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-5">Cancel Subscription</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-6">Suspend Subscription</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-7">Capture authorized payment on subscription</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-8">Revise plan or quantity of subscription</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-20-9">List transactions for subscription</a></li>
                 </ul>
 
 		    </nav><!--//docs-nav-->
@@ -2711,7 +2724,7 @@ $partner = $provider->showReferralData($partner_referral_id);
                             <pre class="shadow-lg rounded mb-0">
                                 <code class="php hljs">
 $payment_id = '0VF52814937998046';
-$response = $this->client->showAuthorizedPaymentDetails($payment_id);
+$response = $provider->showAuthorizedPaymentDetails($payment_id);
                                 </code>
                             </pre>
                         </div>
@@ -2824,6 +2837,292 @@ $response = $provider->showRefundDetails('1JU08902781691411');
                     </section><!--//section-->
                 </article><!--//docs-article-->
 
+                <article class="docs-article" id="section-19">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Transactions Search</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with the Transactions Search API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-19-1">
+                        <h2 class="section-heading">List Transactions</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/transaction-search/v1/#transactions_get" target="_blank">
+                                https://developer.paypal.com/docs/api/transaction-search/v1/#transactions_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$filters = [
+    'start_date'    => Carbon::now()->toIso8601String(),
+    'end_date'      => Carbon::now()->addDays(30)->toIso8601String(),
+];
+
+$response = $provider->listTransactions($filters);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-19-2">
+                        <h2 class="section-heading">List Balances</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/transaction-search/v1/#balances_get" target="_blank">
+                                https://developer.paypal.com/docs/api/transaction-search/v1/#balances_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->captureAuthorizedPayment(
+    '0VF52814937998046',
+    'INVOICE-123',
+    10.99,
+    'Payment is due'
+);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-20">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Subscriptions</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with Subscriptions API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-20-1">
+                        <h2 class="section-heading">Create Subscription</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_create" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_create
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "plan_id": "P-5ML4271244454362WXNWU5NQ",
+  "start_time": "2018-11-01T00:00:00Z",
+  "quantity": "20",
+  "shipping_amount": {
+    "currency_code": "USD",
+    "value": "10.00"
+  },
+  "subscriber": {
+    "name": {
+      "given_name": "John",
+      "surname": "Doe"
+    },
+    "email_address": "customer@example.com",
+    "shipping_address": {
+      "name": {
+        "full_name": "John Doe"
+      },
+      "address": {
+        "address_line_1": "2211 N First Street",
+        "address_line_2": "Building 17",
+        "admin_area_2": "San Jose",
+        "admin_area_1": "CA",
+        "postal_code": "95131",
+        "country_code": "US"
+      }
+    }
+  },
+  "application_context": {
+    "brand_name": "walmart",
+    "locale": "en-US",
+    "shipping_preference": "SET_PROVIDED_ADDRESS",
+    "user_action": "SUBSCRIBE_NOW",
+    "payment_method": {
+      "payer_selected": "PAYPAL",
+      "payee_preferred": "IMMEDIATE_PAYMENT_REQUIRED"
+    },
+    "return_url": "https://example.com/returnUrl",
+    "cancel_url": "https://example.com/cancelUrl"
+  }
+}', true);
+
+$subscription = $provider->createSubscription($data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-20-2">
+                        <h2 class="section-heading">Update Subscription</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_patch" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_patch
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('[
+  {
+    "op": "replace",
+    "path": "/billing_info/outstanding_balance",
+    "value": {
+      "currency_code": "USD",
+      "value": "50.00"
+    }
+  }
+]', true);
+
+$response = $provider->updateSubscription('I-BW452GLLEP1G', $data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-20-3">
+                        <h2 class="section-heading">Show Subscription Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_get" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$subscription = $provider->showSubscriptionDetails('I-BW452GLLEP1G');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                    <section class="docs-section" id="item-20-4">
+                        <h2 class="section-heading">Activate Subscription</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_activate" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_activate
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->activateSubscription('I-BW452GLLEP1G', 'Reactivating the subscription');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-20-5">
+                        <h2 class="section-heading">Cancel Subscription</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_cancel" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_cancel
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->cancelSubscription('I-BW452GLLEP1G', 'Not satisfied with the service');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-20-6">
+                        <h2 class="section-heading">Suspend Subscription</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_suspend" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_suspend
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->suspendSubscription('I-BW452GLLEP1G', 'Item out of stock');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-20-7">
+                        <h2 class="section-heading">Capture authorized payment on subscription</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_capture" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_capture
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->captureSubscriptionPayment('I-BW452GLLEP1G', 'Charging as the balance reached the limit', 100);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-20-8">
+                        <h2 class="section-heading">Revise plan or quantity of subscription</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_revise" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_revise
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = \GuzzleHttp\json_decode('{
+  "plan_id": "P-5ML4271244454362WXNWU5NQ",
+  "shipping_amount": {
+    "currency_code": "USD",
+    "value": "10.00"
+  },
+  "shipping_address": {
+    "name": {
+      "full_name": "John Doe"
+    },
+    "address": {
+      "address_line_1": "2211 N First Street",
+      "address_line_2": "Building 17",
+      "admin_area_2": "San Jose",
+      "admin_area_1": "CA",
+      "postal_code": "95131",
+      "country_code": "US"
+    }
+  },
+  "application_context": {
+    "brand_name": "walmart",
+    "locale": "en-US",
+    "shipping_preference": "SET_PROVIDED_ADDRESS",
+    "payment_method": {
+      "payer_selected": "PAYPAL",
+      "payee_preferred": "IMMEDIATE_PAYMENT_REQUIRED"
+    },
+    "return_url": "https://example.com/returnUrl",
+    "cancel_url": "https://example.com/cancelUrl"
+  }
+}', true);
+
+$response = $provider->reviseSubscription('I-BW452GLLEP1G', $data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-20-9">
+                        <h2 class="section-heading">Capture authorized payment on subscription</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_transactions" target="_blank">
+                                https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_transactions
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->listSubscriptionTransactions('I-BW452GLLEP1G', '2018-01-21T07:50:20.940Z', '2018-08-22T07:50:20.940Z');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                </article><!--//docs-article-->
 			    <footer class="footer">
 				    <div class="container text-center py-5">
 					    <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
