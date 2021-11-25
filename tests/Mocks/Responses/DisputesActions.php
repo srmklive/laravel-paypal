@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait DisputesActions
 {
     /**
      * @return array
      */
-    private function mockAcceptDisputesClaimResponse()
+    private function mockAcceptDisputesClaimResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "links": [
     {
       "rel": "self",
@@ -23,9 +25,9 @@ trait DisputesActions
     /**
      * @return array
      */
-    private function mockAcceptDisputesOfferResolutionResponse()
+    private function mockAcceptDisputesOfferResolutionResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "links": [
     {
       "rel": "self",
@@ -39,9 +41,9 @@ trait DisputesActions
     /**
      * @return array
      */
-    private function mockAcknowledgeItemReturnedResponse()
+    private function mockAcknowledgeItemReturnedResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "links": [
     {
       "rel": "self",

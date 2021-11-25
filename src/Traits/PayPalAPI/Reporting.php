@@ -39,6 +39,7 @@ trait Reporting
      * List available balance.
      *
      * @param string $date
+     * @param string $balance_currency
      *
      * @throws \Throwable
      *
@@ -46,11 +47,12 @@ trait Reporting
      *
      * @see https://developer.paypal.com/docs/api/transaction-search/v1/#balances_get
      */
-    public function listBalances($date = '')
+    public function listBalances(string $date = '', string $balance_currency = '')
     {
         $date = empty($date) ? Carbon::now()->toIso8601String() : Carbon::parse($date)->toIso8601String();
+        $currency = empty($currency) ? $this->getCurrency() : $balance_currency;
 
-        $this->apiEndPoint = "v1/reporting/balances?currency_code={$this->currency}&as_of_date={$date}";
+        $this->apiEndPoint = "v1/reporting/balances?currency_code={$currency}&as_of_date={$date}";
         $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';

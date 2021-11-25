@@ -1381,6 +1381,27 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_list_account_balances_for_a_different_currency()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListBalancesResponse()
+            )
+        );
+
+        $date = Carbon::now()->subDays(30)->toIso8601String();
+
+        $response = $this->client->listBalances($date, 'EUR');
+
+        $this->assertNotEmpty($response);
+    }
+
+    /** @test */
     public function it_can_create_a_subscription()
     {
         $this->client->setAccessToken([

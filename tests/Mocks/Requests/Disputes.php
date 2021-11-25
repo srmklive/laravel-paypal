@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
+use GuzzleHttp\Utils;
+
 trait Disputes
 {
     /**
      * @return array
      */
-    protected function updateDisputeParams()
+    protected function updateDisputeParams(): array
     {
-        return \GuzzleHttp\json_decode('[
+        return Utils::jsonDecode('[
   {
     "op": "add",
     "path": "/partner_actions/-",

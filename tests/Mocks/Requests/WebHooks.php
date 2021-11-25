@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
+use GuzzleHttp\Utils;
+
 trait WebHooks
 {
     /**
      * @return array
      */
-    private function mockCreateWebHookParams()
+    private function mockCreateWebHookParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "url": "https://example.com/example_webhook",
   "event_types": [
     {
@@ -25,9 +27,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockUpdateWebHookParams()
+    private function mockUpdateWebHookParams(): array
     {
-        return \GuzzleHttp\json_decode('[
+        return Utils::jsonDecode('[
   {
     "op": "replace",
     "path": "/url",
@@ -48,9 +50,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockResendWebHookEventNotificationParams()
+    private function mockResendWebHookEventNotificationParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "webhook_ids": [
     "12334456"
   ]
@@ -60,9 +62,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockVerifyWebHookSignatureParams()
+    private function mockVerifyWebHookSignatureParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "transmission_id": "69cd13f0-d67a-11e5-baa3-778b53f4ae55",
   "transmission_time": "2016-02-18T20:01:35Z",
   "cert_url": "cert_url",

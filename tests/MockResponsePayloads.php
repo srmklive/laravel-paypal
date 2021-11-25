@@ -25,7 +25,7 @@ trait MockResponsePayloads
     /**
      * @return array
      */
-    private function mockAccessTokenResponse()
+    private function mockAccessTokenResponse(): array
     {
         return [
             'scope'         => 'some_scope',

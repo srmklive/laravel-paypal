@@ -6,6 +6,7 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Handler\MockHandler as HttpMockHandler;
 use GuzzleHttp\HandlerStack as HttpHandlerStack;
 use GuzzleHttp\Psr7\Response as HttpResponse;
+use GuzzleHttp\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -17,7 +18,7 @@ trait MockClientClasses
             new HttpResponse(
                 200,
                 [],
-                ($response === false) ? '' : \GuzzleHttp\json_encode($response)
+                ($response === false) ? '' : Utils::jsonEncode($response)
             ),
         ]);
 
