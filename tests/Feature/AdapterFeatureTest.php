@@ -1163,6 +1163,133 @@ class AdapterFeatureTest extends TestCase
         $this->assertArrayHasKey('referral_data', $response);
     }
 
+    /** @test */
+    public function it_can_list_web_experience_profiles()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListWebProfilesResponse()
+            )
+        );
+
+        $response = $this->client->listWebExperienceProfiles();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', collect($response)->first());
+    }
+
+    /** @test */
+    public function it_can_create_web_experience_profile()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockWebProfileResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreateWebProfileParams();
+
+        $response = $this->client->createWebExperienceProfile($expectedParams, 'some-request-id');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('name', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_web_experience_profile()
+    {
+        $expectedResponse = '';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $expectedParams = 'XP-A88A-LYLW-8Y3X-E5ER';
+
+        $response = $this->client->deleteWebExperienceProfile($expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_partially_update_web_experience_profile()
+    {
+        $expectedResponse = '';
+
+        $expectedParams = $this->partiallyUpdateWebProfileParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->patchWebExperienceProfile('XP-A88A-LYLW-8Y3X-E5ER', $expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_fully_update_web_experience_profile()
+    {
+        $expectedResponse = '';
+
+        $expectedParams = $this->updateWebProfileParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->updateWebExperienceProfile('XP-A88A-LYLW-8Y3X-E5ER', $expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_get_web_experience_profile_details()
+    {
+        $expectedResponse = $this->mockWebProfileResponse();
+
+        $expectedParams = 'XP-A88A-LYLW-8Y3X-E5ER';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->showWebExperienceProfileDetails($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('name', $response);
+    }
+
     /** @test  */
     public function it_can_capture_payment_for_an_order()
     {
