@@ -1555,6 +1555,95 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_referenced_batch_payout()
+    {
+        $expectedResponse = $this->mockCreateReferencedBatchPayoutResponse();
+
+        $expectedParams = $this->mockCreateReferencedBatchPayoutParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->createReferencedBatchPayout($expectedParams, 'some-request-id', 'some-attribution-id');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_list_items_referenced_in_batch_payout()
+    {
+        $expectedResponse = $this->mockShowReferencedBatchPayoutResponse();
+
+        $expectedParams = 'KHbwO28lWlXwi2IlToJ2IYNG4juFv6kpbFx4J9oQ5Hb24RSp96Dk5FudVHd6v4E=';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->listItemsReferencedInBatchPayout($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_create_referenced_batch_payout_item()
+    {
+        $expectedResponse = $this->mockCreateReferencedBatchPayoutItemResponse();
+
+        $expectedParams = $this->mockCreateReferencedBatchPayoutItemParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->createReferencedBatchPayoutItem($expectedParams, 'some-request-id', 'some-attribution-id');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_show_referenced_payout_item_details()
+    {
+        $expectedResponse = $this->mockShowReferencedBatchPayoutItemResponse();
+
+        $expectedParams = 'CDZEC5MJ8R5HY';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->showReferencedPayoutItemDetails($expectedParams, 'some-attribution-id');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('item_id', $response);
+        $this->assertArrayHasKey('reference_id', $response);
+    }
+
+    /** @test */
     public function it_can_list_transactions()
     {
         $this->client->setAccessToken([

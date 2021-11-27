@@ -7,7 +7,7 @@ trait Payouts
     /**
      * Create a Batch Payout.
      *
-     * @param array  $data
+     * @param array $data
      *
      * @throws \Throwable
      *

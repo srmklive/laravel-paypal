@@ -19,6 +19,7 @@ trait PayPalAPI
     use PayPalAPI\PaymentCaptures;
     use PayPalAPI\PaymentRefunds;
     use PayPalAPI\Payouts;
+    use PayPalAPI\ReferencedPayouts;
     use PayPalAPI\BillingPlans;
     use PayPalAPI\Subscriptions;
     use PayPalAPI\Reporting;
