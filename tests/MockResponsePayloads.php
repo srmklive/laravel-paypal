@@ -18,6 +18,7 @@ trait MockResponsePayloads
     use Mocks\Responses\PaymentAuthorizations;
     use Mocks\Responses\PaymentCaptures;
     use Mocks\Responses\PaymentRefunds;
+    use Mocks\Responses\Payouts;
     use Mocks\Responses\Reporting;
     use Mocks\Responses\Subscriptions;
     use Mocks\Responses\Trackers;

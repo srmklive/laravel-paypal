@@ -18,6 +18,7 @@ trait PayPalAPI
     use PayPalAPI\PaymentAuthorizations;
     use PayPalAPI\PaymentCaptures;
     use PayPalAPI\PaymentRefunds;
+    use PayPalAPI\Payouts;
     use PayPalAPI\BillingPlans;
     use PayPalAPI\Subscriptions;
     use PayPalAPI\Reporting;

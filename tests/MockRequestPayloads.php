@@ -17,6 +17,7 @@ trait MockRequestPayloads
     use Mocks\Requests\PaymentExperienceWebProfiles;
     use Mocks\Requests\PaymentAuthorizations;
     use Mocks\Requests\PaymentCaptures;
+    use Mocks\Requests\Payouts;
     use Mocks\Requests\Subscriptions;
     use Mocks\Requests\Trackers;
     use Mocks\Requests\WebHooks;

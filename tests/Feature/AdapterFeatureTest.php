@@ -1462,6 +1462,99 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_batch_payout()
+    {
+        $expectedResponse = $this->mockCreateBatchPayoutResponse();
+
+        $expectedParams = $this->mockCreateBatchPayoutParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->createBatchPayout($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('batch_header', $response);
+    }
+
+    /** @test */
+    public function it_can_show_batch_payout_details()
+    {
+        $expectedResponse = $this->showBatchPayoutResponse();
+
+        $expectedParams = 'FYXMPQTX4JC9N';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->showBatchPayoutDetails($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('batch_header', $response);
+        $this->assertArrayHasKey('items', $response);
+    }
+
+    /** @test */
+    public function it_can_show_batch_payout_item_details()
+    {
+        $expectedResponse = $this->showBatchPayoutItemResponse();
+
+        $expectedParams = '8AELMXH8UB2P8';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->showPayoutItemDetails($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('payout_item_id', $response);
+        $this->assertArrayHasKey('payout_batch_id', $response);
+        $this->assertArrayHasKey('payout_item', $response);
+    }
+
+    /** @test */
+    public function it_can_cancel_unclaimed_batch_payout_item()
+    {
+        $expectedResponse = $this->mockCancelUnclaimedBatchItemResponse();
+
+        $expectedParams = '8AELMXH8UB2P8';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->cancelUnclaimedPayoutItem($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('payout_item_id', $response);
+        $this->assertArrayHasKey('payout_batch_id', $response);
+        $this->assertArrayHasKey('payout_item', $response);
+    }
+
+    /** @test */
     public function it_can_list_transactions()
     {
         $this->client->setAccessToken([
