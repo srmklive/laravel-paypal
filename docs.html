@@ -142,6 +142,11 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-16-5">Show Captured Payment Details</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-16-6">Refund Captured Payment</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-16-7">Show Refund Details</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-17"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Payouts</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-17-1">Create Batch Payout</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-17-2">Show Payout Batch Details</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-17-3">Show Payout Item Details</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-17-4">Cancel Unclaimed Payout Item</a></li>
                     <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-19"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Transactions Search</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-19-1">List Transactions</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-19-2">List Balances</a></li>
@@ -270,8 +275,7 @@ return [
                         </div>
                     </section><!--//section-->
 			    </article><!--//docs-article-->
-			    
-			    
+
 			    <article class="docs-article" id="section-3">
 				    <header class="docs-header">
 					    <h1 class="docs-heading">Usage</h1>
@@ -574,8 +578,7 @@ $plan = $provider->updatePlanPricing($plan_id, $pricing);
                         </div>
                     </section><!--//section-->
 			    </article><!--//docs-article-->
-			    
-			    
+
 		        <article class="docs-article" id="section-6">
 				    <header class="docs-header">
                         <h1 class="docs-heading">Catalog Products</h1>
@@ -2714,7 +2717,7 @@ $partner = $provider->showReferralData($partner_referral_id);
                           <p>The following snippets lists code snippets for interacting with Payment Experience Web Profile API.</p>
                       </section><!--//docs-intro-->
                   </header>
-                  <section class="docs-section" id="item-14-1">
+                  <section class="docs-section" id="item-15-1">
                       <h2 class="section-heading">List Web Experience Profiles</h2>
                       <p>This code snippet utilizes the following API: <br />
                           <a href="https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list" target="_blank">
@@ -2730,7 +2733,7 @@ $partner = $provider->createPartnerReferral($data);
                       </div>
                   </section><!--//section-->
 
-                  <section class="docs-section" id="item-14-2">
+                  <section class="docs-section" id="item-15-2">
                       <h2 class="section-heading">Show Referral Details</h2>
                       <p>This code snippet utilizes the following API: <br />
                           <a href="https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_read" target="_blank">
@@ -2880,6 +2883,131 @@ $response = $provider->refundCapturedPayment(
                             <pre class="shadow-lg rounded mb-0">
                                 <code class="php hljs">
 $response = $provider->showRefundDetails('1JU08902781691411');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-17">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Payments</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with the Payments API with the following:
+                            <ul>
+                                <li>Authorizations</li>
+                                <li>Captures</li>
+                                <li>Refunds</li>
+                            </ul>
+                            </p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-17-1">
+                        <h2 class="section-heading">Create Batch Payout</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts_post" target="_blank">
+                                https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts_post
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "sender_batch_header": {
+    "sender_batch_id": "Payouts_2018_100007",
+    "email_subject": "You have a payout!",
+    "email_message": "You have received a payout! Thanks for using our service!"
+  },
+  "items": [
+    {
+      "recipient_type": "EMAIL",
+      "amount": {
+        "value": "9.87",
+        "currency": "USD"
+      },
+      "note": "Thanks for your patronage!",
+      "sender_item_id": "201403140001",
+      "receiver": "receiver@example.com",
+      "alternate_notification_method": {
+        "phone": {
+          "country_code": "91",
+          "national_number": "9999988888"
+        }
+      },
+      "notification_language": "fr-FR"
+    },
+    {
+      "recipient_type": "PHONE",
+      "amount": {
+        "value": "112.34",
+        "currency": "USD"
+      },
+      "note": "Thanks for your support!",
+      "sender_item_id": "201403140002",
+      "receiver": "91-734-234-1234"
+    },
+    {
+      "recipient_type": "PAYPAL_ID",
+      "amount": {
+        "value": "5.32",
+        "currency": "USD"
+      },
+      "note": "Thanks for your patronage!",
+      "sender_item_id": "201403140003",
+      "receiver": "G83JXTJ5EHCQ2"
+    }
+  ]
+}', true);
+
+$response = $provider->createBatchPayout($data);
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-17-2">
+                        <h2 class="section-heading">Show Payout Batch Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts_get" target="_blank">
+                                https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->showBatchPayoutDetails('FYXMPQTX4JC9N');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-17-3">
+                        <h2 class="section-heading">Show Payout Item Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts-item_get" target="_blank">
+                                https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts-item_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->showPayoutItemDetails('8AELMXH8UB2P8');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-17-4">
+                        <h2 class="section-heading">Cancel Unclaimed Payout Item</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts-item_get" target="_blank">
+                                https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts-item_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->showPayoutItemDetails('8AELMXH8UB2P8');
                                 </code>
                             </pre>
                         </div>
