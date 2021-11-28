@@ -147,6 +147,11 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-17-2">Show Payout Batch Details</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-17-3">Show Payout Item Details</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-17-4">Cancel Unclaimed Payout Item</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-18"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Referenced Payouts</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-18-1">Create Referenced Batch Payout</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-18-2">List Items In Referenced Batch Payout</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-18-3">Create Referenced Payout Item</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-18-4">Show Referenced Payout Item Details</a></li>
                     <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-19"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Transactions Search</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-19-1">List Transactions</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-19-2">List Balances</a></li>
@@ -2891,15 +2896,9 @@ $response = $provider->showRefundDetails('1JU08902781691411');
 
                 <article class="docs-article" id="section-17">
                     <header class="docs-header">
-                        <h1 class="docs-heading">Payments</h1>
+                        <h1 class="docs-heading">Payouts</h1>
                         <section class="docs-intro">
-                            <p>The following snippets lists code snippets for interacting with the Payments API with the following:
-                            <ul>
-                                <li>Authorizations</li>
-                                <li>Captures</li>
-                                <li>Refunds</li>
-                            </ul>
-                            </p>
+                            <p>The following snippets lists code snippets for interacting with the Payouts API.</p>
                         </section><!--//docs-intro-->
                     </header>
                     <section class="docs-section" id="item-17-1">
@@ -3008,6 +3007,96 @@ $response = $provider->showPayoutItemDetails('8AELMXH8UB2P8');
                             <pre class="shadow-lg rounded mb-0">
                                 <code class="php hljs">
 $response = $provider->showPayoutItemDetails('8AELMXH8UB2P8');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+                </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-18">
+                    <header class="docs-header">
+                        <h1 class="docs-heading">Referenced Payouts</h1>
+                        <section class="docs-intro">
+                            <p>The following snippets lists code snippets for interacting with the Referenced Payouts API.</p>
+                        </section><!--//docs-intro-->
+                    </header>
+                    <section class="docs-section" id="item-18-1">
+                        <h2 class="section-heading">Create Referenced Batch Payout</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts_create_batch" target="_blank">
+                                https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts_create_batch
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "referenced_payouts": [
+    {
+      "reference_id": "2KP03934U4415543C",
+      "reference_type": "TRANSACTION_ID"
+    },
+    {
+      "reference_id": "8TA4226978212399L",
+      "reference_type": "TRANSACTION_ID"
+    }
+  ]
+}', true);
+
+$response = $provider->createReferencedBatchPayout($expectedParams, 'some-request-id', 'some-attribution-id');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-18-2">
+                        <h2 class="section-heading">List Items In Referenced Batch Payout</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts_get_batch_details" target="_blank">
+                                https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts_get_batch_details
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->listItemsReferencedInBatchPayout('KHbwO28lWlXwi2IlToJ2IYNG4juFv6kpbFx4J9oQ5Hb24RSp96Dk5FudVHd6v4E=');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-18-3">
+                        <h2 class="section-heading">Create Referenced Payout Item</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts-items_create" target="_blank">
+                                https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts-items_create
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$data = json_decode('{
+  "reference_id": "CAPTURETXNID",
+  "reference_type": "TRANSACTION_ID"
+}', true);
+
+$response = $provider->createReferencedBatchPayoutItem($data, 'some-request-id', 'some-attribution-id');
+                                </code>
+                            </pre>
+                        </div>
+                    </section><!--//section-->
+
+                    <section class="docs-section" id="item-18-4">
+                        <h2 class="section-heading">Show Referenced Payout Item Details</h2>
+                        <p>This code snippet utilizes the following API: <br />
+                            <a href="https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts-items_get" target="_blank">
+                                https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts-items_get
+                            </a>
+                        </p>
+                        <div class="docs-code-block pt-0 pb-0">
+                            <pre class="shadow-lg rounded mb-0">
+                                <code class="php hljs">
+$response = $provider->showReferencedPayoutItemDetails('CDZEC5MJ8R5HY', 'some-attribution-id');
                                 </code>
                             </pre>
                         </div>
