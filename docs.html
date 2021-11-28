@@ -127,6 +127,13 @@
                     <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-14"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Partner Referrals</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-14-1">Create Partner Referral</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-14-2">Show Referral Details</a></li>
+                    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-15"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Payment Experience</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-15-1">List Web Experience Profiles</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-15-2">Create Web Experience Profile</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-15-3">Delete Web Experience Profile</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-15-4">Partially Update Web Experience Profile</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-15-5">Update Web Experience Profile</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#item-15-6">Show Web Experience Profile Details</a></li>
                     <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-16"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Payments</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-16-1">Show Authorized Payment Details</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#item-16-2">Capture Authorized Payment</a></li>
@@ -2699,6 +2706,48 @@ $partner = $provider->showReferralData($partner_referral_id);
                         </div>
                     </section><!--//section-->
                 </article><!--//docs-article-->
+
+                <article class="docs-article" id="section-15">
+                  <header class="docs-header">
+                      <h1 class="docs-heading">Payment Experience</h1>
+                      <section class="docs-intro">
+                          <p>The following snippets lists code snippets for interacting with Payment Experience Web Profile API.</p>
+                      </section><!--//docs-intro-->
+                  </header>
+                  <section class="docs-section" id="item-14-1">
+                      <h2 class="section-heading">List Web Experience Profiles</h2>
+                      <p>This code snippet utilizes the following API: <br />
+                          <a href="https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list" target="_blank">
+                            https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
+                          </a>
+                      </p>
+                      <div class="docs-code-block pt-0 pb-0">
+                          <pre class="shadow-lg rounded mb-0">
+                              <code class="php hljs">
+$partner = $provider->createPartnerReferral($data);
+                              </code>
+                          </pre>
+                      </div>
+                  </section><!--//section-->
+
+                  <section class="docs-section" id="item-14-2">
+                      <h2 class="section-heading">Show Referral Details</h2>
+                      <p>This code snippet utilizes the following API: <br />
+                          <a href="https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_read" target="_blank">
+                              https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_read
+                          </a>
+                      </p>
+                      <div class="docs-code-block pt-0 pb-0">
+                          <pre class="shadow-lg rounded mb-0">
+                              <code class="php hljs">
+$partner_referral_id = 'ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=';
+
+$partner = $provider->showReferralData($partner_referral_id);
+                              </code>
+                          </pre>
+                      </div>
+                  </section><!--//section-->
+              </article><!--//docs-article-->                
 
                 <article class="docs-article" id="section-16">
                     <header class="docs-header">
