@@ -93,12 +93,8 @@ trait PayPalHttpClient
             'CURLOPT_SSLCERT'           => 10025,
         ];
 
-        foreach ($constants as $key => $value) {
-            if (defined($key)) {
-                continue;
-            }
-
-            define($key, $value);
+        foreach ($constants as $key => $item) {
+            $constant = defined($key) ? true : define($key, $item);
         }
     }
 
