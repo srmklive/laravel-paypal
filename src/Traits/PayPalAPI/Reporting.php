@@ -28,7 +28,6 @@ trait Reporting
             })->implode('');
 
         $this->apiEndPoint = "v1/reporting/transactions?{$filters_list}fields={$fields}&page={$page}&page_size={$page_size}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -53,7 +52,6 @@ trait Reporting
         $currency = empty($currency) ? $this->getCurrency() : $balance_currency;
 
         $this->apiEndPoint = "v1/reporting/balances?currency_code={$currency}&as_of_date={$date}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

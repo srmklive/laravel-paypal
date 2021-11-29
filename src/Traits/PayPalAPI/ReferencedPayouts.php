@@ -20,7 +20,6 @@ trait ReferencedPayouts
     public function createReferencedBatchPayout(array $data, string $request_id, string $partner_attribution_id)
     {
         $this->apiEndPoint = 'v1/payments/referenced-payouts';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['headers']['PayPal-Partner-Attribution-Id'] = $partner_attribution_id;
@@ -45,7 +44,6 @@ trait ReferencedPayouts
     public function listItemsReferencedInBatchPayout(string $batch_payout_id)
     {
         $this->apiEndPoint = "v1/payments/referenced-payouts/{$batch_payout_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -68,7 +66,6 @@ trait ReferencedPayouts
     public function createReferencedBatchPayoutItem(array $data, string $request_id, string $partner_attribution_id)
     {
         $this->apiEndPoint = 'v1/payments/referenced-payouts-items';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['headers']['PayPal-Partner-Attribution-Id'] = $partner_attribution_id;
@@ -94,7 +91,6 @@ trait ReferencedPayouts
     public function showReferencedPayoutItemDetails(string $payout_item_id, string $partner_attribution_id)
     {
         $this->apiEndPoint = "v1/payments/referenced-payouts-items/{$payout_item_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['headers']['PayPal-Partner-Attribution-Id'] = $partner_attribution_id;
         $this->verb = 'get';

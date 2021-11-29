@@ -18,7 +18,6 @@ trait PartnerReferrals
     public function createPartnerReferral(array $partner_data)
     {
         $this->apiEndPoint = 'v2/customer/partner-referrals';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $partner_data;
 
@@ -41,7 +40,6 @@ trait PartnerReferrals
     public function showReferralData(string $partner_referral_id)
     {
         $this->apiEndPoint = "v2/customer/partner-referrals/{$partner_referral_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

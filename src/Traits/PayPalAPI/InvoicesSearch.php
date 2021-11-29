@@ -32,7 +32,6 @@ trait InvoicesSearch
         }
 
         $this->apiEndPoint = "v2/invoicing/search-invoices?page={$page}&page_size={$size}&total_required={$totals}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $this->invoice_search_filters;
 

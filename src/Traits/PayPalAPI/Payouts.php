@@ -18,7 +18,6 @@ trait Payouts
     public function createBatchPayout(array $data)
     {
         $this->apiEndPoint = 'v1/payments/payouts';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -41,7 +40,6 @@ trait Payouts
     public function showBatchPayoutDetails(string $payout_id)
     {
         $this->apiEndPoint = "v1/payments/payouts/{$payout_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -62,7 +60,6 @@ trait Payouts
     public function showPayoutItemDetails(string $payout_item_id)
     {
         $this->apiEndPoint = "v1/payments/payouts-item/{$payout_item_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -83,7 +80,6 @@ trait Payouts
     public function cancelUnclaimedPayoutItem(string $payout_item_id)
     {
         $this->apiEndPoint = "v1/payments/payouts-item/{$payout_item_id}/cancel";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'post';
 

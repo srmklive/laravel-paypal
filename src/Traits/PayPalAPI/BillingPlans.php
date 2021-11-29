@@ -18,7 +18,6 @@ trait BillingPlans
     public function createPlan(array $data)
     {
         $this->apiEndPoint = 'v1/billing/plans';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -43,7 +42,6 @@ trait BillingPlans
     public function listPlans(int $page = 1, int $size = 20, bool $totals = true)
     {
         $this->apiEndPoint = "v1/billing/plans?page={$page}&page_size={$size}&total_required={$totals}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -65,7 +63,6 @@ trait BillingPlans
     public function updatePlan(string $plan_id, array $data)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -88,7 +85,6 @@ trait BillingPlans
     public function showPlanDetails(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -109,7 +105,6 @@ trait BillingPlans
     public function activatePlan(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/activate";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'post';
 
@@ -130,7 +125,6 @@ trait BillingPlans
     public function deactivatePlan(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/deactivate";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'post';
 
@@ -152,7 +146,6 @@ trait BillingPlans
     public function updatePlanPricing(string $plan_id, array $pricing)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/update-pricing-schemes";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'pricing_schemes' => $pricing,

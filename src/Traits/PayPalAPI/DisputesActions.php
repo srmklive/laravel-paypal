@@ -20,7 +20,6 @@ trait DisputesActions
     public function acceptDisputeClaim(string $dispute_id, string $dispute_note, array $data = [])
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/accept-claim";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $data['note'] = $dispute_note;
         $data['accept_claim_type'] = 'REFUND';
@@ -47,7 +46,6 @@ trait DisputesActions
     public function acceptDisputeOfferResolution(string $dispute_id, string $dispute_note)
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/accept-offer";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'note'  => $dispute_note,
@@ -74,7 +72,6 @@ trait DisputesActions
     public function acknowledgeItemReturned(string $dispute_id, string $dispute_note, string $acknowledgement_type)
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/acknowledge-return-item";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'note'                  => $dispute_note,

@@ -16,7 +16,6 @@ trait Identity
     public function showProfileInfo()
     {
         $this->apiEndPoint = 'v1/identity/oauth2/userinfo?schema=paypalv1.1';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -43,7 +42,6 @@ trait Identity
     public function createMerchantApplication(string $client_name, array $redirect_uris, array $contacts, string $payer_id, string $migrated_app, string $application_type = 'web', string $logo_url = '')
     {
         $this->apiEndPoint = 'v1/identity/applications';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'application_type'  => $application_type,
@@ -74,7 +72,6 @@ trait Identity
     public function setAccountProperties(array $features, string $account_property = 'BRAINTREE_MERCHANT')
     {
         $this->apiEndPoint = 'v1/identity/account-settings';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'account_property'  => $account_property,
@@ -100,7 +97,6 @@ trait Identity
     public function disableAccountProperties(string $account_property = 'BRAINTREE_MERCHANT')
     {
         $this->apiEndPoint = 'v1/identity/account-settings/deactivate';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'account_property'  => $account_property,

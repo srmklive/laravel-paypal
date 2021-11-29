@@ -18,7 +18,6 @@ trait InvoicesTemplates
     public function createInvoiceTemplate(array $data)
     {
         $this->apiEndPoint = 'v2/invoicing/templates';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -43,7 +42,6 @@ trait InvoicesTemplates
     public function listInvoiceTemplates(int $page = 1, int $size = 20, string $fields = 'all')
     {
         $this->apiEndPoint = "v2/invoicing/templates?page={$page}&page_size={$size}&fields={$fields}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -64,7 +62,6 @@ trait InvoicesTemplates
     public function deleteInvoiceTemplate(string $template_id)
     {
         $this->apiEndPoint = "v2/invoicing/templates/{$template_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'delete';
 
@@ -86,7 +83,6 @@ trait InvoicesTemplates
     public function updateInvoiceTemplate(string $template_id, array $data)
     {
         $this->apiEndPoint = "v2/invoicing/templates/{$template_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -109,7 +105,6 @@ trait InvoicesTemplates
     public function showInvoiceTemplateDetails(string $template_id)
     {
         $this->apiEndPoint = "v2/invoicing/templates/{$template_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

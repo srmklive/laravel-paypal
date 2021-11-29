@@ -16,7 +16,6 @@ trait PaymentExperienceWebProfiles
     public function listWebExperienceProfiles()
     {
         $this->apiEndPoint = 'v1/payment-experience/web-profiles';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -38,7 +37,6 @@ trait PaymentExperienceWebProfiles
     public function createWebExperienceProfile(array $data, string $request_id)
     {
         $this->apiEndPoint = 'v1/payment-experience/web-profiles';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['json'] = $data;
@@ -62,7 +60,6 @@ trait PaymentExperienceWebProfiles
     public function deleteWebExperienceProfile(string $profile_id)
     {
         $this->apiEndPoint = "v1/payment-experience/web-profiles/{$profile_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'delete';
 
@@ -84,7 +81,6 @@ trait PaymentExperienceWebProfiles
     public function patchWebExperienceProfile(string $profile_id, array $data)
     {
         $this->apiEndPoint = "v1/payment-experience/web-profiles/{$profile_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -108,7 +104,6 @@ trait PaymentExperienceWebProfiles
     public function updateWebExperienceProfile(string $profile_id, array $data)
     {
         $this->apiEndPoint = "v1/payment-experience/web-profiles/{$profile_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -131,7 +126,6 @@ trait PaymentExperienceWebProfiles
     public function showWebExperienceProfileDetails(string $profile_id)
     {
         $this->apiEndPoint = "v1/payment-experience/web-profiles/{$profile_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

@@ -18,7 +18,6 @@ trait PaymentRefunds
     public function showRefundDetails(string $refund_id)
     {
         $this->apiEndPoint = "v2/payments/refunds/{$refund_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

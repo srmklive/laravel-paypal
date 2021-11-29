@@ -94,9 +94,11 @@ trait PayPalHttpClient
         ];
 
         foreach ($constants as $key => $value) {
-            if (!defined($key)) {
-                define($key, $constants[$key]);
+            if (defined($key)) {
+                continue;
             }
+
+            define($key, $value);
         }
     }
 
@@ -107,7 +109,7 @@ trait PayPalHttpClient
      *
      * @return void
      */
-    public function setClient($client = null)
+    public function setClient(HttpClient $client = null)
     {
         if ($client instanceof HttpClient) {
             $this->client = $client;
@@ -192,6 +194,8 @@ trait PayPalHttpClient
     private function doPayPalRequest(bool $decode = true)
     {
         try {
+            $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
+
             // Perform PayPal HTTP API request.
             $response = $this->makeHttpRequest();
 

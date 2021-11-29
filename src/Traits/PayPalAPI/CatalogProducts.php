@@ -19,7 +19,6 @@ trait CatalogProducts
     public function createProduct(array $data, string $request_id)
     {
         $this->apiEndPoint = 'v1/catalogs/products';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['json'] = $data;
@@ -47,7 +46,6 @@ trait CatalogProducts
         $totals = ($totals === true) ? 'true' : 'false';
 
         $this->apiEndPoint = "v1/catalogs/products?page={$page}&page_size={$size}&total_required={$totals}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -69,7 +67,6 @@ trait CatalogProducts
     public function updateProduct(string $product_id, array $data)
     {
         $this->apiEndPoint = "v1/catalogs/products/{$product_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -92,7 +89,6 @@ trait CatalogProducts
     public function showProductDetails(string $product_id)
     {
         $this->apiEndPoint = "v1/catalogs/products/{$product_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
