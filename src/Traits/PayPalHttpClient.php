@@ -94,8 +94,21 @@ trait PayPalHttpClient
         ];
 
         foreach ($constants as $key => $item) {
-            $constant = defined($key) ? true : define($key, $item);
+            $this->defineCurlConstant($key, $item);
         }
+    }
+
+    /**
+     * Declare a curl constant.
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return bool
+     */
+    protected function defineCurlConstant(string $key, string $value)
+    {
+        return defined($key) ? true : define($key, $value);
     }
 
     /**
