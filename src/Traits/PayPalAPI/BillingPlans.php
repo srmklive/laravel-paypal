@@ -7,7 +7,8 @@ trait BillingPlans
     /**
      * Create a new billing plan.
      *
-     * @param array $data
+     * @param array  $data
+     * @param string $request_id
      *
      * @throws \Throwable
      *
@@ -15,10 +16,11 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_create
      */
-    public function createPlan(array $data)
+    public function createPlan(array $data, string $request_id)
     {
         $this->apiEndPoint = 'v1/billing/plans';
 
+        $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['json'] = $data;
 
         $this->verb = 'post';

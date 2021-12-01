@@ -6,6 +6,8 @@ use Carbon\Carbon;
 
 trait Subscriptions
 {
+    use Subscriptions\Helpers;
+
     /**
      * Create a new subscription.
      *
