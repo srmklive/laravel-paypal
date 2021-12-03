@@ -40,7 +40,6 @@ trait PayPalAPI
     public function getAccessToken()
     {
         $this->apiEndPoint = 'v1/oauth2/token';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['auth'] = [$this->config['client_id'], $this->config['client_secret']];
         $this->options[$this->httpBodyParam] = [
@@ -48,6 +47,9 @@ trait PayPalAPI
         ];
 
         $response = $this->doPayPalRequest();
+
+        unset($this->options['auth']);
+        unset($this->options[$this->httpBodyParam]);
 
         if (isset($response['access_token'])) {
             $this->setAccessToken($response);
