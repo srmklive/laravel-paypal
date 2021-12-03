@@ -48,6 +48,8 @@ trait PayPalAPI
         ];
 
         $response = $this->doPayPalRequest();
+        unset($this->options['auth']);
+        unset($this->options[$this->httpBodyParam]);
 
         if (isset($response['access_token'])) {
             $this->setAccessToken($response);
