@@ -43,6 +43,8 @@ trait BillingPlans
      */
     public function listPlans(int $page = 1, int $size = 20, bool $totals = true)
     {
+        $totals = ($totals) ? 'true' : 'false';
+
         $this->apiEndPoint = "v1/billing/plans?page={$page}&page_size={$size}&total_required={$totals}";
 
         $this->verb = 'get';
