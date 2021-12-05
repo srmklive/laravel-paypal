@@ -90,28 +90,30 @@ By default, the currency used is `USD`. If you wish to change it, you may call `
 $provider->setCurrency('EUR');
 ```
 
-## Initiating an order for Checkout
-Use the createOrder method to initiate an order
+## Create Recurring Monthly Subscription
+
 ```php
-$provider->createOrder([
-  "intent"=> "CAPTURE",
-  "purchase_units"=> [
-      0 => [
-          "amount"=> [
-              "currency_code"=> "USD",
-              "value"=> "100.00"
-          ]
-      ]
-  ]
-]);
+$response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
+            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addMonthlyPlan('Demo Plan', 'Demo Plan', 100)
+            ->setupSubscription('John Doe', 'john@example.com', '2021-12-10') ;
 ```
 
-The response from this will include an order ID which you will need to retail, and a links collection
-so you can redirect the user to Paypal to complete the order with their payment details
+## Create Recurring Annual Subscription
 
-When the user returns to the notification url you can capture the order payment with
 ```php
-$provider->capturePaymentOrder($order_id); //order id from the createOrder step 
+$response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
+            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addAnnualPlan('Demo Plan', 'Demo Plan', 100)
+            ->setupSubscription('John Doe', 'john@example.com', '2021-12-10') ;
+```
+
+## Create Subscription by Existing Product & Billing Plan
+
+```php
+$response = $this->client->addProductById('PROD-XYAB12ABSB7868434')
+    ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
+    ->setupSubscription('John Doe', 'john@example.com', $start_date);
 ```
 
 <a name="support"></a>

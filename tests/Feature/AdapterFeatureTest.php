@@ -73,7 +73,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->createPlanParams();
 
-        $response = $this->client->createPlan($expectedParams);
+        $response = $this->client->createPlan($expectedParams, 'some-request-id');
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
