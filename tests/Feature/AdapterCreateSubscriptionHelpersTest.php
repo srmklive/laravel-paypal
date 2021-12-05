@@ -59,7 +59,7 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
             )
         );
 
-        $this->client = $this->client->addSubscriptionTrialPricing('DAY', 7)
+        $this->client = $this->client->addPlanTrialPricing('DAY', 7)
             ->addMonthlyPlan('Demo Plan', 'Demo Plan', 100);
 
         $this->client->setClient(
@@ -99,7 +99,7 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
             )
         );
 
-        $this->client = $this->client->addSubscriptionTrialPricing('DAY', 7)
+        $this->client = $this->client->addPlanTrialPricing('DAY', 7)
             ->addAnnualPlan('Demo Plan', 'Demo Plan', 100);
 
         $this->client->setClient(
@@ -192,7 +192,7 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
         $this->client = $this->client->addProductById('PROD-XYAB12ABSB7868434')
             ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
             ->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
-            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addPlanTrialPricing('DAY', 7)
             ->addMonthlyPlan('Demo Plan', 'Demo Plan', 100);
 
         $this->client->setClient(
@@ -221,7 +221,7 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
         $this->client = $this->client->addProductById('PROD-XYAB12ABSB7868434')
             ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
             ->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
-            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addPlanTrialPricing('DAY', 7)
             ->addAnnualPlan('Demo Plan', 'Demo Plan', 100);
 
         $this->client->setClient(

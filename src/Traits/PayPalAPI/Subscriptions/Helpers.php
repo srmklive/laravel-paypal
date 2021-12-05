@@ -71,7 +71,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addSubscriptionTrialPricing(string $interval_type, string $interval_count, float $price = 0): \Srmklive\PayPal\Services\PayPal
+    public function addPlanTrialPricing(string $interval_type, string $interval_count, float $price = 0): \Srmklive\PayPal\Services\PayPal
     {
         $this->trial_pricing = $this->addPlanBillingCycle($interval_type, $interval_count, $price, true);
 
