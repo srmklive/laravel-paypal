@@ -90,6 +90,15 @@ By default, the currency used is `USD`. If you wish to change it, you may call `
 $provider->setCurrency('EUR');
 ```
 
+## Create Recurring Weekly Subscription
+
+```php
+$response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
+            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addWeeklyPlan('Demo Plan', 'Demo Plan', 30)
+            ->setupSubscription('John Doe', 'john@example.com', '2021-12-10') ;
+```
+
 ## Create Recurring Monthly Subscription
 
 ```php
@@ -104,7 +113,7 @@ $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SO
 ```php
 $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
             ->addSubscriptionTrialPricing('DAY', 7)
-            ->addAnnualPlan('Demo Plan', 'Demo Plan', 100)
+            ->addAnnualPlan('Demo Plan', 'Demo Plan', 600)
             ->setupSubscription('John Doe', 'john@example.com', '2021-12-10') ;
 ```
 
