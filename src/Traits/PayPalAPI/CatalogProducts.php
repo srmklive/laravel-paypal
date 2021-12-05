@@ -41,7 +41,7 @@ trait CatalogProducts
      *
      * @see https://developer.paypal.com/docs/api/catalog-products/v1/#products_list
      */
-    public function listProducts( $page = 1, $size = 20,  $totals = true)
+    public function listProducts($page = 1, $size = 20, $totals = true)
     {
         $totals = ($totals === true) ? 'true' : 'false';
 

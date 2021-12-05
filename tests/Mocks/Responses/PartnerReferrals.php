@@ -2,8 +2,6 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
-
-
 trait PartnerReferrals
 {
     private function mockCreatePartnerReferralsResponse()

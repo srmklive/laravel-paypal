@@ -58,7 +58,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list
      */
-    public function listInvoices( $page = 1, $size = 20,  $totals = true, array $fields = [])
+    public function listInvoices($page = 1, $size = 20, $totals = true, array $fields = [])
     {
         $totals = ($totals === true) ? 'true' : 'false';
 

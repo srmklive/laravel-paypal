@@ -2,8 +2,6 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
-
-
 trait PartnerReferrals
 {
     private function mockCreatePartnerReferralParams()

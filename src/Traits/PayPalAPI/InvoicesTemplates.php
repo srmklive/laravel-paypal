@@ -39,7 +39,7 @@ trait InvoicesTemplates
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_list
      */
-    public function listInvoiceTemplates( $page = 1, $size = 20, $fields = 'all')
+    public function listInvoiceTemplates($page = 1, $size = 20, $fields = 'all')
     {
         $this->apiEndPoint = "v2/invoicing/templates?page={$page}&page_size={$size}&fields={$fields}";
 

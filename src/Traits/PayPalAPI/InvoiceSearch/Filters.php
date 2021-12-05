@@ -133,7 +133,7 @@ trait Filters
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addInvoiceFilterByReferenceorMemo($reference,  $memo = false)
+    public function addInvoiceFilterByReferenceorMemo($reference, $memo = false)
     {
         $field = ($memo === false) ? 'reference' : 'memo';
 
