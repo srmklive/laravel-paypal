@@ -6,6 +6,8 @@ use Carbon\Carbon;
 
 trait Subscriptions
 {
+    use Subscriptions\Helpers;
+
     /**
      * Create a new subscription.
      *
@@ -20,7 +22,6 @@ trait Subscriptions
     public function createSubscription(array $data)
     {
         $this->apiEndPoint = 'v1/billing/subscriptions';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -44,7 +45,6 @@ trait Subscriptions
     public function updateSubscription($subscription_id, array $data)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -67,7 +67,6 @@ trait Subscriptions
     public function showSubscriptionDetails($subscription_id)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -89,7 +88,6 @@ trait Subscriptions
     public function activateSubscription($subscription_id, $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/activate";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = ['reason' => $reason];
 
@@ -113,7 +111,6 @@ trait Subscriptions
     public function cancelSubscription($subscription_id, $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/cancel";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = ['reason' => $reason];
 
@@ -137,7 +134,6 @@ trait Subscriptions
     public function suspendSubscription($subscription_id, $reason)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/suspend";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = ['reason' => $reason];
 
@@ -162,7 +158,6 @@ trait Subscriptions
     public function captureSubscriptionPayment($subscription_id, $note, $amount)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/capture";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'note'          => $note,
@@ -193,7 +188,6 @@ trait Subscriptions
     public function reviseSubscription($subscription_id, array $items)
     {
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/revise";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $items;
 
@@ -229,7 +223,6 @@ trait Subscriptions
         $end_date = $end_date->toIso8601ZuluString();
 
         $this->apiEndPoint = "v1/billing/subscriptions/{$subscription_id}/transactions?start_time={$start_date}&end_time={$end_date}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

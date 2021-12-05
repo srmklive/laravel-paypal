@@ -16,7 +16,6 @@ trait Invoices
     public function generateInvoiceNumber()
     {
         $this->apiEndPoint = 'v2/invoicing/generate-next-invoice-number';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'post';
 
@@ -37,7 +36,6 @@ trait Invoices
     public function createInvoice(array $data)
     {
         $this->apiEndPoint = 'v2/invoicing/invoices';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -69,7 +67,6 @@ trait Invoices
         $fields = ($fields_list->count() > 0) ? "&fields={$fields_list->implode(',')}" : '';
 
         $this->apiEndPoint = "v2/invoicing/invoices?page={$page}&page_size={$size}&total_required={$totals}{$fields}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -90,7 +87,6 @@ trait Invoices
     public function deleteInvoice($invoice_id)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'delete';
 
@@ -112,7 +108,6 @@ trait Invoices
     public function updateInvoice($invoice_id, array $data)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -135,7 +130,6 @@ trait Invoices
     public function showInvoiceDetails($invoice_id)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -157,7 +151,6 @@ trait Invoices
     public function cancelInvoice($invoice_id, array $notes)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/cancel";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $notes;
 
@@ -179,10 +172,9 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_generate-qr-code
      */
-    public function generateQRCodeInvoice($invoice_id, $width = 200, $height = 20)
+    public function generateQRCodeInvoice($invoice_id, $width = 100, $height = 100)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/generate-qr-code";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'width'     => $width,
@@ -212,7 +204,6 @@ trait Invoices
     public function registerPaymentInvoice($invoice_id, $payment_date, $payment_method, $amount, $payment_note = '', $payment_id = '')
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/payments";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $data = [
             'payment_id'    => $payment_id,
@@ -247,7 +238,6 @@ trait Invoices
     public function deleteExternalPaymentInvoice($invoice_id, $transaction_id)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/payments/{$transaction_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'delete';
 
@@ -271,7 +261,6 @@ trait Invoices
     public function refundInvoice($invoice_id, $payment_date, $payment_method, $amount)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/refunds";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $data = [
             'refund_date'   => $payment_date,
@@ -304,7 +293,6 @@ trait Invoices
     public function deleteRefundInvoice($invoice_id, $transaction_id)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/refunds/{$transaction_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'delete';
 
@@ -330,7 +318,6 @@ trait Invoices
     public function sendInvoice($invoice_id, $subject = '', $note = '', $send_recipient = true, $send_merchant = false, array $recipients = [])
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/send";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $data = [
             'subject'                   => !empty($subject) ? $subject : '',
@@ -366,7 +353,6 @@ trait Invoices
     public function sendInvoiceReminder($invoice_id, $subject = '', $note = '', $send_recipient = true, $send_merchant = false, array $recipients = [])
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/remind";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $data = [
             'subject'                   => !empty($subject) ? $subject : '',

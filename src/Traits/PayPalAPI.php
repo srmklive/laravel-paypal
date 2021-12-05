@@ -8,13 +8,18 @@ trait PayPalAPI
     use PayPalAPI\CatalogProducts;
     use PayPalAPI\Disputes;
     use PayPalAPI\DisputesActions;
+    use PayPalAPI\Identity;
     use PayPalAPI\Invoices;
     use PayPalAPI\InvoicesSearch;
     use PayPalAPI\InvoicesTemplates;
     use PayPalAPI\Orders;
+    use PayPalAPI\PartnerReferrals;
+    use PayPalAPI\PaymentExperienceWebProfiles;
     use PayPalAPI\PaymentAuthorizations;
     use PayPalAPI\PaymentCaptures;
     use PayPalAPI\PaymentRefunds;
+    use PayPalAPI\Payouts;
+    use PayPalAPI\ReferencedPayouts;
     use PayPalAPI\BillingPlans;
     use PayPalAPI\Subscriptions;
     use PayPalAPI\Reporting;
@@ -35,7 +40,6 @@ trait PayPalAPI
     public function getAccessToken()
     {
         $this->apiEndPoint = 'v1/oauth2/token';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['auth'] = [$this->config['client_id'], $this->config['client_secret']];
         $this->options[$this->httpBodyParam] = [
@@ -43,6 +47,9 @@ trait PayPalAPI
         ];
 
         $response = $this->doPayPalRequest();
+
+        unset($this->options['auth']);
+        unset($this->options[$this->httpBodyParam]);
 
         if (isset($response['access_token'])) {
             $this->setAccessToken($response);
@@ -60,7 +67,7 @@ trait PayPalAPI
      *
      * @return void
      */
-    public function setAccessToken($response)
+    public function setAccessToken(array $response)
     {
         $this->access_token = $response['access_token'];
 
@@ -74,10 +81,8 @@ trait PayPalAPI
      *
      * @return void
      */
-    private function setPayPalAppId($response)
+    private function setPayPalAppId(array $response)
     {
-        if (empty($this->config['app_id'])) {
-            $this->config['app_id'] = $response['app_id'];
-        }
+        $this->config['app_id'] = empty($response['app_id']) ? $this->config['app_id'] : $response['app_id'];
     }
 }

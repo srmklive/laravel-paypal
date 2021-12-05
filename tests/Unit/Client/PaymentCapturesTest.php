@@ -18,7 +18,7 @@ class PaymentCapturesTest extends TestCase
     {
         $expectedResponse = $this->mockGetCapturedPaymentDetailsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -37,7 +37,7 @@ class PaymentCapturesTest extends TestCase
     {
         $expectedResponse = $this->mockRefundCapturedPaymentResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P/refund';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P/refund';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

@@ -18,7 +18,7 @@ class WebHooksVerificationTest extends TestCase
     {
         $expectedResponse = $this->mockVerifyWebHookSignatureResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/notifications/webhooks-event-types';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/notifications/webhooks-event-types';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

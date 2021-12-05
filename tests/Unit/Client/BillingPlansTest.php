@@ -18,7 +18,7 @@ class BillingPlansTest extends TestCase
     {
         $expectedResponse = $this->mockCreatePlansResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/billing/plans';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/billing/plans';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -38,7 +38,7 @@ class BillingPlansTest extends TestCase
     {
         $expectedResponse = $this->mockListPlansResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/billing/plans?product_id=PROD-XXCD1234QWER65782&page_size=2&page=1&total_required=true';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/billing/plans?product_id=PROD-XXCD1234QWER65782&page_size=2&page=1&total_required=true';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -57,7 +57,7 @@ class BillingPlansTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/billing/plans/P-7GL4271244454362WXNWU5NQ';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/billing/plans/P-7GL4271244454362WXNWU5NQ';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -77,7 +77,7 @@ class BillingPlansTest extends TestCase
     {
         $expectedResponse = $this->mockGetPlansResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/billing/plans/P-5ML4271244454362WXNWU5NQ';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/billing/plans/P-5ML4271244454362WXNWU5NQ';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -96,7 +96,7 @@ class BillingPlansTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/billing/plans/P-7GL4271244454362WXNWU5NQ/activate';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/billing/plans/P-7GL4271244454362WXNWU5NQ/activate';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -115,7 +115,7 @@ class BillingPlansTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/billing/plans/P-7GL4271244454362WXNWU5NQ/deactivate';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/billing/plans/P-7GL4271244454362WXNWU5NQ/deactivate';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -134,7 +134,7 @@ class BillingPlansTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/billing/plans/P-2UF78835G6983425GLSM44MA/update-pricing-schemes';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/billing/plans/P-2UF78835G6983425GLSM44MA/update-pricing-schemes';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

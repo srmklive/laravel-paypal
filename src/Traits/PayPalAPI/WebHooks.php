@@ -19,7 +19,6 @@ trait WebHooks
     public function createWebHook($url, array $events)
     {
         $this->apiEndPoint = 'v1/notifications/webhooks';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $data = ['url' => $url];
         $data['event_types'] = collect($events)->map(function ($item) {
@@ -45,7 +44,6 @@ trait WebHooks
     public function listWebHooks()
     {
         $this->apiEndPoint = 'v1/notifications/webhooks';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -66,7 +64,6 @@ trait WebHooks
     public function deleteWebHook($web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'delete';
 
@@ -88,7 +85,6 @@ trait WebHooks
     public function updateWebHook($web_hook_id, array $data)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -111,7 +107,6 @@ trait WebHooks
     public function showWebHookDetails($web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -132,7 +127,6 @@ trait WebHooks
     public function listWebHookEvents($web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}/event-types";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

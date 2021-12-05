@@ -18,7 +18,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = $this->mockCreateInvoiceTemplateResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -38,7 +38,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = $this->mockListInvoiceTemplateResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -57,7 +57,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -76,7 +76,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = $this->mockUpdateInvoiceTemplateResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -96,7 +96,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = $this->mockGetInvoiceTemplateResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

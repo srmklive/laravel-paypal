@@ -18,7 +18,6 @@ trait PaymentCaptures
     public function showCapturedPaymentDetails($capture_id)
     {
         $this->apiEndPoint = "v2/payments/captures/{$capture_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -42,7 +41,6 @@ trait PaymentCaptures
     public function refundCapturedPayment($capture_id, $invoice_id, $amount, $note)
     {
         $this->apiEndPoint = "v2/payments/captures/{$capture_id}/refund";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'amount' => [

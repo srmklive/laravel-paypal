@@ -16,7 +16,7 @@ class PaymentRefundsTest extends TestCase
     {
         $expectedResponse = $this->mockGetRefundDetailsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/refunds/1JU08902781691411';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/refunds/1JU08902781691411';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

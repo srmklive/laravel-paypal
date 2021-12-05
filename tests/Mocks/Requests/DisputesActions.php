@@ -18,7 +18,7 @@ trait DisputesActions
     /**
      * @return array
      */
-    protected function acceptDisputeResoltuionParams()
+    protected function acceptDisputeResolutionParams()
     {
         return \GuzzleHttp\json_decode('{
   "note": "I am ok with the refund offered."

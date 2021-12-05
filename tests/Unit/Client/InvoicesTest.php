@@ -18,7 +18,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = $this->mockGenerateInvoiceNumberResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/generate-next-invoice-number';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/generate-next-invoice-number';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -37,7 +37,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = $this->mockCreateInvoicesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -57,7 +57,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = $this->mockListInvoicesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices?total_required=true';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices?total_required=true';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -76,7 +76,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -95,7 +95,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = $this->mockUpdateInvoicesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -115,7 +115,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = $this->mockGetInvoicesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -134,7 +134,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/cancel';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/cancel';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -154,7 +154,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = $this->mockGenerateInvoiceNumberResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/generate-qr-code';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/generate-qr-code';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -174,7 +174,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = $this->mockInvoiceRegisterPaymentResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/payments';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/payments';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -194,7 +194,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/payments/EXTR-86F38350LX4353815';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/payments/EXTR-86F38350LX4353815';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -213,7 +213,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = $this->mockInvoiceRefundPaymentResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/refunds';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/refunds';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -233,7 +233,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-333R-YUQL-YNNN-D7WF/refunds/EXTR-2LG703375E477444T';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-333R-YUQL-YNNN-D7WF/refunds/EXTR-2LG703375E477444T';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -252,7 +252,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-EHNV-LJ5S-A7DZ-V6NJ/send';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-EHNV-LJ5S-A7DZ-V6NJ/send';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -272,7 +272,7 @@ class InvoicesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/remind';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z56S-5LLA-Q52L-CPZ5/remind';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

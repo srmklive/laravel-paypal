@@ -18,7 +18,7 @@ class ReportingTest extends TestCase
     {
         $expectedResponse = $this->mockListTransactionsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/reporting/transactions?start_date=2014-07-01T00:00:00-0700&end_date=2014-07-30T23:59:59-0700&transaction_id=5TY05013RG002845M&fields=all&page_size=100&page=1';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/reporting/transactions?start_date=2014-07-01T00:00:00-0700&end_date=2014-07-30T23:59:59-0700&transaction_id=5TY05013RG002845M&fields=all&page_size=100&page=1';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -37,7 +37,7 @@ class ReportingTest extends TestCase
     {
         $expectedResponse = $this->mockListBalancesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/reporting/balances?currency_code=USD&as_of_time=2016-10-15T06:07:00-0700';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/reporting/balances?currency_code=USD&as_of_time=2016-10-15T06:07:00-0700';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',

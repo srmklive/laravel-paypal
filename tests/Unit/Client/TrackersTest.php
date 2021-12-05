@@ -18,7 +18,7 @@ class TrackersTest extends TestCase
     {
         $expectedResponse = $this->mockGetTrackingDetailsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -27,7 +27,7 @@ class TrackersTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
         $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
@@ -37,7 +37,7 @@ class TrackersTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/shipping/trackers/8MC585209K746392H-443844607820';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -47,7 +47,7 @@ class TrackersTest extends TestCase
             'json' => $this->mockUpdateTrackingDetailsParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'put');
+        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'put');
 
         $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->put($expectedEndpoint, $expectedParams)->getBody(), true));
     }
@@ -57,7 +57,7 @@ class TrackersTest extends TestCase
     {
         $expectedResponse = $this->mockCreateTrackinginBatchesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/shipping/trackers-batch';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/shipping/trackers-batch';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -67,7 +67,7 @@ class TrackersTest extends TestCase
             'json' => $this->mockCreateTrackinginBatchesParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
+        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
 
         $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }

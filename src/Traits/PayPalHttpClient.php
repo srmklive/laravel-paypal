@@ -93,11 +93,22 @@ trait PayPalHttpClient
             'CURLOPT_SSLCERT'           => 10025,
         ];
 
-        foreach ($constants as $key => $value) {
-            if (!defined($key)) {
-                define($key, $constants[$key]);
-            }
+        foreach ($constants as $key => $item) {
+            $this->defineCurlConstant($key, $item);
         }
+    }
+
+    /**
+     * Declare a curl constant.
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return bool
+     */
+    protected function defineCurlConstant($key, $value)
+    {
+        return defined($key) ? true : define($key, $value);
     }
 
     /**
@@ -107,7 +118,7 @@ trait PayPalHttpClient
      *
      * @return void
      */
-    public function setClient($client = null)
+    public function setClient(HttpClient $client = null)
     {
         if ($client instanceof HttpClient) {
             $this->client = $client;
@@ -192,6 +203,8 @@ trait PayPalHttpClient
     private function doPayPalRequest($decode = true)
     {
         try {
+            $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
+
             // Perform PayPal HTTP API request.
             $response = $this->makeHttpRequest();
 
