@@ -89,7 +89,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addDailylyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addDailyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;

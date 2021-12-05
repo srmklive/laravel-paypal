@@ -100,7 +100,7 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
         );
 
         $this->client = $this->client->addPlanTrialPricing('DAY', 7)
-            ->addDailylyPlan('Demo Plan', 'Demo Plan', 1.50);
+            ->addDailyPlan('Demo Plan', 'Demo Plan', 1.50);
 
         $this->client->setClient(
             $this->mock_http_client(
@@ -272,7 +272,7 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
         $this->client = $this->client->addProductById('PROD-XYAB12ABSB7868434')
             ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
             ->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
-            ->addDailylyPlan('Demo Plan', 'Demo Plan', 1.50);
+            ->addDailyPlan('Demo Plan', 'Demo Plan', 1.50);
 
         $this->client->setClient(
             $this->mock_http_client(
