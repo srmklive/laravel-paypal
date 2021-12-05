@@ -41,7 +41,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
      */
-    public function listPlans( $page = 1, $size = 20,  $totals = true)
+    public function listPlans($page = 1, $size = 20, $totals = true)
     {
         $totals = ($totals) ? 'true' : 'false';
 

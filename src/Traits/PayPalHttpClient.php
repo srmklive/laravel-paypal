@@ -4,7 +4,6 @@ namespace Srmklive\PayPal\Traits;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as HttpClientException;
-use \GuzzleHttp\json_encode;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 

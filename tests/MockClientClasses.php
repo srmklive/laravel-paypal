@@ -6,7 +6,6 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Handler\MockHandler as HttpMockHandler;
 use GuzzleHttp\HandlerStack as HttpHandlerStack;
 use GuzzleHttp\Psr7\Response as HttpResponse;
-
 use Psr\Http\Message\ResponseInterface;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 

@@ -3,7 +3,6 @@
 namespace Srmklive\PayPal\Tests\Unit;
 
 use GuzzleHttp\Client as HttpClient;
-
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockResponsePayloads;

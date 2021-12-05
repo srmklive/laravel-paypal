@@ -21,7 +21,7 @@ trait InvoicesSearch
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list
      */
-    public function searchInvoices( $page = 1, $size = 20,  $totals = true)
+    public function searchInvoices($page = 1, $size = 20, $totals = true)
     {
         $totals = ($totals === true) ? 'true' : 'false';
 
