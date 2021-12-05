@@ -36,7 +36,7 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_monthly_subscription_by_creating_new_product_and_billing_plan()
+    public function it_can_create_a_monthly_subscription()
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
@@ -61,6 +61,85 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
 
         $this->client = $this->client->addSubscriptionTrialPricing('DAY', 7)
             ->addMonthlyPlan('Demo Plan', 'Demo Plan', 100);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
+
+    /** @test */
+    public function it_can_create_an_annual_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateCatalogProductsResponse()
+            )
+        );
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+
+        $this->client = $this->client->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePlansResponse()
+            )
+        );
+
+        $this->client = $this->client->addSubscriptionTrialPricing('DAY', 7)
+            ->addAnnualPlan('Demo Plan', 'Demo Plan', 100);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
+
+    /** @test */
+    public function it_can_create_a_subscription_without_trial()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateCatalogProductsResponse()
+            )
+        );
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+
+        $this->client = $this->client->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePlansResponse()
+            )
+        );
+
+        $this->client = $this->client->addMonthlyPlan('Demo Plan', 'Demo Plan', 100);
 
         $this->client->setClient(
             $this->mock_http_client(
