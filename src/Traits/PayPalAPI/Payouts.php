@@ -37,7 +37,7 @@ trait Payouts
      *
      * @see https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts_get
      */
-    public function showBatchPayoutDetails(string $payout_id)
+    public function showBatchPayoutDetails($payout_id)
     {
         $this->apiEndPoint = "v1/payments/payouts/{$payout_id}";
 
@@ -57,7 +57,7 @@ trait Payouts
      *
      * @see https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts-item_get
      */
-    public function showPayoutItemDetails(string $payout_item_id)
+    public function showPayoutItemDetails($payout_item_id)
     {
         $this->apiEndPoint = "v1/payments/payouts-item/{$payout_item_id}";
 
@@ -77,7 +77,7 @@ trait Payouts
      *
      * @see https://developer.paypal.com/docs/api/payments.payouts-batch/v1/#payouts-item_cancel
      */
-    public function cancelUnclaimedPayoutItem(string $payout_item_id)
+    public function cancelUnclaimedPayoutItem($payout_item_id)
     {
         $this->apiEndPoint = "v1/payments/payouts-item/{$payout_item_id}/cancel";
 

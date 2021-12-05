@@ -15,7 +15,7 @@ trait PaymentRefunds
      *
      * @see https://developer.paypal.com/docs/api/payments/v2/#authorizations_get
      */
-    public function showRefundDetails(string $refund_id)
+    public function showRefundDetails($refund_id)
     {
         $this->apiEndPoint = "v2/payments/refunds/{$refund_id}";
 

@@ -16,7 +16,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_create
      */
-    public function createPlan(array $data, string $request_id)
+    public function createPlan(array $data, $request_id)
     {
         $this->apiEndPoint = 'v1/billing/plans';
 
@@ -41,7 +41,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
      */
-    public function listPlans(int $page = 1, int $size = 20, bool $totals = true)
+    public function listPlans( $page = 1, $size = 20,  $totals = true)
     {
         $totals = ($totals) ? 'true' : 'false';
 
@@ -64,7 +64,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_update
      */
-    public function updatePlan(string $plan_id, array $data)
+    public function updatePlan($plan_id, array $data)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
 
@@ -86,7 +86,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_get
      */
-    public function showPlanDetails(string $plan_id)
+    public function showPlanDetails($plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
 
@@ -106,7 +106,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_activate
      */
-    public function activatePlan(string $plan_id)
+    public function activatePlan($plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/activate";
 
@@ -126,7 +126,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_deactivate
      */
-    public function deactivatePlan(string $plan_id)
+    public function deactivatePlan($plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/deactivate";
 
@@ -147,7 +147,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_update-pricing-schemes
      */
-    public function updatePlanPricing(string $plan_id, array $pricing)
+    public function updatePlanPricing($plan_id, array $pricing)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/update-pricing-schemes";
 

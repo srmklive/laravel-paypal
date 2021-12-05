@@ -39,7 +39,7 @@ trait Helpers
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      */
-    public function setupSubscription(string $customer_name, string $customer_email, string $start_date = '')
+    public function setupSubscription($customer_name, $customer_email, $start_date = '')
     {
         $start_date = isset($start_date) ? Carbon::parse($start_date)->toIso8601String() : Carbon::now()->toIso8601String();
 
@@ -71,7 +71,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addPlanTrialPricing(string $interval_type, string $interval_count, float $price = 0): \Srmklive\PayPal\Services\PayPal
+    public function addPlanTrialPricing($interval_type, $interval_count, $price = 0)
     {
         $this->trial_pricing = $this->addPlanBillingCycle($interval_type, $interval_count, $price, true);
 
@@ -89,7 +89,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addDailyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addDailyPlan($name, $description, $price)
     {
         if (isset($this->billing_plan)) {
             return $this;
@@ -114,7 +114,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addWeeklyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addWeeklyPlan($name, $description, $price)
     {
         if (isset($this->billing_plan)) {
             return $this;
@@ -139,7 +139,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addMonthlyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addMonthlyPlan($name, $description, $price)
     {
         if (isset($this->billing_plan)) {
             return $this;
@@ -164,7 +164,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addAnnualPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addAnnualPlan($name, $description, $price)
     {
         if (isset($this->billing_plan)) {
             return $this;
@@ -188,7 +188,7 @@ trait Helpers
      *
      * @return array
      */
-    protected function addPlanBillingCycle(string $interval_unit, int $interval_count, float $price, bool $trial = false)
+    protected function addPlanBillingCycle($interval_unit, $interval_count, $price,  $trial = false)
     {
         $pricing_scheme = [
             'fixed_price' => [
@@ -221,7 +221,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addProduct(string $name, string $description, string $type, string $category): \Srmklive\PayPal\Services\PayPal
+    public function addProduct($name, $description, $type, $category)
     {
         if (isset($this->product)) {
             return $this;
@@ -246,7 +246,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addProductById(string $product_id): \Srmklive\PayPal\Services\PayPal
+    public function addProductById($product_id)
     {
         $this->product = [
             'id' => $product_id,
@@ -262,7 +262,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addBillingPlanById(string $plan_id): \Srmklive\PayPal\Services\PayPal
+    public function addBillingPlanById($plan_id)
     {
         $this->billing_plan = [
             'id' => $plan_id,
@@ -282,7 +282,7 @@ trait Helpers
      *
      * @return void
      */
-    protected function addBillingPlan(string $name, string $description, array $billing_cycles): void
+    protected function addBillingPlan($name, $description, array $billing_cycles)
     {
         $request_id = Str::random();
 

@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
-use GuzzleHttp\Utils;
+
 
 trait PaymentCaptures
 {
@@ -11,7 +11,7 @@ trait PaymentCaptures
      */
     private function mockGetCapturedPaymentDetailsResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "2GG279541U471931P",
   "status": "COMPLETED",
   "status_details": {},
@@ -69,7 +69,7 @@ trait PaymentCaptures
      */
     private function mockRefundCapturedPaymentResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "1JU08902781691411",
   "status": "COMPLETED",
   "links": [

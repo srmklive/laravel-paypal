@@ -51,7 +51,7 @@ trait PayPalRequest
      *
      * @throws \RuntimeException|\Exception
      */
-    public function setApiCredentials(array $credentials): void
+    public function setApiCredentials(array $credentials)
     {
         if (empty($credentials)) {
             $this->throwConfigurationException();
@@ -79,7 +79,7 @@ trait PayPalRequest
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function setCurrency(string $currency = 'USD'): \Srmklive\PayPal\Services\PayPal
+    public function setCurrency($currency = 'USD')
     {
         $allowedCurrencies = ['AUD', 'BRL', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'INR', 'JPY', 'MYR', 'MXN', 'NOK', 'NZD', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'TWD', 'THB', 'USD', 'RUB', 'CNY'];
 
@@ -96,7 +96,7 @@ trait PayPalRequest
     /**
      * Return the set currency.
      */
-    public function getCurrency(): string
+    public function getCurrency()
     {
         return $this->currency;
     }
@@ -141,7 +141,7 @@ trait PayPalRequest
      *
      * @throws \Exception
      */
-    private function setConfig(array $config): void
+    private function setConfig(array $config)
     {
         $api_config = function_exists('config') && !empty(config('paypal')) ? config('paypal') : $config;
 
@@ -154,7 +154,7 @@ trait PayPalRequest
      *
      * @param array $credentials
      */
-    private function setApiEnvironment(array $credentials): void
+    private function setApiEnvironment(array $credentials)
     {
         $this->mode = 'live';
 
@@ -170,7 +170,7 @@ trait PayPalRequest
      *
      * @param string $mode
      */
-    private function setValidApiEnvironment(string $mode): void
+    private function setValidApiEnvironment($mode)
     {
         $this->mode = !in_array($mode, ['sandbox', 'live']) ? 'live' : $mode;
     }
@@ -182,7 +182,7 @@ trait PayPalRequest
      *
      * @throws \Exception
      */
-    private function setApiProviderConfiguration(array $credentials): void
+    private function setApiProviderConfiguration(array $credentials)
     {
         // Setting PayPal API Credentials
         if (empty($credentials[$this->mode])) {

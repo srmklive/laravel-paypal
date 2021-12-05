@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
-use GuzzleHttp\Utils;
+
 
 trait Trackers
 {
@@ -11,7 +11,7 @@ trait Trackers
      */
     private function mockGetTrackingDetailsResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "transaction_id": "8MC585209K746392H",
   "tracking_number": "443844607820",
   "status": "SHIPPED",
@@ -40,7 +40,7 @@ trait Trackers
      */
     private function mockCreateTrackinginBatchesResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "tracker_identifiers": [
     {
       "transaction_id": "8MC585209K746392H",

@@ -34,7 +34,7 @@ trait PaymentExperienceWebProfiles
      *
      * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
      */
-    public function createWebExperienceProfile(array $data, string $request_id)
+    public function createWebExperienceProfile(array $data, $request_id)
     {
         $this->apiEndPoint = 'v1/payment-experience/web-profiles';
 
@@ -57,7 +57,7 @@ trait PaymentExperienceWebProfiles
      *
      * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
      */
-    public function deleteWebExperienceProfile(string $profile_id)
+    public function deleteWebExperienceProfile($profile_id)
     {
         $this->apiEndPoint = "v1/payment-experience/web-profiles/{$profile_id}";
 
@@ -78,7 +78,7 @@ trait PaymentExperienceWebProfiles
      *
      * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
      */
-    public function patchWebExperienceProfile(string $profile_id, array $data)
+    public function patchWebExperienceProfile($profile_id, array $data)
     {
         $this->apiEndPoint = "v1/payment-experience/web-profiles/{$profile_id}";
 
@@ -101,7 +101,7 @@ trait PaymentExperienceWebProfiles
      *
      * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
      */
-    public function updateWebExperienceProfile(string $profile_id, array $data)
+    public function updateWebExperienceProfile($profile_id, array $data)
     {
         $this->apiEndPoint = "v1/payment-experience/web-profiles/{$profile_id}";
 
@@ -123,7 +123,7 @@ trait PaymentExperienceWebProfiles
      *
      * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
      */
-    public function showWebExperienceProfileDetails(string $profile_id)
+    public function showWebExperienceProfileDetails($profile_id)
     {
         $this->apiEndPoint = "v1/payment-experience/web-profiles/{$profile_id}";
 

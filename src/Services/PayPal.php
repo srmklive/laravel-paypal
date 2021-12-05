@@ -35,7 +35,7 @@ class PayPal
      *
      * @param array $credentials
      */
-    protected function setOptions(array $credentials): void
+    protected function setOptions(array $credentials)
     {
         // Setting API Endpoints
         $this->config['api_url'] = 'https://api-m.paypal.com';

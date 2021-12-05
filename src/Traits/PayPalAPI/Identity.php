@@ -39,7 +39,7 @@ trait Identity
      *
      * @see https://developer.paypal.com/docs/api/identity/v1/#applications_post
      */
-    public function createMerchantApplication(string $client_name, array $redirect_uris, array $contacts, string $payer_id, string $migrated_app, string $application_type = 'web', string $logo_url = '')
+    public function createMerchantApplication($client_name, array $redirect_uris, array $contacts, $payer_id, $migrated_app, $application_type = 'web', $logo_url = '')
     {
         $this->apiEndPoint = 'v1/identity/applications';
 
@@ -69,7 +69,7 @@ trait Identity
      *
      * @see https://developer.paypal.com/docs/api/identity/v1/#account-settings_post
      */
-    public function setAccountProperties(array $features, string $account_property = 'BRAINTREE_MERCHANT')
+    public function setAccountProperties(array $features, $account_property = 'BRAINTREE_MERCHANT')
     {
         $this->apiEndPoint = 'v1/identity/account-settings';
 
@@ -94,7 +94,7 @@ trait Identity
      *
      * @see https://developer.paypal.com/docs/api/identity/v1/#account-settings_deactivate
      */
-    public function disableAccountProperties(string $account_property = 'BRAINTREE_MERCHANT')
+    public function disableAccountProperties($account_property = 'BRAINTREE_MERCHANT')
     {
         $this->apiEndPoint = 'v1/identity/account-settings/deactivate';
 

@@ -58,7 +58,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list
      */
-    public function listInvoices(int $page = 1, int $size = 20, bool $totals = true, array $fields = [])
+    public function listInvoices( $page = 1, $size = 20,  $totals = true, array $fields = [])
     {
         $totals = ($totals === true) ? 'true' : 'false';
 
@@ -84,7 +84,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list
      */
-    public function deleteInvoice(string $invoice_id)
+    public function deleteInvoice($invoice_id)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}";
 
@@ -105,7 +105,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_update
      */
-    public function updateInvoice(string $invoice_id, array $data)
+    public function updateInvoice($invoice_id, array $data)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}";
 
@@ -127,7 +127,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_get
      */
-    public function showInvoiceDetails(string $invoice_id)
+    public function showInvoiceDetails($invoice_id)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}";
 
@@ -148,7 +148,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_cancel
      */
-    public function cancelInvoice(string $invoice_id, array $notes)
+    public function cancelInvoice($invoice_id, array $notes)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/cancel";
 
@@ -172,7 +172,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_generate-qr-code
      */
-    public function generateQRCodeInvoice(string $invoice_id, int $width = 100, int $height = 100)
+    public function generateQRCodeInvoice($invoice_id, $width = 100, $height = 100)
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/generate-qr-code";
 
@@ -201,7 +201,7 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_payments
      */
-    public function registerPaymentInvoice(string $invoice_id, string $payment_date, string $payment_method, float $amount, string $payment_note = '', string $payment_id = '')
+    public function registerPaymentInvoice($invoice_id, $payment_date, $payment_method, $amount, $payment_note = '', $payment_id = '')
     {
         $this->apiEndPoint = "v2/invoicing/invoices/{$invoice_id}/payments";
 

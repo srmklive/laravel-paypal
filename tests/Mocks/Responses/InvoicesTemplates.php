@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
-use GuzzleHttp\Utils;
+
 
 trait InvoicesTemplates
 {
@@ -11,7 +11,7 @@ trait InvoicesTemplates
      */
     private function mockCreateInvoiceTemplateResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "TEMP-19V05281TU309413B",
   "name": "reference-temp",
   "default_template": true,
@@ -299,7 +299,7 @@ trait InvoicesTemplates
      */
     private function mockListInvoiceTemplateResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "addresses": [
     {
       "address_line_1": "1234 First Street",
@@ -672,7 +672,7 @@ trait InvoicesTemplates
      */
     private function mockUpdateInvoiceTemplateResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "TEMP-19V05281TU309413B",
   "name": "reference-temp",
   "default_template": true,
@@ -960,7 +960,7 @@ trait InvoicesTemplates
      */
     private function mockGetInvoiceTemplateResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "TEMP-19V05281TU309413B",
   "name": "reference-temp",
   "default_template": true,

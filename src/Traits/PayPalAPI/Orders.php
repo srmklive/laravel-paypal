@@ -26,7 +26,7 @@ trait Orders
         return $this->doPayPalRequest();
     }
 
-    public function updateOrder(string $order_id, array $data)
+    public function updateOrder($order_id, array $data)
     {
         $this->apiEndPoint = "v2/checkout/orders/{$order_id}";
 
@@ -48,7 +48,7 @@ trait Orders
      *
      * @see https://developer.paypal.com/docs/api/orders/v2/#orders_get
      */
-    public function showOrderDetails(string $order_id)
+    public function showOrderDetails($order_id)
     {
         $this->apiEndPoint = "v2/checkout/orders/{$order_id}";
 
@@ -69,7 +69,7 @@ trait Orders
      *
      * @see https://developer.paypal.com/docs/api/orders/v2/#orders_authorize
      */
-    public function authorizePaymentOrder(string $order_id, array $data = [])
+    public function authorizePaymentOrder($order_id, array $data = [])
     {
         $this->apiEndPoint = "v2/checkout/orders/{$order_id}/authorize";
 
@@ -92,7 +92,7 @@ trait Orders
      *
      * @see https://developer.paypal.com/docs/api/orders/v2/#orders_capture
      */
-    public function capturePaymentOrder(string $order_id, array $data = [])
+    public function capturePaymentOrder($order_id, array $data = [])
     {
         $this->apiEndPoint = "v2/checkout/orders/{$order_id}/capture";
 

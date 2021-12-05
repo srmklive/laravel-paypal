@@ -2,13 +2,13 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
-use GuzzleHttp\Utils;
+
 
 trait Identity
 {
     private function mockShowProfileInfoResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "user_id": "https://www.paypal.com/webapps/auth/identity/user/mWq6_1sU85v5EG9yHdPxJRrhGHrnMJ-1PQKtX6pcsmA",
   "name": "identity test",
   "given_name": "identity",
@@ -33,7 +33,7 @@ trait Identity
 
     private function mockCreateMerchantApplicationResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "client_id": "AeTeCqaPp7JZBfUUb2d21cQ2KqyQGVhonfiUOJu99kgLhFFSrE59ruvhLOT4K3NzQoErgsUH6MY9uRqD",
   "client_secret": "cf136dc3c1fc93f31185e5885805d",
   "client_id_issued_at": 2893256800,

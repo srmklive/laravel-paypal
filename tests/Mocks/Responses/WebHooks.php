@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
-use GuzzleHttp\Utils;
+
 
 trait WebHooks
 {
@@ -11,7 +11,7 @@ trait WebHooks
      */
     private function mockCreateWebHookResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "0EH40505U7160970P",
   "url": "https://example.com/example_webhook",
   "event_types": [
@@ -49,7 +49,7 @@ trait WebHooks
      */
     private function mockListWebHookResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "webhooks": [
     {
       "id": "40Y916089Y8324740",
@@ -122,7 +122,7 @@ trait WebHooks
      */
     private function mockUpdateWebHookResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "0EH40505U7160970P",
   "url": "https://example.com/example_webhook_2",
   "event_types": [
@@ -156,7 +156,7 @@ trait WebHooks
      */
     private function mockGetWebHookResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "0EH40505U7160970P",
   "url": "https://example.com/example_webhook",
   "event_types": [
@@ -196,7 +196,7 @@ trait WebHooks
      */
     private function mockListWebHookEventsResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "event_types": [
     {
       "name": "PAYMENT.AUTHORIZATION.CREATED",
@@ -222,7 +222,7 @@ trait WebHooks
      */
     private function mockListWebHookEventsTypesResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "event_types": [
     {
       "name": "PAYMENT.AUTHORIZATION.CREATED",
@@ -257,7 +257,7 @@ trait WebHooks
      */
     private function mockWebHookEventsListResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "events": [
     {
       "id": "8PT597110X687430LKGECATA",
@@ -397,7 +397,7 @@ trait WebHooks
      */
     private function mockGetWebHookEventResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "8PT597110X687430LKGECATA",
   "create_time": "2013-06-25T21:41:28Z",
   "resource_type": "authorization",
@@ -462,7 +462,7 @@ trait WebHooks
      */
     private function mockResendWebHookEventNotificationResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "8PT597110X687430LKGECATA",
   "create_time": "2013-06-25T21:41:28Z",
   "resource_type": "authorization",
@@ -527,7 +527,7 @@ trait WebHooks
      */
     private function mockVerifyWebHookSignatureResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "verification_status": "SUCCESS"
 }', true);
     }

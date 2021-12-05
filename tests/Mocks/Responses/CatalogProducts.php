@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
-use GuzzleHttp\Utils;
+
 
 trait CatalogProducts
 {
@@ -11,7 +11,7 @@ trait CatalogProducts
      */
     private function mockCreateCatalogProductsResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "PROD-XYAB12ABSB7868434",
   "name": "Video Streaming Service",
   "description": "Video streaming service",
@@ -41,7 +41,7 @@ trait CatalogProducts
      */
     private function mockListCatalogProductsResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "total_items": 20,
   "total_pages": 1,
   "products": [
@@ -97,7 +97,7 @@ trait CatalogProducts
      */
     private function mockGetCatalogProductsResponse()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "72255d4849af8ed6e0df1173",
   "name": "Video Streaming Service",
   "description": "Video streaming service",

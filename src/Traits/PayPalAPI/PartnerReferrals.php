@@ -37,7 +37,7 @@ trait PartnerReferrals
      *
      * @see https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_read
      */
-    public function showReferralData(string $partner_referral_id)
+    public function showReferralData($partner_referral_id)
     {
         $this->apiEndPoint = "v2/customer/partner-referrals/{$partner_referral_id}";
 

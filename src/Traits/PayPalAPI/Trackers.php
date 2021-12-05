@@ -15,7 +15,7 @@ trait Trackers
      *
      * @see https://developer.paypal.com/docs/api/tracking/v1/#trackers_get
      */
-    public function showTrackingDetails(string $tracking_id)
+    public function showTrackingDetails($tracking_id)
     {
         $this->apiEndPoint = "v1/shipping/trackers/{$tracking_id}";
 
@@ -36,7 +36,7 @@ trait Trackers
      *
      * @see https://developer.paypal.com/docs/api/tracking/v1/#trackers_put
      */
-    public function updateTrackingDetails(string $tracking_id, array $data)
+    public function updateTrackingDetails($tracking_id, array $data)
     {
         $this->apiEndPoint = "v1/shipping/trackers/{$tracking_id}";
 

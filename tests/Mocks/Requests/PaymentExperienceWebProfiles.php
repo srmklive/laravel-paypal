@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
-use GuzzleHttp\Utils;
+
 
 trait PaymentExperienceWebProfiles
 {
@@ -11,7 +11,7 @@ trait PaymentExperienceWebProfiles
      */
     private function mockCreateWebProfileParams()
     {
-        return Utils::jsonDecode('[
+        return \GuzzleHttp\json_decode('[
   {
     "id": "XP-GCUV-X35G-HNEY-5MJY",
     "name": "exampleProfile",
@@ -64,7 +64,7 @@ trait PaymentExperienceWebProfiles
      */
     private function partiallyUpdateWebProfileParams()
     {
-        return Utils::jsonDecode('[
+        return \GuzzleHttp\json_decode('[
   {
     "op": "add",
     "path": "/presentation/brand_name",
@@ -82,7 +82,7 @@ trait PaymentExperienceWebProfiles
      */
     private function updateWebProfileParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "name": "exampleProfile",
   "presentation": {
     "logo_image": "https://example.com/logo_image/"

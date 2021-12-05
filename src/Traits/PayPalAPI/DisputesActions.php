@@ -17,7 +17,7 @@ trait DisputesActions
      *
      * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_accept-claim
      */
-    public function acceptDisputeClaim(string $dispute_id, string $dispute_note, array $data = [])
+    public function acceptDisputeClaim($dispute_id, $dispute_note, array $data = [])
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/accept-claim";
 
@@ -43,7 +43,7 @@ trait DisputesActions
      *
      * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_accept-offer
      */
-    public function acceptDisputeOfferResolution(string $dispute_id, string $dispute_note)
+    public function acceptDisputeOfferResolution($dispute_id, $dispute_note)
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/accept-offer";
 
@@ -69,7 +69,7 @@ trait DisputesActions
      *
      * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_acknowledge-return-item
      */
-    public function acknowledgeItemReturned(string $dispute_id, string $dispute_note, string $acknowledgement_type)
+    public function acknowledgeItemReturned($dispute_id, $dispute_note, $acknowledgement_type)
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/acknowledge-return-item";
 

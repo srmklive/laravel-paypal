@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
-use GuzzleHttp\Utils;
+
 
 trait PaymentAuthorizations
 {
@@ -11,7 +11,7 @@ trait PaymentAuthorizations
      */
     private function mockCaptureAuthorizedPaymentParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "amount": {
     "value": "10.99",
     "currency_code": "USD"
@@ -27,7 +27,7 @@ trait PaymentAuthorizations
      */
     private function mockReAuthorizeAuthorizedPaymentParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "amount": {
     "value": "10.99",
     "currency_code": "USD"

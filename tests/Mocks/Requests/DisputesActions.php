@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
-use GuzzleHttp\Utils;
+
 
 trait DisputesActions
 {
@@ -11,7 +11,7 @@ trait DisputesActions
      */
     protected function acceptDisputeClaimParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "note": "Full refund to the customer.",
   "accept_claim_type": "REFUND"
 }', true);
@@ -22,7 +22,7 @@ trait DisputesActions
      */
     protected function acceptDisputeResolutionParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "note": "I am ok with the refund offered."
 }', true);
     }
@@ -32,7 +32,7 @@ trait DisputesActions
      */
     protected function acknowledgeItemReturnedParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "note": "I have received the item back.",
   "acknowledgement_type": "ITEM_RECEIVED"
 }', true);

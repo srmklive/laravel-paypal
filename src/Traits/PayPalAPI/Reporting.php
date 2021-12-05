@@ -20,7 +20,7 @@ trait Reporting
      *
      * @see https://developer.paypal.com/docs/api/transaction-search/v1/#transactions_get
      */
-    public function listTransactions(array $filters, string $fields = 'all', int $page = 1, int $page_size = 100)
+    public function listTransactions(array $filters, $fields = 'all', $page = 1, $page_size = 100)
     {
         $filters_list = collect($filters)->isEmpty() ? '' :
             collect($filters)->map(function ($value, $key) {
@@ -46,7 +46,7 @@ trait Reporting
      *
      * @see https://developer.paypal.com/docs/api/transaction-search/v1/#balances_get
      */
-    public function listBalances(string $date = '', string $balance_currency = '')
+    public function listBalances($date = '', $balance_currency = '')
     {
         $date = empty($date) ? Carbon::now()->toIso8601String() : Carbon::parse($date)->toIso8601String();
         $currency = empty($currency) ? $this->getCurrency() : $balance_currency;

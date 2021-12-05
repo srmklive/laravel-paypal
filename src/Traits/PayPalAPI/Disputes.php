@@ -34,7 +34,7 @@ trait Disputes
      *
      * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_patch
      */
-    public function updateDispute(array $data, string $dispute_id)
+    public function updateDispute(array $data, $dispute_id)
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}";
 
@@ -56,7 +56,7 @@ trait Disputes
      *
      * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_get
      */
-    public function showDisputeDetails(string $dispute_id)
+    public function showDisputeDetails($dispute_id)
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}";
 

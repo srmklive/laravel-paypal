@@ -2,7 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
-use GuzzleHttp\Utils;
+
 
 trait Invoices
 {
@@ -11,7 +11,7 @@ trait Invoices
      */
     private function createInvoiceParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "detail": {
     "invoice_number": "#123",
     "reference": "deal-ref",
@@ -175,7 +175,7 @@ trait Invoices
      */
     private function updateInvoiceParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "id": "INV2-C82X-JNN9-Y6S5-CNXW",
   "status": "DRAFT",
   "detail": {
@@ -375,7 +375,7 @@ trait Invoices
      */
     private function cancelInvoiceParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "subject": "Invoice Cancelled",
   "note": "Cancelling the invoice",
   "send_to_invoicer": true,
@@ -391,7 +391,7 @@ trait Invoices
      */
     private function generateQRCodeInvoiceParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "width": 400,
   "height": 400
 }', true);
@@ -402,7 +402,7 @@ trait Invoices
      */
     private function registerInvoicePaymentParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "width": 400,
   "height": 400
 }', true);
@@ -413,7 +413,7 @@ trait Invoices
      */
     private function refundInvoicePaymentParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "method": "BANK_TRANSFER",
   "refund_date": "2018-05-21",
   "amount": {
@@ -428,7 +428,7 @@ trait Invoices
      */
     private function sendInvoiceParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "subject": "Payment due for the invoice #ABC-123",
   "note": "Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.",
   "send_to_invoicer": true,
@@ -444,7 +444,7 @@ trait Invoices
      */
     private function sendInvoiceReminderParams()
     {
-        return Utils::jsonDecode('{
+        return \GuzzleHttp\json_decode('{
   "subject": "Reminder: Payment due for the invoice #ABC-123",
   "note": "Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.",
   "send_to_invoicer": true,
