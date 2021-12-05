@@ -9,7 +9,7 @@ trait Disputes
     /**
      * @return array
      */
-    private function mockListDisputesResponse(): array
+    private function mockListDisputesResponse()
     {
         return Utils::jsonDecode('{
   "items": [
@@ -69,7 +69,7 @@ trait Disputes
     /**
      * @return array
      */
-    private function mockGetDisputesResponse(): array
+    private function mockGetDisputesResponse()
     {
         return Utils::jsonDecode('{
   "dispute_id": "PP-D-4012",

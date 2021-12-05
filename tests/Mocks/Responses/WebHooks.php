@@ -9,7 +9,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockCreateWebHookResponse(): array
+    private function mockCreateWebHookResponse()
     {
         return Utils::jsonDecode('{
   "id": "0EH40505U7160970P",
@@ -47,7 +47,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockListWebHookResponse(): array
+    private function mockListWebHookResponse()
     {
         return Utils::jsonDecode('{
   "webhooks": [
@@ -120,7 +120,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockUpdateWebHookResponse(): array
+    private function mockUpdateWebHookResponse()
     {
         return Utils::jsonDecode('{
   "id": "0EH40505U7160970P",
@@ -154,7 +154,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockGetWebHookResponse(): array
+    private function mockGetWebHookResponse()
     {
         return Utils::jsonDecode('{
   "id": "0EH40505U7160970P",
@@ -194,7 +194,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockListWebHookEventsResponse(): array
+    private function mockListWebHookEventsResponse()
     {
         return Utils::jsonDecode('{
   "event_types": [
@@ -220,7 +220,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockListWebHookEventsTypesResponse(): array
+    private function mockListWebHookEventsTypesResponse()
     {
         return Utils::jsonDecode('{
   "event_types": [
@@ -255,7 +255,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockWebHookEventsListResponse(): array
+    private function mockWebHookEventsListResponse()
     {
         return Utils::jsonDecode('{
   "events": [
@@ -395,7 +395,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockGetWebHookEventResponse(): array
+    private function mockGetWebHookEventResponse()
     {
         return Utils::jsonDecode('{
   "id": "8PT597110X687430LKGECATA",
@@ -460,7 +460,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockResendWebHookEventNotificationResponse(): array
+    private function mockResendWebHookEventNotificationResponse()
     {
         return Utils::jsonDecode('{
   "id": "8PT597110X687430LKGECATA",
@@ -525,7 +525,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockVerifyWebHookSignatureResponse(): array
+    private function mockVerifyWebHookSignatureResponse()
     {
         return Utils::jsonDecode('{
   "verification_status": "SUCCESS"

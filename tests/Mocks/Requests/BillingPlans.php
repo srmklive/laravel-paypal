@@ -9,7 +9,7 @@ trait BillingPlans
     /**
      * @return array
      */
-    private function createPlanParams(): array
+    private function createPlanParams()
     {
         return Utils::jsonDecode('{
   "product_id": "PROD-XXCD1234QWER65782",
@@ -82,7 +82,7 @@ trait BillingPlans
     /**
      * @return array
      */
-    private function updatePlanParams(): array
+    private function updatePlanParams()
     {
         return Utils::jsonDecode('[
   {
@@ -96,7 +96,7 @@ trait BillingPlans
     /**
      * @return array
      */
-    private function updatePlanPricingParams(): array
+    private function updatePlanPricingParams()
     {
         return Utils::jsonDecode('{
   "pricing_schemes": [

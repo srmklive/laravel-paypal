@@ -107,39 +107,6 @@ trait PayPalRequest
      * @param string $key
      * @param string $value
      *
-     * @return \Srmklive\PayPal\Services\PayPal
-     */
-    public function setRequestHeader(string $key, string $value): \Srmklive\PayPal\Services\PayPal
-    {
-        $this->options['headers'][$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Return request options header.
-     *
-     * @param string $key
-     *
-     * @throws \RuntimeException
-     *
-     * @return string
-     */
-    public function getRequestHeader(string $key): string
-    {
-        if (isset($this->options['headers'][$key])) {
-            return $this->options['headers'][$key];
-        }
-
-        throw new RuntimeException('Options header is not set.');
-    }
-
-    /**
-     * Function to add request header.
-     *
-     * @param string $key
-     * @param string $value
-     *
      * @return $this
      */
     public function setRequestHeader($key, $value)

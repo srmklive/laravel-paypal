@@ -9,7 +9,7 @@ trait Orders
     /*
     * @return array
     */
-    private function createOrderParams(): array
+    private function createOrderParams()
     {
         return Utils::jsonDecode('{
             "intent": "CAPTURE",
@@ -27,7 +27,7 @@ trait Orders
     /*
     * @return array
     */
-    private function updateOrderParams(): array
+    private function updateOrderParams()
     {
         return Utils::jsonDecode('[
         {

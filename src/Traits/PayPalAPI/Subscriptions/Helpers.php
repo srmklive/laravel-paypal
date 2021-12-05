@@ -188,7 +188,7 @@ trait Helpers
      *
      * @return array
      */
-    protected function addPlanBillingCycle(string $interval_unit, int $interval_count, float $price, bool $trial = false): array
+    protected function addPlanBillingCycle(string $interval_unit, int $interval_count, float $price, bool $trial = false)
     {
         $pricing_scheme = [
             'fixed_price' => [

@@ -9,7 +9,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function mockGenerateInvoiceNumberResponse(): array
+    private function mockGenerateInvoiceNumberResponse()
     {
         return Utils::jsonDecode('{
   "invoice_number": "ee0044"
@@ -19,7 +19,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function mockCreateInvoicesResponse(): array
+    private function mockCreateInvoicesResponse()
     {
         return Utils::jsonDecode('{
   "id": "INV2-Z56S-5LLA-Q52L-CPZ5",
@@ -260,7 +260,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function mockListInvoicesResponse(): array
+    private function mockListInvoicesResponse()
     {
         return Utils::jsonDecode('{
   "total_items": 2,
@@ -389,7 +389,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function mockUpdateInvoicesResponse(): array
+    private function mockUpdateInvoicesResponse()
     {
         return Utils::jsonDecode('{
   "id": "INV2-C82X-JNN9-Y6S5-CNXW",
@@ -620,7 +620,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function mockGetInvoicesResponse(): array
+    private function mockGetInvoicesResponse()
     {
         return Utils::jsonDecode('{
   "id": "INV2-Z56S-5LLA-Q52L-CPZ5",
@@ -869,7 +869,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function mockInvoiceRegisterPaymentResponse(): array
+    private function mockInvoiceRegisterPaymentResponse()
     {
         return Utils::jsonDecode('{
   "payment_id": "EXTR-86F38350LX4353815"
@@ -879,7 +879,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function mockInvoiceRefundPaymentResponse(): array
+    private function mockInvoiceRefundPaymentResponse()
     {
         return Utils::jsonDecode('{
   "refund_id": "EXTR-2LG703375E477444T"

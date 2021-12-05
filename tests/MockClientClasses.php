@@ -12,7 +12,12 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 trait MockClientClasses
 {
-    private function mock_http_client($response): HttpClient
+    /**
+     * @param array $response
+     *
+     * @return HttpClient
+     */
+    private function mock_http_client($response)
     {
         $mock = new HttpMockHandler([
             new HttpResponse(
@@ -82,7 +87,7 @@ trait MockClientClasses
         return $mockClient;
     }
 
-    private function getMockCredentials(): array
+    private function getMockCredentials()
     {
         return [
             'mode'    => 'sandbox',
@@ -99,7 +104,7 @@ trait MockClientClasses
         ];
     }
 
-    private function getApiCredentials(): array
+    private function getApiCredentials()
     {
         return [
             'mode'    => 'sandbox',

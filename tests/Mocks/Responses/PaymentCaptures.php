@@ -9,7 +9,7 @@ trait PaymentCaptures
     /**
      * @return array
      */
-    private function mockGetCapturedPaymentDetailsResponse(): array
+    private function mockGetCapturedPaymentDetailsResponse()
     {
         return Utils::jsonDecode('{
   "id": "2GG279541U471931P",
@@ -67,7 +67,7 @@ trait PaymentCaptures
     /**
      * @return array
      */
-    private function mockRefundCapturedPaymentResponse(): array
+    private function mockRefundCapturedPaymentResponse()
     {
         return Utils::jsonDecode('{
   "id": "1JU08902781691411",

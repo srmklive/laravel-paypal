@@ -9,7 +9,7 @@ trait InvoicesTemplates
     /**
      * @return array
      */
-    private function mockCreateInvoiceTemplateParams(): array
+    private function mockCreateInvoiceTemplateParams()
     {
         return Utils::jsonDecode('{
   "default_template": true,
@@ -239,7 +239,7 @@ trait InvoicesTemplates
     /**
      * @return array
      */
-    private function mockUpdateInvoiceTemplateParams(): array
+    private function mockUpdateInvoiceTemplateParams()
     {
         return Utils::jsonDecode('{
   "default_template": true,

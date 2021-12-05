@@ -9,7 +9,7 @@ trait PaymentExperienceWebProfiles
     /**
      * @return array
      */
-    private function mockCreateWebProfileParams(): array
+    private function mockCreateWebProfileParams()
     {
         return Utils::jsonDecode('[
   {
@@ -62,7 +62,7 @@ trait PaymentExperienceWebProfiles
     /**
      * @return array
      */
-    private function partiallyUpdateWebProfileParams(): array
+    private function partiallyUpdateWebProfileParams()
     {
         return Utils::jsonDecode('[
   {
@@ -80,7 +80,7 @@ trait PaymentExperienceWebProfiles
     /**
      * @return array
      */
-    private function updateWebProfileParams(): array
+    private function updateWebProfileParams()
     {
         return Utils::jsonDecode('{
   "name": "exampleProfile",

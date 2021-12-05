@@ -9,7 +9,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function createInvoiceParams(): array
+    private function createInvoiceParams()
     {
         return Utils::jsonDecode('{
   "detail": {
@@ -173,7 +173,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function updateInvoiceParams(): array
+    private function updateInvoiceParams()
     {
         return Utils::jsonDecode('{
   "id": "INV2-C82X-JNN9-Y6S5-CNXW",
@@ -373,7 +373,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function cancelInvoiceParams(): array
+    private function cancelInvoiceParams()
     {
         return Utils::jsonDecode('{
   "subject": "Invoice Cancelled",
@@ -389,7 +389,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function generateQRCodeInvoiceParams(): array
+    private function generateQRCodeInvoiceParams()
     {
         return Utils::jsonDecode('{
   "width": 400,
@@ -400,7 +400,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function registerInvoicePaymentParams(): array
+    private function registerInvoicePaymentParams()
     {
         return Utils::jsonDecode('{
   "width": 400,
@@ -411,7 +411,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function refundInvoicePaymentParams(): array
+    private function refundInvoicePaymentParams()
     {
         return Utils::jsonDecode('{
   "method": "BANK_TRANSFER",
@@ -426,7 +426,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function sendInvoiceParams(): array
+    private function sendInvoiceParams()
     {
         return Utils::jsonDecode('{
   "subject": "Payment due for the invoice #ABC-123",
@@ -442,7 +442,7 @@ trait Invoices
     /**
      * @return array
      */
-    private function sendInvoiceReminderParams(): array
+    private function sendInvoiceReminderParams()
     {
         return Utils::jsonDecode('{
   "subject": "Reminder: Payment due for the invoice #ABC-123",

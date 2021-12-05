@@ -6,7 +6,7 @@ use GuzzleHttp\Utils;
 
 trait Identity
 {
-    private function mockShowProfileInfoResponse(): array
+    private function mockShowProfileInfoResponse()
     {
         return Utils::jsonDecode('{
   "user_id": "https://www.paypal.com/webapps/auth/identity/user/mWq6_1sU85v5EG9yHdPxJRrhGHrnMJ-1PQKtX6pcsmA",
@@ -31,7 +31,7 @@ trait Identity
 }', true);
     }
 
-    private function mockCreateMerchantApplicationResponse(): array
+    private function mockCreateMerchantApplicationResponse()
     {
         return Utils::jsonDecode('{
   "client_id": "AeTeCqaPp7JZBfUUb2d21cQ2KqyQGVhonfiUOJu99kgLhFFSrE59ruvhLOT4K3NzQoErgsUH6MY9uRqD",

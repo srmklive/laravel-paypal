@@ -9,7 +9,7 @@ trait DisputesActions
     /**
      * @return array
      */
-    protected function acceptDisputeClaimParams(): array
+    protected function acceptDisputeClaimParams()
     {
         return Utils::jsonDecode('{
   "note": "Full refund to the customer.",
@@ -20,7 +20,7 @@ trait DisputesActions
     /**
      * @return array
      */
-    protected function acceptDisputeResolutionParams(): array
+    protected function acceptDisputeResolutionParams()
     {
         return Utils::jsonDecode('{
   "note": "I am ok with the refund offered."
@@ -30,7 +30,7 @@ trait DisputesActions
     /**
      * @return array
      */
-    protected function acknowledgeItemReturnedParams(): array
+    protected function acknowledgeItemReturnedParams()
     {
         return Utils::jsonDecode('{
   "note": "I have received the item back.",

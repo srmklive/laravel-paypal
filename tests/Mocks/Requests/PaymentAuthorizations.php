@@ -9,7 +9,7 @@ trait PaymentAuthorizations
     /**
      * @return array
      */
-    private function mockCaptureAuthorizedPaymentParams(): array
+    private function mockCaptureAuthorizedPaymentParams()
     {
         return Utils::jsonDecode('{
   "amount": {
@@ -25,7 +25,7 @@ trait PaymentAuthorizations
     /**
      * @return array
      */
-    private function mockReAuthorizeAuthorizedPaymentParams(): array
+    private function mockReAuthorizeAuthorizedPaymentParams()
     {
         return Utils::jsonDecode('{
   "amount": {

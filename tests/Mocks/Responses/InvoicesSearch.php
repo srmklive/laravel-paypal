@@ -9,7 +9,7 @@ trait InvoicesSearch
     /**
      * @return array
      */
-    private function mockSearchInvoicesResponse(): array
+    private function mockSearchInvoicesResponse()
     {
         return Utils::jsonDecode('{
   "total_items": 6,

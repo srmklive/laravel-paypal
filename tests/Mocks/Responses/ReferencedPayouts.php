@@ -9,7 +9,7 @@ trait ReferencedPayouts
     /**
      * @return array
      */
-    private function mockCreateReferencedBatchPayoutResponse(): array
+    private function mockCreateReferencedBatchPayoutResponse()
     {
         return Utils::jsonDecode('{
   "links": [
@@ -25,7 +25,7 @@ trait ReferencedPayouts
     /**
      * @return array
      */
-    private function mockShowReferencedBatchPayoutResponse(): array
+    private function mockShowReferencedBatchPayoutResponse()
     {
         return Utils::jsonDecode('{
   "referenced_payouts": [
@@ -91,7 +91,7 @@ trait ReferencedPayouts
     /**
      * @return array
      */
-    private function mockCreateReferencedBatchPayoutItemResponse(): array
+    private function mockCreateReferencedBatchPayoutItemResponse()
     {
         return Utils::jsonDecode('{
   "item_id": "SOMEITEMID",
@@ -108,7 +108,7 @@ trait ReferencedPayouts
     /**
      * @return array
      */
-    private function mockShowReferencedBatchPayoutItemResponse(): array
+    private function mockShowReferencedBatchPayoutItemResponse()
     {
         return Utils::jsonDecode('{
   "item_id": "SOMEITEMID",

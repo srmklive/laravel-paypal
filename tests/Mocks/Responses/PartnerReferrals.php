@@ -6,7 +6,7 @@ use GuzzleHttp\Utils;
 
 trait PartnerReferrals
 {
-    private function mockCreatePartnerReferralsResponse(): array
+    private function mockCreatePartnerReferralsResponse()
     {
         return Utils::jsonDecode('{
   "links": [
@@ -24,7 +24,7 @@ trait PartnerReferrals
 }', true);
     }
 
-    private function mockShowReferralDataResponse(): array
+    private function mockShowReferralDataResponse()
     {
         return Utils::jsonDecode('{
   "partner_referral_id": "ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=",

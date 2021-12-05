@@ -9,7 +9,7 @@ trait PaymentCaptures
     /**
      * @return array
      */
-    private function mockRefundCapturedPaymentParams(): array
+    private function mockRefundCapturedPaymentParams()
     {
         return Utils::jsonDecode('{
   "amount": {

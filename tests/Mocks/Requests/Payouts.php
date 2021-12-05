@@ -9,7 +9,7 @@ trait Payouts
     /**
      * @return array
      */
-    private function mockCreateBatchPayoutParams(): array
+    private function mockCreateBatchPayoutParams()
     {
         return Utils::jsonDecode('{
   "sender_batch_header": {

@@ -9,7 +9,7 @@ trait Orders
     /**
      * @return array
      */
-    public function mockCreateOrdersResponse(): array
+    public function mockCreateOrdersResponse()
     {
         return Utils::jsonDecode('{
         "id": "5O190127TN364715T",
@@ -50,7 +50,7 @@ trait Orders
     /**
      * @return array
      */
-    public function mockOrderDetailsResponse(): array
+    public function mockOrderDetailsResponse()
     {
         return Utils::jsonDecode('{
         "id": "5O190127TN364715T",
@@ -93,7 +93,7 @@ trait Orders
     /**
      * @return array
      */
-    public function mockOrderPaymentAuthorizedResponse(): array
+    public function mockOrderPaymentAuthorizedResponse()
     {
         return Utils::jsonDecode('{
         "id": "5O190127TN364715T",
@@ -178,7 +178,7 @@ trait Orders
     /**
      * @return array
      */
-    public function mockOrderPaymentCapturedResponse(): array
+    public function mockOrderPaymentCapturedResponse()
     {
         return Utils::jsonDecode('{
         "id": "5O190127TN364715T",

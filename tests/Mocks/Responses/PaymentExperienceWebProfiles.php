@@ -9,7 +9,7 @@ trait PaymentExperienceWebProfiles
     /**
      * @return array
      */
-    private function mockListWebProfilesResponse(): array
+    private function mockListWebProfilesResponse()
     {
         return Utils::jsonDecode('[
   {
@@ -62,7 +62,7 @@ trait PaymentExperienceWebProfiles
     /**
      * @return array
      */
-    private function mockWebProfileResponse(): array
+    private function mockWebProfileResponse()
     {
         return Utils::jsonDecode('{
   "id": "XP-RFV4-PVD8-AGHJ-8E5J",

@@ -9,7 +9,7 @@ trait Payouts
     /**
      * @return array
      */
-    private function mockCreateBatchPayoutResponse(): array
+    private function mockCreateBatchPayoutResponse()
     {
         return Utils::jsonDecode('{
   "batch_header": {
@@ -27,7 +27,7 @@ trait Payouts
     /**
      * @return array
      */
-    private function showBatchPayoutResponse(): array
+    private function showBatchPayoutResponse()
     {
         return Utils::jsonDecode('{
   "batch_header": {
@@ -210,7 +210,7 @@ trait Payouts
     /**
      * @return array
      */
-    private function showBatchPayoutItemResponse(): array
+    private function showBatchPayoutItemResponse()
     {
         return Utils::jsonDecode('{
   "payout_item_id": "8AELMXH8UB2P8",
@@ -251,7 +251,7 @@ trait Payouts
     /**
      * @return array
      */
-    private function mockCancelUnclaimedBatchItemResponse(): array
+    private function mockCancelUnclaimedBatchItemResponse()
     {
         return Utils::jsonDecode('{
   "payout_item_id": "5KUDKLF8SDC7S",

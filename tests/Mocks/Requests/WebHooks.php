@@ -9,7 +9,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockCreateWebHookParams(): array
+    private function mockCreateWebHookParams()
     {
         return Utils::jsonDecode('{
   "url": "https://example.com/example_webhook",
@@ -27,7 +27,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockUpdateWebHookParams(): array
+    private function mockUpdateWebHookParams()
     {
         return Utils::jsonDecode('[
   {
@@ -50,7 +50,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockResendWebHookEventNotificationParams(): array
+    private function mockResendWebHookEventNotificationParams()
     {
         return Utils::jsonDecode('{
   "webhook_ids": [
@@ -62,7 +62,7 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockVerifyWebHookSignatureParams(): array
+    private function mockVerifyWebHookSignatureParams()
     {
         return Utils::jsonDecode('{
   "transmission_id": "69cd13f0-d67a-11e5-baa3-778b53f4ae55",

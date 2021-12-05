@@ -9,7 +9,7 @@ trait Reporting
     /**
      * @return array
      */
-    private function mockListTransactionsResponse(): array
+    private function mockListTransactionsResponse()
     {
         return Utils::jsonDecode('{
   "transaction_details": [
@@ -167,7 +167,7 @@ trait Reporting
     /**
      * @return array
      */
-    private function mockListBalancesResponse(): array
+    private function mockListBalancesResponse()
     {
         return Utils::jsonDecode('{
   "balance": {

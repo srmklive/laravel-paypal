@@ -9,7 +9,7 @@ trait Trackers
     /**
      * @return array
      */
-    private function mockGetTrackingDetailsResponse(): array
+    private function mockGetTrackingDetailsResponse()
     {
         return Utils::jsonDecode('{
   "transaction_id": "8MC585209K746392H",
@@ -38,7 +38,7 @@ trait Trackers
     /**
      * @return array
      */
-    private function mockCreateTrackinginBatchesResponse(): array
+    private function mockCreateTrackinginBatchesResponse()
     {
         return Utils::jsonDecode('{
   "tracker_identifiers": [

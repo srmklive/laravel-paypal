@@ -6,7 +6,7 @@ use GuzzleHttp\Utils;
 
 trait PartnerReferrals
 {
-    private function mockCreatePartnerReferralParams(): array
+    private function mockCreatePartnerReferralParams()
     {
         return Utils::jsonDecode('{
   "individual_owners": [

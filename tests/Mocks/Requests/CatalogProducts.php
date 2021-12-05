@@ -9,7 +9,7 @@ trait CatalogProducts
     /**
      * @return array
      */
-    private function createProductParams(): array
+    private function createProductParams()
     {
         return Utils::jsonDecode('{
           "name": "Video Streaming Service",
@@ -24,7 +24,7 @@ trait CatalogProducts
     /**
      * @return array
      */
-    private function updateProductParams(): array
+    private function updateProductParams()
     {
         return Utils::jsonDecode('[
           {

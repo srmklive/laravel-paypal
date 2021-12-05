@@ -9,7 +9,7 @@ trait PaymentAuthorizations
     /**
      * @return array
      */
-    private function mockGetAuthorizedPaymentDetailsResponse(): array
+    private function mockGetAuthorizedPaymentDetailsResponse()
     {
         return Utils::jsonDecode('{
   "id": "0VF52814937998046",
@@ -57,7 +57,7 @@ trait PaymentAuthorizations
     /**
      * @return array
      */
-    private function mockCaptureAuthorizedPaymentResponse(): array
+    private function mockCaptureAuthorizedPaymentResponse()
     {
         return Utils::jsonDecode('{
   "id": "2GG279541U471931P",
@@ -85,7 +85,7 @@ trait PaymentAuthorizations
     /**
      * @return array
      */
-    private function mockReAuthorizeAuthorizedPaymentResponse(): array
+    private function mockReAuthorizeAuthorizedPaymentResponse()
     {
         return Utils::jsonDecode('{
   "id": "8AA831015G517922L",

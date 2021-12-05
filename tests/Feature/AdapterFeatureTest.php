@@ -1025,101 +1025,6 @@ class AdapterFeatureTest extends TestCase
         $this->assertEmpty($response);
     }
 
-    /** @test  */
-    public function it_can_create_orders()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockCreateOrdersResponse()
-            )
-        );
-
-        $filters = $this->createOrderParams();
-
-        $response = $this->client->createOrder($filters);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertArrayHasKey('id', $response);
-        $this->assertArrayHasKey('links', $response);
-    }
-
-    /** @test  */
-    public function it_can_update_orders()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockUpdateOrdersResponse()
-            )
-        );
-
-        $order_id = '5O190127TN364715T';
-        $filters = $this->updateOrderParams();
-
-        $response = $this->client->updateOrder($order_id, $filters);
-
-        $this->assertEmpty($response);
-    }
-
-    /** @test  */
-    public function it_can_get_order_details()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockOrderDetailsResponse()
-            )
-        );
-
-        $order_id = '5O190127TN364715T';
-        $response = $this->client->showOrderDetails($order_id);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertArrayHasKey('id', $response);
-        $this->assertArrayHasKey('intent', $response);
-        $this->assertArrayHasKey('payment_source', $response);
-        $this->assertArrayHasKey('purchase_units', $response);
-        $this->assertArrayHasKey('create_time', $response);
-        $this->assertArrayHasKey('links', $response);
-    }
-
-    /** @test  */
-    public function it_can_authorize_payment_for_an_order()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockOrderPaymentAuthorizedResponse()
-            )
-        );
-
-        $order_id = '5O190127TN364715T';
-        $response = $this->client->authorizePaymentOrder($order_id);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertArrayHasKey('id', $response);
-        $this->assertArrayHasKey('payer', $response);
-        $this->assertArrayHasKey('purchase_units', $response);
-        $this->assertArrayHasKey('links', $response);
-    }
-
     /** @test */
     public function it_can_create_partner_referral()
     {
@@ -1288,30 +1193,6 @@ class AdapterFeatureTest extends TestCase
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('name', $response);
-    }
-
-    /** @test  */
-    public function it_can_capture_payment_for_an_order()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockOrderPaymentCapturedResponse()
-            )
-        );
-
-        $order_id = '5O190127TN364715T';
-        $response = $this->client->capturePaymentOrder($order_id);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertArrayHasKey('id', $response);
-        $this->assertArrayHasKey('payer', $response);
-        $this->assertArrayHasKey('purchase_units', $response);
-        $this->assertArrayHasKey('links', $response);
     }
 
     /** @test  */

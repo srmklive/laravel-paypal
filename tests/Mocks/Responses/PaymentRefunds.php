@@ -9,7 +9,7 @@ trait PaymentRefunds
     /**
      * @return array
      */
-    private function mockGetRefundDetailsResponse(): array
+    private function mockGetRefundDetailsResponse()
     {
         return Utils::jsonDecode('{
   "id": "1JU08902781691411",

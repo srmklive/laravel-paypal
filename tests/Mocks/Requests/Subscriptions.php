@@ -9,7 +9,7 @@ trait Subscriptions
     /**
      * @return array
      */
-    private function mockCreateSubscriptionParams(): array
+    private function mockCreateSubscriptionParams()
     {
         return Utils::jsonDecode('{
   "plan_id": "P-5ML4271244454362WXNWU5NQ",
@@ -57,7 +57,7 @@ trait Subscriptions
     /**
      * @return array
      */
-    private function mockUpdateSubscriptionParams(): array
+    private function mockUpdateSubscriptionParams()
     {
         return Utils::jsonDecode('[
   {

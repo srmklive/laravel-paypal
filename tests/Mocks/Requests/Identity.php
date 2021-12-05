@@ -6,7 +6,7 @@ use GuzzleHttp\Utils;
 
 trait Identity
 {
-    private function mockCreateMerchantApplicationParams(): array
+    private function mockCreateMerchantApplicationParams()
     {
         return Utils::jsonDecode('{
   "redirect_uris": [
@@ -27,7 +27,7 @@ trait Identity
 }', true);
     }
 
-    private function mockSetAccountPropertiesParams(): array
+    private function mockSetAccountPropertiesParams()
     {
         return Utils::jsonDecode('{
     "categories": [

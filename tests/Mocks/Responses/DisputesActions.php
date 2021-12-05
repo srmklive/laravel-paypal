@@ -9,7 +9,7 @@ trait DisputesActions
     /**
      * @return array
      */
-    private function mockAcceptDisputesClaimResponse(): array
+    private function mockAcceptDisputesClaimResponse()
     {
         return Utils::jsonDecode('{
   "links": [
@@ -25,7 +25,7 @@ trait DisputesActions
     /**
      * @return array
      */
-    private function mockAcceptDisputesOfferResolutionResponse(): array
+    private function mockAcceptDisputesOfferResolutionResponse()
     {
         return Utils::jsonDecode('{
   "links": [
@@ -41,7 +41,7 @@ trait DisputesActions
     /**
      * @return array
      */
-    private function mockAcknowledgeItemReturnedResponse(): array
+    private function mockAcknowledgeItemReturnedResponse()
     {
         return Utils::jsonDecode('{
   "links": [

@@ -9,7 +9,7 @@ trait ReferencedPayouts
     /**
      * @return array
      */
-    private function mockCreateReferencedBatchPayoutParams(): array
+    private function mockCreateReferencedBatchPayoutParams()
     {
         return Utils::jsonDecode('{
   "referenced_payouts": [
@@ -28,7 +28,7 @@ trait ReferencedPayouts
     /**
      * @return array
      */
-    private function mockCreateReferencedBatchPayoutItemParams(): array
+    private function mockCreateReferencedBatchPayoutItemParams()
     {
         return Utils::jsonDecode('{
   "reference_id": "CAPTURETXNID",

@@ -9,7 +9,7 @@ trait InvoicesTemplates
     /**
      * @return array
      */
-    private function mockCreateInvoiceTemplateResponse(): array
+    private function mockCreateInvoiceTemplateResponse()
     {
         return Utils::jsonDecode('{
   "id": "TEMP-19V05281TU309413B",

@@ -9,7 +9,7 @@ trait Disputes
     /**
      * @return array
      */
-    protected function updateDisputeParams(): array
+    protected function updateDisputeParams()
     {
         return Utils::jsonDecode('[
   {

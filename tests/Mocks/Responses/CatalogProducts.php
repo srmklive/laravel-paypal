@@ -9,7 +9,7 @@ trait CatalogProducts
     /**
      * @return array
      */
-    private function mockCreateCatalogProductsResponse(): array
+    private function mockCreateCatalogProductsResponse()
     {
         return Utils::jsonDecode('{
   "id": "PROD-XYAB12ABSB7868434",
@@ -39,7 +39,7 @@ trait CatalogProducts
     /**
      * @return array
      */
-    private function mockListCatalogProductsResponse(): array
+    private function mockListCatalogProductsResponse()
     {
         return Utils::jsonDecode('{
   "total_items": 20,
@@ -95,7 +95,7 @@ trait CatalogProducts
     /**
      * @return array
      */
-    private function mockGetCatalogProductsResponse(): array
+    private function mockGetCatalogProductsResponse()
     {
         return Utils::jsonDecode('{
   "id": "72255d4849af8ed6e0df1173",

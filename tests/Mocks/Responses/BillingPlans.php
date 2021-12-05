@@ -9,7 +9,7 @@ trait BillingPlans
     /**
      * @return array
      */
-    private function mockCreatePlansResponse(): array
+    private function mockCreatePlansResponse()
     {
         return Utils::jsonDecode('{
   "id": "P-5ML4271244454362WXNWU5NQ",
@@ -116,7 +116,7 @@ trait BillingPlans
     /**
      * @return array
      */
-    private function mockListPlansResponse(): array
+    private function mockListPlansResponse()
     {
         return Utils::jsonDecode('{
   "total_items": 12,
@@ -181,7 +181,7 @@ trait BillingPlans
     /**
      * @return array
      */
-    private function mockGetPlansResponse(): array
+    private function mockGetPlansResponse()
     {
         return Utils::jsonDecode('{
   "id": "P-5ML4271244454362WXNWU5NQ",

@@ -9,7 +9,7 @@ trait Subscriptions
     /**
      * @return array
      */
-    private function mockCreateSubscriptionResponse(): array
+    private function mockCreateSubscriptionResponse()
     {
         return Utils::jsonDecode('{
   "id": "I-BW452GLLEP1G",
@@ -67,7 +67,7 @@ trait Subscriptions
     /**
      * @return array
      */
-    private function mockGetSubscriptionDetailsResponse(): array
+    private function mockGetSubscriptionDetailsResponse()
     {
         return Utils::jsonDecode('{
   "id": "I-BW452GLLEP1G",
@@ -174,7 +174,7 @@ trait Subscriptions
     /**
      * @return array
      */
-    private function mockUpdateSubscriptionItemsResponse(): array
+    private function mockUpdateSubscriptionItemsResponse()
     {
         return Utils::jsonDecode('{
   "plan_id": "P-5ML4271244454362WXNWU5NQ",
@@ -209,7 +209,7 @@ trait Subscriptions
     /**
      * @return array
      */
-    private function mockListSubscriptionTransactionsResponse(): array
+    private function mockListSubscriptionTransactionsResponse()
     {
         return Utils::jsonDecode('{
   "transactions": [
