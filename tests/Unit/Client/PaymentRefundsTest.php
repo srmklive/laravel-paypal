@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
+use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockResponsePayloads;
@@ -16,7 +17,7 @@ class PaymentRefundsTest extends TestCase
     {
         $expectedResponse = $this->mockGetRefundDetailsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/refunds/1JU08902781691411';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/refunds/1JU08902781691411';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -25,8 +26,8 @@ class PaymentRefundsTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 }

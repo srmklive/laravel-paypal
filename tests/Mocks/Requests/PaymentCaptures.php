@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
+use GuzzleHttp\Utils;
+
 trait PaymentCaptures
 {
     /**
      * @return array
      */
-    private function mockRefundCapturedPaymentParams()
+    private function mockRefundCapturedPaymentParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "amount": {
     "value": "10.99",
     "currency_code": "USD"

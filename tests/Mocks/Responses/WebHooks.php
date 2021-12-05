@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait WebHooks
 {
     /**
      * @return array
      */
-    private function mockCreateWebHookResponse()
+    private function mockCreateWebHookResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "0EH40505U7160970P",
   "url": "https://example.com/example_webhook",
   "event_types": [
@@ -45,9 +47,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockListWebHookResponse()
+    private function mockListWebHookResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "webhooks": [
     {
       "id": "40Y916089Y8324740",
@@ -118,9 +120,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockUpdateWebHookResponse()
+    private function mockUpdateWebHookResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "0EH40505U7160970P",
   "url": "https://example.com/example_webhook_2",
   "event_types": [
@@ -152,9 +154,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockGetWebHookResponse()
+    private function mockGetWebHookResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "0EH40505U7160970P",
   "url": "https://example.com/example_webhook",
   "event_types": [
@@ -192,9 +194,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockListWebHookEventsResponse()
+    private function mockListWebHookEventsResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "event_types": [
     {
       "name": "PAYMENT.AUTHORIZATION.CREATED",
@@ -218,9 +220,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockListWebHookEventsTypesResponse()
+    private function mockListWebHookEventsTypesResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "event_types": [
     {
       "name": "PAYMENT.AUTHORIZATION.CREATED",
@@ -253,9 +255,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockWebHookEventsListResponse()
+    private function mockWebHookEventsListResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "events": [
     {
       "id": "8PT597110X687430LKGECATA",
@@ -393,9 +395,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockGetWebHookEventResponse()
+    private function mockGetWebHookEventResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "8PT597110X687430LKGECATA",
   "create_time": "2013-06-25T21:41:28Z",
   "resource_type": "authorization",
@@ -458,9 +460,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockResendWebHookEventNotificationResponse()
+    private function mockResendWebHookEventNotificationResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "8PT597110X687430LKGECATA",
   "create_time": "2013-06-25T21:41:28Z",
   "resource_type": "authorization",
@@ -523,9 +525,9 @@ trait WebHooks
     /**
      * @return array
      */
-    private function mockVerifyWebHookSignatureResponse()
+    private function mockVerifyWebHookSignatureResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "verification_status": "SUCCESS"
 }', true);
     }

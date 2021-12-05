@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
+use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -18,7 +19,7 @@ class InvoicesSearchTest extends TestCase
     {
         $expectedResponse = $this->mockSearchInvoicesResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/search-invoices?page=1&page_size=1&total_required=true';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/search-invoices?page=1&page_size=1&total_required=true';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -28,8 +29,8 @@ class InvoicesSearchTest extends TestCase
             'json' => $this->invoiceSearchParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 }

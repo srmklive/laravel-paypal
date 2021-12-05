@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
+use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -18,7 +19,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = $this->mockCreateCatalogProductsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/catalogs/products';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/catalogs/products';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -28,9 +29,9 @@ class CatalogProductsTest extends TestCase
             'json' => $this->createProductParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -38,7 +39,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = $this->mockListCatalogProductsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/catalogs/products?page=1&page_size=2&total_required=true';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/catalogs/products?page=1&page_size=2&total_required=true';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -47,9 +48,9 @@ class CatalogProductsTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -57,7 +58,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -67,9 +68,9 @@ class CatalogProductsTest extends TestCase
             'json' => $this->updateProductParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'patch');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'patch');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->patch($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->patch($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -77,7 +78,7 @@ class CatalogProductsTest extends TestCase
     {
         $expectedResponse = $this->mockGetCatalogProductsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/catalogs/products/72255d4849af8ed6e0df1173';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -86,8 +87,8 @@ class CatalogProductsTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 }

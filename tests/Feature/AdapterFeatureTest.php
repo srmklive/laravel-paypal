@@ -24,7 +24,7 @@ class AdapterFeatureTest extends TestCase
     /** @var \Srmklive\PayPal\Services\PayPal */
     protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = new PayPalClient($this->getApiCredentials());
 
@@ -73,7 +73,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->createPlanParams();
 
-        $response = $this->client->createPlan($expectedParams);
+        $response = $this->client->createPlan($expectedParams, 'some-request-id');
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
@@ -805,12 +805,513 @@ class AdapterFeatureTest extends TestCase
             )
         );
 
-        $filters = $this->invoiceSearchParams();
-
-        $response = $this->client->searchInvoices($filters);
+        $response = $this->client->searchInvoices();
 
         $this->assertArrayHasKey('total_pages', $response);
         $this->assertArrayHasKey('total_items', $response);
+    }
+
+    /** @test */
+    public function it_can_search_invoices_with_custom_filters()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $response = $this->client
+            ->addInvoiceFilterByRecipientEmail('bill-me@example.com')
+            ->addInvoiceFilterByRecipientFirstName('John')
+            ->addInvoiceFilterByRecipientLastName('Doe')
+            ->addInvoiceFilterByRecipientBusinessName('Acme Inc.')
+            ->addInvoiceFilterByInvoiceNumber('#123')
+            ->addInvoiceFilterByInvoiceStatus(['PAID', 'MARKED_AS_PAID'])
+            ->addInvoiceFilterByReferenceorMemo('deal-ref')
+            ->addInvoiceFilterByCurrencyCode('USD')
+            ->addInvoiceFilterByAmountRange(30, 50)
+            ->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'invoice_date')
+            ->addInvoiceFilterByArchivedStatus(false)
+            ->addInvoiceFilterByFields(['items', 'payments', 'refunds'])
+            ->searchInvoices();
+
+        $this->assertArrayHasKey('total_pages', $response);
+        $this->assertArrayHasKey('total_items', $response);
+        $this->assertArrayHasKey('items', $response);
+    }
+
+    /** @test */
+    public function it_throws_exception_on_search_invoices_with_invalid_status()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client
+            ->addInvoiceFilterByInvoiceStatus(['DECLINED'])
+            ->searchInvoices();
+    }
+
+    /** @test */
+    public function it_throws_exception_on_search_invoices_with_invalid_amount_ranges()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $filters = $this->invoiceSearchParams();
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client
+            ->addInvoiceFilterByAmountRange(50, 30)
+            ->searchInvoices();
+    }
+
+    /** @test */
+    public function it_throws_exception_on_search_invoices_with_invalid_date_ranges()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $filters = $this->invoiceSearchParams();
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client
+            ->addInvoiceFilterByDateRange('2018-07-01', '2018-06-21', 'invoice_date')
+            ->searchInvoices();
+    }
+
+    /** @test */
+    public function it_throws_exception_on_search_invoices_with_invalid_date_range_type()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockSearchInvoicesResponse()
+            )
+        );
+
+        $filters = $this->invoiceSearchParams();
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client
+            ->addInvoiceFilterByDateRange('2018-06-01', '2018-06-21', 'declined_date')
+            ->searchInvoices();
+    }
+
+    /** @test */
+    public function it_can_get_user_profile_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockShowProfileInfoResponse()
+            )
+        );
+
+        $response = $this->client->showProfileInfo();
+
+        $this->assertArrayHasKey('user_id', $response);
+        $this->assertArrayHasKey('payer_id', $response);
+        $this->assertArrayHasKey('emails', $response);
+    }
+
+    /** @test */
+    public function it_can_create_merchant_applications()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateMerchantApplicationResponse()
+            )
+        );
+
+        $response = $this->client->createMerchantApplication(
+            'AGGREGATOR',
+            [
+                'https://example.com/callback',
+                'https://example.com/callback2',
+            ],
+            [
+                'facilitator@example.com',
+                'merchant@example.com',
+            ],
+            'WDJJHEBZ4X2LY',
+            'some-open-id'
+        );
+
+        $this->assertArrayHasKey('client_name', $response);
+        $this->assertArrayHasKey('contacts', $response);
+        $this->assertArrayHasKey('redirect_uris', $response);
+    }
+
+    /** @test */
+    public function it_can_set_account_properties()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client('')
+        );
+
+        $response = $this->client->setAccountProperties($this->mockSetAccountPropertiesParams());
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_disable_account_properties()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockUpdateOrdersResponse()
+            )
+        );
+
+        $response = $this->client->disableAccountProperties();
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test  */
+    public function it_can_create_orders()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateOrdersResponse()
+            )
+        );
+
+        $filters = $this->createOrderParams();
+
+        $response = $this->client->createOrder($filters);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test  */
+    public function it_can_update_orders()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockUpdateOrdersResponse()
+            )
+        );
+
+        $order_id = '5O190127TN364715T';
+        $filters = $this->updateOrderParams();
+
+        $response = $this->client->updateOrder($order_id, $filters);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test  */
+    public function it_can_get_order_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockOrderDetailsResponse()
+            )
+        );
+
+        $order_id = '5O190127TN364715T';
+        $response = $this->client->showOrderDetails($order_id);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('intent', $response);
+        $this->assertArrayHasKey('payment_source', $response);
+        $this->assertArrayHasKey('purchase_units', $response);
+        $this->assertArrayHasKey('create_time', $response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test  */
+    public function it_can_authorize_payment_for_an_order()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockOrderPaymentAuthorizedResponse()
+            )
+        );
+
+        $order_id = '5O190127TN364715T';
+        $response = $this->client->authorizePaymentOrder($order_id);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('payer', $response);
+        $this->assertArrayHasKey('purchase_units', $response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_create_partner_referral()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePartnerReferralsResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreatePartnerReferralParams();
+
+        $response = $this->client->createPartnerReferral($expectedParams);
+
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_get_referral_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockShowReferralDataResponse()
+            )
+        );
+
+        $partner_referral_id = 'ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=';
+
+        $response = $this->client->showReferralData($partner_referral_id);
+
+        $this->assertArrayHasKey('partner_referral_id', $response);
+        $this->assertArrayHasKey('referral_data', $response);
+    }
+
+    /** @test */
+    public function it_can_list_web_experience_profiles()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListWebProfilesResponse()
+            )
+        );
+
+        $response = $this->client->listWebExperienceProfiles();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', collect($response)->first());
+    }
+
+    /** @test */
+    public function it_can_create_web_experience_profile()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockWebProfileResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreateWebProfileParams();
+
+        $response = $this->client->createWebExperienceProfile($expectedParams, 'some-request-id');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('name', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_web_experience_profile()
+    {
+        $expectedResponse = '';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $expectedParams = 'XP-A88A-LYLW-8Y3X-E5ER';
+
+        $response = $this->client->deleteWebExperienceProfile($expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_partially_update_web_experience_profile()
+    {
+        $expectedResponse = '';
+
+        $expectedParams = $this->partiallyUpdateWebProfileParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->patchWebExperienceProfile('XP-A88A-LYLW-8Y3X-E5ER', $expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_fully_update_web_experience_profile()
+    {
+        $expectedResponse = '';
+
+        $expectedParams = $this->updateWebProfileParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->updateWebExperienceProfile('XP-A88A-LYLW-8Y3X-E5ER', $expectedParams);
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_get_web_experience_profile_details()
+    {
+        $expectedResponse = $this->mockWebProfileResponse();
+
+        $expectedParams = 'XP-A88A-LYLW-8Y3X-E5ER';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->showWebExperienceProfileDetails($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('name', $response);
+    }
+
+    /** @test  */
+    public function it_can_capture_payment_for_an_order()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockOrderPaymentCapturedResponse()
+            )
+        );
+
+        $order_id = '5O190127TN364715T';
+        $response = $this->client->capturePaymentOrder($order_id);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('payer', $response);
+        $this->assertArrayHasKey('purchase_units', $response);
+        $this->assertArrayHasKey('links', $response);
     }
 
     /** @test  */
@@ -1080,6 +1581,188 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_batch_payout()
+    {
+        $expectedResponse = $this->mockCreateBatchPayoutResponse();
+
+        $expectedParams = $this->mockCreateBatchPayoutParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->createBatchPayout($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('batch_header', $response);
+    }
+
+    /** @test */
+    public function it_can_show_batch_payout_details()
+    {
+        $expectedResponse = $this->showBatchPayoutResponse();
+
+        $expectedParams = 'FYXMPQTX4JC9N';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->showBatchPayoutDetails($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('batch_header', $response);
+        $this->assertArrayHasKey('items', $response);
+    }
+
+    /** @test */
+    public function it_can_show_batch_payout_item_details()
+    {
+        $expectedResponse = $this->showBatchPayoutItemResponse();
+
+        $expectedParams = '8AELMXH8UB2P8';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->showPayoutItemDetails($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('payout_item_id', $response);
+        $this->assertArrayHasKey('payout_batch_id', $response);
+        $this->assertArrayHasKey('payout_item', $response);
+    }
+
+    /** @test */
+    public function it_can_cancel_unclaimed_batch_payout_item()
+    {
+        $expectedResponse = $this->mockCancelUnclaimedBatchItemResponse();
+
+        $expectedParams = '8AELMXH8UB2P8';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->cancelUnclaimedPayoutItem($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('payout_item_id', $response);
+        $this->assertArrayHasKey('payout_batch_id', $response);
+        $this->assertArrayHasKey('payout_item', $response);
+    }
+
+    /** @test */
+    public function it_can_create_referenced_batch_payout()
+    {
+        $expectedResponse = $this->mockCreateReferencedBatchPayoutResponse();
+
+        $expectedParams = $this->mockCreateReferencedBatchPayoutParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->createReferencedBatchPayout($expectedParams, 'some-request-id', 'some-attribution-id');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_list_items_referenced_in_batch_payout()
+    {
+        $expectedResponse = $this->mockShowReferencedBatchPayoutResponse();
+
+        $expectedParams = 'KHbwO28lWlXwi2IlToJ2IYNG4juFv6kpbFx4J9oQ5Hb24RSp96Dk5FudVHd6v4E=';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->listItemsReferencedInBatchPayout($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_create_referenced_batch_payout_item()
+    {
+        $expectedResponse = $this->mockCreateReferencedBatchPayoutItemResponse();
+
+        $expectedParams = $this->mockCreateReferencedBatchPayoutItemParams();
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->createReferencedBatchPayoutItem($expectedParams, 'some-request-id', 'some-attribution-id');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_show_referenced_payout_item_details()
+    {
+        $expectedResponse = $this->mockShowReferencedBatchPayoutItemResponse();
+
+        $expectedParams = 'CDZEC5MJ8R5HY';
+
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client($expectedResponse)
+        );
+
+        $response = $this->client->showReferencedPayoutItemDetails($expectedParams, 'some-attribution-id');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('item_id', $response);
+        $this->assertArrayHasKey('reference_id', $response);
+    }
+
+    /** @test */
     public function it_can_list_transactions()
     {
         $this->client->setAccessToken([
@@ -1121,6 +1804,27 @@ class AdapterFeatureTest extends TestCase
         $date = Carbon::now()->subDays(30)->toIso8601String();
 
         $response = $this->client->listBalances($date);
+
+        $this->assertNotEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_list_account_balances_for_a_different_currency()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListBalancesResponse()
+            )
+        );
+
+        $date = Carbon::now()->subDays(30)->toIso8601String();
+
+        $response = $this->client->listBalances($date, 'EUR');
 
         $this->assertNotEmpty($response);
     }

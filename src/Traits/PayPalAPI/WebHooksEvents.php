@@ -16,7 +16,6 @@ trait WebHooksEvents
     public function listEventTypes()
     {
         $this->apiEndPoint = 'v1/notifications/webhooks-event-types';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -35,7 +34,6 @@ trait WebHooksEvents
     public function listEvents()
     {
         $this->apiEndPoint = 'v1/notifications/webhooks-events';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -53,10 +51,9 @@ trait WebHooksEvents
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks-events_get
      */
-    public function showEventDetails($event_id)
+    public function showEventDetails(string $event_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks-events/{$event_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -75,10 +72,9 @@ trait WebHooksEvents
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks-events_resend
      */
-    public function resendEventNotification($event_id, array $items)
+    public function resendEventNotification(string $event_id, array $items)
     {
         $this->apiEndPoint = "v1/notifications/webhooks-events/{$event_id}/resend";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = [
             'webhook_ids' => $items,

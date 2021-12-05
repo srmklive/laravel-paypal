@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Unit;
 
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockResponsePayloads;
@@ -24,7 +25,7 @@ class ClientTest extends TestCase
     {
         $expectedResponse = $this->mockAccessTokenResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/oauth2/token?grant_type=client_credentials';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/oauth2/token?grant_type=client_credentials';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -33,8 +34,8 @@ class ClientTest extends TestCase
             'auth' => ['username', 'password'],
         ];
 
-        $mockHttpClient = $this->mock_http_request(json_encode($expectedResponse), $expectedEndpoint, $expectedParams);
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams);
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 }

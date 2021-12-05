@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
+use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -18,7 +19,7 @@ class WebHooksTest extends TestCase
     {
         $expectedResponse = $this->mockCreateWebHookResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/notifications/webhooks';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/notifications/webhooks';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -28,9 +29,9 @@ class WebHooksTest extends TestCase
             'json' => $this->mockCreateWebHookParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -38,7 +39,7 @@ class WebHooksTest extends TestCase
     {
         $expectedResponse = $this->mockListWebHookResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/notifications/webhooks';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/notifications/webhooks';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -47,9 +48,9 @@ class WebHooksTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -57,7 +58,7 @@ class WebHooksTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/notifications/webhooks/5GP028458E2496506';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/notifications/webhooks/5GP028458E2496506';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -66,9 +67,9 @@ class WebHooksTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'delete');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'delete');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->delete($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->delete($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -76,7 +77,7 @@ class WebHooksTest extends TestCase
     {
         $expectedResponse = $this->mockUpdateWebHookResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/notifications/webhooks/0EH40505U7160970P';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/notifications/webhooks/0EH40505U7160970P';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -86,9 +87,9 @@ class WebHooksTest extends TestCase
             'json' => $this->mockUpdateWebHookParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'patch');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'patch');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->patch($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->patch($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -96,7 +97,7 @@ class WebHooksTest extends TestCase
     {
         $expectedResponse = $this->mockGetWebHookResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/notifications/webhooks/0EH40505U7160970P';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/notifications/webhooks/0EH40505U7160970P';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -105,9 +106,9 @@ class WebHooksTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -115,7 +116,7 @@ class WebHooksTest extends TestCase
     {
         $expectedResponse = $this->mockListWebHookEventsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v1/notifications/webhooks/0EH40505U7160970P';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v1/notifications/webhooks/0EH40505U7160970P';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -124,8 +125,8 @@ class WebHooksTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 }

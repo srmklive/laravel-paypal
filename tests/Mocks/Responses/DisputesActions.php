@@ -2,19 +2,21 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait DisputesActions
 {
     /**
      * @return array
      */
-    private function mockAcceptDisputesClaimResponse()
+    private function mockAcceptDisputesClaimResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "links": [
     {
       "rel": "self",
       "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-D-27803"
+      "href": "https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-D-27803"
     }
   ]
 }', true);
@@ -23,14 +25,14 @@ trait DisputesActions
     /**
      * @return array
      */
-    private function mockAcceptDisputesOfferResolutionResponse()
+    private function mockAcceptDisputesOfferResolutionResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "links": [
     {
       "rel": "self",
       "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
+      "href": "https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
     }
   ]
 }', true);
@@ -39,14 +41,14 @@ trait DisputesActions
     /**
      * @return array
      */
-    private function mockAcknowledgeItemReturnedResponse()
+    private function mockAcknowledgeItemReturnedResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "links": [
     {
       "rel": "self",
       "method": "GET",
-      "href": "https://api.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
+      "href": "https://api-m.sandbox.paypal.com/v1/customer/disputes/PP-000-000-651-454"
     }
   ]
 }', true);

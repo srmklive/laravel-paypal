@@ -20,7 +20,7 @@ trait Reporting
      *
      * @see https://developer.paypal.com/docs/api/transaction-search/v1/#transactions_get
      */
-    public function listTransactions(array $filters, $fields = 'all', $page = 1, $page_size = 100)
+    public function listTransactions(array $filters, string $fields = 'all', int $page = 1, int $page_size = 100)
     {
         $filters_list = collect($filters)->isEmpty() ? '' :
             collect($filters)->map(function ($value, $key) {
@@ -28,7 +28,6 @@ trait Reporting
             })->implode('');
 
         $this->apiEndPoint = "v1/reporting/transactions?{$filters_list}fields={$fields}&page={$page}&page_size={$page_size}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -39,6 +38,7 @@ trait Reporting
      * List available balance.
      *
      * @param string $date
+     * @param string $balance_currency
      *
      * @throws \Throwable
      *
@@ -46,12 +46,12 @@ trait Reporting
      *
      * @see https://developer.paypal.com/docs/api/transaction-search/v1/#balances_get
      */
-    public function listBalances($date = '')
+    public function listBalances(string $date = '', string $balance_currency = '')
     {
         $date = empty($date) ? Carbon::now()->toIso8601String() : Carbon::parse($date)->toIso8601String();
+        $currency = empty($currency) ? $this->getCurrency() : $balance_currency;
 
-        $this->apiEndPoint = "v1/reporting/balances?currency_code={$this->currency}&as_of_date={$date}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
+        $this->apiEndPoint = "v1/reporting/balances?currency_code={$currency}&as_of_date={$date}";
 
         $this->verb = 'get';
 

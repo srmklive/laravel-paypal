@@ -16,10 +16,9 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_post
      */
-    public function createWebHook($url, array $events)
+    public function createWebHook(string $url, array $events)
     {
         $this->apiEndPoint = 'v1/notifications/webhooks';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $data = ['url' => $url];
         $data['event_types'] = collect($events)->map(function ($item) {
@@ -45,7 +44,6 @@ trait WebHooks
     public function listWebHooks()
     {
         $this->apiEndPoint = 'v1/notifications/webhooks';
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -63,10 +61,9 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_delete
      */
-    public function deleteWebHook($web_hook_id)
+    public function deleteWebHook(string $web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'delete';
 
@@ -85,10 +82,9 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_update
      */
-    public function updateWebHook($web_hook_id, array $data)
+    public function updateWebHook(string $web_hook_id, array $data)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->options['json'] = $data;
 
@@ -108,10 +104,9 @@ trait WebHooks
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks_get
      */
-    public function showWebHookDetails($web_hook_id)
+    public function showWebHookDetails(string $web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 
@@ -132,7 +127,6 @@ trait WebHooks
     public function listWebHookEvents($web_hook_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks/{$web_hook_id}/event-types";
-        $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
 
         $this->verb = 'get';
 

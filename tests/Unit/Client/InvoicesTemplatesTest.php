@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
+use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -18,7 +19,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = $this->mockCreateInvoiceTemplateResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -28,9 +29,9 @@ class InvoicesTemplatesTest extends TestCase
             'json' => $this->mockCreateInvoiceTemplateParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -38,7 +39,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = $this->mockListInvoiceTemplateResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -47,9 +48,9 @@ class InvoicesTemplatesTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -57,7 +58,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = '';
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -66,9 +67,9 @@ class InvoicesTemplatesTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'delete');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'delete');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->delete($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->delete($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -76,7 +77,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = $this->mockUpdateInvoiceTemplateResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -86,9 +87,9 @@ class InvoicesTemplatesTest extends TestCase
             'json' => $this->mockUpdateInvoiceTemplateParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'put');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'put');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->put($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->put($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -96,7 +97,7 @@ class InvoicesTemplatesTest extends TestCase
     {
         $expectedResponse = $this->mockGetInvoiceTemplateResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/invoicing/templates/TEMP-19V05281TU309413B';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -105,8 +106,8 @@ class InvoicesTemplatesTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 }

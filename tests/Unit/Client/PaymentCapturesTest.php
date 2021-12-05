@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
+use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -18,7 +19,7 @@ class PaymentCapturesTest extends TestCase
     {
         $expectedResponse = $this->mockGetCapturedPaymentDetailsResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -27,9 +28,9 @@ class PaymentCapturesTest extends TestCase
             ],
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
     /** @test */
@@ -37,7 +38,7 @@ class PaymentCapturesTest extends TestCase
     {
         $expectedResponse = $this->mockRefundCapturedPaymentResponse();
 
-        $expectedEndpoint = 'https://api.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P/refund';
+        $expectedEndpoint = 'https://api-m.sandbox.paypal.com/v2/payments/captures/2GG279541U471931P/refund';
         $expectedParams = [
             'headers' => [
                 'Accept'            => 'application/json',
@@ -47,8 +48,8 @@ class PaymentCapturesTest extends TestCase
             'json' => $this->mockRefundCapturedPaymentParams(),
         ];
 
-        $mockHttpClient = $this->mock_http_request(\GuzzleHttp\json_encode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
+        $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'post');
 
-        $this->assertEquals($expectedResponse, \GuzzleHttp\json_decode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
+        $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 }

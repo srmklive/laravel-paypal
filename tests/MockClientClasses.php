@@ -6,18 +6,19 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Handler\MockHandler as HttpMockHandler;
 use GuzzleHttp\HandlerStack as HttpHandlerStack;
 use GuzzleHttp\Psr7\Response as HttpResponse;
+use GuzzleHttp\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 trait MockClientClasses
 {
-    private function mock_http_client($response)
+    private function mock_http_client($response): HttpClient
     {
         $mock = new HttpMockHandler([
             new HttpResponse(
                 200,
                 [],
-                ($response === false) ? '' : \GuzzleHttp\json_encode($response)
+                ($response === false) ? '' : Utils::jsonEncode($response)
             ),
         ]);
 
@@ -81,14 +82,14 @@ trait MockClientClasses
         return $mockClient;
     }
 
-    private function getMockCredentials()
+    private function getMockCredentials(): array
     {
         return [
             'mode'    => 'sandbox',
             'sandbox' => [
                 'client_id'     => 'some-client-id',
                 'client_secret' => 'some-access-token',
-                'app_id'        => '',
+                'app_id'        => 'some-app-id',
             ],
             'payment_action' => 'Sale',
             'currency'       => 'USD',
@@ -98,14 +99,14 @@ trait MockClientClasses
         ];
     }
 
-    private function getApiCredentials()
+    private function getApiCredentials(): array
     {
         return [
             'mode'    => 'sandbox',
             'sandbox' => [
                 'client_id'     => 'AbJgVQM6g57qPrXimGkBz1UaBOXn1dKLSdUj7BgiB3JhzJRCapzCnkPq6ycOOmgXHtnDZcjwLMJ2IdAI',
                 'client_secret' => 'EPd_XBNkfhU3-MlSw6gpa6EJj9x8QBdsC3o77jZZWjcFy_hrjR4kzBP8QN3MPPH4g52U_acG4-ogWUxI',
-                'app_id'        => '',
+                'app_id'        => 'APP-80W284485P519543T',
             ],
             'payment_action' => 'Sale',
             'currency'       => 'USD',
