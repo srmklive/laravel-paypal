@@ -81,9 +81,9 @@ trait Helpers
     /**
      * Create a monthly billing plan.
      *
-     * @param string     $name
-     * @param string     $description
-     * @param float|int  $price
+     * @param string    $name
+     * @param string    $description
+     * @param float|int $price
      *
      * @throws Throwable
      *
@@ -119,7 +119,7 @@ trait Helpers
             'fixed_price' => [
                 'value'         => $price,
                 'currency_code' => $this->getCurrency(),
-            ]
+            ],
         ];
 
         return [
@@ -148,6 +148,10 @@ trait Helpers
      */
     public function addProduct(string $name, string $description, string $type, string $category): \Srmklive\PayPal\Services\PayPal
     {
+        if (isset($this->product)) {
+            return $this;
+        }
+
         $request_id = Str::random();
 
         $this->product = $this->createProduct([
