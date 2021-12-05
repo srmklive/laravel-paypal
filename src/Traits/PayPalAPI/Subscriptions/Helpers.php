@@ -79,6 +79,31 @@ trait Helpers
     }
 
     /**
+     * Create a recurring weekly billing plan.
+     *
+     * @param string    $name
+     * @param string    $description
+     * @param float|int $price
+     *
+     * @throws Throwable
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addWeeklyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    {
+        if (isset($this->billing_plan)) {
+            return $this;
+        }
+
+        $plan_pricing = $this->addPlanBillingCycle('WEEK', 1, $price);
+        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+
+        $this->addBillingPlan($name, $description, $billing_cycles);
+
+        return $this;
+    }
+
+    /**
      * Create a recurring monthly billing plan.
      *
      * @param string    $name
