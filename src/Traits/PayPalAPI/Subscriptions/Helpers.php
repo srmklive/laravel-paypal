@@ -66,12 +66,12 @@ trait Helpers
      * Add a subscription trial pricing tier.
      *
      * @param string    $interval_type
-     * @param string    $interval_count
+     * @param int       $interval_count
      * @param float|int $price
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addPlanTrialPricing(string $interval_type, string $interval_count, float $price = 0): \Srmklive\PayPal\Services\PayPal
+    public function addPlanTrialPricing(string $interval_type, int $interval_count, float $price = 0): \Srmklive\PayPal\Services\PayPal
     {
         $this->trial_pricing = $this->addPlanBillingCycle($interval_type, $interval_count, $price, true);
 
