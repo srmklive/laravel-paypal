@@ -94,7 +94,7 @@ $provider->setCurrency('EUR');
 
 ```php
 $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
-            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addPlanTrialPricing('DAY', 7)
             ->addDailyPlan('Demo Plan', 'Demo Plan', 1.50)
             ->setupSubscription('John Doe', 'john@example.com', '2021-12-10') ;
 ```
@@ -103,7 +103,7 @@ $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SO
 
 ```php
 $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
-            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addPlanTrialPricing('DAY', 7)
             ->addWeeklyPlan('Demo Plan', 'Demo Plan', 30)
             ->setupSubscription('John Doe', 'john@example.com', '2021-12-10') ;
 ```
@@ -112,7 +112,7 @@ $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SO
 
 ```php
 $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
-            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addPlanTrialPricing('DAY', 7)
             ->addMonthlyPlan('Demo Plan', 'Demo Plan', 100)
             ->setupSubscription('John Doe', 'john@example.com', '2021-12-10') ;
 ```
@@ -121,7 +121,7 @@ $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SO
 
 ```php
 $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
-            ->addSubscriptionTrialPricing('DAY', 7)
+            ->addPlanTrialPricing('DAY', 7)
             ->addAnnualPlan('Demo Plan', 'Demo Plan', 600)
             ->setupSubscription('John Doe', 'john@example.com', '2021-12-10') ;
 ```
