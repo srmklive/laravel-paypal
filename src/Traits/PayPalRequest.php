@@ -189,7 +189,9 @@ trait PayPalRequest
             $this->throwConfigurationException();
         }
 
-        foreach (['client_id', 'client_secret', 'app_id'] as $item) {
+        $config_params = ['client_id', 'client_secret'];
+
+        foreach ($config_params as $item) {
             if (empty($credentials[$this->mode][$item])) {
                 throw new RuntimeException("{$item} missing from the provided configuration. Please add your application {$item}.");
             }

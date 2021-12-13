@@ -83,6 +83,8 @@ trait PayPalAPI
      */
     private function setPayPalAppId(array $response)
     {
-        $this->config['app_id'] = empty($response['app_id']) ? $this->config['app_id'] : $response['app_id'];
+        $app_id = empty($response['app_id']) ? $this->config['app_id'] : $response['app_id'];
+
+        $this->config['app_id'] = $app_id;
     }
 }
