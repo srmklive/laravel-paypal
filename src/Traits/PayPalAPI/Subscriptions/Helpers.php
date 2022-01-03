@@ -179,6 +179,39 @@ trait Helpers
     }
 
     /**
+     * Create a recurring billing plan with custom intervals.
+     *
+     * @param string    $name
+     * @param string    $description
+     * @param float|int $price
+     * @param string    $interval_unit
+     * @param int       $interval_count
+     *
+     * @throws Throwable
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addCustomPlan(string $name, string $description, float $price, string $interval_unit, int $interval_count): \Srmklive\PayPal\Services\PayPal
+    {
+        $billing_intervals = ['DAY', 'WEEK', 'MONTH', 'YEAR'];
+
+        if (isset($this->billing_plan)) {
+            return $this;
+        }
+
+        if (!in_array($interval_unit, $billing_intervals)) {
+            throw new \RuntimeException('Billing intervals should either be '.implode(', ', $billing_intervals));
+        }
+
+        $plan_pricing = $this->addPlanBillingCycle($interval_unit, $interval_count, $price);
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+
+        $this->addBillingPlan($name, $description, $billing_cycles);
+
+        return $this;
+    }
+
+    /**
      * Add Plan's Billing cycle.
      *
      * @param string $interval_unit
