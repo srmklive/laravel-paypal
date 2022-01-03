@@ -59,7 +59,7 @@ trait Helpers
             ],
         ];
 
-        if($this->return_url && $this->cancel_url) {
+        if ($this->return_url && $this->cancel_url) {
             $body['application_context'] = [
                 'return_url' => $this->return_url,
                 'cancel_url' => $this->cancel_url,
