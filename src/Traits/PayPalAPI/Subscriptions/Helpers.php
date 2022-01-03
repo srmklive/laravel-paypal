@@ -28,6 +28,10 @@ trait Helpers
      */
     protected $billing_plan;
 
+    protected $return_url;
+
+    protected $cancel_url;
+
     /**
      * Setup a subscription.
      *
@@ -43,7 +47,7 @@ trait Helpers
     {
         $start_date = isset($start_date) ? Carbon::parse($start_date)->toIso8601String() : Carbon::now()->toIso8601String();
 
-        $subscription = $this->createSubscription([
+        $body = [
             'plan_id'    => $this->billing_plan['id'],
             'start_time' => $start_date,
             'quantity'   => 1,
@@ -53,7 +57,16 @@ trait Helpers
                 ],
                 'email_address' => $customer_email,
             ],
-        ]);
+        ];
+
+        if($this->return_url && $this->cancel_url) {
+            $body['application_context'] = [
+                'return_url' => $this->return_url,
+                'cancel_url' => $this->cancel_url,
+            ];
+        }
+
+        $subscription = $this->createSubscription($body);
 
         unset($this->product);
         unset($this->billing_plan);
@@ -339,5 +352,20 @@ trait Helpers
         ];
 
         $this->billing_plan = $this->createPlan($plan_params, $request_id);
+    }
+
+    /**
+     * Use custom return urls
+     *
+     * @param string $return_url
+     * @param string $cancel_url
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function setReturnAndCancelUrl(string $return_url, string $cancel_url)
+    {
+        $this->return_url = $return_url;
+        $this->cancel_url = $cancel_url;
+
+        return $this;
     }
 }
