@@ -96,7 +96,7 @@ trait Helpers
         }
 
         $plan_pricing = $this->addPlanBillingCycle('DAY', 1, $price);
-        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
 
@@ -121,7 +121,7 @@ trait Helpers
         }
 
         $plan_pricing = $this->addPlanBillingCycle('WEEK', 1, $price);
-        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
 
@@ -146,7 +146,7 @@ trait Helpers
         }
 
         $plan_pricing = $this->addPlanBillingCycle('MONTH', 1, $price);
-        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
 
@@ -171,7 +171,7 @@ trait Helpers
         }
 
         $plan_pricing = $this->addPlanBillingCycle('YEAR', 1, $price);
-        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
 
@@ -197,13 +197,19 @@ trait Helpers
             ],
         ];
 
+        if (empty($this->trial_pricing)) {
+            $plan_sequence = 1;
+        } else {
+            $plan_sequence = 2;
+        }
+
         return [
             'frequency' => [
                 'interval_unit'  => $interval_unit,
                 'interval_count' => $interval_count,
             ],
             'tenure_type'    => ($trial === true) ? 'TRIAL' : 'REGULAR',
-            'sequence'       => ($trial === true) ? 1 : 2,
+            'sequence'       => ($trial === true) ? 1 : $plan_sequence,
             'total_cycles'   => ($trial === true) ? 1 : 0,
             'pricing_scheme' => $pricing_scheme,
         ];
