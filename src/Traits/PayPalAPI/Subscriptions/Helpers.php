@@ -28,8 +28,14 @@ trait Helpers
      */
     protected $billing_plan;
 
+    /**
+     * @var string
+     */
     protected $return_url;
 
+    /**
+     * @var string
+     */
     protected $cancel_url;
 
     /**
@@ -71,6 +77,8 @@ trait Helpers
         unset($this->product);
         unset($this->billing_plan);
         unset($this->trial_pricing);
+        unset($this->return_url);
+        unset($this->cancel_url);
 
         return $subscription;
     }
@@ -355,13 +363,14 @@ trait Helpers
     }
 
     /**
-     * Use custom return urls
+     * Set return & cancel urls.
      *
      * @param string $return_url
      * @param string $cancel_url
+     *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function setReturnAndCancelUrl(string $return_url, string $cancel_url)
+    public function setReturnAndCancelUrl(string $return_url, string $cancel_url): \Srmklive\PayPal\Services\PayPal
     {
         $this->return_url = $return_url;
         $this->cancel_url = $cancel_url;

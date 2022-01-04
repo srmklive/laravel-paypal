@@ -68,7 +68,8 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
             )
         );
 
-        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+        $response = $this->client->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', $start_date);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
@@ -108,7 +109,8 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
             )
         );
 
-        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+        $response = $this->client->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', $start_date);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
@@ -148,7 +150,8 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
             )
         );
 
-        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+        $response = $this->client->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', $start_date);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
@@ -188,7 +191,8 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
             )
         );
 
-        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+        $response = $this->client->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', $start_date);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
@@ -228,7 +232,8 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
             )
         );
 
-        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+        $response = $this->client->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', $start_date);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
