@@ -4,10 +4,12 @@ namespace Srmklive\PayPal\Services;
 
 use Exception;
 use Srmklive\PayPal\Traits\PayPalRequest as PayPalAPIRequest;
+use Srmklive\PayPal\Traits\PayPalVerifyIPN;
 
 class PayPal
 {
     use PayPalAPIRequest;
+    use PayPalVerifyIPN;
 
     /**
      * PayPal constructor.
