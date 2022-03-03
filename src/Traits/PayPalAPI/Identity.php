@@ -107,4 +107,13 @@ trait Identity
 
         return $this->doPayPalRequest();
     }
+    
+    public function getClientToken()
+    {
+        $this->apiEndPoint = 'v1/identity/generate-token?schema=paypalv1.1';
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
 }
