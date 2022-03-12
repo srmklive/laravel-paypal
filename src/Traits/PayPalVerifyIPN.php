@@ -20,7 +20,7 @@ trait PayPalVerifyIPN
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      */
-    public function verifyIPN(Request $request)
+    public function verifyIPN(\Illuminate\Http\Request $request)
     {
         $headers = array_change_key_case($request->headers->all(), CASE_UPPER);
 
