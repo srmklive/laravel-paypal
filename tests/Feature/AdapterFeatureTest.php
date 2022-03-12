@@ -1025,6 +1025,25 @@ class AdapterFeatureTest extends TestCase
         $this->assertEmpty($response);
     }
 
+    /** @test */
+    public function it_can_get_client_token()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetClientTokenResponse()
+            )
+        );
+
+        $response = $this->client->getClientToken();
+
+        $this->assertArrayHasKey('client_token', $response);
+    }
+
     /** @test  */
     public function it_can_create_orders()
     {

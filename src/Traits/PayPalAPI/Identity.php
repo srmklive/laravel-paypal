@@ -107,4 +107,22 @@ trait Identity
 
         return $this->doPayPalRequest();
     }
+
+    /**
+     * Get a client token.
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/multiparty/checkout/advanced/integrate/#link-sampleclienttokenrequest
+     */
+    public function getClientToken()
+    {
+        $this->apiEndPoint = 'v1/identity/generate-token';
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
 }
