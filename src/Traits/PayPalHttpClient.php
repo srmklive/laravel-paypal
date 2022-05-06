@@ -188,7 +188,7 @@ trait PayPalHttpClient
                 $this->options
             )->getBody();
         } catch (HttpClientException $e) {
-            throw new RuntimeException($e->getRequest()->getBody().' '.$e->getResponse()->getBody());
+            throw new RuntimeException($e->getResponse()->getBody());
         }
     }
 
@@ -211,12 +211,7 @@ trait PayPalHttpClient
 
             return ($decode === false) ? $response->getContents() : Utils::jsonDecode($response, true);
         } catch (RuntimeException $t) {
-            $message = collect($t->getMessage())->implode('\n');
+            return ($decode === false) ? $t->getMessage() : Utils::jsonDecode('{"error":'.$t->getMessage().'}', true);
         }
-
-        return [
-            'type'    => 'error',
-            'message' => $message,
-        ];
     }
 }

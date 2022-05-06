@@ -37,8 +37,8 @@ class AdapterFeatureTest extends TestCase
         $this->client = new PayPalClient($this->getMockCredentials());
         $response = $this->client->getAccessToken();
 
-        $this->assertArrayHasKey('type', $response);
-        $this->assertEquals('error', $response['type']);
+        $this->assertIsArray($response['error']);
+        $this->assertArrayHasKey('error', $response);
     }
 
     /** @test */
