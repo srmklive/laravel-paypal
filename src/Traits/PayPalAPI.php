@@ -53,8 +53,6 @@ trait PayPalAPI
 
         if (isset($response['access_token'])) {
             $this->setAccessToken($response);
-
-            $this->setPayPalAppId($response);
         }
 
         return $response;
@@ -70,6 +68,8 @@ trait PayPalAPI
     public function setAccessToken(array $response)
     {
         $this->access_token = $response['access_token'];
+
+        $this->setPayPalAppId($response);
 
         $this->options['headers']['Authorization'] = "{$response['token_type']} {$this->access_token}";
     }
