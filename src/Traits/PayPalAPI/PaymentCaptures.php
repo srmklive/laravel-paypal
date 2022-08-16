@@ -55,4 +55,24 @@ trait PaymentCaptures
 
         return $this->doPayPalRequest();
     }
+
+    /**
+     * Refund full captured payment
+     *
+     * @param string $capture_id
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/api/payments/v2/#captures_refund
+     */
+    public function refundFullCapturedPayment(string $capture_id)
+    {
+        $this->apiEndPoint = "v2/payments/captures/{$capture_id}/refund";
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
 }
