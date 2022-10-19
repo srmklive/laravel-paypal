@@ -20,7 +20,7 @@ trait PayPalVerifyIPN
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      */
-    public function verifyIPN(\Illuminate\Http\Request $request)
+    public function verifyIPN(\Illuminate\Http\Request $requestw)
     {
         $headers = array_change_key_case($request->headers->all(), CASE_UPPER);
 
@@ -33,10 +33,7 @@ trait PayPalVerifyIPN
         ) {
             \Log::error('Invalid headers or webhook id supplied for paypal webhook');
 
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Invalid headers or web hook id provided',
-            ]);
+            return ['error' => 'Invalid headers or webhook id provided'];
         }
 
         $params = $request->all();
