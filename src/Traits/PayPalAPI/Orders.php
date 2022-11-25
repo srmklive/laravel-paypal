@@ -15,10 +15,11 @@ trait Orders
      *
      * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
      */
-    public function createOrder(array $data)
+    public function createOrder(array $data, string $request_id)
     {
         $this->apiEndPoint = 'v2/checkout/orders';
 
+        $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['json'] = (object) $data;
 
         $this->verb = 'post';
