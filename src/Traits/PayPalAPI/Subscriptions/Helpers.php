@@ -28,6 +28,8 @@ trait Helpers
      */
     protected $billing_plan;
 
+    protected $payment_preferences;
+
     /**
      * @var string
      */
@@ -65,6 +67,11 @@ trait Helpers
             ],
         ];
 
+
+        if(isset($this->shipping_address)) {
+            $body['subscriber']['shipping_address'] = $this->shipping_address;
+        }
+
         if ($this->return_url && $this->cancel_url) {
             $body['application_context'] = [
                 'return_url' => $this->return_url,
@@ -76,6 +83,7 @@ trait Helpers
 
         unset($this->product);
         unset($this->billing_plan);
+        unset($this->payment_preferences);
         unset($this->trial_pricing);
         unset($this->return_url);
         unset($this->cancel_url);
@@ -346,17 +354,22 @@ trait Helpers
     {
         $request_id = Str::random();
 
+
+        if (!isset($this->payment_preferences)) {
+            $this->payment_preferences = [
+                'auto_bill_outstanding'     => true,
+                'setup_fee_failure_action'  => 'CONTINUE',
+                'payment_failure_threshold' => $this->payment_failure_threshold,
+            ];
+        }
+
         $plan_params = [
             'product_id'          => $this->product['id'],
             'name'                => $name,
             'description'         => $description,
             'status'              => 'ACTIVE',
             'billing_cycles'      => $billing_cycles,
-            'payment_preferences' => [
-                'auto_bill_outstanding'     => true,
-                'setup_fee_failure_action'  => 'CONTINUE',
-                'payment_failure_threshold' => $this->payment_failure_threshold,
-            ],
+            'payment_preferences' => $this->payment_preferences,
         ];
 
         $this->billing_plan = $this->createPlan($plan_params, $request_id);
@@ -374,6 +387,44 @@ trait Helpers
     {
         $this->return_url = $return_url;
         $this->cancel_url = $cancel_url;
+
+        return $this;
+    }
+
+    /**
+     * @param float $price
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addSetupFee(float $price): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->payment_preferences = [
+            'auto_bill_outstanding'     => true,
+            'setup_fee' => [
+                'value' => $price,
+                'currency_code' => $this->getCurrency(),
+            ],
+            'setup_fee_failure_action'  => 'CONTINUE',
+            'payment_failure_threshold' => $this->payment_failure_threshold,
+        ];
+
+        return $this;
+    }
+
+    public function addShippingAddress(string $full_name, string $address_line_1, string $address_line_2, string $admin_area_2, string $admin_area_1, string $postal_code, string $country_code): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->shipping_address = [
+            "name" => [
+                "full_name" => $full_name
+            ],
+            "address" =>  [
+                "address_line_1" => $address_line_1,
+                "address_line_2" => $address_line_2,
+                "admin_area_2" => $admin_area_2,
+                "admin_area_1" => $admin_area_1,
+                "postal_code" => $postal_code,
+                "country_code" => $country_code,
+            ]
+        ];
 
         return $this;
     }
