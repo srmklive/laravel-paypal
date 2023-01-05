@@ -29,6 +29,7 @@ trait Helpers
     protected $billing_plan;
 
     protected $payment_preferences;
+    protected $has_setup_fee = false;
 
     /**
      * @var string
@@ -55,6 +56,7 @@ trait Helpers
     {
         $start_date = isset($start_date) ? Carbon::parse($start_date)->toIso8601String() : Carbon::now()->toIso8601String();
 
+
         $body = [
             'plan_id'    => $this->billing_plan['id'],
             'start_time' => $start_date,
@@ -67,6 +69,11 @@ trait Helpers
             ],
         ];
 
+        if($this->has_setup_fee) {
+            $body['plan'] = [
+                'payment_preferences' => $this->payment_preferences
+            ];
+        }
 
         if(isset($this->shipping_address)) {
             $body['subscriber']['shipping_address'] = $this->shipping_address;
@@ -397,6 +404,7 @@ trait Helpers
      */
     public function addSetupFee(float $price): \Srmklive\PayPal\Services\PayPal
     {
+        $this->has_setup_fee = true;
         $this->payment_preferences = [
             'auto_bill_outstanding'     => true,
             'setup_fee' => [
