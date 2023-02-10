@@ -51,7 +51,7 @@ trait Reporting
         $date = empty($date) ? Carbon::now()->toIso8601String() : Carbon::parse($date)->toIso8601String();
         $currency = empty($balance_currency) ? $this->getCurrency() : $balance_currency;
 
-        $this->apiEndPoint = "v1/reporting/balances?currency_code={$currency}&as_of_date={$date}";
+        $this->apiEndPoint = "v1/reporting/balances?currency_code={$currency}&as_of_time={$date}";
 
         $this->verb = 'get';
 
