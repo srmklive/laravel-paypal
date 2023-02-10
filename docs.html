@@ -3141,12 +3141,7 @@ $response = $provider->listTransactions($filters);
                         <div class="docs-code-block pt-0 pb-0">
                             <pre class="shadow-lg rounded mb-0">
                                 <code class="php hljs">
-$response = $provider->captureAuthorizedPayment(
-    '0VF52814937998046',
-    'INVOICE-123',
-    10.99,
-    'Payment is due'
-);
+$response = $provider->listBalances('2022-10-09', 'EUR');
                                 </code>
                             </pre>
                         </div>
