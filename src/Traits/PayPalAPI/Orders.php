@@ -30,11 +30,11 @@ trait Orders
     {
         $this->apiEndPoint = "v2/checkout/orders/{$order_id}";
 
-        $this->options['json'] = (object) $data;
+        $this->options['json'] = $data;
 
         $this->verb = 'patch';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(true);
     }
 
     /**
