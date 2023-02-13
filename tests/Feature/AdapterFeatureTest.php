@@ -1086,7 +1086,7 @@ class AdapterFeatureTest extends TestCase
 
         $response = $this->client->updateOrder($order_id, $filters);
 
-        $this->assertEmpty($response);
+        $this->assertNotEmpty($response);
     }
 
     /** @test  */

@@ -34,7 +34,7 @@ trait Orders
 
         $this->verb = 'patch';
 
-        return $this->doPayPalRequest(true);
+        return $this->doPayPalRequest(false);
     }
 
     /**
