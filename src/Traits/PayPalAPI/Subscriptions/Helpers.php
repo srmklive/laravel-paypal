@@ -404,6 +404,20 @@ trait Helpers
     }
 
     /**
+     * Set custom failure threshold when adding a subscription.
+     *
+     * @param int $threshold
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addPaymentFailureThreshold(int $threshold): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->payment_failure_threshold = $threshold;
+
+        return $this;
+    }
+
+    /**
      * Add setup fee when adding a subscription.
      *
      * @param float $price
@@ -429,13 +443,13 @@ trait Helpers
     /**
      * Add shipping address.
      *
-     * @var string $full_name
-     * @var string $address_line_1
-     * @var string $address_line_2
-     * @var string $admin_area_2
-     * @var string $admin_area_1
-     * @var string $postal_code
-     * @var string $country_code
+     * @param string $full_name
+     * @param string $address_line_1
+     * @param string $address_line_2
+     * @param string $admin_area_2
+     * @param string $admin_area_1
+     * @param string $postal_code
+     * @param string $country_code
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
@@ -456,5 +470,5 @@ trait Helpers
         ];
 
         return $this;
-    }    
+    }
 }
