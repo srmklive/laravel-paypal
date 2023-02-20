@@ -460,12 +460,14 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_setup_fees_when_creating_subscription() {
+    public function it_can_add_setup_fees_when_creating_subscription()
+    {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
             'token_type'    => 'Bearer',
         ]);
 
+        $start_date = Carbon::now()->addDay()->toDateString();
         $setup_fee = 9.99;
 
         $this->client = $this->client->addSetupFee($setup_fee)
@@ -486,11 +488,14 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_shipping_address_when_creating_subscription() {
+    public function it_can_add_shipping_address_when_creating_subscription()
+    {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
             'token_type'    => 'Bearer',
         ]);
+
+        $start_date = Carbon::now()->addDay()->toDateString();
 
         $this->client = $this->client->addShippingAddress('John Doe', 'House no. 123', 'Street 456', 'Test Area', 'Test Area', 10001, 'US')
             ->addProductById('PROD-XYAB12ABSB7868434')

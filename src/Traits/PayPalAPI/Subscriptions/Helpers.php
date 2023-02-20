@@ -41,7 +41,7 @@ trait Helpers
     /**
      * @var bool
      */
-    protected $has_setup_fee = false;    
+    protected $has_setup_fee = false;
 
     /**
      * @var string
@@ -80,9 +80,9 @@ trait Helpers
             ],
         ];
 
-        if($this->has_setup_fee) {
+        if ($this->has_setup_fee) {
             $body['plan'] = [
-                'payment_preferences' => $this->payment_preferences
+                'payment_preferences' => $this->payment_preferences,
             ];
         }
 
@@ -415,8 +415,8 @@ trait Helpers
         $this->has_setup_fee = true;
         $this->payment_preferences = [
             'auto_bill_outstanding'     => true,
-            'setup_fee' => [
-                'value' => $price,
+            'setup_fee'                 => [
+                'value'         => $price,
                 'currency_code' => $this->getCurrency(),
             ],
             'setup_fee_failure_action'  => 'CONTINUE',
@@ -443,16 +443,16 @@ trait Helpers
     {
         $this->shipping_address = [
             "name" => [
-                "full_name" => $full_name
+                "full_name" => $full_name,
             ],
             "address" =>  [
-                "address_line_1" => $address_line_1,
-                "address_line_2" => $address_line_2,
-                "admin_area_2" => $admin_area_2,
-                "admin_area_1" => $admin_area_1,
-                "postal_code" => $postal_code,
-                "country_code" => $country_code,
-            ]
+                "address_line_1"  => $address_line_1,
+                "address_line_2"  => $address_line_2,
+                "admin_area_2"    => $admin_area_2,
+                "admin_area_1"    => $admin_area_1,
+                "postal_code"     => $postal_code,
+                "country_code"    => $country_code,
+            ],
         ];
 
         return $this;
