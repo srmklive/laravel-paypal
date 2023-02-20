@@ -86,10 +86,10 @@ trait Helpers
             ];
         }
 
-        if(isset($this->shipping_address)) {
+        if (isset($this->shipping_address)) {
             $body['subscriber']['shipping_address'] = $this->shipping_address;
-        }        
-        
+        }
+
         if ($this->return_url && $this->cancel_url) {
             $body['application_context'] = [
                 'return_url' => $this->return_url,
@@ -456,16 +456,16 @@ trait Helpers
     public function addShippingAddress(string $full_name, string $address_line_1, string $address_line_2, string $admin_area_2, string $admin_area_1, string $postal_code, string $country_code): \Srmklive\PayPal\Services\PayPal
     {
         $this->shipping_address = [
-            "name" => [
-                "full_name" => $full_name,
+            'name' => [
+                'full_name' => $full_name,
             ],
-            "address" =>  [
-                "address_line_1"  => $address_line_1,
-                "address_line_2"  => $address_line_2,
-                "admin_area_2"    => $admin_area_2,
-                "admin_area_1"    => $admin_area_1,
-                "postal_code"     => $postal_code,
-                "country_code"    => $country_code,
+            'address' => [
+                'address_line_1'  => $address_line_1,
+                'address_line_2'  => $address_line_2,
+                'admin_area_2'    => $admin_area_2,
+                'admin_area_1'    => $admin_area_1,
+                'postal_code'     => $postal_code,
+                'country_code'    => $country_code,
             ],
         ];
 

@@ -540,5 +540,5 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
         $this->assertArrayHasKey('plan_id', $response);
-    }    
+    }
 }
