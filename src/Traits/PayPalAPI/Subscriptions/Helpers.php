@@ -29,6 +29,21 @@ trait Helpers
     protected $billing_plan;
 
     /**
+     * @var array
+     */
+    protected $shipping_address;
+
+    /**
+     * @var array
+     */
+    protected $payment_preferences;
+
+    /**
+     * @var bool
+     */
+    protected $has_setup_fee = false;    
+
+    /**
      * @var string
      */
     protected $return_url;
@@ -65,6 +80,16 @@ trait Helpers
             ],
         ];
 
+        if($this->has_setup_fee) {
+            $body['plan'] = [
+                'payment_preferences' => $this->payment_preferences
+            ];
+        }
+
+        if(isset($this->shipping_address)) {
+            $body['subscriber']['shipping_address'] = $this->shipping_address;
+        }        
+        
         if ($this->return_url && $this->cancel_url) {
             $body['application_context'] = [
                 'return_url' => $this->return_url,
@@ -377,4 +402,59 @@ trait Helpers
 
         return $this;
     }
+
+    /**
+     * Add setup fee when adding a subscription.
+     *
+     * @param float $price
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addSetupFee(float $price): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->has_setup_fee = true;
+        $this->payment_preferences = [
+            'auto_bill_outstanding'     => true,
+            'setup_fee' => [
+                'value' => $price,
+                'currency_code' => $this->getCurrency(),
+            ],
+            'setup_fee_failure_action'  => 'CONTINUE',
+            'payment_failure_threshold' => $this->payment_failure_threshold,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Add shipping address.
+     *
+     * @var string $full_name
+     * @var string $address_line_1
+     * @var string $address_line_2
+     * @var string $admin_area_2
+     * @var string $admin_area_1
+     * @var string $postal_code
+     * @var string $country_code
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addShippingAddress(string $full_name, string $address_line_1, string $address_line_2, string $admin_area_2, string $admin_area_1, string $postal_code, string $country_code): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->shipping_address = [
+            "name" => [
+                "full_name" => $full_name
+            ],
+            "address" =>  [
+                "address_line_1" => $address_line_1,
+                "address_line_2" => $address_line_2,
+                "admin_area_2" => $admin_area_2,
+                "admin_area_1" => $admin_area_1,
+                "postal_code" => $postal_code,
+                "country_code" => $country_code,
+            ]
+        ];
+
+        return $this;
+    }    
 }
