@@ -78,7 +78,7 @@ trait Helpers
             ],
         ];
 
-        if ($start_date){
+        if ($start_date) {
             $body['start_time'] = Carbon::parse($start_date)->toIso8601String();
         }
 
