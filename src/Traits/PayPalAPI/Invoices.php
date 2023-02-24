@@ -211,8 +211,8 @@ trait Invoices
             'method'        => $payment_method,
             'note'          => $payment_note,
             'amount'        => [
-                'currency'  => $this->currency,
-                'value'     => $amount,
+                'currency_code'  => $this->currency,
+                'value'          => $amount,
             ],
         ];
 
@@ -266,8 +266,8 @@ trait Invoices
             'refund_date'   => $payment_date,
             'method'        => $payment_method,
             'amount'        => [
-                'currency'  => $this->currency,
-                'value'     => $amount,
+                'currency_code'  => $this->currency,
+                'value'          => $amount,
             ],
         ];
 
