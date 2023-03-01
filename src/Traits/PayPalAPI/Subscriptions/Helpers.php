@@ -54,6 +54,11 @@ trait Helpers
     protected $cancel_url;
 
     /**
+     * @var array
+     */
+    protected $application_context;
+
+    /**
      * Setup a subscription.
      *
      * @param string $customer_name
@@ -90,11 +95,13 @@ trait Helpers
             $body['subscriber']['shipping_address'] = $this->shipping_address;
         }
 
+        if (!empty($this->application_context)) {
+            $body['application_context'] = $this->application_context;
+        }
+
         if ($this->return_url && $this->cancel_url) {
-            $body['application_context'] = [
-                'return_url' => $this->return_url,
-                'cancel_url' => $this->cancel_url,
-            ];
+            $body['application_context']['return_url'] = $this->return_url;
+            $body['application_context']['cancel_url'] = $this->cancel_url;
         }
 
         $subscription = $this->createSubscription($body);
@@ -104,6 +111,7 @@ trait Helpers
         unset($this->trial_pricing);
         unset($this->return_url);
         unset($this->cancel_url);
+        unset($this->application_context);
 
         return $subscription;
     }
@@ -385,6 +393,19 @@ trait Helpers
         ];
 
         $this->billing_plan = $this->createPlan($plan_params, $request_id);
+    }
+
+    /**
+     * Set application context.
+     *
+     * @param array $data
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function setApplicationContext(array $data): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->application_context = $data;
+
+        return $this;
     }
 
     /**
