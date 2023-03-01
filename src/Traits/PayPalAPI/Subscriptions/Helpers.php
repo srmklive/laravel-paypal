@@ -399,7 +399,7 @@ trait Helpers
      * Set application context.
      *
      * @param array $data
-     * 
+     *
      * @return \Srmklive\PayPal\Services\PayPal
      */
     public function setApplicationContext(array $data): \Srmklive\PayPal\Services\PayPal
