@@ -4,6 +4,8 @@ namespace Srmklive\PayPal\Traits\PayPalAPI;
 
 trait BillingPlans
 {
+    use BillingPlans\PricingSchemes;
+
     /**
      * Create a new billing plan.
      *
