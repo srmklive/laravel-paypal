@@ -77,7 +77,8 @@
             <li class="nav-item"><a class="nav-link scrollto" href="#item-4-6">Create Subscription with Exisintg Product/Billing Plan</a></li>
             <li class="nav-item"><a class="nav-link scrollto" href="#item-4-7">Add Setup Fee When Creating Subscription</a></li>
             <li class="nav-item"><a class="nav-link scrollto" href="#item-4-8">Add Shipping Address When Creating Subscription</a></li>
-            <li class="nav-item"><a class="nav-link scrollto" href="#item-4-9">Add Custom Payment Failure Threshold When Creating Subscription</a></li>            
+            <li class="nav-item"><a class="nav-link scrollto" href="#item-4-9">Add Custom Payment Failure Threshold When Creating Subscription</a></li>
+            <li class="nav-item"><a class="nav-link scrollto" href="#item-4-10">Billing Plan: Update Pricing Schemes</a></li>            
 				    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-5"><span class="theme-icon-holder mr-2"><i class="fas fa-tools"></i></span>Billing Plans</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-1">List Plans</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-2">Create Plan</a></li>
@@ -463,7 +464,7 @@ $provider->getAccessToken();
               </div>
             </section><!--//section-->
             <section class="docs-section" id="item-4-7">
-              <h2 class="section-heading">Custom: Add Shipping Address When Creating Subscription</h2>
+              <h2 class="section-heading">Add: Add Shipping Address When Creating Subscription</h2>
               <div class="docs-code-block pt-0 pb-0">
                 <pre class="shadow-lg rounded mb-0">
                   <code class="php hljs">
@@ -476,7 +477,7 @@ $provider->getAccessToken();
                 </pre>
               </div>
             </section><!--//section-->
-            <section class="docs-section" id="item-4-8">
+            <section class="docs-section" id="item-4-9">
               <h2 class="section-heading">Custom: Add Payment Failure Threshold When Creating Subscription</h2>
               <div class="docs-code-block pt-0 pb-0">
                 <pre class="shadow-lg rounded mb-0">
@@ -489,7 +490,20 @@ $provider->getAccessToken();
                   </code>
                 </pre>
               </div>
-            </section><!--//section-->                                         
+            </section><!--//section-->
+            <section class="docs-section" id="item-4-10">
+              <h2 class="section-heading">Billing Plan: Update Pricing Schemes</h2>
+              <div class="docs-code-block pt-0 pb-0">
+                <pre class="shadow-lg rounded mb-0">
+                  <code class="php hljs">
+                    $response = $this->client->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
+                    ->addPricingScheme('DAY', 7, 0, true)
+                    ->addPricingScheme('MONTH', 1, 100)
+                    ->processBillingPlanPricingUpdates();
+                  </code>
+                </pre>
+              </div>
+            </section><!--//section-->                                                     
 			    </article><!--//docs-article-->
 			    
 			    <article class="docs-article" id="section-5">
