@@ -19,7 +19,7 @@ trait PricingSchemes
      * @throws Throwable
      *
      * @return \Srmklive\PayPal\Services\PayPal
-     */    
+     */
     public function addPricingScheme(string $interval_unit, int $interval_count, float $price, bool $trial = false): \Srmklive\PayPal\Services\PayPal
     {
         $this->pricing_schemes[] = $this->addPlanBillingCycle($interval_unit, $interval_count, $price, $trial);
