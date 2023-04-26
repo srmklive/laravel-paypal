@@ -213,7 +213,7 @@ trait PayPalHttpClient
         } catch (RuntimeException $t) {
             $error = ($decode === false) ? $t->getMessage() : Utils::jsonDecode($t->getMessage(), true);
 
-            return ["error" => $error];
+            return ['error' => $error];
         }
     }
 }
