@@ -32,7 +32,7 @@ jobs:
     - name: Run tests with code coverage
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
-      run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.dist.php72"; else echo "-c phpunit.xml.dist.php8"; fi;) --coverage-clover build/logs/clover.xml
+      run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.dist.php72"; fi;) $(if [ "$PHP_VERSION" == "7.3" ]; then echo "-c phpunit.xml.dist.php8"; fi;) $(if [ "$PHP_VERSION" == "7.4" ]; then echo "-c phpunit.xml.dist.php8"; fi;) $(if [ "$PHP_VERSION" == "8.0" ]; then echo "-c phpunit.xml.dist.php8"; fi;) --coverage-clover build/logs/clover.xml
     - name: Install PHP Coveralls library
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
