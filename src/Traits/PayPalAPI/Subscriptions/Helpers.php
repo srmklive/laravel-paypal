@@ -271,7 +271,7 @@ trait Helpers
     {
         $pricing_scheme = [
             'fixed_price' => [
-                'value'         => $price,
+                'value'         => bcdiv($price, 1, 2),
                 'currency_code' => $this->getCurrency(),
             ],
         ];
