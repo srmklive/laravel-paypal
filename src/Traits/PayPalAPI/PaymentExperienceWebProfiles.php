@@ -26,7 +26,6 @@ trait PaymentExperienceWebProfiles
      * Create a Web Experience Profile.
      *
      * @param array  $data
-     * @param string $request_id
      *
      * @throws \Throwable
      *
@@ -34,11 +33,10 @@ trait PaymentExperienceWebProfiles
      *
      * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_create
      */
-    public function createWebExperienceProfile(array $data, string $request_id)
+    public function createWebExperienceProfile(array $data)
     {
         $this->apiEndPoint = 'v1/payment-experience/web-profiles';
 
-        $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['json'] = $data;
 
         $this->verb = 'post';

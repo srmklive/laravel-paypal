@@ -1218,7 +1218,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->mockCreateWebProfileParams();
 
-        $response = $this->client->createWebExperienceProfile($expectedParams, 'some-request-id');
+        $response = $this->client->setRequestHeader('PayPal-Request-Id', 'some-request-id')->createWebExperienceProfile($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('name', $response);
