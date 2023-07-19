@@ -2879,29 +2879,171 @@ $partner = $provider->showReferralData($partner_referral_id);
                       <div class="docs-code-block pt-0 pb-0">
                           <pre class="shadow-lg rounded mb-0">
                               <code class="php hljs">
-$partner = $provider->createPartnerReferral($data);
+$profiles = $provider->listWebExperienceProfiles();
                               </code>
                           </pre>
                       </div>
                   </section><!--//section-->
 
                   <section class="docs-section" id="item-15-2">
-                      <h2 class="section-heading">Show Referral Details</h2>
+                      <h2 class="section-heading">Create Web Experience Profile</h2>
                       <p>This code snippet utilizes the following API: <br />
-                          <a href="https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_read" target="_blank">
-                              https://developer.paypal.com/docs/api/partner-referrals/v2/#partner-referrals_read
+                          <a href="https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_create" target="_blank">
+                              https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_create
                           </a>
                       </p>
                       <div class="docs-code-block pt-0 pb-0">
                           <pre class="shadow-lg rounded mb-0">
                               <code class="php hljs">
-$partner_referral_id = 'ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=';
+$payload = Utils::jsonDecode('[
+  {
+    "id": "XP-GCUV-X35G-HNEY-5MJY",
+    "name": "exampleProfile",
+    "flow_config": {
+      "landing_page_type": "billing",
+      "bank_txn_pending_url": "https://example.com/flow_config/"
+    },
+    "input_fields": {
+      "no_shipping": 1,
+      "address_override": 1
+    },
+    "presentation": {
+      "logo_image": "https://example.com/logo_image/"
+    }
+  },
+  {
+    "id": "XP-A88A-LYLW-8Y3X-E5ER",
+    "name": "exampleProfile",
+    "flow_config": {
+      "landing_page_type": "billing",
+      "bank_txn_pending_url": "https://example.com/flow_config/"
+    },
+    "input_fields": {
+      "no_shipping": 1,
+      "address_override": 1
+    },
+    "presentation": {
+      "logo_image": "https://example.com/logo_image/"
+    }
+  },
+  {
+    "id": "XP-RFV4-PVD8-AGHJ-8E5J",
+    "name": "exampleProfile",
+    "flow_config": {
+      "bank_txn_pending_url": "https://example.com/flow_config/"
+    },
+    "input_fields": {
+      "no_shipping": 1,
+      "address_override": 1
+    },
+    "presentation": {
+      "logo_image": "https://example.com/logo_image/"
+    }
+  }
+]', true);
 
-$partner = $provider->showReferralData($partner_referral_id);
+$profile = $provider->setRequestHeader('PayPal-Request-Id', 'some-request-id')->createWebExperienceProfile($payload);
                               </code>
                           </pre>
                       </div>
                   </section><!--//section-->
+
+                  <section class="docs-section" id="item-15-3">
+                      <h2 class="section-heading">Delete Web Experience Profile</h2>
+                      <p>This code snippet utilizes the following API: <br />
+                          <a href="https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_delete" target="_blank">
+                              https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_delete
+                          </a>
+                      </p>
+                      <div class="docs-code-block pt-0 pb-0">
+                          <pre class="shadow-lg rounded mb-0">
+                              <code class="php hljs">
+$profile_id = 'XP-A88A-LYLW-8Y3X-E5ER';
+
+$profile = $provider->deleteWebExperienceProfile($profile_id);
+                              </code>
+                          </pre>
+                      </div>
+                  </section><!--//section-->
+
+                  <section class="docs-section" id="item-15-4">
+                      <h2 class="section-heading">Partially Update Web Experience Profile</h2>
+                      <p>This code snippet utilizes the following API: <br />
+                          <a href="https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_partial-update" target="_blank">
+                              https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_partial-update
+                          </a>
+                      </p>
+                      <div class="docs-code-block pt-0 pb-0">
+                          <pre class="shadow-lg rounded mb-0">
+                              <code class="php hljs">
+$profile_id = 'XP-A88A-LYLW-8Y3X-E5ER';
+$payload = json_decode('[
+  {
+    "op": "add",
+    "path": "/presentation/brand_name",
+    "value": "new_brand_name"
+  },
+  {
+    "op": "remove",
+    "path": "/flow_config/landing_page_type"
+  }
+]', true);
+
+$profile = $provider->patchWebExperienceProfile($profile_id, $payload);
+                              </code>
+                          </pre>
+                      </div>
+                  </section><!--//section-->
+
+                  <section class="docs-section" id="item-15-5">
+                      <h2 class="section-heading">Update Web Experience Profile</h2>
+                      <p>This code snippet utilizes the following API: <br />
+                          <a href="https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_update" target="_blank">
+                              https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_update
+                          </a>
+                      </p>
+                      <div class="docs-code-block pt-0 pb-0">
+                          <pre class="shadow-lg rounded mb-0">
+                              <code class="php hljs">
+$profile_id = 'XP-A88A-LYLW-8Y3X-E5ER';
+$payload = json_decode('{
+  "name": "exampleProfile",
+  "presentation": {
+    "logo_image": "https://example.com/logo_image/"
+  },
+  "input_fields": {
+    "no_shipping": 1,
+    "address_override": 1
+  },
+  "flow_config": {
+    "landing_page_type": "billing",
+    "bank_txn_pending_url": "https://example.com/flow_config/"
+  }
+}', true);
+
+$profile = $provider->updateWebExperienceProfile($profile_id, $payload);
+                              </code>
+                          </pre>
+                      </div>
+                  </section><!--//section-->
+
+                  <section class="docs-section" id="item-15-6">
+                      <h2 class="section-heading">Show Web Experience Profile Details</h2>
+                      <p>This code snippet utilizes the following API: <br />
+                          <a href="https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_get" target="_blank">
+                              https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_get
+                          </a>
+                      </p>
+                      <div class="docs-code-block pt-0 pb-0">
+                          <pre class="shadow-lg rounded mb-0">
+                              <code class="php hljs">
+$profile_id = 'XP-A88A-LYLW-8Y3X-E5ER';
+
+$profile = $provider->showWebExperienceProfileDetails($profile_id);
+                              </code>
+                          </pre>
+                      </div>
+                  </section><!--//section-->			
               </article><!--//docs-article-->                
 
                 <article class="docs-article" id="section-16">
