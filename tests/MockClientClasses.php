@@ -76,6 +76,11 @@ trait MockClientClasses
                 ->method('getAccessToken');
         }
 
+        if (!empty($additional_method)) {
+            $mockClient->expects($this->exactly(1))
+            ->method($additional_method);
+        }
+
         $mockClient->expects($this->exactly(1))
             ->method('setApiCredentials');
 
