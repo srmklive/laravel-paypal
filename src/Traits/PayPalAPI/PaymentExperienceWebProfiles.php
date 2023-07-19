@@ -32,7 +32,7 @@ trait PaymentExperienceWebProfiles
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
+     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_create
      */
     public function createWebExperienceProfile(array $data, string $request_id)
     {
@@ -55,7 +55,7 @@ trait PaymentExperienceWebProfiles
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
+     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_delete
      */
     public function deleteWebExperienceProfile(string $profile_id)
     {
@@ -76,7 +76,7 @@ trait PaymentExperienceWebProfiles
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
+     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_partial-update
      */
     public function patchWebExperienceProfile(string $profile_id, array $data)
     {
@@ -99,7 +99,7 @@ trait PaymentExperienceWebProfiles
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
+     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_update
      */
     public function updateWebExperienceProfile(string $profile_id, array $data)
     {
@@ -121,7 +121,7 @@ trait PaymentExperienceWebProfiles
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profiles_get-list
+     * @see https://developer.paypal.com/docs/api/payment-experience/v1/#web-profile_get
      */
     public function showWebExperienceProfileDetails(string $profile_id)
     {
