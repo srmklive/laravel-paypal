@@ -43,7 +43,7 @@ class PaymentExperienceWebProfilesTest extends TestCase
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('PayPal-Request-Id', 'some-request-id')->{$expectedMethod}($expectedParams));
+        $this->assertEquals($expectedResponse, $mockClient->{$additionalMethod}('PayPal-Request-Id', 'some-request-id')->{$expectedMethod}($expectedParams));
     }
 
     /** @test */

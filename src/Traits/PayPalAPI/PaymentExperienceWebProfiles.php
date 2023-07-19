@@ -25,7 +25,7 @@ trait PaymentExperienceWebProfiles
     /**
      * Create a Web Experience Profile.
      *
-     * @param array  $data
+     * @param array $data
      *
      * @throws \Throwable
      *
