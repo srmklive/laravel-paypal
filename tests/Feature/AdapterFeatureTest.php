@@ -1589,9 +1589,10 @@ class AdapterFeatureTest extends TestCase
             $this->mock_http_client($expectedResponse)
         );
 
-        $response = $this->client->setRequestHeader('PayPal-Request-Id', 'some-request-id')
-        ->setRequestHeader('PayPal-Partner-Attribution-Id', 'some-attribution-id')
-        ->createReferencedBatchPayout($expectedParams);
+        $response = $this->client->setRequestHeaders([
+            'PayPal-Request-Id'             => 'some-request-id',
+            'PayPal-Partner-Attribution-Id' => 'some-attribution-id',
+        ])->createReferencedBatchPayout($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('links', $response);
@@ -1635,9 +1636,10 @@ class AdapterFeatureTest extends TestCase
             $this->mock_http_client($expectedResponse)
         );
 
-        $response = $this->client->setRequestHeader('PayPal-Request-Id', 'some-request-id')
-        ->setRequestHeader('PayPal-Partner-Attribution-Id', 'some-attribution-id')
-        ->createReferencedBatchPayoutItem($expectedParams);
+        $response = $this->client->setRequestHeaders([
+            'PayPal-Request-Id'             => 'some-request-id',
+            'PayPal-Partner-Attribution-Id' => 'some-attribution-id',
+        ])->createReferencedBatchPayoutItem($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('links', $response);

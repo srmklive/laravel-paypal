@@ -118,6 +118,18 @@ class AdapterConfigTest extends TestCase
     }
 
     /** @test */
+    public function it_can_set_multiple_request_headers()
+    {
+        $this->client->setRequestHeaders([
+            'PayPal-Request-Id'             => 'some-request-id',
+            'PayPal-Partner-Attribution-Id' => 'some-attribution-id',
+        ]);
+
+        $this->assertNotEmpty($this->client->getRequestHeader('PayPal-Request-Id'));
+        $this->assertEquals($this->client->getRequestHeader('PayPal-Partner-Attribution-Id'), 'some-attribution-id');
+    }
+
+    /** @test */
     public function it_throws_exception_if_options_header_not_set()
     {
         $this->expectException(\RuntimeException::class);
