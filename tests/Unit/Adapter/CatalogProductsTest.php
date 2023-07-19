@@ -21,13 +21,15 @@ class CatalogProductsTest extends TestCase
         $expectedParams = $this->createProductParams();
 
         $expectedMethod = 'createProduct';
+        $additionalMethod = 'setRequestHeader';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true, $additionalMethod);
 
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
+        $mockClient->{$additionalMethod}('PayPal-Request-Id', 'some-request-id');
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams, 'PRODUCT-000-001'));
+        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
 
     /** @test */

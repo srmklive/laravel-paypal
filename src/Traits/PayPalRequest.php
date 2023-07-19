@@ -208,6 +208,7 @@ trait PayPalRequest
         $this->paymentAction = $credentials['payment_action'];
 
         $this->locale = $credentials['locale'];
+        $this->setRequestHeader('Accept-Language', $this->locale);
 
         $this->validateSSL = $credentials['validate_ssl'];
 

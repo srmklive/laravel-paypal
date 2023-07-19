@@ -7,8 +7,7 @@ trait CatalogProducts
     /**
      * Create a product.
      *
-     * @param array  $data
-     * @param string $request_id
+     * @param array $data
      *
      * @throws \Throwable
      *
@@ -16,11 +15,10 @@ trait CatalogProducts
      *
      * @see https://developer.paypal.com/docs/api/catalog-products/v1/#products_create
      */
-    public function createProduct(array $data, string $request_id)
+    public function createProduct(array $data)
     {
         $this->apiEndPoint = 'v1/catalogs/products';
 
-        $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['json'] = $data;
 
         $this->verb = 'post';

@@ -71,7 +71,7 @@ trait PayPalAPI
 
         $this->setPayPalAppId($response);
 
-        $this->options['headers']['Authorization'] = "{$response['token_type']} {$this->access_token}";
+        $this->setRequestHeader('Authorization', "{$response['token_type']} {$this->access_token}");
     }
 
     /**

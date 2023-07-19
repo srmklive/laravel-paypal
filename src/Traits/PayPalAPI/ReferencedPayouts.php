@@ -7,9 +7,7 @@ trait ReferencedPayouts
     /**
      * Create a referenced Batch Payout.
      *
-     * @param array  $data
-     * @param string $request_id
-     * @param string $partner_attribution_id
+     * @param array $data
      *
      * @throws \Throwable
      *
@@ -17,12 +15,10 @@ trait ReferencedPayouts
      *
      * @see https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts_create_batch
      */
-    public function createReferencedBatchPayout(array $data, string $request_id, string $partner_attribution_id)
+    public function createReferencedBatchPayout(array $data)
     {
         $this->apiEndPoint = 'v1/payments/referenced-payouts';
 
-        $this->options['headers']['PayPal-Request-Id'] = $request_id;
-        $this->options['headers']['PayPal-Partner-Attribution-Id'] = $partner_attribution_id;
         $this->options['json'] = $data;
 
         $this->verb = 'post';
@@ -53,9 +49,7 @@ trait ReferencedPayouts
     /**
      * Create a referenced Batch Payout Item.
      *
-     * @param array  $data
-     * @param string $request_id
-     * @param string $partner_attribution_id
+     * @param array $data
      *
      * @throws \Throwable
      *
@@ -63,12 +57,10 @@ trait ReferencedPayouts
      *
      * @see https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts-items_create
      */
-    public function createReferencedBatchPayoutItem(array $data, string $request_id, string $partner_attribution_id)
+    public function createReferencedBatchPayoutItem(array $data)
     {
         $this->apiEndPoint = 'v1/payments/referenced-payouts-items';
 
-        $this->options['headers']['PayPal-Request-Id'] = $request_id;
-        $this->options['headers']['PayPal-Partner-Attribution-Id'] = $partner_attribution_id;
         $this->options['json'] = $data;
 
         $this->verb = 'post';
@@ -80,7 +72,6 @@ trait ReferencedPayouts
      * Show Payout Item details by ID.
      *
      * @param string $payout_item_id
-     * @param string $partner_attribution_id
      *
      * @throws \Throwable
      *
@@ -88,11 +79,10 @@ trait ReferencedPayouts
      *
      * @see https://developer.paypal.com/docs/api/referenced-payouts/v1/#referenced-payouts-items_get
      */
-    public function showReferencedPayoutItemDetails(string $payout_item_id, string $partner_attribution_id)
+    public function showReferencedPayoutItemDetails(string $payout_item_id)
     {
         $this->apiEndPoint = "v1/payments/referenced-payouts-items/{$payout_item_id}";
 
-        $this->options['headers']['PayPal-Partner-Attribution-Id'] = $partner_attribution_id;
         $this->verb = 'get';
 
         return $this->doPayPalRequest();

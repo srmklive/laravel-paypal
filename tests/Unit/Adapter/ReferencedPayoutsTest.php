@@ -21,13 +21,16 @@ class ReferencedPayoutsTest extends TestCase
         $expectedParams = $this->mockCreateReferencedBatchPayoutParams();
 
         $expectedMethod = 'createReferencedBatchPayout';
+        $additionalMethod = 'setRequestHeader';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true, $additionalMethod);
 
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
+        $mockClient->{$additionalMethod}('PayPal-Request-Id', 'some-request-id');
+        $mockClient->{$additionalMethod}('PayPal-Partner-Attribution-Id', 'some-attribution-id');
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams, 'some-request-id', 'some-attribution-id'));
+        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
 
     /** @test */
@@ -55,13 +58,16 @@ class ReferencedPayoutsTest extends TestCase
         $expectedParams = $this->mockCreateReferencedBatchPayoutItemParams();
 
         $expectedMethod = 'createReferencedBatchPayoutItem';
+        $additionalMethod = 'setRequestHeader';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true, $additionalMethod);
 
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
+        $mockClient->{$additionalMethod}('PayPal-Request-Id', 'some-request-id');
+        $mockClient->{$additionalMethod}('PayPal-Partner-Attribution-Id', 'some-attribution-id');
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams, 'some-request-id', 'some-attribution-id'));
+        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
 
     /** @test */
@@ -72,12 +78,14 @@ class ReferencedPayoutsTest extends TestCase
         $expectedParams = 'CDZEC5MJ8R5HY';
 
         $expectedMethod = 'showReferencedPayoutItemDetails';
+        $additionalMethod = 'setRequestHeader';
 
-        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true);
+        $mockClient = $this->mock_client($expectedResponse, $expectedMethod, true, $additionalMethod);
 
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
+        $mockClient->{$additionalMethod}('PayPal-Partner-Attribution-Id', 'some-attribution-id');
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams, 'some-attribution-id'));
+        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
 }
