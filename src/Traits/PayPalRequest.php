@@ -125,11 +125,12 @@ trait PayPalRequest
      */
     public function setRequestHeaders(array $headers): \Srmklive\PayPal\Services\PayPal
     {
-        foreach ($headers as $key=>$value)
+        foreach ($headers as $key=>$value) {
             $this->setRequestHeader($key, $value);
+        }
 
         return $this;
-    }    
+    }
 
     /**
      * Return request options header.
