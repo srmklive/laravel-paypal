@@ -29,6 +29,10 @@ jobs:
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
       run: composer install --no-progress --prefer-dist --optimize-autoloader $(if [ "$PHP_VERSION" == "8.0" || "$PHP_VERSION" == "8.1" ]; then echo "--ignore-platform-reqs"; fi;)
+    - name: Run PHPStan Build
+      env:
+        PHP_VERSION: ${{ matrix.php-versions }}
+      run: vendor/bin/phpstan      
     - name: Run tests with code coverage
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
