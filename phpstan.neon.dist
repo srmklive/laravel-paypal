@@ -3,7 +3,6 @@ parameters:
     - src
   level: 0
   ignoreErrors:
-    - "#Function config_path not found.#"
     - "#Parameter#"
     - "#Call to static method error\\(\\)\\ on an unknown class Log.#"
   excludePaths:
