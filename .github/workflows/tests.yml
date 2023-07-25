@@ -1,4 +1,4 @@
-name: TestsV3
+name: Laravel PayPal
 on: [push, pull_request]
 jobs:
   paypal:
