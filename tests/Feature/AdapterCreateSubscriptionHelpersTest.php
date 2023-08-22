@@ -541,4 +541,32 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
         $this->assertArrayHasKey('id', $response);
         $this->assertArrayHasKey('plan_id', $response);
     }
+
+    /** @test */
+    public function it_can_set_tax_percentage_when_creating_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+        $percentage = 10;
+
+        $this->client = $this->client->addTaxes($percentage)
+            ->addProductById('PROD-XYAB12ABSB7868434')
+            ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
 }

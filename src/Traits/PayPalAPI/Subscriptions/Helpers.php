@@ -54,6 +54,11 @@ trait Helpers
     protected $cancel_url;
 
     /**
+     * @var array
+     */
+    protected $taxes;
+
+    /**
      * Setup a subscription.
      *
      * @param string $customer_name
@@ -95,6 +100,10 @@ trait Helpers
                 'return_url' => $this->return_url,
                 'cancel_url' => $this->cancel_url,
             ];
+        }
+
+        if (isset($this->taxes)) {
+            $body['taxes'] = $this->taxes;
         }
 
         $subscription = $this->createSubscription($body);
@@ -467,6 +476,23 @@ trait Helpers
                 'postal_code'     => $postal_code,
                 'country_code'    => $country_code,
             ],
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Add taxes when creating a subscription.
+     *
+     * @param float $price
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addTaxes(float $percentage)
+    {
+        $this->taxes = [
+            'percentage' => $percentage,
+            'inclusive'  => false,
         ];
 
         return $this;
