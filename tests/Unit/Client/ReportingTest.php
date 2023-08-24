@@ -29,7 +29,7 @@ class ReportingTest extends TestCase
         ];
 
         $mockHttpClient = $this->mock_http_request(Utils::jsonEncode($expectedResponse), $expectedEndpoint, $expectedParams, 'get');
-        $mockResponse = $mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody();        
+        $mockResponse = $mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody();
 
         $this->assertArrayHasKey('transaction_details', Utils::jsonDecode($mockResponse, true));
     }
