@@ -9,7 +9,7 @@
   </coverage>
   <testsuites>
     <testsuite name="PayPal Test Suite">
-      <directory>tests/Feature</directory>
+      <directory>tests</directory>
     </testsuite>
   </testsuites>
   <logging>
