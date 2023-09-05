@@ -6,3 +6,5 @@ composer.lock
 *-container*
 *.phpunit*
 test.php
+/.venv
+/docs/build
