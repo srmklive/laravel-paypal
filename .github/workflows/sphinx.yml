@@ -4,6 +4,7 @@ on: push
 
 jobs:
   build:
+    name: Documentation
     runs-on: ubuntu-latest
     permissions:
       contents: write

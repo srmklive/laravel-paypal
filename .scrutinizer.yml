@@ -25,7 +25,9 @@ build:
         - php-scrutinizer-run
   environment:
       php:
-          version: '7.3.21'
+          version: 8.1.13
+      python:
+          version: pypy3.9-7.3.9    
   tests:
       override:
       -
