@@ -15,6 +15,7 @@ trait PayPalAPI
     use PayPalAPI\Orders;
     use PayPalAPI\PartnerReferrals;
     use PayPalAPI\PaymentExperienceWebProfiles;
+    use PayPalAPI\PaymentMethodsTokens;
     use PayPalAPI\PaymentAuthorizations;
     use PayPalAPI\PaymentCaptures;
     use PayPalAPI\PaymentRefunds;
