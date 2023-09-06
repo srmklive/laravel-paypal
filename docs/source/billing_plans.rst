@@ -108,7 +108,8 @@ By default, the API returns a paginated response and only includes the first 20 
 
 .. code-block:: console
 
-    $plans = $provider->listPlans(1, 30);
+    $provider = $provider->setPageSize(30)->showTotals(true);
+    $plans = $provider->setCurrentPage(1)->listPlans();
 
 In the above snippet, we are returning the plans containing upto 30 items in each paginated response along with count details.
 

@@ -69,7 +69,7 @@ Subscription: Create Subscription with Existing Product & Billing Plan
 
 .. code-block:: console
 
-    $response = $this->client->addProductById('PROD-XYAB12ABSB7868434')
+    $response = $provider->addProductById('PROD-XYAB12ABSB7868434')
     ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
     ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
     ->setupSubscription('John Doe', 'john@example.com', '2021-12-10');   
@@ -80,7 +80,7 @@ Subscription: Create Subscription with Setup Fee
 
 .. code-block:: console
 
-    $response = $this->client->addSetupFee(9.99)
+    $response = $provider->addSetupFee(9.99)
     ->addProductById('PROD-XYAB12ABSB7868434')
     ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
     ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
@@ -92,7 +92,7 @@ Subscription: Create Subscription with Shipping Address
 
 .. code-block:: console
 
-    $response = $this->client->addShippingAddress('John Doe', 'House no. 123', 'Street 456', 'Test Area', 'Test Area', 10001, 'US')
+    $response = $provider->addShippingAddress('John Doe', 'House no. 123', 'Street 456', 'Test Area', 'Test Area', 10001, 'US')
     ->addProductById('PROD-XYAB12ABSB7868434')
     ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
     ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
@@ -104,11 +104,23 @@ Subscription: Create Subscription with Payment Failure Threshold
 
 .. code-block:: console
 
-    $response = $this->client->addPaymentFailureThreshold(5)
+    $response = $provider->addPaymentFailureThreshold(5)
     ->addProductById('PROD-XYAB12ABSB7868434')
     ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
     ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
     ->setupSubscription('John Doe', 'john@example.com', '2021-12-10');    
+
+
+Subscription: Create Subscription with Taxes
+--------------------------------------------
+
+.. code-block:: console
+
+    $response = $provider->addTaxes(5)
+    ->addProductById('PROD-XYAB12ABSB7868434')
+    ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
+    ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+    ->setupSubscription('John Doe', 'john@example.com', '2021-12-10'); 
 
 
 Billing Plans: Update Pricing Schemes
