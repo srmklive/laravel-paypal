@@ -19,7 +19,7 @@ trait PaymentMethodsTokens
      */
     public function createPaymentSourceToken(array $data)
     {
-        $this->apiEndPoint = "v3/vault/payment-tokens";
+        $this->apiEndPoint = 'v3/vault/payment-tokens';
 
         $this->options['json'] = $data;
 
@@ -81,7 +81,7 @@ trait PaymentMethodsTokens
 
         $this->verb = 'delete';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 
     /**
@@ -97,7 +97,7 @@ trait PaymentMethodsTokens
      */
     public function createPaymentSetupToken(array $data)
     {
-        $this->apiEndPoint = "v3/vault/setup-tokens";
+        $this->apiEndPoint = 'v3/vault/setup-tokens';
 
         $this->options['json'] = $data;
 
@@ -122,5 +122,5 @@ trait PaymentMethodsTokens
         $this->verb = 'get';
 
         return $this->doPayPalRequest();
-    }    
+    }
 }

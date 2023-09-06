@@ -2195,4 +2195,86 @@ class AdapterFeatureTest extends TestCase
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('verification_status', $response);
     }
+
+    /** @test */
+    public function it_can_list_payment_methods_source_tokens()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListPaymentMethodsTokensResponse()
+            )
+        );
+
+        $response = $this->client->setCustomerSource('customer_4029352050')
+        ->listPaymentSourceTokens();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('payment_tokens', $response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_payment_method_source_token()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePaymentMethodsTokenResponse()
+            )
+        );
+
+        $response = $this->client->showPaymentSourceTokenDetails('8kk8451t');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('customer', $response);
+        $this->assertArrayHasKey('payment_source', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_a_payment_method_source_token()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->deletePaymentSourceToken('8kk8451t');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_payment_setup_token()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListPaymentSetupTokenResponse()
+            )
+        );
+
+        $response = $this->client->showPaymentSetupTokenDetails('5C991763VB2781612');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('customer', $response);
+        $this->assertArrayHasKey('payment_source', $response);
+    }
 }
