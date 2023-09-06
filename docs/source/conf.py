@@ -16,6 +16,7 @@ release = '1.0'
 
 extensions = [
     "sphinx_new_tab_link",
+    "sphinx.ext.githubpages",
 ]
 
 templates_path = ['_templates']
