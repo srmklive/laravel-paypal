@@ -1908,6 +1908,28 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_list_tracking_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetTrackingDetailsResponse()
+            )
+        );
+
+        $response = $this->client->listTrackingDetails('8MC585209K746392H-443844607820');
+
+        $this->assertNotEmpty($response);
+        $this->assertEquals($response, $this->mockGetTrackingDetailsResponse());
+        $this->assertArrayHasKey('transaction_id', $response);
+        $this->assertArrayHasKey('tracking_number', $response);
+    }
+
+    /** @test */
     public function it_can_get_tracking_details_for_tracking_id()
     {
         $this->client->setAccessToken([
@@ -1965,6 +1987,28 @@ class AdapterFeatureTest extends TestCase
         $expectedParams = $this->mockCreateTrackinginBatchesParams();
 
         $response = $this->client->addBatchTracking($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('tracker_identifiers', $response);
+    }
+
+    /** @test */
+    public function it_can_create_single_tracking_for_single_transaction()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateTrackinginBatchesResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreateTrackinginBatchesParams();
+
+        $response = $this->client->addTracking($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('tracker_identifiers', $response);
