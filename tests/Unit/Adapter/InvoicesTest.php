@@ -57,7 +57,7 @@ class InvoicesTest extends TestCase
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}(1, 2, true));
+        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
     }
 
     /** @test */

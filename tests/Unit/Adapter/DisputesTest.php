@@ -42,7 +42,7 @@ class DisputesTest extends TestCase
         $mockClient->setApiCredentials($this->getMockCredentials());
         $mockClient->getAccessToken();
 
-        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams, 'PP-D-27803'));
+        $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('PP-D-27803', $expectedParams));
     }
 
     /** @test */

@@ -25,8 +25,8 @@ trait Disputes
     /**
      * Update a dispute.
      *
-     * @param array  $data
      * @param string $dispute_id
+     * @param array  $data
      *
      * @throws \Throwable
      *
@@ -34,7 +34,7 @@ trait Disputes
      *
      * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_patch
      */
-    public function updateDispute(array $data, string $dispute_id)
+    public function updateDispute(string $dispute_id, array $data)
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}";
 

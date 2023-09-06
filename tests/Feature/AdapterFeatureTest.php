@@ -308,7 +308,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->updateDisputeParams();
 
-        $response = $this->client->updateDispute($expectedParams, 'PP-D-27803');
+        $response = $this->client->updateDispute('PP-D-27803', $expectedParams);
 
         $this->assertEmpty($response);
     }

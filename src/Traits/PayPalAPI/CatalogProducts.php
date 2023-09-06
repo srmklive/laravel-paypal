@@ -29,21 +29,15 @@ trait CatalogProducts
     /**
      * List products.
      *
-     * @param int  $page
-     * @param int  $size
-     * @param bool $totals
-     *
      * @throws \Throwable
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
      * @see https://developer.paypal.com/docs/api/catalog-products/v1/#products_list
      */
-    public function listProducts(int $page = 1, int $size = 20, bool $totals = true)
+    public function listProducts()
     {
-        $totals = ($totals === true) ? 'true' : 'false';
-
-        $this->apiEndPoint = "v1/catalogs/products?page={$page}&page_size={$size}&total_required={$totals}";
+        $this->apiEndPoint = "v1/catalogs/products?page={$this->current_page}&page_size={$this->page_size}&total_required={$this->show_totals}";
 
         $this->verb = 'get';
 

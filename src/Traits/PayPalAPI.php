@@ -88,4 +88,46 @@ trait PayPalAPI
 
         $this->config['app_id'] = $app_id;
     }
+
+    /**
+     * Set records per page for list resources API calls.
+     *
+     * @param int $size
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function setPageSize(int $size): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->page_size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Set the current page for list resources API calls.
+     *
+     * @param int $size
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function setCurrentPage(int $page): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->current_page = $page;
+
+        return $this;
+    }
+
+    /**
+     * Toggle whether totals for list resources are returned after every API call.
+     *
+     * @param bool $totals
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function showTotals(bool $totals): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->show_totals = $totals;
+
+        return $this;
+    }
 }

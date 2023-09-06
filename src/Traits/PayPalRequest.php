@@ -45,6 +45,27 @@ trait PayPalRequest
     protected $options;
 
     /**
+     * Set limit to total records per API call.
+     *
+     * @var int
+     */
+    protected $page_size = 20;
+
+    /**
+     * Set the current page for list resources API calls.
+     *
+     * @var bool
+     */
+    protected $current_page = 1;
+
+    /**
+     * Toggle whether totals for list resources are returned after every API call.
+     *
+     * @var bool
+     */
+    protected $show_totals = true;
+
+    /**
      * Set PayPal API Credentials.
      *
      * @param array $credentials

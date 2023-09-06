@@ -47,9 +47,6 @@ trait Invoices
     /**
      * Get list of invoices.
      *
-     * @param int   $page
-     * @param int   $size
-     * @param bool  $totals
      * @param array $fields
      *
      * @throws \Throwable
@@ -58,15 +55,13 @@ trait Invoices
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_list
      */
-    public function listInvoices(int $page = 1, int $size = 20, bool $totals = true, array $fields = [])
+    public function listInvoices(array $fields = [])
     {
-        $totals = ($totals === true) ? 'true' : 'false';
-
         $fields_list = collect($fields);
 
         $fields = ($fields_list->count() > 0) ? "&fields={$fields_list->implode(',')}" : '';
 
-        $this->apiEndPoint = "v2/invoicing/invoices?page={$page}&page_size={$size}&total_required={$totals}{$fields}";
+        $this->apiEndPoint = "v2/invoicing/invoices?page={$this->current_page}&page_size={$this->page_size}&total_required={$this->show_totals}{$fields}";
 
         $this->verb = 'get';
 

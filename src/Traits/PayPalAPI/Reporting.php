@@ -11,8 +11,6 @@ trait Reporting
      *
      * @param array  $filters
      * @param string $fields
-     * @param int    $page
-     * @param int    $page_size
      *
      * @throws \Throwable
      *
@@ -20,14 +18,14 @@ trait Reporting
      *
      * @see https://developer.paypal.com/docs/api/transaction-search/v1/#transactions_get
      */
-    public function listTransactions(array $filters, string $fields = 'all', int $page = 1, int $page_size = 100)
+    public function listTransactions(array $filters, string $fields = 'all')
     {
         $filters_list = collect($filters)->isEmpty() ? '' :
             collect($filters)->map(function ($value, $key) {
                 return "{$key}={$value}&";
             })->implode('');
 
-        $this->apiEndPoint = "v1/reporting/transactions?{$filters_list}fields={$fields}&page={$page}&page_size={$page_size}";
+        $this->apiEndPoint = "v1/reporting/transactions?{$filters_list}fields={$fields}&page={$this->current_page}&page_size={$this->page_size}";
 
         $this->verb = 'get';
 

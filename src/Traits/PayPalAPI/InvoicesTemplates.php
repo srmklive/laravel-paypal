@@ -29,8 +29,6 @@ trait InvoicesTemplates
     /**
      * Get list of invoice templates.
      *
-     * @param int    $page
-     * @param int    $size
      * @param string $fields
      *
      * @throws \Throwable
@@ -39,9 +37,9 @@ trait InvoicesTemplates
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_list
      */
-    public function listInvoiceTemplates(int $page = 1, int $size = 20, string $fields = 'all')
+    public function listInvoiceTemplates(string $fields = 'all')
     {
-        $this->apiEndPoint = "v2/invoicing/templates?page={$page}&page_size={$size}&fields={$fields}";
+        $this->apiEndPoint = "v2/invoicing/templates?page={$this->current_page}&page_size={$this->page_size}&fields={$fields}";
 
         $this->verb = 'get';
 

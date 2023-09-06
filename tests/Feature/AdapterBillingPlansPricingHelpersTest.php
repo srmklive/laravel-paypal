@@ -54,4 +54,27 @@ class AdapterBillingPlansPricingHelpersTest extends TestCase
 
         $this->assertEmpty($response);
     }
+
+    /** @test */
+    public function it_can_set_custom_limits_when_listing_billing_plans()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client = $this->client->setPageSize(30)
+            ->showTotals(true);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListPlansResponse()
+            )
+        );
+
+        $response = $this->client->setCurrentPage(1)->listPlans();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('plans', $response);
+    }
 }
