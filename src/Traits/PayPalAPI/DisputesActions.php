@@ -2,8 +2,74 @@
 
 namespace Srmklive\PayPal\Traits\PayPalAPI;
 
+use GuzzleHttp\Psr7;
+use Srmklive\PayPal\Services\VerifyDocuments;
+
 trait DisputesActions
 {
+    /**
+     * Acknowledge item has been returned.
+     *
+     * @param string $dispute_id
+     * @param string $dispute_note
+     * @param string $acknowledgement_type
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_acknowledge-return-item
+     */
+    public function acknowledgeItemReturned(string $dispute_id, string $dispute_note, string $acknowledgement_type)
+    {
+        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/acknowledge-return-item";
+
+        $this->options['json'] = [
+            'note'                  => $dispute_note,
+            'acknowledgement_type'  => $acknowledgement_type,
+        ];
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
+
+    /**
+     * Providence evidence in support of a dispute.
+     *
+     * @param string $dispute_id
+     * @param array  $file_path
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_provide-evidence 
+     */
+    public function provideDisputeEvidence(string $dispute_id, array $files)
+    {
+        if (VerifyDocuments::isValidEvidenceFile($files) === false) {
+            $this->throwInvalidEvidenceFileException();
+        }
+
+        $this->apiEndPoint = "/v1/customer/disputes/{$dispute_id}/provide-evidence";
+
+        $this->setRequestHeader('Content-Type', 'multipart/form-data');
+
+        $this->options['multipart'] = [];
+
+        foreach ($files as $file) {
+            $this->options['multipart'][] = [
+                'name'     => basename($file),
+                'contents' => Psr7\Utils::tryFopen($file, 'r'),
+            ];
+        }
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();        
+    }
+
     /**
      * Accept customer dispute claim.
      *
@@ -49,33 +115,6 @@ trait DisputesActions
 
         $this->options['json'] = [
             'note'  => $dispute_note,
-        ];
-
-        $this->verb = 'post';
-
-        return $this->doPayPalRequest();
-    }
-
-    /**
-     * Acknowledge item has been returned.
-     *
-     * @param string $dispute_id
-     * @param string $dispute_note
-     * @param string $acknowledgement_type
-     *
-     * @throws \Throwable
-     *
-     * @return array|\Psr\Http\Message\StreamInterface|string
-     *
-     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_acknowledge-return-item
-     */
-    public function acknowledgeItemReturned(string $dispute_id, string $dispute_note, string $acknowledgement_type)
-    {
-        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/acknowledge-return-item";
-
-        $this->options['json'] = [
-            'note'                  => $dispute_note,
-            'acknowledgement_type'  => $acknowledgement_type,
         ];
 
         $this->verb = 'post';

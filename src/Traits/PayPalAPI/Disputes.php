@@ -15,7 +15,7 @@ trait Disputes
      */
     public function listDisputes()
     {
-        $this->apiEndPoint = 'v1/customer/disputes';
+        $this->apiEndPoint = "v1/customer/disputes?page_size={$this->page_size}";
 
         $this->verb = 'get';
 

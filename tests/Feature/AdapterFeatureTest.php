@@ -334,6 +334,35 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_provide_evidence_for_a_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $mockFiles = [
+            __DIR__ . '/../Mocks/samples/sample.jpg',
+            __DIR__ . '/../Mocks/samples/sample.png',
+            __DIR__ . '/../Mocks/samples/sample.pdf',
+        ];
+
+        $response = $this->client->provideDisputeEvidence(
+            'PP-D-27803',
+            $mockFiles
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
     public function it_can_accept_dispute_claim()
     {
         $this->client->setAccessToken([
@@ -348,7 +377,7 @@ class AdapterFeatureTest extends TestCase
         );
 
         $response = $this->client->acceptDisputeClaim(
-            'PP-D-4012',
+            'PP-D-27803',
             'Full refund to the customer.'
         );
 

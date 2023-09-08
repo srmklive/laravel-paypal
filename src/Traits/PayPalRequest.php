@@ -259,4 +259,16 @@ trait PayPalRequest
     {
         throw new RuntimeException('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
     }
+
+    /**
+     * @throws RuntimeException
+     */
+    private function throwInvalidEvidenceFileException()
+    {
+        throw new RuntimeException('Invalid evidence file type provided.
+        1. The party can upload up to 50 MB of files per request.
+        2. Individual files must be smaller than 10 MB.
+        3. The supported file formats are JPG, JPEG, GIF, PNG, and PDF.
+        ');
+    }
 }
