@@ -120,4 +120,17 @@ trait MockClientClasses
             'validate_ssl'   => true,
         ];
     }
+
+    private function generateFile($path, $size)
+    {
+        $fh = fopen($path, 'w');
+
+        $size *= pow(1024, 2);
+        $chunk = 1024;
+        while ($size > 0) {
+           fputs($fh, str_pad('', min($chunk,$size)));
+           $size -= $chunk;
+        }
+        fclose($fh);
+    }
 }

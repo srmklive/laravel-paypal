@@ -44,7 +44,7 @@ trait DisputesActions
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_provide-evidence 
+     * https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_provide-evidence
      */
     public function provideDisputeEvidence(string $dispute_id, array $files)
     {
@@ -67,7 +67,7 @@ trait DisputesActions
 
         $this->verb = 'post';
 
-        return $this->doPayPalRequest();        
+        return $this->doPayPalRequest();
     }
 
     /**

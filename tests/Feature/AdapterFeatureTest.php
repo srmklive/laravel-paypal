@@ -5,6 +5,7 @@ namespace Srmklive\PayPal\Tests\Feature;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Srmklive\PayPal\Services\VerifyDocuments;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
 use Srmklive\PayPal\Tests\MockResponsePayloads;
@@ -360,6 +361,85 @@ class AdapterFeatureTest extends TestCase
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_throws_exception_if_invalid_file_as_evidence_is_provided_for_a_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $mockFiles = [
+            __DIR__ . '/../Mocks/samples/sample.txt',
+            __DIR__ . '/../Mocks/samples/sample.pdf',
+        ];
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client->provideDisputeEvidence(
+            'PP-D-27803',
+            $mockFiles
+        );
+    }
+
+    /** @test */
+    public function it_throws_exception_if_file_size_as_evidence_exceeds_per_file_limit_for_a_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $file = __DIR__ . '/../Mocks/samples/sample2.pdf';
+
+        $mockFiles = [$file];
+
+        $this->expectException(\Exception::class);
+
+        $this->client->provideDisputeEvidence(
+            'PP-D-27803',
+            $mockFiles
+        );
+    }
+
+    /** @test */
+    public function it_throws_exception_if_file_size_as_evidence_exceeds_overall_limit_for_a_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $file = __DIR__ . '/../Mocks/samples/sample2.pdf';
+
+        $mockFiles = [$file, $file, $file, $file, $file];
+
+        $this->expectException(\Exception::class);
+
+        $this->client->provideDisputeEvidence(
+            'PP-D-27803',
+            $mockFiles
+        );
     }
 
     /** @test */

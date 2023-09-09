@@ -51,7 +51,9 @@ class VerifyDocuments
         $validSize = true;
         $total_size = 0;
 
-        self::setFilesSize();
+        $basic = (1024*1024);
+        $file_size = $basic*(self::$dispute_evidence_file_size);
+        $overall_size = $basic*(self::$dispute_evidences_size); 
 
         foreach ($files as $file) {
             $mime_type = self::getMimeType($file);
@@ -63,39 +65,14 @@ class VerifyDocuments
 
             $size = filesize($file);
 
-            if ($size > self::$dispute_evidence_file_size) {
+            if ($size > $file_size) {
                 $validSize = false;
                 break;
             }
 
             $total_size += $size;
-
-            if ($size > self::$dispute_evidences_size) {
-                $validSize = false;
-                break;
-            }
         }
 
-        if (($validFile === false) || ($validSize === false)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Check file size.
-     *
-     * @param int $bytes
-     * @param int $decimals
-     *
-     * @return array
-     */
-    protected static function setFilesSize()
-    {
-        $size_in_bytes = pow(1024, 2);
-    
-        self::$dispute_evidence_file_size *= $size_in_bytes;
-        self::$dispute_evidences_size *= $size_in_bytes;
+        return (($validFile === false) || ($validSize === false)) || ($total_size > $overall_size) ? false : true;
     }
 }
