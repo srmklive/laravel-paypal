@@ -51,9 +51,9 @@ class VerifyDocuments
         $validSize = true;
         $total_size = 0;
 
-        $basic = (1024*1024);
-        $file_size = $basic*(self::$dispute_evidence_file_size);
-        $overall_size = $basic*(self::$dispute_evidences_size); 
+        $basic = (1024 * 1024);
+        $file_size = $basic * self::$dispute_evidence_file_size;
+        $overall_size = $basic * self::$dispute_evidences_size;
 
         foreach ($files as $file) {
             $mime_type = self::getMimeType($file);

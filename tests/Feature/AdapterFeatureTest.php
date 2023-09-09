@@ -5,7 +5,6 @@ namespace Srmklive\PayPal\Tests\Feature;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
-use Srmklive\PayPal\Services\VerifyDocuments;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
 use Srmklive\PayPal\Tests\MockResponsePayloads;
@@ -349,9 +348,9 @@ class AdapterFeatureTest extends TestCase
         );
 
         $mockFiles = [
-            __DIR__ . '/../Mocks/samples/sample.jpg',
-            __DIR__ . '/../Mocks/samples/sample.png',
-            __DIR__ . '/../Mocks/samples/sample.pdf',
+            __DIR__.'/../Mocks/samples/sample.jpg',
+            __DIR__.'/../Mocks/samples/sample.png',
+            __DIR__.'/../Mocks/samples/sample.pdf',
         ];
 
         $response = $this->client->provideDisputeEvidence(
@@ -378,8 +377,8 @@ class AdapterFeatureTest extends TestCase
         );
 
         $mockFiles = [
-            __DIR__ . '/../Mocks/samples/sample.txt',
-            __DIR__ . '/../Mocks/samples/sample.pdf',
+            __DIR__.'/../Mocks/samples/sample.txt',
+            __DIR__.'/../Mocks/samples/sample.pdf',
         ];
 
         $this->expectException(\Exception::class);
@@ -404,7 +403,7 @@ class AdapterFeatureTest extends TestCase
             )
         );
 
-        $file = __DIR__ . '/../Mocks/samples/sample2.pdf';
+        $file = __DIR__.'/../Mocks/samples/sample2.pdf';
 
         $mockFiles = [$file];
 
@@ -430,7 +429,7 @@ class AdapterFeatureTest extends TestCase
             )
         );
 
-        $file = __DIR__ . '/../Mocks/samples/sample2.pdf';
+        $file = __DIR__.'/../Mocks/samples/sample2.pdf';
 
         $mockFiles = [$file, $file, $file, $file, $file];
 
