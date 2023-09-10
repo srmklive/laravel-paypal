@@ -71,24 +71,54 @@ trait DisputesActions
     }
 
     /**
-     * Accept customer dispute claim.
+     * Make offer to resolve dispute claim.
      *
      * @param string $dispute_id
      * @param string $dispute_note
-     * @param array  $data
+     * @param float  $amount
+     * @param string $refund_type
      *
      * @throws \Throwable
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_accept-claim
+     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_make-offer
      */
-    public function acceptDisputeClaim(string $dispute_id, string $dispute_note, array $data = [])
+    public function makeOfferToResolveDispute(string $dispute_id, string $dispute_note, float $amount, string $refund_type)
     {
-        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/accept-claim";
+        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/make-offer";
 
         $data['note'] = $dispute_note;
-        $data['accept_claim_type'] = 'REFUND';
+        $data['offer_type'] = $refund_type;
+        $data['offer_amount'] = [
+            'currency_code' => $this->getCurrency(),
+            'value'         => $amount,
+        ];
+
+        $this->options['json'] = $data;
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
+
+    /**
+     * Escalate dispute to claim.
+     *
+     * @param string $dispute_id
+     * @param string $dispute_note
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_escalate
+     */
+    public function escalateDisputeToClaim(string $dispute_id, string $dispute_note)
+    {
+        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/escalate";
+
+        $data['note'] = $dispute_note;
 
         $this->options['json'] = $data;
 
@@ -107,11 +137,113 @@ trait DisputesActions
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes-actions_accept-offer
+     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_accept-offer
      */
     public function acceptDisputeOfferResolution(string $dispute_id, string $dispute_note)
     {
         $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/accept-offer";
+
+        $this->options['json'] = [
+            'note'  => $dispute_note,
+        ];
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
+
+    /**
+     * Accept customer dispute claim.
+     *
+     * @param string $dispute_id
+     * @param string $dispute_note
+     * @param array  $data
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_accept-claim
+     */
+    public function acceptDisputeClaim(string $dispute_id, string $dispute_note, array $data = [])
+    {
+        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/accept-claim";
+
+        $data['note'] = $dispute_note;
+        $data['accept_claim_type'] = 'REFUND';
+
+        $this->options['json'] = $data;
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
+
+    /**
+     * Update dispute status.
+     *
+     * @param string $dispute_id
+     * @param bool   $merchant
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_require-evidence
+     */
+    public function updateDisputeStatus(string $dispute_id, bool $merchant = true)
+    {
+        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/require-evidence";
+
+        $data['action'] = ($merchant === true) ? 'SELLER_EVIDENCE' : 'BUYER_EVIDENCE';
+
+        $this->options['json'] = $data;
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
+
+    /**
+     * Settle dispute.
+     *
+     * @param string $dispute_id
+     * @param bool   $merchant
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_adjudicate
+     */
+    public function settleDispute(string $dispute_id, bool $merchant = true)
+    {
+        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/adjudicate";
+
+        $data['adjudication_outcome'] = ($merchant === true) ? 'SELLER_FAVOR' : 'BUYER_FAVOR';
+
+        $this->options['json'] = $data;
+
+        $this->verb = 'post';
+
+        return $this->doPayPalRequest();
+    }
+
+    /**
+     * Decline offer to resolve dispute.
+     *
+     * @param string $dispute_id
+     * @param string $dispute_note
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/api/customer-disputes/v1/#disputes_deny-offer
+     */
+    public function declineDisputeOfferResolution(string $dispute_id, string $dispute_note)
+    {
+        $this->apiEndPoint = "v1/customer/disputes/{$dispute_id}/deny-offer";
 
         $this->options['json'] = [
             'note'  => $dispute_note,

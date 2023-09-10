@@ -275,6 +275,30 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_acknowledge_item_is_returned_for_raised_dispute()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->acknowledgeItemReturned(
+            'PP-D-4012',
+            'I have received the item back.',
+            'ITEM_RECEIVED'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
     public function it_can_list_disputes()
     {
         $this->client->setAccessToken([
@@ -442,6 +466,54 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_offer_to_resolve_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->makeOfferToResolveDispute(
+            'PP-D-27803',
+            'Offer refund with replacement item.',
+            5.99,
+            'REFUND_WITH_REPLACEMENT'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_escalate_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->escalateDisputeToClaim(
+            'PP-D-27803',
+            'Escalating to PayPal claim for resolution.'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
     public function it_can_accept_dispute_claim()
     {
         $this->client->setAccessToken([
@@ -488,7 +560,7 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
-    public function it_can_acknowledge_item_is_returned_for_raised_dispute()
+    public function it_can_update_dispute_status()
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
@@ -501,10 +573,55 @@ class AdapterFeatureTest extends TestCase
             )
         );
 
-        $response = $this->client->acknowledgeItemReturned(
+        $response = $this->client->updateDisputeStatus(
             'PP-D-4012',
-            'I have received the item back.',
-            'ITEM_RECEIVED'
+            true
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_settle_dispute()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->settleDispute(
+            'PP-D-4012',
+            true
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_decline_dispute_offer_resolution()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->declineDisputeOfferResolution(
+            'PP-D-4012',
+            'I am not ok with the refund offered.'
         );
 
         $this->assertNotEmpty($response);

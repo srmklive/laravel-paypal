@@ -484,7 +484,7 @@ trait Helpers
     /**
      * Add taxes when creating a subscription.
      *
-     * @param float $price
+     * @param float $percentage
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
