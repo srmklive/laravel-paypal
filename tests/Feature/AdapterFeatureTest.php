@@ -1179,6 +1179,65 @@ class AdapterFeatureTest extends TestCase
         $this->assertArrayHasKey('address', $response);
     }
 
+    /** @test */
+    public function it_can_get_list_users()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mocklistUsersResponse()
+            )
+        );
+
+        $response = $this->client->listUsers();
+
+        $this->assertArrayHasKey('Resources', $response);
+    }
+
+    /** @test */
+    public function it_can_get_user_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mocklistUserResponse()
+            )
+        );
+
+        $user_id = '7XRNGHV24HQL4';
+
+        $response = $this->client->showUserDetails($user_id);
+
+        $this->assertArrayHasKey('userName', $response);
+    }
+
+    /** @test */
+    public function it_can_deleta_a_user()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $user_id = '7XRNGHV24HQL4';
+
+        $response = $this->client->deleteUser($user_id);
+
+        $this->assertEmpty($response);
+    }
+
     /** @test  */
     public function it_can_create_orders()
     {
