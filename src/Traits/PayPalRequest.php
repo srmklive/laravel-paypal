@@ -180,11 +180,8 @@ trait PayPalRequest
      */
     private function setConfig(array $config): void
     {
-        if (empty($config) && function_exists('config') && !empty(config('paypal'))) {
-            $api_config = config('paypal');
-        } else {
-            $api_config = $config;
-        }
+        $api_config = empty($config) && function_exists('config') && !empty(config('paypal')) ?
+            config('paypal') : $config;
 
         // Set Api Credentials
         $this->setApiCredentials($api_config);
