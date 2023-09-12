@@ -763,7 +763,17 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->cancelInvoiceParams();
 
-        $response = $this->client->cancelInvoice('INV2-Z56S-5LLA-Q52L-CPZ5', $expectedParams);
+        $response = $this->client->cancelInvoice(
+            'INV2-Z56S-5LLA-Q52L-CPZ5',
+            'Payment due for the invoice #ABC-123',
+            'Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.',
+            true,
+            true,
+            [
+                'customer-a@example.com',
+                'customer@example.com',
+            ]
+        );
 
         $this->assertEmpty($response);
     }

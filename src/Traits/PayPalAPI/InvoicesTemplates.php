@@ -5,6 +5,26 @@ namespace Srmklive\PayPal\Traits\PayPalAPI;
 trait InvoicesTemplates
 {
     /**
+     * Get list of invoice templates.
+     *
+     * @param string $fields
+     *
+     * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
+     *
+     * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_list
+     */
+    public function listInvoiceTemplates(string $fields = 'all')
+    {
+        $this->apiEndPoint = "v2/invoicing/templates?page={$this->current_page}&page_size={$this->page_size}&fields={$fields}";
+
+        $this->verb = 'get';
+
+        return $this->doPayPalRequest();
+    }
+
+    /**
      * Create a new invoice template.
      *
      * @param array $data
@@ -27,27 +47,7 @@ trait InvoicesTemplates
     }
 
     /**
-     * Get list of invoice templates.
-     *
-     * @param string $fields
-     *
-     * @throws \Throwable
-     *
-     * @return array|\Psr\Http\Message\StreamInterface|string
-     *
-     * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_list
-     */
-    public function listInvoiceTemplates(string $fields = 'all')
-    {
-        $this->apiEndPoint = "v2/invoicing/templates?page={$this->current_page}&page_size={$this->page_size}&fields={$fields}";
-
-        $this->verb = 'get';
-
-        return $this->doPayPalRequest();
-    }
-
-    /**
-     * Delete an invoice template.
+     * Show details for an existing invoice.
      *
      * @param string $template_id
      *
@@ -55,15 +55,15 @@ trait InvoicesTemplates
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_delete
+     * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_get
      */
-    public function deleteInvoiceTemplate(string $template_id)
+    public function showInvoiceTemplateDetails(string $template_id)
     {
         $this->apiEndPoint = "v2/invoicing/templates/{$template_id}";
 
-        $this->verb = 'delete';
+        $this->verb = 'get';
 
-        return $this->doPayPalRequest(false);
+        return $this->doPayPalRequest();
     }
 
     /**
@@ -90,7 +90,7 @@ trait InvoicesTemplates
     }
 
     /**
-     * Show details for an existing invoice.
+     * Delete an invoice template.
      *
      * @param string $template_id
      *
@@ -98,14 +98,14 @@ trait InvoicesTemplates
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
-     * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_get
+     * @see https://developer.paypal.com/docs/api/invoicing/v2/#templates_delete
      */
-    public function showInvoiceTemplateDetails(string $template_id)
+    public function deleteInvoiceTemplate(string $template_id)
     {
         $this->apiEndPoint = "v2/invoicing/templates/{$template_id}";
 
-        $this->verb = 'get';
+        $this->verb = 'delete';
 
-        return $this->doPayPalRequest();
+        return $this->doPayPalRequest(false);
     }
 }
