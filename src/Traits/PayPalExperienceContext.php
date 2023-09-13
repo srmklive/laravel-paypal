@@ -11,6 +11,7 @@ trait PayPalExperienceContext
 
     /**
      * Set Brand Name when setting experience context for payment.
+     *
      * @param string $brand
      *
      * @return \Srmklive\PayPal\Services\PayPal

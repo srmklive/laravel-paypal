@@ -2,8 +2,6 @@
 
 namespace Srmklive\PayPal\Traits\PayPalAPI\Orders;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Throwable;
 
 trait Helpers
