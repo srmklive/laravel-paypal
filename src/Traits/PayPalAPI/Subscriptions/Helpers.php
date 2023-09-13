@@ -44,16 +44,6 @@ trait Helpers
     protected $has_setup_fee = false;
 
     /**
-     * @var string
-     */
-    protected $return_url;
-
-    /**
-     * @var string
-     */
-    protected $cancel_url;
-
-    /**
      * @var array
      */
     protected $taxes;
@@ -95,11 +85,8 @@ trait Helpers
             $body['subscriber']['shipping_address'] = $this->shipping_address;
         }
 
-        if ($this->return_url && $this->cancel_url) {
-            $body['application_context'] = [
-                'return_url' => $this->return_url,
-                'cancel_url' => $this->cancel_url,
-            ];
+        if (isset($this->experience_context)) {
+            $body['application_context'] = $this->experience_context;
         }
 
         if (isset($this->taxes)) {
@@ -394,22 +381,6 @@ trait Helpers
         ];
 
         $this->billing_plan = $this->createPlan($plan_params, $request_id);
-    }
-
-    /**
-     * Set return & cancel urls.
-     *
-     * @param string $return_url
-     * @param string $cancel_url
-     *
-     * @return \Srmklive\PayPal\Services\PayPal
-     */
-    public function setReturnAndCancelUrl(string $return_url, string $cancel_url): \Srmklive\PayPal\Services\PayPal
-    {
-        $this->return_url = $return_url;
-        $this->cancel_url = $cancel_url;
-
-        return $this;
     }
 
     /**

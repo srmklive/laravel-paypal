@@ -8,6 +8,7 @@ trait PayPalRequest
 {
     use PayPalHttpClient;
     use PayPalAPI;
+    use PayPalExperienceContext;
 
     /**
      * PayPal API mode to be used.

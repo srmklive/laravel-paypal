@@ -264,4 +264,40 @@ trait Orders
         ]
       }', true);
     }
+
+    private function mockConfirmOrderResponse()
+    {
+        return Utils::jsonDecode('{
+  "id": "5O190127TN364715T",
+  "status": "PAYER_ACTION_REQUIRED",
+  "payment_source": {
+    "paypal": {
+      "name": {
+        "given_name": "John",
+        "surname": "Doe"
+      },
+      "email_address": "customer@example.com"
+    }
+  },
+  "payer": {
+    "name": {
+      "given_name": "John",
+      "surname": "Doe"
+    },
+    "email_address": "customer@example.com"
+  },
+  "links": [
+    {
+      "href": "https://api.paypal.com/v2/checkout/orders/5O190127TN364715T",
+      "rel": "self",
+      "method": "GET"
+    },
+    {
+      "href": "https://www.paypal.com/checkoutnow?token=5O190127TN364715T",
+      "rel": "payer-action",
+      "method": "GET"
+    }
+  ]
+}', true);
+    }
 }
