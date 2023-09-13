@@ -110,13 +110,13 @@ trait Invoices
      * @param string $invoice_id
      * @param string $subject
      * @param string $note
-     * @param bool $send_recipient
-     * @param bool $send_merchant
-     * @param array $recipients
-     *
-     * @return array|\Psr\Http\Message\StreamInterface|string
+     * @param bool   $send_recipient
+     * @param bool   $send_merchant
+     * @param array  $recipients
      *
      * @throws \Throwable
+     *
+     * @return array|\Psr\Http\Message\StreamInterface|string
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_cancel
      */
