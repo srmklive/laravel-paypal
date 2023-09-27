@@ -7,6 +7,7 @@
     <exclude>
       <file>src/PayPalFacadeAccessor.php</file>
       <file>src/Traits/PayPalVerifyIPN.php</file>
+      <file>src/Services/Str.php</file>
       <directory suffix=".php">src/Facades/</directory>
       <directory suffix=".php">src/Providers/</directory>
     </exclude>

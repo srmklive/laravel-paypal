@@ -5,9 +5,9 @@ namespace Srmklive\PayPal\Traits;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as HttpClientException;
 use GuzzleHttp\Utils;
-use Illuminate\Support\Str;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
+use Srmklive\PayPal\Services\Str;
 
 trait PayPalHttpClient
 {
