@@ -5,6 +5,7 @@ namespace Srmklive\PayPal\Traits;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as HttpClientException;
 use GuzzleHttp\Utils;
+use Illuminate\Support\Str;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
@@ -211,7 +212,7 @@ trait PayPalHttpClient
 
             return ($decode === false) ? $response->getContents() : Utils::jsonDecode($response, true);
         } catch (RuntimeException $t) {
-            $error = ($decode === false) ? $t->getMessage() : Utils::jsonDecode($t->getMessage(), true);
+            $error = ($decode === false) || (Str::isJson($t->getMessage()) === false) ? $t->getMessage() : Utils::jsonDecode($t->getMessage(), true);
 
             return ['error' => $error];
         }
