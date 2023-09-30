@@ -29,10 +29,6 @@ jobs:
         path: ${{ steps.composercache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
-    - name: PHP 7.0 - Add Composer Plugin
-      env:
-        PHP_VERSION: ${{ matrix.php-versions }}
-      run: $(if [ "$PHP_VERSION" == "7.0" ]; then echo "composer config --no-plugins allow-plugins.kylekatarnls/update-helper"; fi;)
     - name: Install Composer dependencies
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
