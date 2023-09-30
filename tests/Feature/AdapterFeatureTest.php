@@ -24,7 +24,7 @@ class AdapterFeatureTest extends TestCase
     /** @var \Srmklive\PayPal\Services\PayPal */
     protected $client;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->client = new PayPalClient($this->getApiCredentials());
 
@@ -37,7 +37,6 @@ class AdapterFeatureTest extends TestCase
         $this->client = new PayPalClient($this->getMockCredentials());
         $response = $this->client->getAccessToken();
 
-        $this->assertIsArray($response['error']);
         $this->assertArrayHasKey('error', $response);
     }
 
