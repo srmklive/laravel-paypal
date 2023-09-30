@@ -11,7 +11,7 @@ trait Orders
      */
     public function mockCreateOrdersResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
         "id": "5O190127TN364715T",
         "status": "CREATED",
         "links": [
@@ -52,7 +52,7 @@ trait Orders
      */
     public function mockOrderDetailsResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
         "id": "5O190127TN364715T",
         "status": "PAYER_ACTION_REQUIRED",
         "intent": "CAPTURE",
@@ -95,7 +95,7 @@ trait Orders
      */
     public function mockOrderPaymentAuthorizedResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
         "id": "5O190127TN364715T",
         "status": "COMPLETED",
         "payer": {
@@ -180,7 +180,7 @@ trait Orders
      */
     public function mockOrderPaymentCapturedResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
         "id": "5O190127TN364715T",
         "status": "COMPLETED",
         "payer": {
@@ -267,7 +267,7 @@ trait Orders
 
     private function mockConfirmOrderResponse()
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "id": "5O190127TN364715T",
   "status": "PAYER_ACTION_REQUIRED",
   "payment_source": {

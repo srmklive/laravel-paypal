@@ -11,7 +11,7 @@ trait DisputesActions
      */
     protected function acceptDisputeClaimParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "note": "Full refund to the customer.",
   "accept_claim_type": "REFUND"
 }', true);
@@ -22,7 +22,7 @@ trait DisputesActions
      */
     protected function acceptDisputeResolutionParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "note": "I am ok with the refund offered."
 }', true);
     }
@@ -32,7 +32,7 @@ trait DisputesActions
      */
     protected function acknowledgeItemReturnedParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "note": "I have received the item back.",
   "acknowledgement_type": "ITEM_RECEIVED"
 }', true);

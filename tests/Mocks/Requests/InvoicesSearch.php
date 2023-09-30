@@ -11,7 +11,7 @@ trait InvoicesSearch
      */
     private function invoiceSearchParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
             "total_amount_range": {
                 "lower_amount": {
                     "currency_code": "USD",

@@ -11,7 +11,7 @@ trait Reporting
      */
     private function mockListTransactionsResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "transaction_details": [
     {
       "transaction_info": {
@@ -169,7 +169,7 @@ trait Reporting
      */
     private function mockListBalancesResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "balance": {
     "currency": "USD",
     "primary": true,

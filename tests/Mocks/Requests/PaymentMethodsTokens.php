@@ -11,7 +11,7 @@ trait PaymentMethodsTokens
      */
     private function mockCreatePaymentSetupTokensParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
             "payment_source": {
               "card": {
                 "number": "4111111111111111",
@@ -41,7 +41,7 @@ trait PaymentMethodsTokens
      */
     private function mockCreatePaymentSetupPayPalParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
           "payment_source": {
               "paypal": {
                   "description": "Description for PayPal to be shown to PayPal payer",

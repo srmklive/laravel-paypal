@@ -8,7 +8,7 @@ trait Identity
 {
     private function mockCreateMerchantApplicationParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "redirect_uris": [
     "https://example.com/callback",
     "https://example.com/callback2"
@@ -29,7 +29,7 @@ trait Identity
 
     private function mockSetAccountPropertiesParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
     "categories": [
       {
         "name": "PAYMENT",

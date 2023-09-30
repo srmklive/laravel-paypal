@@ -8,7 +8,7 @@ trait PartnerReferrals
 {
     private function mockCreatePartnerReferralParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "individual_owners": [
     {
       "names": [

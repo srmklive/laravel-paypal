@@ -11,7 +11,7 @@ trait Disputes
      */
     protected function updateDisputeParams(): array
     {
-        return Utils::jsonDecode('[
+        return $this->jsonDecodeFunction()('[
   {
     "op": "add",
     "path": "/partner_actions/-",

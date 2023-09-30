@@ -8,7 +8,7 @@ trait PartnerReferrals
 {
     private function mockCreatePartnerReferralsResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "links": [
     {
       "href": "https://uri.paypal.com/v2/customer/partner-referrals/ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=",
@@ -26,7 +26,7 @@ trait PartnerReferrals
 
     private function mockShowReferralDataResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "partner_referral_id": "ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=",
   "submitter_payer_id": "RFYUH2QQDGUQU",
   "referral_data": {

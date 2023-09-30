@@ -11,7 +11,7 @@ trait CatalogProducts
      */
     private function mockCreateCatalogProductsResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "id": "PROD-XYAB12ABSB7868434",
   "name": "Video Streaming Service",
   "description": "Video streaming service",
@@ -41,7 +41,7 @@ trait CatalogProducts
      */
     private function mockListCatalogProductsResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "total_items": 20,
   "total_pages": 1,
   "products": [
@@ -97,7 +97,7 @@ trait CatalogProducts
      */
     private function mockGetCatalogProductsResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "id": "72255d4849af8ed6e0df1173",
   "name": "Video Streaming Service",
   "description": "Video streaming service",

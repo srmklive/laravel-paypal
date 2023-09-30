@@ -11,7 +11,7 @@ trait InvoicesSearch
      */
     private function mockSearchInvoicesResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "total_items": 6,
   "total_pages": 1,
   "items": [

@@ -11,7 +11,7 @@ trait PaymentAuthorizations
      */
     private function mockCaptureAuthorizedPaymentParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "amount": {
     "value": "10.99",
     "currency_code": "USD"
@@ -27,7 +27,7 @@ trait PaymentAuthorizations
      */
     private function mockReAuthorizeAuthorizedPaymentParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "amount": {
     "value": "10.99",
     "currency_code": "USD"

@@ -11,7 +11,7 @@ trait PaymentExperienceWebProfiles
      */
     private function mockListWebProfilesResponse(): array
     {
-        return Utils::jsonDecode('[
+        return $this->jsonDecodeFunction()('[
   {
     "id": "XP-GCUV-X35G-HNEY-5MJY",
     "name": "exampleProfile",
@@ -64,7 +64,7 @@ trait PaymentExperienceWebProfiles
      */
     private function mockWebProfileResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "id": "XP-RFV4-PVD8-AGHJ-8E5J",
   "name": "exampleProfile",
   "temporary": false,

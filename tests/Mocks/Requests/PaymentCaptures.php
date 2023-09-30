@@ -11,7 +11,7 @@ trait PaymentCaptures
      */
     private function mockRefundCapturedPaymentParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "amount": {
     "value": "10.99",
     "currency_code": "USD"

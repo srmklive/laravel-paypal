@@ -11,7 +11,7 @@ trait BillingPlans
      */
     private function createPlanParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "product_id": "PROD-XXCD1234QWER65782",
   "name": "Video Streaming Service Plan",
   "description": "Video Streaming Service basic plan",
@@ -84,7 +84,7 @@ trait BillingPlans
      */
     private function updatePlanParams(): array
     {
-        return Utils::jsonDecode('[
+        return $this->jsonDecodeFunction()('[
   {
     "op": "replace",
     "path": "/payment_preferences/payment_failure_threshold",
@@ -98,7 +98,7 @@ trait BillingPlans
      */
     private function updatePlanPricingParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "pricing_schemes": [
     {
       "billing_cycle_sequence": 2,

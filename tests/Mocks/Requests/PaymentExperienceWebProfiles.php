@@ -11,7 +11,7 @@ trait PaymentExperienceWebProfiles
      */
     private function mockCreateWebProfileParams(): array
     {
-        return Utils::jsonDecode('[
+        return $this->jsonDecodeFunction()('[
   {
     "id": "XP-GCUV-X35G-HNEY-5MJY",
     "name": "exampleProfile",
@@ -64,7 +64,7 @@ trait PaymentExperienceWebProfiles
      */
     private function partiallyUpdateWebProfileParams(): array
     {
-        return Utils::jsonDecode('[
+        return $this->jsonDecodeFunction()('[
   {
     "op": "add",
     "path": "/presentation/brand_name",
@@ -82,7 +82,7 @@ trait PaymentExperienceWebProfiles
      */
     private function updateWebProfileParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "name": "exampleProfile",
   "presentation": {
     "logo_image": "https://example.com/logo_image/"

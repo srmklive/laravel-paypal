@@ -11,7 +11,7 @@ trait BillingPlans
      */
     private function mockCreatePlansResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "id": "P-5ML4271244454362WXNWU5NQ",
   "product_id": "PROD-XXCD1234QWER65782",
   "name": "Video Streaming Service Plan",
@@ -118,7 +118,7 @@ trait BillingPlans
      */
     private function mockListPlansResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "total_items": 12,
   "total_pages": 6,
   "plans": [
@@ -183,7 +183,7 @@ trait BillingPlans
      */
     private function mockGetPlansResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "id": "P-5ML4271244454362WXNWU5NQ",
   "product_id": "PROD-XXCD1234QWER65782",
   "name": "Basic Plan",

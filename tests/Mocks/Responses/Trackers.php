@@ -11,7 +11,7 @@ trait Trackers
      */
     private function mockGetTrackingDetailsResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "transaction_id": "8MC585209K746392H",
   "tracking_number": "443844607820",
   "status": "SHIPPED",
@@ -40,7 +40,7 @@ trait Trackers
      */
     private function mockCreateTrackinginBatchesResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "tracker_identifiers": [
     {
       "transaction_id": "8MC585209K746392H",

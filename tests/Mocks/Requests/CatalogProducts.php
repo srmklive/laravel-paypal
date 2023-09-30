@@ -11,7 +11,7 @@ trait CatalogProducts
      */
     private function createProductParams(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
           "name": "Video Streaming Service",
           "description": "Video streaming service",
           "type": "SERVICE",
@@ -26,7 +26,7 @@ trait CatalogProducts
      */
     private function updateProductParams(): array
     {
-        return Utils::jsonDecode('[
+        return $this->jsonDecodeFunction()('[
           {
             "op": "replace",
             "path": "/description",

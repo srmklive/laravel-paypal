@@ -11,7 +11,7 @@ trait DisputesActions
      */
     private function mockAcceptDisputesClaimResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "links": [
     {
       "rel": "self",
@@ -27,7 +27,7 @@ trait DisputesActions
      */
     private function mockAcceptDisputesOfferResolutionResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "links": [
     {
       "rel": "self",
@@ -43,7 +43,7 @@ trait DisputesActions
      */
     private function mockAcknowledgeItemReturnedResponse(): array
     {
-        return Utils::jsonDecode('{
+        return $this->jsonDecodeFunction()('{
   "links": [
     {
       "rel": "self",
