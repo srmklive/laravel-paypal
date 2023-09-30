@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
+use GuzzleHttp\Utils;
+
 trait BillingPlans
 {
     /**
      * @return array
      */
-    private function createPlanParams()
+    private function createPlanParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "product_id": "PROD-XXCD1234QWER65782",
   "name": "Video Streaming Service Plan",
   "description": "Video Streaming Service basic plan",
@@ -80,9 +82,9 @@ trait BillingPlans
     /**
      * @return array
      */
-    private function updatePlanParams()
+    private function updatePlanParams(): array
     {
-        return \GuzzleHttp\json_decode('[
+        return Utils::jsonDecode('[
   {
     "op": "replace",
     "path": "/payment_preferences/payment_failure_threshold",
@@ -94,9 +96,9 @@ trait BillingPlans
     /**
      * @return array
      */
-    private function updatePlanPricingParams()
+    private function updatePlanPricingParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "pricing_schemes": [
     {
       "billing_cycle_sequence": 2,

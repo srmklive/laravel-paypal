@@ -13,7 +13,7 @@ class AdapterConfigTest extends TestCase
     /** @var \Srmklive\PayPal\Services\PayPal */
     protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = new PayPalClient($this->getApiCredentials());
 
@@ -115,6 +115,18 @@ class AdapterConfigTest extends TestCase
 
         $this->assertNotEmpty($this->client->getRequestHeader('Prefer'));
         $this->assertEquals($this->client->getRequestHeader('Prefer'), 'return=representation');
+    }
+
+    /** @test */
+    public function it_can_set_multiple_request_headers()
+    {
+        $this->client->setRequestHeaders([
+            'PayPal-Request-Id'             => 'some-request-id',
+            'PayPal-Partner-Attribution-Id' => 'some-attribution-id',
+        ]);
+
+        $this->assertNotEmpty($this->client->getRequestHeader('PayPal-Request-Id'));
+        $this->assertEquals($this->client->getRequestHeader('PayPal-Partner-Attribution-Id'), 'some-attribution-id');
     }
 
     /** @test */

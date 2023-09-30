@@ -2,11 +2,13 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
+use GuzzleHttp\Utils;
+
 trait Identity
 {
-    private function mockCreateMerchantApplicationParams()
+    private function mockCreateMerchantApplicationParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "redirect_uris": [
     "https://example.com/callback",
     "https://example.com/callback2"
@@ -25,9 +27,9 @@ trait Identity
 }', true);
     }
 
-    private function mockSetAccountPropertiesParams()
+    private function mockSetAccountPropertiesParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
     "categories": [
       {
         "name": "PAYMENT",

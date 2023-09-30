@@ -15,6 +15,7 @@ trait PayPalAPI
     use PayPalAPI\Orders;
     use PayPalAPI\PartnerReferrals;
     use PayPalAPI\PaymentExperienceWebProfiles;
+    use PayPalAPI\PaymentMethodsTokens;
     use PayPalAPI\PaymentAuthorizations;
     use PayPalAPI\PaymentCaptures;
     use PayPalAPI\PaymentRefunds;
@@ -53,8 +54,6 @@ trait PayPalAPI
 
         if (isset($response['access_token'])) {
             $this->setAccessToken($response);
-
-            $this->setPayPalAppId($response);
         }
 
         return $response;
@@ -71,7 +70,9 @@ trait PayPalAPI
     {
         $this->access_token = $response['access_token'];
 
-        $this->options['headers']['Authorization'] = "{$response['token_type']} {$this->access_token}";
+        $this->setPayPalAppId($response);
+
+        $this->setRequestHeader('Authorization', "{$response['token_type']} {$this->access_token}");
     }
 
     /**
@@ -83,6 +84,50 @@ trait PayPalAPI
      */
     private function setPayPalAppId(array $response)
     {
-        $this->config['app_id'] = empty($response['app_id']) ? $this->config['app_id'] : $response['app_id'];
+        $app_id = empty($response['app_id']) ? $this->config['app_id'] : $response['app_id'];
+
+        $this->config['app_id'] = $app_id;
+    }
+
+    /**
+     * Set records per page for list resources API calls.
+     *
+     * @param int $size
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function setPageSize(int $size): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->page_size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Set the current page for list resources API calls.
+     *
+     * @param int $size
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function setCurrentPage(int $page): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->current_page = $page;
+
+        return $this;
+    }
+
+    /**
+     * Toggle whether totals for list resources are returned after every API call.
+     *
+     * @param bool $totals
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function showTotals(bool $totals): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->show_totals = $totals;
+
+        return $this;
     }
 }

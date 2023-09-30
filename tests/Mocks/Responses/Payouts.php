@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait Payouts
 {
     /**
      * @return array
      */
-    private function mockCreateBatchPayoutResponse()
+    private function mockCreateBatchPayoutResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "batch_header": {
     "sender_batch_header": {
       "sender_batch_id": "Payouts_2018_100008",
@@ -25,9 +27,9 @@ trait Payouts
     /**
      * @return array
      */
-    private function showBatchPayoutResponse()
+    private function showBatchPayoutResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "batch_header": {
     "payout_batch_id": "FYXMPQTX4JC9N",
     "batch_status": "PROCESSING",
@@ -208,9 +210,9 @@ trait Payouts
     /**
      * @return array
      */
-    private function showBatchPayoutItemResponse()
+    private function showBatchPayoutItemResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "payout_item_id": "8AELMXH8UB2P8",
   "transaction_id": "0C413693MN970190K",
   "activity_id": "0E158638XS0329106",
@@ -249,9 +251,9 @@ trait Payouts
     /**
      * @return array
      */
-    private function mockCancelUnclaimedBatchItemResponse()
+    private function mockCancelUnclaimedBatchItemResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "payout_item_id": "5KUDKLF8SDC7S",
   "transaction_id": "1DG93452WK758815H",
   "activity_id": "0E158638XS0329101",

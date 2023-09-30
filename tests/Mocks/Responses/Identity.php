@@ -2,36 +2,150 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait Identity
 {
-    private function mockShowProfileInfoResponse()
+    private function mockShowProfileInfoResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
-  "user_id": "https://www.paypal.com/webapps/auth/identity/user/mWq6_1sU85v5EG9yHdPxJRrhGHrnMJ-1PQKtX6pcsmA",
-  "name": "identity test",
-  "given_name": "identity",
-  "family_name": "test",
-  "payer_id": "WDJJHEBZ4X2LY",
+        return Utils::jsonDecode('{
   "address": {
-    "street_address": "1 Main St",
-    "locality": "San Jose",
+    "street_address": "7917394 Annursnac Hill Road Unit 0C",
+    "locality": "Ventura",
     "region": "CA",
-    "postal_code": "95131",
+    "postal_code": "93003",
     "country": "US"
-  },
-  "verified_account": "true",
-  "emails": [
+  }
+}', true);
+    }
+
+    private function mocklistUsersResponse(): array
     {
-      "value": "user1@example.com",
-      "primary": true
+        return Utils::jsonDecode('{
+  "schemas": [
+    "http://example.com"
+  ],
+  "startIndex": 1,
+  "itemsPerPage": 1,
+  "totalResults": 5000,
+  "Resources": [
+    {
+      "schemas": [
+        "http://example.com"
+      ],
+      "externalId": "string",
+      "userName": "string",
+      "name": {
+        "familyName": "string",
+        "givenName": "string",
+        "middleName": "string",
+        "honorificPrefix": "string",
+        "honorificSuffix": "string"
+      },
+      "active": true,
+      "emails": [
+        {
+          "type": "work",
+          "primary": true,
+          "value": "string"
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "value": "string",
+          "type": "work",
+          "primary": true
+        }
+      ],
+      "addresses": [
+        {
+          "streetAddress": "string",
+          "locality": "string",
+          "region": "string",
+          "postalCode": "string",
+          "type": "work",
+          "country": "string"
+        }
+      ],
+      "entitlements": [
+        {
+          "value": "string"
+        }
+      ],
+      "id": "string",
+      "meta": {
+        "resourceType": "User",
+        "location": "http://example.com",
+        "created": "string",
+        "lastModified": "string"
+      },
+      "preferredLanguage": "string",
+      "timezone": "string"
     }
   ]
 }', true);
     }
 
-    private function mockCreateMerchantApplicationResponse()
+    private function mocklistUserResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
+  "schemas": [
+    "http://example.com"
+  ],
+  "externalId": "string",
+  "userName": "string",
+  "name": {
+    "familyName": "string",
+    "givenName": "string",
+    "middleName": "string",
+    "honorificPrefix": "string",
+    "honorificSuffix": "string"
+  },
+  "active": true,
+  "emails": [
+    {
+      "type": "work",
+      "primary": true,
+      "value": "string"
+    }
+  ],
+  "phoneNumbers": [
+    {
+      "value": "string",
+      "type": "work",
+      "primary": true
+    }
+  ],
+  "addresses": [
+    {
+      "streetAddress": "string",
+      "locality": "string",
+      "region": "string",
+      "postalCode": "string",
+      "type": "work",
+      "country": "string"
+    }
+  ],
+  "entitlements": [
+    {
+      "value": "string"
+    }
+  ],
+  "id": "string",
+  "meta": {
+    "resourceType": "User",
+    "location": "http://example.com",
+    "created": "string",
+    "lastModified": "string"
+  },
+  "preferredLanguage": "string",
+  "timezone": "string"
+}', true);
+    }
+
+    private function mockCreateMerchantApplicationResponse(): array
+    {
+        return Utils::jsonDecode('{
   "client_id": "AeTeCqaPp7JZBfUUb2d21cQ2KqyQGVhonfiUOJu99kgLhFFSrE59ruvhLOT4K3NzQoErgsUH6MY9uRqD",
   "client_secret": "cf136dc3c1fc93f31185e5885805d",
   "client_id_issued_at": 2893256800,
@@ -55,6 +169,14 @@ trait Identity
   "scope": "profile email address",
   "token_endpoint_auth_method": "client_secret_basic",
   "jwks_uri": "https://example.com/my_public_keys.jwks"
+}', true);
+    }
+
+    private function mockGetClientTokenResponse(): array
+    {
+        return Utils::jsonDecode('{
+  "client_token": "eyJicmFpbnRyZWUiOnsiYXV0aG9yaXphdGlvbkZpbmdlcnByaW50IjoiYjA0MWE2M2JlMTM4M2NlZGUxZTI3OWFlNDlhMWIyNzZlY2FjOTYzOWU2NjlhMGIzODQyYTdkMTY3NzcwYmY0OHxtZXJjaGFudF9pZD1yd3dua3FnMnhnNTZobTJuJnB1YmxpY19rZXk9czlic3BuaGtxMmYzaDk0NCZjcmVhdGVkX2F0PTIwMTgtMTEtMTRUMTE6MTg6MDAuMTU3WiIsInZlcnNpb24iOiIzLXBheXBhbCJ9LCJwYXlwYWwiOnsiYWNjZXNzVG9rZW4iOiJBMjFBQUhNVExyMmctVDlhSTJacUZHUmlFZ0ZFZGRHTGwxTzRlX0lvdk9ESVg2Q3pSdW5BVy02TzI2MjdiWUJ2cDNjQ0FNWi1lTFBNc2NDWnN0bDUyNHJyUGhUQklJNlBBIn19",
+  "expires_in": 3600
 }', true);
     }
 }

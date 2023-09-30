@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait PaymentExperienceWebProfiles
 {
     /**
      * @return array
      */
-    private function mockListWebProfilesResponse()
+    private function mockListWebProfilesResponse(): array
     {
-        return \GuzzleHttp\json_decode('[
+        return Utils::jsonDecode('[
   {
     "id": "XP-GCUV-X35G-HNEY-5MJY",
     "name": "exampleProfile",
@@ -60,9 +62,9 @@ trait PaymentExperienceWebProfiles
     /**
      * @return array
      */
-    private function mockWebProfileResponse()
+    private function mockWebProfileResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "XP-RFV4-PVD8-AGHJ-8E5J",
   "name": "exampleProfile",
   "temporary": false,

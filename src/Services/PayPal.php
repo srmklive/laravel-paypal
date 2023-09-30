@@ -4,10 +4,12 @@ namespace Srmklive\PayPal\Services;
 
 use Exception;
 use Srmklive\PayPal\Traits\PayPalRequest as PayPalAPIRequest;
+use Srmklive\PayPal\Traits\PayPalVerifyIPN;
 
 class PayPal
 {
     use PayPalAPIRequest;
+    use PayPalVerifyIPN;
 
     /**
      * PayPal constructor.
@@ -24,10 +26,8 @@ class PayPal
         $this->httpBodyParam = 'form_params';
 
         $this->options = [];
-        $this->options['headers'] = [
-            'Accept'            => 'application/json',
-            'Accept-Language'   => $this->locale,
-        ];
+
+        $this->setRequestHeader('Accept', 'application/json');
     }
 
     /**

@@ -24,7 +24,7 @@ class AdapterFeatureTest extends TestCase
     /** @var \Srmklive\PayPal\Services\PayPal */
     protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = new PayPalClient($this->getApiCredentials());
 
@@ -37,8 +37,8 @@ class AdapterFeatureTest extends TestCase
         $this->client = new PayPalClient($this->getMockCredentials());
         $response = $this->client->getAccessToken();
 
-        $this->assertArrayHasKey('type', $response);
-        $this->assertEquals('error', $response['type']);
+        $this->assertIsArray($response['error']);
+        $this->assertArrayHasKey('error', $response);
     }
 
     /** @test */
@@ -73,7 +73,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->createPlanParams();
 
-        $response = $this->client->createPlan($expectedParams, 'some-request-id');
+        $response = $this->client->setRequestHeader('PayPal-Request-Id', 'some-request-id')->createPlan($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);
@@ -227,7 +227,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->createProductParams();
 
-        $response = $this->client->createProduct($expectedParams, 'product-request-'.time());
+        $response = $this->client->setRequestHeader('PayPal-Request-Id', 'product-request-'.time())->createProduct($expectedParams);
 
         self::$product_id = $response['id'];
 
@@ -275,6 +275,30 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_acknowledge_item_is_returned_for_raised_dispute()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->acknowledgeItemReturned(
+            'PP-D-4012',
+            'I have received the item back.',
+            'ITEM_RECEIVED'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
     public function it_can_list_disputes()
     {
         $this->client->setAccessToken([
@@ -308,7 +332,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->updateDisputeParams();
 
-        $response = $this->client->updateDispute($expectedParams, 'PP-D-27803');
+        $response = $this->client->updateDispute('PP-D-27803', $expectedParams);
 
         $this->assertEmpty($response);
     }
@@ -334,6 +358,162 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_provide_evidence_for_a_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $mockFiles = [
+            __DIR__.'/../Mocks/samples/sample.jpg',
+            __DIR__.'/../Mocks/samples/sample.png',
+            __DIR__.'/../Mocks/samples/sample.pdf',
+        ];
+
+        $response = $this->client->provideDisputeEvidence(
+            'PP-D-27803',
+            $mockFiles
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_throws_exception_if_invalid_file_as_evidence_is_provided_for_a_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $mockFiles = [
+            __DIR__.'/../Mocks/samples/sample.txt',
+            __DIR__.'/../Mocks/samples/sample.pdf',
+        ];
+
+        $this->expectException(\Exception::class);
+
+        $response = $this->client->provideDisputeEvidence(
+            'PP-D-27803',
+            $mockFiles
+        );
+    }
+
+    /** @test */
+    public function it_throws_exception_if_file_size_as_evidence_exceeds_per_file_limit_for_a_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $file = __DIR__.'/../Mocks/samples/sample2.pdf';
+
+        $mockFiles = [$file];
+
+        $this->expectException(\Exception::class);
+
+        $this->client->provideDisputeEvidence(
+            'PP-D-27803',
+            $mockFiles
+        );
+    }
+
+    /** @test */
+    public function it_throws_exception_if_file_size_as_evidence_exceeds_overall_limit_for_a_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $file = __DIR__.'/../Mocks/samples/sample2.pdf';
+
+        $mockFiles = [$file, $file, $file, $file, $file];
+
+        $this->expectException(\Exception::class);
+
+        $this->client->provideDisputeEvidence(
+            'PP-D-27803',
+            $mockFiles
+        );
+    }
+
+    /** @test */
+    public function it_can_offer_to_resolve_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->makeOfferToResolveDispute(
+            'PP-D-27803',
+            'Offer refund with replacement item.',
+            5.99,
+            'REFUND_WITH_REPLACEMENT'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_escalate_dispute_claim()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->escalateDisputeToClaim(
+            'PP-D-27803',
+            'Escalating to PayPal claim for resolution.'
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
     public function it_can_accept_dispute_claim()
     {
         $this->client->setAccessToken([
@@ -348,7 +528,7 @@ class AdapterFeatureTest extends TestCase
         );
 
         $response = $this->client->acceptDisputeClaim(
-            'PP-D-4012',
+            'PP-D-27803',
             'Full refund to the customer.'
         );
 
@@ -380,7 +560,7 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
-    public function it_can_acknowledge_item_is_returned_for_raised_dispute()
+    public function it_can_update_dispute_status()
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
@@ -393,10 +573,55 @@ class AdapterFeatureTest extends TestCase
             )
         );
 
-        $response = $this->client->acknowledgeItemReturned(
+        $response = $this->client->updateDisputeStatus(
             'PP-D-4012',
-            'I have received the item back.',
-            'ITEM_RECEIVED'
+            true
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_settle_dispute()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->settleDispute(
+            'PP-D-4012',
+            true
+        );
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test */
+    public function it_can_decline_dispute_offer_resolution()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockAcceptDisputesClaimResponse()
+            )
+        );
+
+        $response = $this->client->declineDisputeOfferResolution(
+            'PP-D-4012',
+            'I am not ok with the refund offered.'
         );
 
         $this->assertNotEmpty($response);
@@ -538,7 +763,17 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->cancelInvoiceParams();
 
-        $response = $this->client->cancelInvoice('INV2-Z56S-5LLA-Q52L-CPZ5', $expectedParams);
+        $response = $this->client->cancelInvoice(
+            'INV2-Z56S-5LLA-Q52L-CPZ5',
+            'Payment due for the invoice #ABC-123',
+            'Please pay before the due date to avoid incurring late payment charges which will be adjusted in the next bill generated.',
+            true,
+            true,
+            [
+                'customer-a@example.com',
+                'customer@example.com',
+            ]
+        );
 
         $this->assertEmpty($response);
     }
@@ -951,9 +1186,66 @@ class AdapterFeatureTest extends TestCase
 
         $response = $this->client->showProfileInfo();
 
-        $this->assertArrayHasKey('user_id', $response);
-        $this->assertArrayHasKey('payer_id', $response);
-        $this->assertArrayHasKey('emails', $response);
+        $this->assertArrayHasKey('address', $response);
+    }
+
+    /** @test */
+    public function it_can_get_list_users()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mocklistUsersResponse()
+            )
+        );
+
+        $response = $this->client->listUsers();
+
+        $this->assertArrayHasKey('Resources', $response);
+    }
+
+    /** @test */
+    public function it_can_get_user_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mocklistUserResponse()
+            )
+        );
+
+        $user_id = '7XRNGHV24HQL4';
+
+        $response = $this->client->showUserDetails($user_id);
+
+        $this->assertArrayHasKey('userName', $response);
+    }
+
+    /** @test */
+    public function it_can_deleta_a_user()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $user_id = '7XRNGHV24HQL4';
+
+        $response = $this->client->deleteUser($user_id);
+
+        $this->assertEmpty($response);
     }
 
     /** @test */
@@ -1023,6 +1315,120 @@ class AdapterFeatureTest extends TestCase
         $response = $this->client->disableAccountProperties();
 
         $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_get_client_token()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetClientTokenResponse()
+            )
+        );
+
+        $response = $this->client->getClientToken();
+
+        $this->assertArrayHasKey('client_token', $response);
+    }
+
+    /** @test  */
+    public function it_can_create_orders()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateOrdersResponse()
+            )
+        );
+
+        $filters = $this->createOrderParams();
+
+        $response = $this->client->createOrder($filters);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test  */
+    public function it_can_update_orders()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockUpdateOrdersResponse()
+            )
+        );
+
+        $order_id = '5O190127TN364715T';
+        $filters = $this->updateOrderParams();
+
+        $response = $this->client->updateOrder($order_id, $filters);
+
+        $this->assertNotEmpty($response);
+    }
+
+    /** @test  */
+    public function it_can_get_order_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockOrderDetailsResponse()
+            )
+        );
+
+        $order_id = '5O190127TN364715T';
+        $response = $this->client->showOrderDetails($order_id);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('intent', $response);
+        $this->assertArrayHasKey('payment_source', $response);
+        $this->assertArrayHasKey('purchase_units', $response);
+        $this->assertArrayHasKey('create_time', $response);
+        $this->assertArrayHasKey('links', $response);
+    }
+
+    /** @test  */
+    public function it_can_authorize_payment_for_an_order()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockOrderPaymentAuthorizedResponse()
+            )
+        );
+
+        $order_id = '5O190127TN364715T';
+        $response = $this->client->authorizePaymentOrder($order_id);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('payer', $response);
+        $this->assertArrayHasKey('purchase_units', $response);
+        $this->assertArrayHasKey('links', $response);
     }
 
     /** @test */
@@ -1104,7 +1510,7 @@ class AdapterFeatureTest extends TestCase
 
         $expectedParams = $this->mockCreateWebProfileParams();
 
-        $response = $this->client->createWebExperienceProfile($expectedParams, 'some-request-id');
+        $response = $this->client->setRequestHeader('PayPal-Request-Id', 'some-request-id')->createWebExperienceProfile($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('name', $response);
@@ -1193,101 +1599,6 @@ class AdapterFeatureTest extends TestCase
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('name', $response);
-    }
-
-    /** @test  */
-    public function it_can_create_orders()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockCreateOrdersResponse()
-            )
-        );
-
-        $filters = $this->createOrderParams();
-
-        $response = $this->client->createOrder($filters);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertArrayHasKey('id', $response);
-        $this->assertArrayHasKey('links', $response);
-    }
-
-    /** @test  */
-    public function it_can_update_orders()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockUpdateOrdersResponse()
-            )
-        );
-
-        $order_id = '5O190127TN364715T';
-        $filters = $this->updateOrderParams();
-
-        $response = $this->client->updateOrder($order_id, $filters);
-
-        $this->assertEmpty($response);
-    }
-
-    /** @test  */
-    public function it_can_get_order_details()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockOrderDetailsResponse()
-            )
-        );
-
-        $order_id = '5O190127TN364715T';
-        $response = $this->client->showOrderDetails($order_id);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertArrayHasKey('id', $response);
-        $this->assertArrayHasKey('intent', $response);
-        $this->assertArrayHasKey('payment_source', $response);
-        $this->assertArrayHasKey('purchase_units', $response);
-        $this->assertArrayHasKey('create_time', $response);
-        $this->assertArrayHasKey('links', $response);
-    }
-
-    /** @test  */
-    public function it_can_authorize_payment_for_an_order()
-    {
-        $this->client->setAccessToken([
-            'access_token'  => self::$access_token,
-            'token_type'    => 'Bearer',
-        ]);
-
-        $this->client->setClient(
-            $this->mock_http_client(
-                $this->mockOrderPaymentAuthorizedResponse()
-            )
-        );
-
-        $order_id = '5O190127TN364715T';
-        $response = $this->client->authorizePaymentOrder($order_id);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertArrayHasKey('id', $response);
-        $this->assertArrayHasKey('payer', $response);
-        $this->assertArrayHasKey('purchase_units', $response);
-        $this->assertArrayHasKey('links', $response);
     }
 
     /** @test  */
@@ -1570,7 +1881,10 @@ class AdapterFeatureTest extends TestCase
             $this->mock_http_client($expectedResponse)
         );
 
-        $response = $this->client->createReferencedBatchPayout($expectedParams, 'some-request-id', 'some-attribution-id');
+        $response = $this->client->setRequestHeaders([
+            'PayPal-Request-Id'             => 'some-request-id',
+            'PayPal-Partner-Attribution-Id' => 'some-attribution-id',
+        ])->createReferencedBatchPayout($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('links', $response);
@@ -1614,7 +1928,10 @@ class AdapterFeatureTest extends TestCase
             $this->mock_http_client($expectedResponse)
         );
 
-        $response = $this->client->createReferencedBatchPayoutItem($expectedParams, 'some-request-id', 'some-attribution-id');
+        $response = $this->client->setRequestHeaders([
+            'PayPal-Request-Id'             => 'some-request-id',
+            'PayPal-Partner-Attribution-Id' => 'some-attribution-id',
+        ])->createReferencedBatchPayoutItem($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('links', $response);
@@ -1636,7 +1953,8 @@ class AdapterFeatureTest extends TestCase
             $this->mock_http_client($expectedResponse)
         );
 
-        $response = $this->client->showReferencedPayoutItemDetails($expectedParams, 'some-attribution-id');
+        $response = $this->client->setRequestHeader('PayPal-Partner-Attribution-Id', 'some-attribution-id')
+            ->showReferencedPayoutItemDetails($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('item_id', $response);
@@ -1882,6 +2200,28 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_list_tracking_details()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetTrackingDetailsResponse()
+            )
+        );
+
+        $response = $this->client->listTrackingDetails('8MC585209K746392H-443844607820');
+
+        $this->assertNotEmpty($response);
+        $this->assertEquals($response, $this->mockGetTrackingDetailsResponse());
+        $this->assertArrayHasKey('transaction_id', $response);
+        $this->assertArrayHasKey('tracking_number', $response);
+    }
+
+    /** @test */
     public function it_can_get_tracking_details_for_tracking_id()
     {
         $this->client->setAccessToken([
@@ -1939,6 +2279,28 @@ class AdapterFeatureTest extends TestCase
         $expectedParams = $this->mockCreateTrackinginBatchesParams();
 
         $response = $this->client->addBatchTracking($expectedParams);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('tracker_identifiers', $response);
+    }
+
+    /** @test */
+    public function it_can_create_single_tracking_for_single_transaction()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateTrackinginBatchesResponse()
+            )
+        );
+
+        $expectedParams = $this->mockCreateTrackinginBatchesParams();
+
+        $response = $this->client->addTracking($expectedParams);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('tracker_identifiers', $response);
@@ -2168,5 +2530,87 @@ class AdapterFeatureTest extends TestCase
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('verification_status', $response);
+    }
+
+    /** @test */
+    public function it_can_list_payment_methods_source_tokens()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListPaymentMethodsTokensResponse()
+            )
+        );
+
+        $response = $this->client->setCustomerSource('customer_4029352050')
+            ->listPaymentSourceTokens();
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('payment_tokens', $response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_payment_method_source_token()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePaymentMethodsTokenResponse()
+            )
+        );
+
+        $response = $this->client->showPaymentSourceTokenDetails('8kk8451t');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('customer', $response);
+        $this->assertArrayHasKey('payment_source', $response);
+    }
+
+    /** @test */
+    public function it_can_delete_a_payment_method_source_token()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(false)
+        );
+
+        $response = $this->client->deletePaymentSourceToken('8kk8451t');
+
+        $this->assertEmpty($response);
+    }
+
+    /** @test */
+    public function it_can_show_details_for_payment_setup_token()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListPaymentSetupTokenResponse()
+            )
+        );
+
+        $response = $this->client->showPaymentSetupTokenDetails('5C991763VB2781612');
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('customer', $response);
+        $this->assertArrayHasKey('payment_source', $response);
     }
 }

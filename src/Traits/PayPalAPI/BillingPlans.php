@@ -4,6 +4,8 @@ namespace Srmklive\PayPal\Traits\PayPalAPI;
 
 trait BillingPlans
 {
+    use BillingPlans\PricingSchemes;
+
     /**
      * Create a new billing plan.
      *
@@ -16,11 +18,10 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_create
      */
-    public function createPlan(array $data, $request_id)
+    public function createPlan(array $data)
     {
         $this->apiEndPoint = 'v1/billing/plans';
 
-        $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['json'] = $data;
 
         $this->verb = 'post';
@@ -41,11 +42,9 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
      */
-    public function listPlans($page = 1, $size = 20, $totals = true)
+    public function listPlans()
     {
-        $totals = ($totals) ? 'true' : 'false';
-
-        $this->apiEndPoint = "v1/billing/plans?page={$page}&page_size={$size}&total_required={$totals}";
+        $this->apiEndPoint = "v1/billing/plans?page={$this->current_page}&page_size={$this->page_size}&total_required={$this->show_totals}";
 
         $this->verb = 'get';
 
@@ -64,7 +63,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/invoicing/v2/#invoices_update
      */
-    public function updatePlan($plan_id, array $data)
+    public function updatePlan(string $plan_id, array $data)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
 
@@ -86,7 +85,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_get
      */
-    public function showPlanDetails($plan_id)
+    public function showPlanDetails(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}";
 
@@ -106,7 +105,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_activate
      */
-    public function activatePlan($plan_id)
+    public function activatePlan(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/activate";
 
@@ -126,7 +125,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_deactivate
      */
-    public function deactivatePlan($plan_id)
+    public function deactivatePlan(string $plan_id)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/deactivate";
 
@@ -147,7 +146,7 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_update-pricing-schemes
      */
-    public function updatePlanPricing($plan_id, array $pricing)
+    public function updatePlanPricing(string $plan_id, array $pricing)
     {
         $this->apiEndPoint = "v1/billing/plans/{$plan_id}/update-pricing-schemes";
 

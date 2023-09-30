@@ -29,6 +29,26 @@ trait Helpers
     protected $billing_plan;
 
     /**
+     * @var array
+     */
+    protected $shipping_address;
+
+    /**
+     * @var array
+     */
+    protected $payment_preferences;
+
+    /**
+     * @var bool
+     */
+    protected $has_setup_fee = false;
+
+    /**
+     * @var array
+     */
+    protected $taxes;
+
+    /**
      * Setup a subscription.
      *
      * @param string $customer_name
@@ -39,11 +59,11 @@ trait Helpers
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      */
-    public function setupSubscription($customer_name, $customer_email, $start_date = '')
+    public function setupSubscription(string $customer_name, string $customer_email, string $start_date = '')
     {
-        $start_date = isset($start_date) ? Carbon::parse($start_date)->toIso8601String() : Carbon::now()->toIso8601String();
+        $start_date = !empty($start_date) ? Carbon::parse($start_date)->toIso8601String() : Carbon::now()->toIso8601String();
 
-        $subscription = $this->createSubscription([
+        $body = [
             'plan_id'    => $this->billing_plan['id'],
             'start_time' => $start_date,
             'quantity'   => 1,
@@ -53,11 +73,33 @@ trait Helpers
                 ],
                 'email_address' => $customer_email,
             ],
-        ]);
+        ];
+
+        if ($this->has_setup_fee) {
+            $body['plan'] = [
+                'payment_preferences' => $this->payment_preferences,
+            ];
+        }
+
+        if (isset($this->shipping_address)) {
+            $body['subscriber']['shipping_address'] = $this->shipping_address;
+        }
+
+        if (isset($this->experience_context)) {
+            $body['application_context'] = $this->experience_context;
+        }
+
+        if (isset($this->taxes)) {
+            $body['taxes'] = $this->taxes;
+        }
+
+        $subscription = $this->createSubscription($body);
 
         unset($this->product);
         unset($this->billing_plan);
         unset($this->trial_pricing);
+        unset($this->return_url);
+        unset($this->cancel_url);
 
         return $subscription;
     }
@@ -66,12 +108,12 @@ trait Helpers
      * Add a subscription trial pricing tier.
      *
      * @param string    $interval_type
-     * @param string    $interval_count
+     * @param int       $interval_count
      * @param float|int $price
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addPlanTrialPricing($interval_type, $interval_count, $price = 0)
+    public function addPlanTrialPricing(string $interval_type, int $interval_count, float $price = 0): \Srmklive\PayPal\Services\PayPal
     {
         $this->trial_pricing = $this->addPlanBillingCycle($interval_type, $interval_count, $price, true);
 
@@ -89,14 +131,14 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addDailyPlan($name, $description, $price)
+    public function addDailyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;
         }
 
         $plan_pricing = $this->addPlanBillingCycle('DAY', 1, $price);
-        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
 
@@ -114,14 +156,14 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addWeeklyPlan($name, $description, $price)
+    public function addWeeklyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;
         }
 
         $plan_pricing = $this->addPlanBillingCycle('WEEK', 1, $price);
-        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
 
@@ -139,14 +181,14 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addMonthlyPlan($name, $description, $price)
+    public function addMonthlyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;
         }
 
         $plan_pricing = $this->addPlanBillingCycle('MONTH', 1, $price);
-        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
 
@@ -164,14 +206,47 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addAnnualPlan($name, $description, $price)
+    public function addAnnualPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;
         }
 
         $plan_pricing = $this->addPlanBillingCycle('YEAR', 1, $price);
-        $billing_cycles = collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
+
+        $this->addBillingPlan($name, $description, $billing_cycles);
+
+        return $this;
+    }
+
+    /**
+     * Create a recurring billing plan with custom intervals.
+     *
+     * @param string    $name
+     * @param string    $description
+     * @param float|int $price
+     * @param string    $interval_unit
+     * @param int       $interval_count
+     *
+     * @throws Throwable
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addCustomPlan(string $name, string $description, float $price, string $interval_unit, int $interval_count): \Srmklive\PayPal\Services\PayPal
+    {
+        $billing_intervals = ['DAY', 'WEEK', 'MONTH', 'YEAR'];
+
+        if (isset($this->billing_plan)) {
+            return $this;
+        }
+
+        if (!in_array($interval_unit, $billing_intervals)) {
+            throw new \RuntimeException('Billing intervals should either be '.implode(', ', $billing_intervals));
+        }
+
+        $plan_pricing = $this->addPlanBillingCycle($interval_unit, $interval_count, $price);
+        $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
 
@@ -188,14 +263,20 @@ trait Helpers
      *
      * @return array
      */
-    protected function addPlanBillingCycle($interval_unit, $interval_count, $price, $trial = false)
+    protected function addPlanBillingCycle(string $interval_unit, int $interval_count, float $price, bool $trial = false): array
     {
         $pricing_scheme = [
             'fixed_price' => [
-                'value'         => $price,
+                'value'         => bcdiv($price, 1, 2),
                 'currency_code' => $this->getCurrency(),
             ],
         ];
+
+        if (empty($this->trial_pricing)) {
+            $plan_sequence = 1;
+        } else {
+            $plan_sequence = 2;
+        }
 
         return [
             'frequency' => [
@@ -203,7 +284,7 @@ trait Helpers
                 'interval_count' => $interval_count,
             ],
             'tenure_type'    => ($trial === true) ? 'TRIAL' : 'REGULAR',
-            'sequence'       => ($trial === true) ? 1 : 2,
+            'sequence'       => ($trial === true) ? 1 : $plan_sequence,
             'total_cycles'   => ($trial === true) ? 1 : 0,
             'pricing_scheme' => $pricing_scheme,
         ];
@@ -221,20 +302,20 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addProduct($name, $description, $type, $category)
+    public function addProduct(string $name, string $description, string $type, string $category): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->product)) {
             return $this;
         }
 
-        $request_id = Str::random();
+        $this->setRequestHeader('PayPal-Request-Id', Str::random());
 
         $this->product = $this->createProduct([
             'name'          => $name,
             'description'   => $description,
             'type'          => $type,
             'category'      => $category,
-        ], $request_id);
+        ]);
 
         return $this;
     }
@@ -246,7 +327,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addProductById($product_id)
+    public function addProductById(string $product_id): \Srmklive\PayPal\Services\PayPal
     {
         $this->product = [
             'id' => $product_id,
@@ -262,7 +343,7 @@ trait Helpers
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addBillingPlanById($plan_id)
+    public function addBillingPlanById(string $plan_id): \Srmklive\PayPal\Services\PayPal
     {
         $this->billing_plan = [
             'id' => $plan_id,
@@ -282,9 +363,9 @@ trait Helpers
      *
      * @return void
      */
-    protected function addBillingPlan($name, $description, array $billing_cycles)
+    protected function addBillingPlan(string $name, string $description, array $billing_cycles)
     {
-        $request_id = Str::random();
+        $this->setRequestHeader('PayPal-Request-Id', Str::random());
 
         $plan_params = [
             'product_id'          => $this->product['id'],
@@ -299,6 +380,92 @@ trait Helpers
             ],
         ];
 
-        $this->billing_plan = $this->createPlan($plan_params, $request_id);
+        $this->billing_plan = $this->createPlan($plan_params);
+    }
+
+    /**
+     * Set custom failure threshold when adding a subscription.
+     *
+     * @param int $threshold
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addPaymentFailureThreshold(int $threshold): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->payment_failure_threshold = $threshold;
+
+        return $this;
+    }
+
+    /**
+     * Add setup fee when adding a subscription.
+     *
+     * @param float $price
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addSetupFee(float $price): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->has_setup_fee = true;
+        $this->payment_preferences = [
+            'auto_bill_outstanding'     => true,
+            'setup_fee'                 => [
+                'value'         => $price,
+                'currency_code' => $this->getCurrency(),
+            ],
+            'setup_fee_failure_action'  => 'CONTINUE',
+            'payment_failure_threshold' => $this->payment_failure_threshold,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Add shipping address.
+     *
+     * @param string $full_name
+     * @param string $address_line_1
+     * @param string $address_line_2
+     * @param string $admin_area_2
+     * @param string $admin_area_1
+     * @param string $postal_code
+     * @param string $country_code
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addShippingAddress(string $full_name, string $address_line_1, string $address_line_2, string $admin_area_2, string $admin_area_1, string $postal_code, string $country_code): \Srmklive\PayPal\Services\PayPal
+    {
+        $this->shipping_address = [
+            'name' => [
+                'full_name' => $full_name,
+            ],
+            'address' => [
+                'address_line_1'  => $address_line_1,
+                'address_line_2'  => $address_line_2,
+                'admin_area_2'    => $admin_area_2,
+                'admin_area_1'    => $admin_area_1,
+                'postal_code'     => $postal_code,
+                'country_code'    => $country_code,
+            ],
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Add taxes when creating a subscription.
+     *
+     * @param float $percentage
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addTaxes(float $percentage)
+    {
+        $this->taxes = [
+            'percentage' => $percentage,
+            'inclusive'  => false,
+        ];
+
+        return $this;
     }
 }

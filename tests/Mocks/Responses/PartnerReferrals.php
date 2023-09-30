@@ -2,11 +2,13 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait PartnerReferrals
 {
-    private function mockCreatePartnerReferralsResponse()
+    private function mockCreatePartnerReferralsResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "links": [
     {
       "href": "https://uri.paypal.com/v2/customer/partner-referrals/ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=",
@@ -22,9 +24,9 @@ trait PartnerReferrals
 }', true);
     }
 
-    private function mockShowReferralDataResponse()
+    private function mockShowReferralDataResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "partner_referral_id": "ZjcyODU4ZWYtYTA1OC00ODIwLTk2M2EtOTZkZWQ4NmQwYzI3RU12cE5xa0xMRmk1NWxFSVJIT1JlTFdSbElCbFU1Q3lhdGhESzVQcU9iRT0=",
   "submitter_payer_id": "RFYUH2QQDGUQU",
   "referral_data": {

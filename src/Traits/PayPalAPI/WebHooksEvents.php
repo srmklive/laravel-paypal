@@ -51,7 +51,7 @@ trait WebHooksEvents
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks-events_get
      */
-    public function showEventDetails($event_id)
+    public function showEventDetails(string $event_id)
     {
         $this->apiEndPoint = "v1/notifications/webhooks-events/{$event_id}";
 
@@ -72,7 +72,7 @@ trait WebHooksEvents
      *
      * @see https://developer.paypal.com/docs/api/webhooks/v1/#webhooks-events_resend
      */
-    public function resendEventNotification($event_id, array $items)
+    public function resendEventNotification(string $event_id, array $items)
     {
         $this->apiEndPoint = "v1/notifications/webhooks-events/{$event_id}/resend";
 

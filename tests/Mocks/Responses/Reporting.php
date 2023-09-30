@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait Reporting
 {
     /**
      * @return array
      */
-    private function mockListTransactionsResponse()
+    private function mockListTransactionsResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "transaction_details": [
     {
       "transaction_info": {
@@ -165,9 +167,9 @@ trait Reporting
     /**
      * @return array
      */
-    private function mockListBalancesResponse()
+    private function mockListBalancesResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "balance": {
     "currency": "USD",
     "primary": true,

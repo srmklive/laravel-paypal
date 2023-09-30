@@ -4,8 +4,10 @@ namespace Srmklive\PayPal\Traits;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as HttpClientException;
+use GuzzleHttp\Utils;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
+use Srmklive\PayPal\Services\Str;
 
 trait PayPalHttpClient
 {
@@ -106,7 +108,7 @@ trait PayPalHttpClient
      *
      * @return bool
      */
-    protected function defineCurlConstant($key, $value)
+    protected function defineCurlConstant(string $key, string $value)
     {
         return defined($key) ? true : define($key, $value);
     }
@@ -179,7 +181,7 @@ trait PayPalHttpClient
      *
      * @return StreamInterface
      */
-    private function makeHttpRequest()
+    private function makeHttpRequest(): StreamInterface
     {
         try {
             return $this->client->{$this->verb}(
@@ -187,7 +189,7 @@ trait PayPalHttpClient
                 $this->options
             )->getBody();
         } catch (HttpClientException $e) {
-            throw new RuntimeException($e->getRequest()->getBody().' '.$e->getResponse()->getBody());
+            throw new RuntimeException($e->getResponse()->getBody());
         }
     }
 
@@ -200,7 +202,7 @@ trait PayPalHttpClient
      *
      * @return array|StreamInterface|string
      */
-    private function doPayPalRequest($decode = true)
+    private function doPayPalRequest(bool $decode = true)
     {
         try {
             $this->apiUrl = collect([$this->config['api_url'], $this->apiEndPoint])->implode('/');
@@ -208,14 +210,11 @@ trait PayPalHttpClient
             // Perform PayPal HTTP API request.
             $response = $this->makeHttpRequest();
 
-            return ($decode === false) ? $response->getContents() : \GuzzleHttp\json_decode($response, true);
+            return ($decode === false) ? $response->getContents() : Utils::jsonDecode($response, true);
         } catch (RuntimeException $t) {
-            $message = collect($t->getMessage())->implode('\n');
-        }
+            $error = ($decode === false) || (Str::isJson($t->getMessage()) === false) ? $t->getMessage() : Utils::jsonDecode($t->getMessage(), true);
 
-        return [
-            'type'    => 'error',
-            'message' => $message,
-        ];
+            return ['error' => $error];
+        }
     }
 }

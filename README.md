@@ -67,6 +67,20 @@ return [
 You can override PayPal API configuration by calling `setApiCredentials` method:
 
 ```php
+$config = [
+    'mode'    => 'live',
+    'live' => [
+        'client_id'         => 'PAYPAL_LIVE_CLIENT_ID',
+        'client_secret'     => 'PAYPAL_LIVE_CLIENT_SECRET',
+        'app_id'            => 'PAYPAL_LIVE_APP_ID',
+    ],
+
+    'payment_action' => 'Sale',
+    'currency'       => 'USD',
+    'notify_url'     => 'https://your-site.com/paypal/notify',
+    'locale'         => 'en_US',
+    'validate_ssl'   => true,
+];
 $provider->setApiCredentials($config);
 ```
 
@@ -128,9 +142,68 @@ $response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SO
 
 ## Create Subscription by Existing Product & Billing Plan
 
+<a name="usage-helpers"></a>
+## Helper Methods
+
+> Please note that in the examples below, the call to `addPlanTrialPricing` is optional and it can be omitted when you are creating subscriptions without trial period.
+
+> `setReturnAndCancelUrl()` is optional. If you set urls you have to use real domains. e.g. localhost, project.test does not work.
+
+### Create Recurring Daily Subscription
+
+```php
+$response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
+            ->addPlanTrialPricing('DAY', 7)
+            ->addDailyPlan('Demo Plan', 'Demo Plan', 1.50)
+            ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', '2021-12-10');
+```
+
+### Create Recurring Weekly Subscription
+
+```php
+$response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
+            ->addPlanTrialPricing('DAY', 7)
+            ->addWeeklyPlan('Demo Plan', 'Demo Plan', 30)
+            ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', '2021-12-10');
+```
+
+### Create Recurring Monthly Subscription
+
+```php
+$response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
+            ->addPlanTrialPricing('DAY', 7)
+            ->addMonthlyPlan('Demo Plan', 'Demo Plan', 100)
+            ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', '2021-12-10');
+```
+
+### Create Recurring Annual Subscription
+
+```php
+$response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
+            ->addPlanTrialPricing('DAY', 7)
+            ->addAnnualPlan('Demo Plan', 'Demo Plan', 600)
+            ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', '2021-12-10');
+```
+
+### Create Recurring Subscription with Custom Intervals
+
+```php
+$response = $provider->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE')
+            ->addCustomPlan('Demo Plan', 'Demo Plan', 150, 'MONTH', 3)
+            ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', '2021-12-10');
+```
+
+### Create Subscription by Existing Product & Billing Plan
+
 ```php
 $response = $this->client->addProductById('PROD-XYAB12ABSB7868434')
     ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ')
+    ->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
     ->setupSubscription('John Doe', 'john@example.com', $start_date);
 ```
 

@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
+use GuzzleHttp\Utils;
+
 trait PaymentAuthorizations
 {
     /**
      * @return array
      */
-    private function mockGetAuthorizedPaymentDetailsResponse()
+    private function mockGetAuthorizedPaymentDetailsResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "0VF52814937998046",
   "status": "AUTHORIZED",
   "amount": {
@@ -55,9 +57,9 @@ trait PaymentAuthorizations
     /**
      * @return array
      */
-    private function mockCaptureAuthorizedPaymentResponse()
+    private function mockCaptureAuthorizedPaymentResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "2GG279541U471931P",
   "status": "COMPLETED",
   "links": [
@@ -83,9 +85,9 @@ trait PaymentAuthorizations
     /**
      * @return array
      */
-    private function mockReAuthorizeAuthorizedPaymentResponse()
+    private function mockReAuthorizeAuthorizedPaymentResponse(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "id": "8AA831015G517922L",
   "status": "CREATED",
   "links": [

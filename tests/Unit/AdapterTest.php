@@ -32,7 +32,7 @@ class AdapterTest extends TestCase
     public function it_throws_exception_if_invalid_mode_is_provided()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
+        $this->expectErrorMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
 
         $credentials = $this->getMockCredentials();
         $credentials['mode'] = '';

@@ -2,11 +2,13 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
+use GuzzleHttp\Utils;
+
 trait PartnerReferrals
 {
-    private function mockCreatePartnerReferralParams()
+    private function mockCreatePartnerReferralParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
   "individual_owners": [
     {
       "names": [

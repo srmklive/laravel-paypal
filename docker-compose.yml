@@ -1,0 +1,10 @@
+version: '2'
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: srmklive/laravel-paypal
+    restart: always
+    volumes:
+    - ./:/server/http

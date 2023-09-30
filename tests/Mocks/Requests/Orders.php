@@ -2,14 +2,16 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
+use GuzzleHttp\Utils;
+
 trait Orders
 {
     /*
     * @return array
     */
-    private function createOrderParams()
+    private function createOrderParams(): array
     {
-        return \GuzzleHttp\json_decode('{
+        return Utils::jsonDecode('{
             "intent": "CAPTURE",
             "purchase_units": [
               {
@@ -25,9 +27,9 @@ trait Orders
     /*
     * @return array
     */
-    private function updateOrderParams()
+    private function updateOrderParams(): array
     {
-        return \GuzzleHttp\json_decode('[
+        return Utils::jsonDecode('[
         {
           "op": "replace",
           "path": "/purchase_units/@reference_id==\'PUHF\'/shipping/address",
