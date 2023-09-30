@@ -3,11 +3,11 @@
 namespace Srmklive\PayPal\Services;
 
 use GuzzleHttp\Utils;
-use Srmklive\PayPal\Traits\JsonDecodeSelector;
+use Srmklive\PayPal\Traits\JsonEncodeDecodeSelector;
 
 class Str extends \Illuminate\Support\Str
 {
-    use JsonDecodeSelector;
+    use JsonEncodeDecodeSelector;
 
     /**
      * Determine if a given value is valid JSON.

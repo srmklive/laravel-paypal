@@ -10,11 +10,11 @@ use GuzzleHttp\Psr7\Stream as HttpStream;
 use GuzzleHttp\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
-use Srmklive\PayPal\Traits\JsonDecodeSelector;
+use Srmklive\PayPal\Traits\JsonEncodeDecodeSelector;
 
 trait MockClientClasses
 {
-    use JsonDecodeSelector;
+    use JsonEncodeDecodeSelector;
 
     private function mock_http_client($response): HttpClient
     {
@@ -22,7 +22,7 @@ trait MockClientClasses
             new HttpResponse(
                 200,
                 [],
-                ($response === false) ? '' : Utils::jsonEncode($response)
+                ($response === false) ? '' : $this->jsonEncodeFunction()($response)
             ),
         ]);
 
@@ -58,9 +58,6 @@ trait MockClientClasses
     private function mock_client($expectedResponse, $expectedMethod, $token = false, $additionalMethod = null)
     {
         $set_method_name = 'setMethods';
-        if (strpos(phpversion(), '8.1') !== false || strpos(phpversion(), '8.2') !== false) {
-            $set_method_name = 'onlyMethods';
-        }
 
         $methods = [$expectedMethod, 'setApiCredentials'];
         $methods[] = ($token) ? 'getAccessToken' : '';

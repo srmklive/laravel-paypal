@@ -93,7 +93,6 @@ trait Orders
     }
 
     /**
->>>>>>> v3.0
      * Authorizes payment for an order.
      *
      * @param string $order_id

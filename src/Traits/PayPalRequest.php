@@ -6,7 +6,7 @@ use RuntimeException;
 
 trait PayPalRequest
 {
-    use JsonDecodeSelector;
+    use JsonEncodeDecodeSelector;
     use PayPalHttpClient;
     use PayPalAPI;
     use PayPalExperienceContext;

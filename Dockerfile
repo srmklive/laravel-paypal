@@ -1,4 +1,4 @@
-FROM srmklive/docker-php-cli:7.2
+FROM srmklive/docker-php-cli:7.1
 
 LABEL maintainer="Raza Mehdi<srmk@outlook.com>"
 
