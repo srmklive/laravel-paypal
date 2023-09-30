@@ -7,7 +7,7 @@ trait ReferencedPayouts
     /**
      * Create a referenced Batch Payout.
      *
-     * @param array  $data
+     * @param array $data
      *
      * @throws \Throwable
      *

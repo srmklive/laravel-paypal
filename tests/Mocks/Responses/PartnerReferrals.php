@@ -2,8 +2,6 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Responses;
 
-use GuzzleHttp\Utils;
-
 trait PartnerReferrals
 {
     private function mockCreatePartnerReferralsResponse(): array

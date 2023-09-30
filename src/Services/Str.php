@@ -2,7 +2,6 @@
 
 namespace Srmklive\PayPal\Services;
 
-use GuzzleHttp\Utils;
 use Srmklive\PayPal\Traits\JsonEncodeDecodeSelector;
 
 class Str extends \Illuminate\Support\Str
@@ -27,7 +26,7 @@ class Str extends \Illuminate\Support\Str
         }
 
         try {
-            (new Str)->jsonDecodeFunction()($value, true, 512, 4194304);
+            (new Str())->jsonDecodeFunction()($value, true, 512, 4194304);
         } catch (\Exception $jsonException) {
             return false;
         }

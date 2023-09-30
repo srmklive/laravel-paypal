@@ -2,8 +2,6 @@
 
 namespace Srmklive\PayPal\Tests\Mocks\Requests;
 
-use GuzzleHttp\Utils;
-
 trait InvoicesTemplates
 {
     /**
