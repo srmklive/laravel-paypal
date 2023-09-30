@@ -20,7 +20,7 @@ class AdapterPaymentMethodTokensHelpersTest extends TestCase
     /** @var \Srmklive\PayPal\Services\PayPal */
     protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = new PayPalClient($this->getApiCredentials());
 
