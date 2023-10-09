@@ -34,12 +34,16 @@
         "nesbot/carbon": "~2.0"
     },
     "require-dev": {
+        "pestphp/pest": "^2.21",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^8.0|^9.0|^10.0",
         "symfony/var-dumper": "~5.0"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "extra": {
         "laravel": {

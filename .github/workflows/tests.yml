@@ -33,10 +33,16 @@ jobs:
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
       run: composer install --no-progress --prefer-dist --optimize-autoloader $(if [ "$PHP_VERSION" == "8.0" || "$PHP_VERSION" == "8.1" ]; then echo "--ignore-platform-reqs"; fi;)    
-    - name: Run tests with code coverage
+    - name: Run tests for PHP 7.2 to 8.0 with code coverage
+      if: matrix.php-versions == '7.2' || matrix.php-versions == '7.3' || matrix.php-versions == '7.4' || matrix.php-versions == '8.0'  
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
       run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.dist.php72"; fi;) $(if [ "$PHP_VERSION" == "7.3" ]; then echo "-c phpunit.xml.dist.php8"; fi;) $(if [ "$PHP_VERSION" == "7.4" ]; then echo "-c phpunit.xml.dist.php8"; fi;) $(if [ "$PHP_VERSION" == "8.0" ]; then echo "-c phpunit.xml.dist.php8"; fi;) --coverage-clover build/logs/clover.xml
+    - name: Run tests for PHP 8.1+ with code coverage
+      if: matrix.php-versions == '8.1' || matrix.php-versions == '8.2'
+      env:
+        PHP_VERSION: ${{ matrix.php-versions }}
+      run: vendor/bin/pest --coverage-clover build/logs/clover.xml   
     - name: Install PHP Coveralls library
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
