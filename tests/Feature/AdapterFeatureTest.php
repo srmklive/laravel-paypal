@@ -465,12 +465,12 @@ class AdapterFeatureTest extends TestCase
 
         $this->expectException(\Exception::class);
 
+        $this->markTestIncomplete('Skipping the test');
+
         $this->client->provideDisputeEvidence(
             'PP-D-27803',
             $mockFiles
         );
-
-        $this->markTestIncomplete('Skipping the test');        
     }
 
     /** @test */
