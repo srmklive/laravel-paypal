@@ -5,7 +5,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/srmklive/paypal.svg?style=flat-square)](https://packagist.org/packages/srmklive/paypal)
 [![StyleCI](https://styleci.io/repos/43671533/shield?style=flat)](https://styleci.io/repos/43671533)
 [![Code Quality](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/srmklive/laravel-paypal/?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5f21a940-9d60-4d33-84ce-e367a253cce3/small.png)](https://insight.sensiolabs.com/projects/5f21a940-9d60-4d33-84ce-e367a253cce3)
 
 - [Introduction](#introduction)
 - [Demo Application](#demo-application)
@@ -47,7 +46,7 @@ By using this plugin you can process or refund payments and handle IPN (Instant 
 ## Demo Application
 
 Demo Application:
-https://laravel-paypal-demo.srmk.info/
+https://paypal-demo.srmk.info/
 
 Github repo
 https://github.com/srmklive/laravel-paypal-demo
