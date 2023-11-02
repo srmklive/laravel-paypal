@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2']
+        php-versions: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -39,12 +39,12 @@ jobs:
         PHP_VERSION: ${{ matrix.php-versions }}
       run: vendor/bin/phpunit $(if [ "$PHP_VERSION" == "7.2" ]; then echo "-c phpunit.xml.dist.php72"; fi;) $(if [ "$PHP_VERSION" == "7.3" ]; then echo "-c phpunit.xml.dist.php8"; fi;) $(if [ "$PHP_VERSION" == "7.4" ]; then echo "-c phpunit.xml.dist.php8"; fi;) $(if [ "$PHP_VERSION" == "8.0" ]; then echo "-c phpunit.xml.dist.php8"; fi;) --coverage-clover build/logs/clover.xml
     - name: Install PestPHP
-      if: matrix.php-versions == '8.1' || matrix.php-versions == '8.2'
+      if: matrix.php-versions == '8.1' || matrix.php-versions == '8.2' || matrix.php-versions == '8.3'
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
       run: composer require pestphp/pest --dev --with-all-dependencies
     - name: Run tests for PHP 8.1+ with code coverage
-      if: matrix.php-versions == '8.1' || matrix.php-versions == '8.2'
+      if: matrix.php-versions == '8.1' || matrix.php-versions == '8.2' || matrix.php-versions == '8.3'
       env:
         PHP_VERSION: ${{ matrix.php-versions }}
       run: vendor/bin/pest --coverage-clover build/logs/clover.xml

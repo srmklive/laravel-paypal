@@ -31,7 +31,7 @@ trait MockClientClasses
     private function mock_http_request($expectedResponse, $expectedEndpoint, $expectedParams, $expectedMethod = 'post')
     {
         $set_method_name = 'setMethods';
-        if (strpos(phpversion(), '8.1') !== false || strpos(phpversion(), '8.2') !== false) {
+        if (strpos(phpversion(), '8.1') !== false || strpos(phpversion(), '8.2') !== false || strpos(phpversion(), '8.3') !== false) {
             $set_method_name = 'onlyMethods';
         }
 
@@ -55,8 +55,11 @@ trait MockClientClasses
     private function mock_client($expectedResponse, $expectedMethod, $token = false, $additionalMethod = null)
     {
         $set_method_name = 'setMethods';
-        if (strpos(phpversion(), '8.1') !== false || strpos(phpversion(), '8.2') !== false) {
-            $set_method_name = 'onlyMethods';
+
+        foreach (['8.1', '8.2', '8.3'] as $php_version) {
+            if (strpos(phpversion(), $php_version) !== false) {
+                $set_method_name = 'onlyMethods';
+            }
         }
 
         $methods = [$expectedMethod, 'setApiCredentials'];
