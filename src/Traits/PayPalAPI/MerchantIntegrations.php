@@ -5,7 +5,7 @@ namespace Srmklive\PayPal\Traits\PayPalAPI;
 trait MerchantIntegrations
 {
     /**
-     * Shows seller status
+     * Shows seller status.
      *
      * @param string $partner_id
      * @param string $merchant_id
