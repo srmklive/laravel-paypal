@@ -61,6 +61,10 @@ jobs:
         COVERALLS_FLAG_NAME: php-${{ matrix.php-versions }}
       run:
         php-coveralls -v
+    - name: Upload coverage results to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   coveralls-finish:
     needs: [paypal]
     runs-on: ubuntu-latest
