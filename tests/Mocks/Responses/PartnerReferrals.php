@@ -344,4 +344,161 @@ trait PartnerReferrals
   ]
 }', true);
     }
+
+    private function mockListSellerTrackingInformationResponse(): array
+    {
+        return Utils::jsonDecode('{
+          "merchant_id": "8LQLM2ML4ZTYU",
+          "tracking_id": "merchantref1",
+          "links": [
+            {
+              "href": "v1/customer/partners/6LKMD2ML4NJYU",
+              "rel": "read",
+              "method": "GET",
+              "description": "Main partner resource."
+            }
+          ]
+        }', true);
+    }
+
+    private function mockShowSellerStatusResponse(): array
+    {
+        return Utils::jsonDecode('{
+          "merchant_id": "8LQLM2ML4ZTYU",
+          "products": [
+            {
+              "name": "PAYFLOW_PRO",
+              "vetting_status": "APPROVED",
+              "status": "ACTIVE"
+            },
+            {
+              "name": "EXPRESS_CHECKOUT",
+              "status": "ACTIVE"
+            },
+            {
+              "name": "PPCP_STANDARD",
+              "vetting_status": "SUBSCRIBED",
+              "capabilities": [
+                "CUSTOM_CARD_PROCESSING",
+                "CARD_PROCESSING_VIRTUAL_TERMINAL",
+                "FRAUD_TOOL_ACCESS",
+                "AMEX_OPTBLUE",
+                "DEBIT_CARD_SWITCH",
+                "COMMERCIAL_ENTITY"
+              ]
+            },
+            {
+              "name": "PPCP_CUSTOM",
+              "vetting_status": "IN_REVIEW",
+              "capabilities": []
+            }
+          ],
+          "capabilities": [
+            {
+              "name": "CUSTOM_CARD_PROCESSING",
+              "status": "ACTIVE",
+              "limits": [
+                {
+                  "type": "GENERAL"
+                }
+              ]
+            },
+            {
+              "name": "CARD_PROCESSING_VIRTUAL_TERMINAL",
+              "status": "ACTIVE"
+            },
+            {
+              "name": "FRAUD_TOOL_ACCESS",
+              "status": "ACTIVE"
+            },
+            {
+              "name": "AMEX_OPTBLUE",
+              "status": "ACTIVE"
+            },
+            {
+              "name": "DEBIT_CARD_SWITCH",
+              "status": "ACTIVE"
+            },
+            {
+              "name": "COMMERCIAL_ENTITY",
+              "status": "ACTIVE"
+            }
+          ],
+          "payments_receivable": true,
+          "primary_email": "seller@example.com",
+          "primary_email_confirmed": true,
+          "granted_permissions": [
+            "AIR_TRAVEL",
+            "INVOICING",
+            "RECURRING_PAYMENT_REPORT"
+          ],
+          "api_credential": {
+            "signature": {
+              "api_user_name": "example_api1.gmail.com",
+              "api_password": "7QPZJL5PX2TT94RX",
+              "signature": "Ak0kqXY-wqI.w.dfyQrwACtkK4HcMNxGdvADyrIE8QLgZWyIDNJSDlQ1e"
+            }
+          },
+          "oauth_integrations": [
+            {
+              "integration_type": "OAUTH_THIRD_PARTY",
+              "oauth_third_party": [
+                {
+                  "partner_client_id": "AafBGhBphJ66SHPtbCMTsH1q2HQC2lnf0ER0KWAVSsOqsAtVfnye5Vc8hAOC",
+                  "merchant_client_id": "AafBGhBphJ66SHPtbCMTsH1q2HQC2lnf0ER0KWAVSsOqsAtVfnye5Vc8hAOC",
+                  "scopes": [
+                    "https://uri.paypal.com/services/payments/realtimepayment",
+                    "https://uri.paypal.com/services/payments/payment/authcapture",
+                    "https://uri.paypal.com/services/payments/refund"
+                  ]
+                },
+                {
+                  "partner_client_id": "AafBGhBphJ66SHPtbCMTsH1q2HQC2lnf0ER0KWAVSsOqsAtVfnye5Vc8hAOC",
+                  "merchant_client_id": "AafBGhBphJ66SHPtbCMTsH1q2HQC2lnf0ER0KWAVSsOqsAtVfnye5Vc8hAOC",
+                  "scopes": [
+                    "https://uri.paypal.com/services/payments/realtimepayment",
+                    "https://uri.paypal.com/services/payments/payment/authcapture"
+                  ]
+                }
+              ]
+            }
+          ],
+          "limitations": [
+            {
+              "name": "MRCHT - Pending User Agreement",
+              "restrictions": [
+                "ACH IN",
+                "Withdraw Money",
+                "Remove Bank",
+                "Refunds to Buyer",
+                "Close Account",
+                "Send Money",
+                "Remove Card"
+              ]
+            },
+            {
+              "name": "Seller-linked merchant",
+              "restrictions": [
+                "ACH IN",
+                "Send Money",
+                "Refunds to Buyer",
+                "Receive/Request Money",
+                "Remove Bank",
+                "Remove Card",
+                "Withdraw Money",
+                "Close Account"
+              ]
+            }
+          ]
+        }', true);
+    }
+
+    private function mockListMerchantCredentialsResponse(): array
+    {
+        return Utils::jsonDecode('{
+          "client_id": "Ab27r3fkrQezHdcPrn2b2SYzPEldXx2dWgv76btVfI-eYF8KRAd2WxXAZyb0ETygSNeHBthzlxjlQ_qw",
+          "client_secret": "EAcTvpnDHZf4icl_2MPnt2gRpOxHVtaQJChWU3PrRbYR4uyvUXV6h4DWQjm7XOfdnk_OrEEWdxY2eUG3",
+          "payer_id": "QVG98CUNMS2PY"
+        }', true);
+    }
 }

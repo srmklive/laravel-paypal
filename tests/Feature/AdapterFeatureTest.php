@@ -1483,6 +1483,73 @@ class AdapterFeatureTest extends TestCase
     }
 
     /** @test */
+    public function it_can_list_seller_tracking_information()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListSellerTrackingInformationResponse()
+            )
+        );
+
+        $partner_id = 'U6E69K99P3G88';
+        $tracking_id = 'merchantref1';
+
+        $response = $this->client->listSellerTrackingInformation($partner_id, $tracking_id);
+
+        $this->assertArrayHasKey('merchant_id', $response);
+        $this->assertArrayHasKey('tracking_id', $response);
+    }
+
+    /** @test */
+    public function it_can_show_seller_status()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockShowSellerStatusResponse()
+            )
+        );
+
+        $partner_id = 'U6E69K99P3G88';
+        $merchant_id = '8LQLM2ML4ZTYU';
+
+        $response = $this->client->showSellerStatus($partner_id, $merchant_id);
+
+        $this->assertArrayHasKey('merchant_id', $response);
+    }
+
+    /** @test */
+    public function it_can_list_merchant_credentials()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockListMerchantCredentialsResponse()
+            )
+        );
+
+        $partner_id = 'U6E69K99P3G88';
+
+        $response = $this->client->listMerchantCredentials($partner_id);
+
+        $this->assertArrayHasKey('client_id', $response);
+        $this->assertArrayHasKey('payer_id', $response);
+    }
+
+    /** @test */
     public function it_can_list_web_experience_profiles()
     {
         $this->client->setAccessToken([
