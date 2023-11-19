@@ -42,8 +42,10 @@ trait Invoices
         $fields_list = collect($fields);
 
         $fields = ($fields_list->count() > 0) ? "&fields={$fields_list->implode(',')}" : '';
+        
+        $show_totals = var_export($this->show_totals, true);
 
-        $this->apiEndPoint = "v2/invoicing/invoices?page={$this->current_page}&page_size={$this->page_size}&total_required={$this->show_totals}{$fields}";
+        $this->apiEndPoint = "v2/invoicing/invoices?page={$this->current_page}&page_size={$this->page_size}&total_required={$show_totals}{$fields}";
 
         $this->verb = 'get';
 
