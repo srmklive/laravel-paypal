@@ -126,7 +126,7 @@ trait PayPalAPI
      */
     public function showTotals(bool $totals): \Srmklive\PayPal\Services\PayPal
     {
-        $this->show_totals = $totals;
+        $this->show_totals = var_export($totals, true);
 
         return $this;
     }
