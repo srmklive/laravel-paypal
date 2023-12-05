@@ -39,7 +39,7 @@ trait BillingPlans
      */
     public function listPlans()
     {
-        $this->apiEndPoint = "v1/billing/plans?page={$this->current_page}&page_size={$this->page_size}&total_required={$this->show_totals}";
+        $this->apiEndPoint = "v1/billing/plans?page={$this->current_page}&page_size={$this->page_size};
 
         $this->verb = 'get';
 
