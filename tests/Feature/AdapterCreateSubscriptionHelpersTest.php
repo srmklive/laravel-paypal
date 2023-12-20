@@ -569,4 +569,45 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
         $this->assertArrayHasKey('id', $response);
         $this->assertArrayHasKey('plan_id', $response);
     }
+
+    /** @test */
+    public function it_can_create_a_subscription_with_fixed_installments()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateCatalogProductsResponse()
+            )
+        );
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+
+        $this->client = $this->client->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePlansResponse()
+            )
+        );
+
+        $this->client = $this->client->addPlanTrialPricing('DAY', 7)
+            ->addMonthlyPlan('Demo Plan', 'Demo Plan', 100, 12);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
 }
