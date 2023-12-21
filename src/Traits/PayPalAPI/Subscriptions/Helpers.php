@@ -119,12 +119,13 @@ trait Helpers
      * @param string    $interval_type
      * @param int       $interval_count
      * @param float|int $price
+     * @param int       $total_cycles
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addPlanTrialPricing(string $interval_type, int $interval_count, float $price = 0): \Srmklive\PayPal\Services\PayPal
+    public function addPlanTrialPricing(string $interval_type, int $interval_count, float $price = 0, int $total_cycles = 1): \Srmklive\PayPal\Services\PayPal
     {
-        $this->trial_pricing = $this->addPlanBillingCycle($interval_type, $interval_count, $price, true);
+        $this->trial_pricing = $this->addPlanBillingCycle($interval_type, $interval_count, $price, $total_cycles, true);
 
         return $this;
     }
@@ -135,18 +136,19 @@ trait Helpers
      * @param string    $name
      * @param string    $description
      * @param float|int $price
+     * @param int       $total_cycles
      *
      * @throws Throwable
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addDailyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addDailyPlan(string $name, string $description, float $price, int $total_cycles = 0): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;
         }
 
-        $plan_pricing = $this->addPlanBillingCycle('DAY', 1, $price);
+        $plan_pricing = $this->addPlanBillingCycle('DAY', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -160,18 +162,19 @@ trait Helpers
      * @param string    $name
      * @param string    $description
      * @param float|int $price
+     * @param int       $total_cycles
      *
      * @throws Throwable
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addWeeklyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addWeeklyPlan(string $name, string $description, float $price, int $total_cycles = 0): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;
         }
 
-        $plan_pricing = $this->addPlanBillingCycle('WEEK', 1, $price);
+        $plan_pricing = $this->addPlanBillingCycle('WEEK', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -185,18 +188,19 @@ trait Helpers
      * @param string    $name
      * @param string    $description
      * @param float|int $price
+     * @param int       $total_cycles
      *
      * @throws Throwable
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addMonthlyPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addMonthlyPlan(string $name, string $description, float $price, int $total_cycles = 0): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;
         }
 
-        $plan_pricing = $this->addPlanBillingCycle('MONTH', 1, $price);
+        $plan_pricing = $this->addPlanBillingCycle('MONTH', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -210,18 +214,19 @@ trait Helpers
      * @param string    $name
      * @param string    $description
      * @param float|int $price
+     * @param int       $total_cycles
      *
      * @throws Throwable
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addAnnualPlan(string $name, string $description, float $price): \Srmklive\PayPal\Services\PayPal
+    public function addAnnualPlan(string $name, string $description, float $price, int $total_cycles = 0): \Srmklive\PayPal\Services\PayPal
     {
         if (isset($this->billing_plan)) {
             return $this;
         }
 
-        $plan_pricing = $this->addPlanBillingCycle('YEAR', 1, $price);
+        $plan_pricing = $this->addPlanBillingCycle('YEAR', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -237,12 +242,13 @@ trait Helpers
      * @param float|int $price
      * @param string    $interval_unit
      * @param int       $interval_count
+     * @param int       $total_cycles
      *
      * @throws Throwable
      *
      * @return \Srmklive\PayPal\Services\PayPal
      */
-    public function addCustomPlan(string $name, string $description, float $price, string $interval_unit, int $interval_count): \Srmklive\PayPal\Services\PayPal
+    public function addCustomPlan(string $name, string $description, float $price, string $interval_unit, int $interval_count, int $total_cycles = 0): \Srmklive\PayPal\Services\PayPal
     {
         $billing_intervals = ['DAY', 'WEEK', 'MONTH', 'YEAR'];
 
@@ -254,7 +260,7 @@ trait Helpers
             throw new \RuntimeException('Billing intervals should either be '.implode(', ', $billing_intervals));
         }
 
-        $plan_pricing = $this->addPlanBillingCycle($interval_unit, $interval_count, $price);
+        $plan_pricing = $this->addPlanBillingCycle($interval_unit, $interval_count, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -268,11 +274,12 @@ trait Helpers
      * @param string $interval_unit
      * @param int    $interval_count
      * @param float  $price
+     * @param int    $total_cycles
      * @param bool   $trial
      *
      * @return array
      */
-    protected function addPlanBillingCycle(string $interval_unit, int $interval_count, float $price, bool $trial = false): array
+    protected function addPlanBillingCycle(string $interval_unit, int $interval_count, float $price, int $total_cycles, bool $trial = false): array
     {
         $pricing_scheme = [
             'fixed_price' => [
@@ -294,7 +301,7 @@ trait Helpers
             ],
             'tenure_type'    => ($trial === true) ? 'TRIAL' : 'REGULAR',
             'sequence'       => ($trial === true) ? 1 : $plan_sequence,
-            'total_cycles'   => ($trial === true) ? 1 : 0,
+            'total_cycles'   => $total_cycles,
             'pricing_scheme' => $pricing_scheme,
         ];
     }
