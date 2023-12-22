@@ -36,7 +36,7 @@ trait PayPalVerifyIPN
             return ['error' => 'Invalid headers or webhook id provided'];
         }
 
-        $params = $params = json_decode($request->getContent());
+        $params = json_decode($request->getContent());
 
         $payload = [
             'auth_algo'         => $headers['PAYPAL-AUTH-ALGO'][0],
