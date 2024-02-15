@@ -93,7 +93,9 @@ trait Helpers
             $body['taxes'] = $this->taxes;
         }
 
-        $subscription = $this->createSubscription($body);
+        $subscription                    = $this->createSubscription($body);
+        $subscription['billing_plan_id'] = $this->billing_plan['id'];
+        $subscription['product_id']      = $this->product['id'];
 
         unset($this->product);
         unset($this->billing_plan);
@@ -139,7 +141,7 @@ trait Helpers
             return $this;
         }
 
-        $plan_pricing = $this->addPlanBillingCycle('DAY', 1, $price, $total_cycles);
+        $plan_pricing   = $this->addPlanBillingCycle('DAY', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -165,7 +167,7 @@ trait Helpers
             return $this;
         }
 
-        $plan_pricing = $this->addPlanBillingCycle('WEEK', 1, $price, $total_cycles);
+        $plan_pricing   = $this->addPlanBillingCycle('WEEK', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -191,7 +193,7 @@ trait Helpers
             return $this;
         }
 
-        $plan_pricing = $this->addPlanBillingCycle('MONTH', 1, $price, $total_cycles);
+        $plan_pricing   = $this->addPlanBillingCycle('MONTH', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -217,7 +219,7 @@ trait Helpers
             return $this;
         }
 
-        $plan_pricing = $this->addPlanBillingCycle('YEAR', 1, $price, $total_cycles);
+        $plan_pricing   = $this->addPlanBillingCycle('YEAR', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -248,10 +250,10 @@ trait Helpers
         }
 
         if (!in_array($interval_unit, $billing_intervals)) {
-            throw new \RuntimeException('Billing intervals should either be '.implode(', ', $billing_intervals));
+            throw new \RuntimeException('Billing intervals should either be ' . implode(', ', $billing_intervals));
         }
 
-        $plan_pricing = $this->addPlanBillingCycle($interval_unit, $interval_count, $price, $total_cycles);
+        $plan_pricing   = $this->addPlanBillingCycle($interval_unit, $interval_count, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -286,7 +288,7 @@ trait Helpers
         }
 
         return [
-            'frequency' => [
+            'frequency'      => [
                 'interval_unit'  => $interval_unit,
                 'interval_count' => $interval_count,
             ],
@@ -318,10 +320,10 @@ trait Helpers
         $request_id = Str::random();
 
         $this->product = $this->createProduct([
-            'name'          => $name,
-            'description'   => $description,
-            'type'          => $type,
-            'category'      => $category,
+            'name'        => $name,
+            'description' => $description,
+            'type'        => $type,
+            'category'    => $category,
         ], $request_id);
 
         return $this;
@@ -413,7 +415,7 @@ trait Helpers
      */
     public function addSetupFee(float $price): \Srmklive\PayPal\Services\PayPal
     {
-        $this->has_setup_fee = true;
+        $this->has_setup_fee       = true;
         $this->payment_preferences = [
             'auto_bill_outstanding'     => true,
             'setup_fee'                 => [
@@ -443,16 +445,16 @@ trait Helpers
     public function addShippingAddress(string $full_name, string $address_line_1, string $address_line_2, string $admin_area_2, string $admin_area_1, string $postal_code, string $country_code): \Srmklive\PayPal\Services\PayPal
     {
         $this->shipping_address = [
-            'name' => [
+            'name'    => [
                 'full_name' => $full_name,
             ],
             'address' => [
-                'address_line_1'  => $address_line_1,
-                'address_line_2'  => $address_line_2,
-                'admin_area_2'    => $admin_area_2,
-                'admin_area_1'    => $admin_area_1,
-                'postal_code'     => $postal_code,
-                'country_code'    => $country_code,
+                'address_line_1' => $address_line_1,
+                'address_line_2' => $address_line_2,
+                'admin_area_2'   => $admin_area_2,
+                'admin_area_1'   => $admin_area_1,
+                'postal_code'    => $postal_code,
+                'country_code'   => $country_code,
             ],
         ];
 
