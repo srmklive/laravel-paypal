@@ -104,7 +104,7 @@ trait Helpers
 
         $subscription = $this->createSubscription($body);
         $subscription['billing_plan_id'] = $this->billing_plan['id'];
-        $subscription['product_id']      = $this->product['id'];
+        $subscription['product_id'] = $this->product['id'];
 
         unset($this->product);
         unset($this->billing_plan);
@@ -150,7 +150,7 @@ trait Helpers
             return $this;
         }
 
-        $plan_pricing   = $this->addPlanBillingCycle('DAY', 1, $price, $total_cycles);
+        $plan_pricing = $this->addPlanBillingCycle('DAY', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -176,7 +176,7 @@ trait Helpers
             return $this;
         }
 
-        $plan_pricing   = $this->addPlanBillingCycle('WEEK', 1, $price, $total_cycles);
+        $plan_pricing = $this->addPlanBillingCycle('WEEK', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -202,7 +202,7 @@ trait Helpers
             return $this;
         }
 
-        $plan_pricing   = $this->addPlanBillingCycle('MONTH', 1, $price, $total_cycles);
+        $plan_pricing = $this->addPlanBillingCycle('MONTH', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -228,7 +228,7 @@ trait Helpers
             return $this;
         }
 
-        $plan_pricing   = $this->addPlanBillingCycle('YEAR', 1, $price, $total_cycles);
+        $plan_pricing = $this->addPlanBillingCycle('YEAR', 1, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -259,10 +259,10 @@ trait Helpers
         }
 
         if (!in_array($interval_unit, $billing_intervals)) {
-            throw new \RuntimeException('Billing intervals should either be ' . implode(', ', $billing_intervals));
+            throw new \RuntimeException('Billing intervals should either be '.implode(', ', $billing_intervals));
         }
 
-        $plan_pricing   = $this->addPlanBillingCycle($interval_unit, $interval_count, $price, $total_cycles);
+        $plan_pricing = $this->addPlanBillingCycle($interval_unit, $interval_count, $price, $total_cycles);
         $billing_cycles = empty($this->trial_pricing) ? [$plan_pricing] : collect([$this->trial_pricing, $plan_pricing])->filter()->toArray();
 
         $this->addBillingPlan($name, $description, $billing_cycles);
@@ -424,7 +424,7 @@ trait Helpers
      */
     public function addSetupFee(float $price): \Srmklive\PayPal\Services\PayPal
     {
-        $this->has_setup_fee       = true;
+        $this->has_setup_fee = true;
         $this->payment_preferences = [
             'auto_bill_outstanding'     => true,
             'setup_fee'                 => [
