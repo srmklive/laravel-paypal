@@ -49,6 +49,11 @@ trait Helpers
     protected $taxes;
 
     /**
+     * @var string
+     */
+    protected $custom_id;
+
+    /**
      * Setup a subscription.
      *
      * @param string $customer_name
@@ -93,7 +98,11 @@ trait Helpers
             $body['taxes'] = $this->taxes;
         }
 
-        $subscription                    = $this->createSubscription($body);
+        if (isset($this->custom_id)) {
+            $body['custom_id'] = $this->custom_id;
+        }
+
+        $subscription = $this->createSubscription($body);
         $subscription['billing_plan_id'] = $this->billing_plan['id'];
         $subscription['product_id']      = $this->product['id'];
 
@@ -474,6 +483,20 @@ trait Helpers
             'percentage' => $percentage,
             'inclusive'  => false,
         ];
+
+        return $this;
+    }
+
+    /**
+     * Add custom id.
+     *
+     * @param string $custom_id
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function addCustomId(string $custom_id)
+    {
+        $this->custom_id = $custom_id;
 
         return $this;
     }
