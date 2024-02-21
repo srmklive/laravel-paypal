@@ -98,15 +98,13 @@ trait Helpers
             $body['taxes'] = $this->taxes;
         }
 
-        $subscription                    = $this->createSubscription($body);
-        $subscription['billing_plan_id'] = $this->billing_plan['id'];
-        $subscription['product_id']      = $this->product['id'];
-
         if (isset($this->custom_id)) {
             $body['custom_id'] = $this->custom_id;
         }
 
         $subscription = $this->createSubscription($body);
+        $subscription['billing_plan_id'] = $this->billing_plan['id'];
+        $subscription['product_id']      = $this->product['id'];
 
         unset($this->product);
         unset($this->billing_plan);
