@@ -328,12 +328,17 @@ trait Helpers
 
         $request_id = Str::random();
 
-        $this->product = $this->createProduct([
+        $product = $this->createProduct([
             'name'        => $name,
             'description' => $description,
             'type'        => $type,
             'category'    => $category,
         ], $request_id);
+
+        if ($error = data_get($product, 'error', false)) {
+            throw new \RuntimeException(data_get($error, 'details.0.description', 'Failed to add product'));
+        }
+        $this->product = $product;
 
         return $this;
     }
