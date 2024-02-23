@@ -398,7 +398,11 @@ trait Helpers
             ],
         ];
 
-        $this->billing_plan = $this->createPlan($plan_params, $request_id);
+        $billingPlan = $this->createPlan($plan_params, $request_id);
+        if ($error = data_get($billingPlan, 'error', false)) {
+            throw new \RuntimeException(data_get($error, 'details.0.description', 'Failed to add billing plan'));
+        }
+        $this->billing_plan = $billingPlan;
     }
 
     /**
