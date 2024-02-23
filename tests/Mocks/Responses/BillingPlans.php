@@ -276,4 +276,31 @@ trait BillingPlans
   ]
 }', true);
     }
+
+    /**
+     * @return array
+     */
+    private function mockCreatePlansErrorResponse(): array
+    {
+        return Utils::jsonDecode('{
+    "error": {
+        "name" : "UNPROCESSABLE_ENTITY",
+        "message" : "The requested action could not be performed, semantically incorrect, or failed business validation.",
+        "debug_id" : "7a944631e76bf",
+        "details" : [
+            {
+                "issue" : "CURRENCY_NOT_SUPPORTED_FOR_RECEIVER",
+                "description" : "This currency cannot be accepted for this recipient\'s account."
+            }
+        ],
+        "links" : [
+            {
+                "href" : "https://developer.paypal.com/docs/api/v1/billing/subscriptions#UNPROCESSABLE_ENTITY",
+                "rel" : "information_link",
+                "method" : "GET"
+            }
+        ]
+    }
+}', true);
+    }
 }
