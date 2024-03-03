@@ -256,6 +256,52 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
     }
 
     /** @test */
+    public function it_throws_exception_when_get_error_for_creating_a_billing_plan()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateCatalogProductsResponse()
+            )
+        );
+
+        $this->client = $this->client->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePlansErrorResponse()
+            )
+        );
+
+        $this->expectException(\RuntimeException::class);
+
+        $this->client = $this->client->addMonthlyPlan('Demo Plan', 'Demo Plan', 100);
+    }
+
+    /** @test */
+    public function it_throws_exception_when_get_error_for_creating_a_product()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetCatalogProductsErrorResponse()
+            )
+        );
+
+        $this->expectException(\RuntimeException::class);
+
+        $this->client = $this->client->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE');
+    }
+
+    /** @test */
     public function it_can_create_a_subscription_without_trial()
     {
         $this->client->setAccessToken([
