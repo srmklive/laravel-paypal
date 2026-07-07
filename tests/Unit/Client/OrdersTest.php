@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
 use GuzzleHttp\Utils;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -14,8 +15,8 @@ class OrdersTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_create_an_order()
+    #[Test]
+    public function it_can_create_an_order(): void
     {
         $expectedResponse = $this->mockCreateOrdersResponse();
 

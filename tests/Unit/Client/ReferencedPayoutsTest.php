@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
 use GuzzleHttp\Utils;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -14,8 +15,8 @@ class ReferencedPayoutsTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_create_referenced_batch_payout()
+    #[Test]
+    public function it_can_create_referenced_batch_payout(): void
     {
         $expectedResponse = $this->mockCreateReferencedBatchPayoutResponse();
 
@@ -36,8 +37,8 @@ class ReferencedPayoutsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_list_items_referenced_in_batch_payout()
+    #[Test]
+    public function it_can_list_items_referenced_in_batch_payout(): void
     {
         $expectedResponse = $this->mockShowReferencedBatchPayoutResponse();
 
@@ -55,8 +56,8 @@ class ReferencedPayoutsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_create_referenced_batch_payout_item()
+    #[Test]
+    public function it_can_create_referenced_batch_payout_item(): void
     {
         $expectedResponse = $this->mockCreateReferencedBatchPayoutItemResponse();
 
@@ -77,8 +78,8 @@ class ReferencedPayoutsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_show_referenced_payout_item_details()
+    #[Test]
+    public function it_can_show_referenced_payout_item_details(): void
     {
         $expectedResponse = $this->mockShowReferencedBatchPayoutItemResponse();
 

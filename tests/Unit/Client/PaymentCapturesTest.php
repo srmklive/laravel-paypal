@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
 use GuzzleHttp\Utils;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -14,8 +15,8 @@ class PaymentCapturesTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_show_details_for_a_captured_payment()
+    #[Test]
+    public function it_can_show_details_for_a_captured_payment(): void
     {
         $expectedResponse = $this->mockGetCapturedPaymentDetailsResponse();
 
@@ -33,8 +34,8 @@ class PaymentCapturesTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_refund_a_captured_payment()
+    #[Test]
+    public function it_can_refund_a_captured_payment(): void
     {
         $expectedResponse = $this->mockRefundCapturedPaymentResponse();
 

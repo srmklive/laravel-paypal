@@ -62,9 +62,9 @@ trait PayPalRequest
     /**
      * Toggle whether totals for list resources are returned after every API call.
      *
-     * @var bool
+     * @var string
      */
-    protected $show_totals = true;
+    protected string $show_totals;
 
     /**
      * Set PayPal API Credentials.

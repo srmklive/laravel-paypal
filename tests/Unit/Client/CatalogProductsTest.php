@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
 use GuzzleHttp\Utils;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -14,8 +15,8 @@ class CatalogProductsTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_create_a_product()
+    #[Test]
+    public function it_can_create_a_product(): void
     {
         $expectedResponse = $this->mockCreateCatalogProductsResponse();
 
@@ -34,8 +35,8 @@ class CatalogProductsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_list_products()
+    #[Test]
+    public function it_can_list_products(): void
     {
         $expectedResponse = $this->mockListCatalogProductsResponse();
 
@@ -53,8 +54,8 @@ class CatalogProductsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_update_a_product()
+    #[Test]
+    public function it_can_update_a_product(): void
     {
         $expectedResponse = '';
 
@@ -73,8 +74,8 @@ class CatalogProductsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->patch($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_get_details_for_a_product()
+    #[Test]
+    public function it_can_get_details_for_a_product(): void
     {
         $expectedResponse = $this->mockGetCatalogProductsResponse();
 

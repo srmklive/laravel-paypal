@@ -4,6 +4,7 @@ namespace Srmklive\PayPal\Tests\Unit;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Utils;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockResponsePayloads;
@@ -13,15 +14,15 @@ class ClientTest extends TestCase
     use MockClientClasses;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_be_instantiated()
+    #[Test]
+    public function it_can_be_instantiated(): void
     {
         $client = new HttpClient();
         $this->assertInstanceOf(HttpClient::class, $client);
     }
 
-    /** @test */
-    public function it_can_get_access_token()
+    #[Test]
+    public function it_can_get_access_token(): void
     {
         $expectedResponse = $this->mockAccessTokenResponse();
 

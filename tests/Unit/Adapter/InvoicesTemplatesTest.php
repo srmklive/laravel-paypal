@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -13,8 +14,8 @@ class InvoicesTemplatesTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_create_invoice_template()
+    #[Test]
+    public function it_can_create_invoice_template(): void
     {
         $expectedResponse = $this->mockCreateInvoiceTemplateResponse();
 
@@ -30,8 +31,8 @@ class InvoicesTemplatesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
 
-    /** @test */
-    public function it_can_list_invoice_templates()
+    #[Test]
+    public function it_can_list_invoice_templates(): void
     {
         $expectedResponse = $this->mockListInvoiceTemplateResponse();
 
@@ -45,8 +46,8 @@ class InvoicesTemplatesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
     }
 
-    /** @test */
-    public function it_can_delete_an_invoice_template()
+    #[Test]
+    public function it_can_delete_an_invoice_template(): void
     {
         $expectedResponse = '';
 
@@ -60,8 +61,8 @@ class InvoicesTemplatesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('TEMP-19V05281TU309413B'));
     }
 
-    /** @test */
-    public function it_can_update_an_invoice_template()
+    #[Test]
+    public function it_can_update_an_invoice_template(): void
     {
         $expectedResponse = $this->mockUpdateInvoiceTemplateResponse();
 
@@ -77,8 +78,8 @@ class InvoicesTemplatesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('TEMP-19V05281TU309413B', $expectedParams));
     }
 
-    /** @test */
-    public function it_can_get_details_for_an_invoice_template()
+    #[Test]
+    public function it_can_get_details_for_an_invoice_template(): void
     {
         $expectedResponse = $this->mockGetInvoiceTemplateResponse();
 

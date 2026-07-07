@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Feature;
 
 use Carbon\Carbon;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Srmklive\PayPal\Tests\MockClientClasses;
@@ -16,10 +17,10 @@ class AdapterOrdersHelperTest extends TestCase
     use MockResponsePayloads;
 
     /** @var string */
-    protected static $access_token = '';
+    protected static string $access_token = '';
 
-    /** @var \Srmklive\PayPal\Services\PayPal */
-    protected $client;
+    /** @var PayPalClient */
+    protected PayPalClient $client;
 
     protected function setUp(): void
     {
@@ -37,8 +38,8 @@ class AdapterOrdersHelperTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
-    public function it_can_confirm_payment_for_an_order()
+    #[Test]
+    public function it_can_confirm_payment_for_an_order(): void
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,

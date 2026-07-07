@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockResponsePayloads;
@@ -11,8 +12,8 @@ class PaymentAuthorizationsTest extends TestCase
     use MockClientClasses;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_show_details_for_an_authorized_payment()
+    #[Test]
+    public function it_can_show_details_for_an_authorized_payment(): void
     {
         $expectedResponse = $this->mockGetAuthorizedPaymentDetailsResponse();
 
@@ -26,8 +27,8 @@ class PaymentAuthorizationsTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('0VF52814937998046'));
     }
 
-    /** @test */
-    public function it_can_capture_an_authorized_payment()
+    #[Test]
+    public function it_can_capture_an_authorized_payment(): void
     {
         $expectedResponse = $this->mockCaptureAuthorizedPaymentResponse();
 
@@ -46,8 +47,8 @@ class PaymentAuthorizationsTest extends TestCase
         ));
     }
 
-    /** @test */
-    public function it_can_reauthorize_an_authorized_payment()
+    #[Test]
+    public function it_can_reauthorize_an_authorized_payment(): void
     {
         $expectedResponse = $this->mockReAuthorizeAuthorizedPaymentResponse();
 
@@ -61,8 +62,8 @@ class PaymentAuthorizationsTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('0VF52814937998046', 10.99));
     }
 
-    /** @test */
-    public function it_can_void_an_authorized_payment()
+    #[Test]
+    public function it_can_void_an_authorized_payment(): void
     {
         $expectedResponse = '';
 

@@ -21,6 +21,7 @@ trait PayPalAPI
     use PayPalAPI\PaymentRefunds;
     use PayPalAPI\Payouts;
     use PayPalAPI\ReferencedPayouts;
+    use PayPalAPI\BillingAgreements;
     use PayPalAPI\BillingPlans;
     use PayPalAPI\Subscriptions;
     use PayPalAPI\Reporting;
@@ -126,7 +127,7 @@ trait PayPalAPI
      */
     public function showTotals(bool $totals): \Srmklive\PayPal\Services\PayPal
     {
-        $this->show_totals = var_export($totals, true);
+        $this->show_totals = $totals ? 'true' : 'false';
 
         return $this;
     }

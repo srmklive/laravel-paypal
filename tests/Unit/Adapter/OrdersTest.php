@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -13,8 +14,8 @@ class OrdersTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_create_an_order()
+    #[Test]
+    public function it_can_create_an_order(): void
     {
         $expectedResponse = $this->mockCreateOrdersResponse();
 
@@ -30,8 +31,8 @@ class OrdersTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
 
-    /** @test */
-    public function it_can_update_an_order()
+    #[Test]
+    public function it_can_update_an_order(): void
     {
         $expectedResponse = '';
 

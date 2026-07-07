@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -13,8 +14,8 @@ class PaymentExperienceWebProfilesTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_list_web_experience_profiles()
+    #[Test]
+    public function it_can_list_web_experience_profiles(): void
     {
         $expectedResponse = $this->mockListWebProfilesResponse();
 
@@ -28,8 +29,8 @@ class PaymentExperienceWebProfilesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
     }
 
-    /** @test */
-    public function it_can_create_web_experience_profile()
+    #[Test]
+    public function it_can_create_web_experience_profile(): void
     {
         $expectedResponse = $this->mockWebProfileResponse();
 
@@ -47,8 +48,8 @@ class PaymentExperienceWebProfilesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
 
-    /** @test */
-    public function it_can_delete_web_experience_profile()
+    #[Test]
+    public function it_can_delete_web_experience_profile(): void
     {
         $expectedResponse = '';
 
@@ -64,8 +65,8 @@ class PaymentExperienceWebProfilesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}($expectedParams));
     }
 
-    /** @test */
-    public function it_can_partially_update_web_experience_profile()
+    #[Test]
+    public function it_can_partially_update_web_experience_profile(): void
     {
         $expectedResponse = '';
 
@@ -81,8 +82,8 @@ class PaymentExperienceWebProfilesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('XP-A88A-LYLW-8Y3X-E5ER', $expectedParams));
     }
 
-    /** @test */
-    public function it_can_fully_update_web_experience_profile()
+    #[Test]
+    public function it_can_fully_update_web_experience_profile(): void
     {
         $expectedResponse = '';
 
@@ -98,8 +99,8 @@ class PaymentExperienceWebProfilesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('XP-A88A-LYLW-8Y3X-E5ER', $expectedParams));
     }
 
-    /** @test */
-    public function it_can_get_web_experience_profile_details()
+    #[Test]
+    public function it_can_get_web_experience_profile_details(): void
     {
         $expectedResponse = $this->mockWebProfileResponse();
 

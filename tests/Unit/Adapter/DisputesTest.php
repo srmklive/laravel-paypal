@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -13,8 +14,8 @@ class DisputesTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_list_disputes()
+    #[Test]
+    public function it_can_list_disputes(): void
     {
         $expectedResponse = $this->mockListDisputesResponse();
 
@@ -28,8 +29,8 @@ class DisputesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}());
     }
 
-    /** @test */
-    public function it_can_partially_update_a_dispute()
+    #[Test]
+    public function it_can_partially_update_a_dispute(): void
     {
         $expectedResponse = '';
 
@@ -45,8 +46,8 @@ class DisputesTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}('PP-D-27803', $expectedParams));
     }
 
-    /** @test */
-    public function it_can_get_details_for_a_dispute()
+    #[Test]
+    public function it_can_get_details_for_a_dispute(): void
     {
         $expectedResponse = $this->mockGetDisputesResponse();
 

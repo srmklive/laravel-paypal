@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
 use GuzzleHttp\Utils;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -14,8 +15,8 @@ class ReportingTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_list_transactions()
+    #[Test]
+    public function it_can_list_transactions(): void
     {
         $expectedResponse = $this->mockListTransactionsResponse();
 
@@ -34,8 +35,8 @@ class ReportingTest extends TestCase
         $this->assertArrayHasKey('transaction_details', Utils::jsonDecode($mockResponse, true));
     }
 
-    /** @test */
-    public function it_can_list_balances()
+    #[Test]
+    public function it_can_list_balances(): void
     {
         $expectedResponse = $this->mockListBalancesResponse();
 

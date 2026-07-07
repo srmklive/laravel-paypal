@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
 use GuzzleHttp\Utils;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -14,8 +15,8 @@ class BillingPlansTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_create_a_billing_plan()
+    #[Test]
+    public function it_can_create_a_billing_plan(): void
     {
         $expectedResponse = $this->mockCreatePlansResponse();
 
@@ -34,8 +35,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_list_billing_plans()
+    #[Test]
+    public function it_can_list_billing_plans(): void
     {
         $expectedResponse = $this->mockListPlansResponse();
 
@@ -53,8 +54,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_update_a_billing_plan()
+    #[Test]
+    public function it_can_update_a_billing_plan(): void
     {
         $expectedResponse = '';
 
@@ -73,8 +74,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->patch($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_show_details_for_a_billing_plan()
+    #[Test]
+    public function it_can_show_details_for_a_billing_plan(): void
     {
         $expectedResponse = $this->mockGetPlansResponse();
 
@@ -92,8 +93,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_activate_a_billing_plan()
+    #[Test]
+    public function it_can_activate_a_billing_plan(): void
     {
         $expectedResponse = '';
 
@@ -111,8 +112,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_deactivate_a_billing_plan()
+    #[Test]
+    public function it_can_deactivate_a_billing_plan(): void
     {
         $expectedResponse = '';
 
@@ -130,8 +131,8 @@ class BillingPlansTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_update_pricing_for_a_billing_plan()
+    #[Test]
+    public function it_can_update_pricing_for_a_billing_plan(): void
     {
         $expectedResponse = '';
 

@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Srmklive\PayPal\Tests\MockClientClasses;
@@ -15,10 +16,10 @@ class AdapterPaymentMethodTokensHelpersTest extends TestCase
     use MockResponsePayloads;
 
     /** @var string */
-    protected static $access_token = '';
+    protected static string $access_token = '';
 
-    /** @var \Srmklive\PayPal\Services\PayPal */
-    protected $client;
+    /** @var PayPalClient */
+    protected PayPalClient $client;
 
     protected function setUp(): void
     {
@@ -36,8 +37,8 @@ class AdapterPaymentMethodTokensHelpersTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
-    public function it_can_create_payment_token_from_a_vault_token()
+    #[Test]
+    public function it_can_create_payment_token_from_a_vault_token(): void
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
@@ -59,8 +60,8 @@ class AdapterPaymentMethodTokensHelpersTest extends TestCase
         $this->assertArrayHasKey('customer', $response);
     }
 
-    /** @test */
-    public function it_can_create_payment_source_from_a_vault_token()
+    #[Test]
+    public function it_can_create_payment_source_from_a_vault_token(): void
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
@@ -81,8 +82,8 @@ class AdapterPaymentMethodTokensHelpersTest extends TestCase
         $this->assertArrayHasKey('payment_source', $response);
     }
 
-    /** @test */
-    public function it_can_create_payment_source_from_a_credit_card()
+    #[Test]
+    public function it_can_create_payment_source_from_a_credit_card(): void
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
@@ -103,8 +104,8 @@ class AdapterPaymentMethodTokensHelpersTest extends TestCase
         $this->assertArrayHasKey('payment_source', $response);
     }
 
-    /** @test */
-    public function it_can_create_payment_source_from_a_paypal_account()
+    #[Test]
+    public function it_can_create_payment_source_from_a_paypal_account(): void
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,
@@ -127,8 +128,8 @@ class AdapterPaymentMethodTokensHelpersTest extends TestCase
         $this->assertArrayHasKey('payment_source', $response);
     }
 
-    /** @test */
-    public function it_can_create_payment_source_from_a_venmo_account()
+    #[Test]
+    public function it_can_create_payment_source_from_a_venmo_account(): void
     {
         $this->client->setAccessToken([
             'access_token'  => self::$access_token,

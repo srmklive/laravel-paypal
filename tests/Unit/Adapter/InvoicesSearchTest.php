@@ -2,6 +2,7 @@
 
 namespace Srmklive\PayPal\Tests\Unit\Adapter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -13,8 +14,8 @@ class InvoicesSearchTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_search_invoices()
+    #[Test]
+    public function it_can_search_invoices(): void
     {
         $expectedResponse = $this->mockSearchInvoicesResponse();
 
@@ -28,8 +29,8 @@ class InvoicesSearchTest extends TestCase
         $this->assertEquals($expectedResponse, $mockClient->{$expectedMethod}(1, 1, true));
     }
 
-    /** @test */
-    public function it_can_search_invoices_with_custom_filters()
+    #[Test]
+    public function it_can_search_invoices_with_custom_filters(): void
     {
         $expectedResponse = $this->mockSearchInvoicesResponse();
 

@@ -66,11 +66,8 @@ trait Helpers
      */
     public function setupSubscription(string $customer_name, string $customer_email, string $start_date = '')
     {
-        $start_date = !empty($start_date) ? Carbon::parse($start_date)->toIso8601String() : Carbon::now()->toIso8601String();
-
         $body = [
             'plan_id'    => $this->billing_plan['id'],
-            'start_time' => $start_date,
             'quantity'   => 1,
             'subscriber' => [
                 'name'          => [
@@ -79,6 +76,10 @@ trait Helpers
                 'email_address' => $customer_email,
             ],
         ];
+
+        if (!empty($start_date)) {
+            $body['start_time'] = Carbon::parse($start_date)->toIso8601String();
+        }
 
         if ($this->has_setup_fee) {
             $body['plan'] = [
@@ -338,7 +339,6 @@ trait Helpers
         if ($error = data_get($product, 'error', false)) {
             throw new \RuntimeException(data_get($error, 'details.0.description', 'Failed to add product'));
         }
-
         $this->product = $product;
 
         return $this;
@@ -438,7 +438,7 @@ trait Helpers
         $this->payment_preferences = [
             'auto_bill_outstanding'     => true,
             'setup_fee'                 => [
-                'value'         => $price,
+                'value'         => bcdiv($price, 1, 2),
                 'currency_code' => $this->getCurrency(),
             ],
             'setup_fee_failure_action'  => 'CONTINUE',

@@ -3,6 +3,7 @@
 namespace Srmklive\PayPal\Tests\Unit\Client;
 
 use GuzzleHttp\Utils;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Srmklive\PayPal\Tests\MockClientClasses;
 use Srmklive\PayPal\Tests\MockRequestPayloads;
@@ -14,8 +15,8 @@ class SubscriptionsTest extends TestCase
     use MockRequestPayloads;
     use MockResponsePayloads;
 
-    /** @test */
-    public function it_can_create_a_subscription()
+    #[Test]
+    public function it_can_create_a_subscription(): void
     {
         $expectedResponse = $this->mockCreateSubscriptionResponse();
 
@@ -34,8 +35,8 @@ class SubscriptionsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_update_a_subscription()
+    #[Test]
+    public function it_can_update_a_subscription(): void
     {
         $expectedResponse = '';
 
@@ -54,8 +55,8 @@ class SubscriptionsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->patch($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_show_details_for_a_subscription()
+    #[Test]
+    public function it_can_show_details_for_a_subscription(): void
     {
         $expectedResponse = $this->mockGetSubscriptionDetailsResponse();
 
@@ -73,8 +74,8 @@ class SubscriptionsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->get($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_activate_a_subscription()
+    #[Test]
+    public function it_can_activate_a_subscription(): void
     {
         $expectedResponse = '';
 
@@ -93,8 +94,8 @@ class SubscriptionsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_cancel_a_subscription()
+    #[Test]
+    public function it_can_cancel_a_subscription(): void
     {
         $expectedResponse = '';
 
@@ -113,8 +114,8 @@ class SubscriptionsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_suspend_a_subscription()
+    #[Test]
+    public function it_can_suspend_a_subscription(): void
     {
         $expectedResponse = '';
 
@@ -133,8 +134,8 @@ class SubscriptionsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_capture_payment_for_a_subscription()
+    #[Test]
+    public function it_can_capture_payment_for_a_subscription(): void
     {
         $expectedResponse = '';
 
@@ -153,8 +154,8 @@ class SubscriptionsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_update_quantity_or_product_for_a_subscription()
+    #[Test]
+    public function it_can_update_quantity_or_product_for_a_subscription(): void
     {
         $expectedResponse = $this->mockUpdateSubscriptionItemsResponse();
 
@@ -173,8 +174,8 @@ class SubscriptionsTest extends TestCase
         $this->assertEquals($expectedResponse, Utils::jsonDecode($mockHttpClient->post($expectedEndpoint, $expectedParams)->getBody(), true));
     }
 
-    /** @test */
-    public function it_can_list_transactions_for_a_subscription()
+    #[Test]
+    public function it_can_list_transactions_for_a_subscription(): void
     {
         $expectedResponse = $this->mockListSubscriptionTransactionsResponse();
 
